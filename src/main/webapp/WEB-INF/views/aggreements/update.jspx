@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements"/>
+        <nav:item label="aggreement" url="/aggreements/${aggreement.id}"/>
+        <nav:item active="true" label="update aggreement" url="#"/>
+    </nav:nav>
+    <form:update id="fu_com_org_entity_Aggreement" modelAttribute="aggreement" path="/aggreements" versionField="Version" z="AVCbmWWMmN1uahKvUbMOI0rX2Ks=">
+        <field:input field="aggreementNum" id="c_com_org_entity_Aggreement_aggreementNum" required="true" z="user-managed"/>
+        <field:input field="division" id="c_com_org_entity_Aggreement_division" z="n1gXDsH3MQ1LvA5RkEGTEpoQiVw="/>
+        <field:input field="subDivision" id="c_com_org_entity_Aggreement_subDivision" z="skcRdaoGv+7EfnBbRrXNKKazLgs="/>
+        <field:textarea field="description" id="c_com_org_entity_Aggreement_description" required="true" z="user-managed"/>
+        <field:simple field="items" id="c_com_org_entity_Aggreement_items" messageCode="entity_reference_not_managed" messageCodeAttribute="Item" render="false" z="user-managed"/>
+        <field:input field="nameOfWork" id="c_com_org_entity_Aggreement_nameOfWork" required="true" z="user-managed"/>
+        <field:input field="agency" id="c_com_org_entity_Aggreement_agency" z="user-managed"/>
+        <field:datetime dateTimePattern="${aggreement_dateofstart_date_format}" field="dateOfStart" id="c_com_org_entity_Aggreement_dateOfStart" z="6j0JDhVCyIWTkydHobgMiFOexlM="/>
+        <field:datetime dateTimePattern="${aggreement_dateofcompletions_date_format}" field="dateOfCompletionS" id="c_com_org_entity_Aggreement_dateOfCompletionS" z="+ZMESlG7CQRR75klyHYC+wdv7QI="/>
+        <field:datetime dateTimePattern="${aggreement_dateofabstract_date_format}" field="dateOfAbstract" id="c_com_org_entity_Aggreement_dateOfAbstract" z="S5R1zQhr8fKaQ2EHTTvYnchSUwE="/>
+        <field:input field="clausePercentage" id="c_com_org_entity_Aggreement_clausePercentage" z="LC7RwudoPhCN+G/mn92CB1t9OJ8="/>
+        <field:select field="clause" id="c_com_org_entity_Aggreement_clause" items="${clauses}" path="clauses" z="2YT5WQNnZEF0o6COJKpPS0x/9eU="/>
+        <field:simple field="measurementSheets" id="c_com_org_entity_Aggreement_measurementSheets" messageCode="entity_reference_not_managed" messageCodeAttribute="Measurement Sheet" render="false" z="user-managed"/>
+        <div style="display:none">
+            <field:select field="logUser" id="c_com_org_entity_Aggreement_logUser" itemValue="id" items="${logusers}" path="/logusers" z="user-managed"/>
+        </div>
+        <field:input field="dateOfCompletionA" id="c_com_org_entity_Aggreement_dateOfCompletionA" z="gCvH5GUqgxh7T99+6IrJNuv4V+4="/>
+        <field:input field="tenderCost" id="c_com_org_entity_Aggreement_tenderCost" validationMessageCode="field_invalid_number" z="SzhL6LVcfht2MJEdv4/N61sEt4E="/>
+        <field:input field="estimatedCost" id="c_com_org_entity_Aggreement_estimatedCost" validationMessageCode="field_invalid_number" z="mDkCLHqcsQzdAttk//mrPJWBigY="/>
+        <field:input field="costIndex" id="c_com_org_entity_Aggreement_costIndex" z="EVal4QVjE5LZxMnPojcI3rh/lZs="/>
+    </form:update>
+</div>

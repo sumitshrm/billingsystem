@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_Measurement" items="${measurements}" z="gsrAQBrkSWvcBXwPHRoC7DVG0/Q=">
+        <table:table data="${measurements}" id="l_com_org_entity_Measurement" path="/measurements" z="BBbu6o8fiHYJgNEl5ddH7qr9SJ4=">
+            <table:column id="c_com_org_entity_Measurement_description" property="description" z="N/cT3XHn60Kw2NU2T2zfEy23f0Y="/>
+            <table:column id="c_com_org_entity_Measurement_quantity" property="quantity" z="HTSjyt6yxX+g/InN/M1KNeygOts="/>
+            <table:column id="c_com_org_entity_Measurement_length" property="length" z="Guu6rGtPy0D7hamjfEq1YzBfG4k="/>
+            <table:column id="c_com_org_entity_Measurement_width" property="width" z="7Ds07LRYoQ3Sn9BIFOo/Fk6xovI="/>
+            <table:column id="c_com_org_entity_Measurement_height" property="height" z="aHVPNC5EL7nDmiz9k8aAmKmXu90="/>
+            <table:column id="c_com_org_entity_Measurement_itemMeasurement" property="itemMeasurement" z="FKvy4JM9fmiEnRzv9MglcOtha9w="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,524 @@
+/* main elements */
+
+body,div {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #666;
+}
+body, html {
+    height: 100%;
+}
+body {
+	/* background-color: #fff; */
+	background-color: #ecf0f5;
+	text-align: center;
+	margin: 0;
+	height:100%;
+}
+
+#header {
+	/* margin-bottom: 1em; */
+	clear: both; 
+	background-color: #3c8dbc; 
+	height: 50px;
+	/* margin-bottom: 1em; */
+}
+
+#wrapper {
+	min-width: 800px;
+	max-width: 10550px;
+	/* margin-right: 10px;
+	margin-left: 10px; */
+
+	/* fix max-width incompatibility in IE6 */
+	width:expression(document.body.clientWidth > 800? "800px": "auto" );
+	
+	overflow:hidden;
+	display:block;
+	min-height:100%;
+	height:100%;
+}
+
+/* header and footer elements */
+
+#main {
+	overflow:hidden;
+	display:box;
+}
+
+#menu {
+	/* background: #eee; */
+	background: #222d32;
+	position:relative;
+	float:left;  	
+	left:0px;
+	width:220px;
+	height : 100%;
+	min-height: 100%;
+	margin-right:15px;
+}
+
+#menu ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu ul li{
+	padding: 0px;
+	margin-bottom: 0px;
+}
+
+
+#menu a, #menu h2 {
+	display: block;
+	margin: 0;
+	padding: 2px 6px;
+	color:#FFFFFF;
+}
+
+#menu h2 {
+	/* color: #fff; */
+	color : rgb(184, 199, 206);
+	/* background: #648C1D; */
+	background : #1a2226;
+	text-transform: uppercase;
+	font-weight:bold;
+	font-size: 12px;
+	line-height: 20px;
+list-style-image: none;
+list-style-position: outside;
+list-style-type: none;
+padding-bottom: 12px;
+padding-left: 15px;
+padding-right: 5px;
+padding-top: 12px;
+}
+
+#menu a {
+	/* color: #666666; */
+	color: rgb(184, 199, 206);
+	/* background: #efefef; */
+	background : #2c3b41;
+	text-decoration: none;
+	padding: 8px 12px;
+}
+
+#menu a:hover {
+	color: #648C1D;
+	background: #fff;
+}
+
+
+
+#footer .new {
+	float:left;
+}
+
+#footer a:link {color: #7db223;}
+
+.quicklinks {
+	clear:both; 
+	padding-bottom: 15px
+}
+.quicklinks span {
+	float: right;
+}
+
+table.navigation {
+	border: 0px;
+}
+
+label {
+	width:150px;
+	float:left;
+	margin-left: 5px;
+	margin-top: 0px;
+}
+
+input {
+	height:20px;
+}
+
+input, textarea, select {
+	border:1px solid #B3B3B3;
+}
+
+input.image {
+	border: none;
+	height: auto;
+	vertical-align: middle;
+}
+
+submit {
+	height:25px;
+}
+
+div {
+	text-align: left;
+}
+
+div .box {
+	display:block;
+	margin-left:150px;
+}
+
+/* menu elements*/
+
+a.menu, a.menu:link, a.menu:visited {display:block; width:150px; height:25px;} 
+	
+/* text styles */
+
+h1,h2,h3 {
+	font-family: Helvetica, sans-serif;
+	color: #7db223;
+}
+
+h1 {
+	font-size: 20px;
+	line-height: 26px;
+}
+
+h2 {
+	font-size: 18px;
+	line-height: 20px;
+}
+
+h3 {
+	font-size: 15px;
+	line-height: 21px;
+	color:#555;
+}
+
+h4 {
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.errors {
+	color: red;
+	font-weight: bold;
+	display: block;
+	margin-left: 155px;
+}
+
+a {
+	text-decoration: underline;
+	font-size: 12px;
+}
+
+a img {
+	border: 0 none;
+	vertical-align: middle;
+}
+
+table.roo tr:nth-child(odd) {
+	background-color: #FFFFFF;
+}
+
+table.roo tr:nth-child(even) {
+	background-color: #EFEFEF;
+}
+
+a:link {
+	color: #7db223;
+}
+
+a:hover {
+	color: #456314;
+}
+
+a:active {
+	color: #7db223;
+}
+
+a:visited {
+	color: #7db223;
+}
+
+li {
+	padding-top: 5px;
+	text-align: left;
+}
+
+ul li {
+	margin:0 0 0.25em 0;
+	padding:0;
+}
+/* table elements */
+
+table.roo{
+	background: #EEEEEE;
+	margin: 2px 0 0 0;
+	border: 1px solid #BBBBBB;
+	border-collapse: collapse;
+	width: 100%
+}
+
+table.roo table {
+	margin: -5px 0;
+	border: 0px solid #e0e7d3;
+	width: 100%;
+}
+
+table.roo td,table.roo th {
+	padding: 2px;
+	border: 1px solid #CCCCCC;
+}
+
+table.roo td form {
+	text-align:center;
+	vertical-align: middle;
+	margin: 0px;
+}
+
+table.roo th {
+	font-size: 13px;
+	text-align: left;
+	font-weight: bold;
+	color: #FFF;
+	background: #999;
+}
+
+table.roo tr:hover,table.roo tr.alt:hover
+{
+    background: #9EEB62;/*#f7dcdf!important;*/
+}
+
+table.roo thead {
+	font-weight: bold;
+	font-style: italic;
+	background-color: #BBBBBB;
+}
+
+table a:link {color: #303030;}
+
+.utilbox {width: 18px;}
+
+caption {
+	caption-side: top;
+	width: auto;
+	text-align: left;
+	font-size: 12px;
+	color: #848f73;
+	padding-bottom: 4px;
+}
+
+fieldset {
+	background: #e0e7d3;
+	padding: 8px;
+	padding-bottom: 22px;
+	border: none;
+	width: 560px;
+}
+
+fieldset label {
+	width: 70px;
+	float: left;
+	margin-top: 1.7em;
+	margin-left: 20px;
+}
+
+fieldset textfield {
+	margin: 3px;
+	height: 20px;
+	background: #e0e7d3;
+}
+
+fieldset textarea {
+	margin: 3px;
+	height: 165px;
+	background: #e0e7d3;
+}
+
+fieldset input {
+	margin: 3px;
+	height: 20px;
+	background: #e0e7d3;
+}
+
+fieldset table {
+	width: 100%;
+}
+
+fieldset th {
+	padding-left: 25px;
+}
+
+.table-buttons {
+	background-color:#fff;
+	border:none;
+}
+
+.table-buttons td {
+	border:none;
+}
+
+.submit input {
+	border: 1px solid #BBBBBB;
+	color:#777777;
+	padding:2px 7px;
+	font-size:11px;
+	text-transform:uppercase;
+	font-weight:bold;
+	height:24px;
+}
+
+.updated {
+	background:#ecf1e5;
+	font-size:11px;
+	margin-left:2px;
+	border:4px solid #ecf1e5;
+}
+
+.updated td {
+	padding:2px 8px;
+	font-size:11px;
+	color:#888888;
+}
+
+.dijitArrowButton {
+	height: 20px;
+}
+
+.dijitTextArea{
+	min-height:5.5em !important;
+	max-height:22em !important;
+	overflow-y: auto !important;
+	max-width: 175px;
+}
+
+.RichTextEditable{
+	min-height:18em !important;
+	max-height:18em !important;
+}
+
+.flag {
+	height: 11px;
+	width: 16px;
+}
+
+.container{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5px;
+	margin-right : 5px;
+}
+
+.container input{ /* You Can Name it what you want*/
+margin-right:5px;
+}
+.container input:last-child{
+margin-right:0px;
+/*so the last one dont push the div thas giving the space only between the inputs*/
+}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    block;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../images/loading.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loaded .modal {
+    display: none;
+}
+
+#SPAN_1 {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 50px;
+    text-align: center;
+    width: 220px;
+    perspective-origin: 100px 25px;
+    transform-origin: 100px 25px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal 300 normal 20px / 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    outline: rgb(255, 255, 255) none 0px;
+    background-color: #367fa9;
+}/*#SPAN_1*/
+
+#B_2 {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal bold normal 20px / 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    outline: rgb(255, 255, 255) none 0px;
+}/*#B_2*/
+
+#SPAN_2 {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    text-align: left;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal normal 14px / 20px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+}/*#SPAN_1*/
+
+/******/
+#SPAN_2 {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    text-align: left;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal normal 14px / 20px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+}/*#SPAN_1*/
+ .content-wrapper {
+ 	    background-color: #ecf0f5;
+ 	    height : 100%;
+ 	    padding-top: 15px;
+ }
+ 
+#FOOTER_1 {
+	bottom:0;
+	left:0;
+    box-sizing: border-box;
+    color: rgb(68, 68, 68);
+    height: 51px;
+    width: 100%;
+    perspective-origin: 685px 25.5px;
+    transform-origin: 685px 25.5px;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box;
+    border-top: 1px solid rgb(210, 214, 222);
+    border-right: 0px none rgb(68, 68, 68);
+    border-bottom: 0px none rgb(68, 68, 68);
+    border-left: 0px none rgb(68, 68, 68);
+    font: normal normal normal normal 14px / 20px 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0px 0px 0px 0px;
+    outline: rgb(68, 68, 68) none 0px;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out 0s, margin 0.3s ease-in-out 0s;
+    flex: 0 1 100px;
+}/*#FOOTER_1*/
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <script>
+  $( document ).ready(function() {
+   document.title = "XLWINDOW";
+  }); 
+   
+  </script>
+  <spring:message code="label_excelgateway_index" htmlEscape="false" var="title"/>
+  <util:panel id="title" title="${title}">
+    <spring:message code="application_name" htmlEscape="false" var="app_name"/>
+    <h1>Login Successful! do not close this window. </h1>
+    <div style="display:none">
+    <form:form method="put" modelAttribute="command" action="./updateitems">
+    <input type="hidden" name="excel_command" value="SUCCESS:"></input>
+    measurementSheetId : <form:input path="measurementSheetId" rows="5" id="measurementSheetId" /><br></br>
+    aggreementId : <form:input path="aggreementId" rows="5" id="aggreementId" /><br></br>
+    status : <form:input path="status" rows="5" id="status" /><br></br> 
+    message : <form:input path="message" rows="5" id="message" /><br></br> 
+    itemNumbers : <form:input path="itemNumbers" rows="5" id="itemNumbers" /><br></br> 
+    <button type="submit">Save</button>
+    </form:form>
+    </div>
+  </util:panel>
+  
+</div>

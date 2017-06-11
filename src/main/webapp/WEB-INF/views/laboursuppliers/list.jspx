@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_LabourSupplier" items="${laboursuppliers}" z="aIz9JAW/VDh9DOxGksN/FUiPHUM=">
+        <table:table data="${laboursuppliers}" id="l_com_org_entity_LabourSupplier" path="/laboursuppliers" z="eFB21xTCE33D6C6SEsaIr8gX+Zg=">
+            <table:column id="c_com_org_entity_LabourSupplier_createdBy" property="createdBy" z="eq14iu3hu3c3b5aV8I8JswUPKUc="/>
+            <table:column id="c_com_org_entity_LabourSupplier_lastUpdatedBy" property="lastUpdatedBy" z="nQQTYtGUl3f/bs9MkFk74yrJpP8="/>
+            <table:column id="c_com_org_entity_LabourSupplier_name" property="name" z="KsRsUki8uWj03NAaYDalx6d+YPU="/>
+            <table:column date="true" dateTimePattern="${labourSupplier_createdon_date_format}" id="c_com_org_entity_LabourSupplier_createdOn" property="createdOn" z="BsuwgBKwXB5asPnQbme82t5CSR8="/>
+            <table:column date="true" dateTimePattern="${labourSupplier_lastupdatedon_date_format}" id="c_com_org_entity_LabourSupplier_lastUpdatedOn" property="lastUpdatedOn" z="2ixqXxsJ+Eeo8MCM5Ii+zeU2V5I="/>
+        </table:table>
+    </page:list>
+</div>

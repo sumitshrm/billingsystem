@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_Template" object="${template}" path="/templates" z="ELjAr4ctNYGFhZnYI05+QrurwUQ=">
+        <field:display field="name" id="s_com_org_entity_Template_name" object="${template}" z="B5UcbH+cCYKPI2867aqg+1izJAw="/>
+        <field:display field="type" id="s_com_org_entity_Template_type" object="${template}" z="4T62VOjW14hvXrsvWgjQqc7dnsU="/>
+        <field:display field="description" id="s_com_org_entity_Template_description" object="${template}" z="Mt5elspkSdpnZ0qeAzzqZ9eI3NI="/>
+        <field:display field="content" id="s_com_org_entity_Template_content" object="${template}" z="kMUsjmeGIU2BjNgof/zNeLbpS3k="/>
+        <field:display field="contentType" id="s_com_org_entity_Template_contentType" object="${template}" z="i/VXPZW4A5ltWvldzfDyyA+LVFk="/>
+        <field:display field="fileSize" id="s_com_org_entity_Template_fileSize" object="${template}" z="ymL9FrzJE8e0iiQdZ8VtBP4q/l0="/>
+        <field:display field="url" id="s_com_org_entity_Template_url" object="${template}" z="O9WN5/DMY7w7oGakFeKtloFoNfM="/>
+    </page:show>
+</div>

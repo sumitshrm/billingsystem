@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_org_domain_Config" modelAttribute="config" path="/configs" render="${empty dependencies}" z="Y52YpqQmhE8HqcMjfj6NFV3ydCo=">
+        <field:input field="cellName" id="c_com_org_domain_Config_cellName" required="true" z="yVPJyqaUgQxBej98yU4lYVRLkJU="/>
+        <field:input field="value" id="c_com_org_domain_Config_value" required="true" z="rbYCE93AFr9/yIdYZDYcmJHSIyI="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_org_domain_Config" render="${not empty dependencies}" z="wOme57zRLs35JkwczgN2wGEikj8="/>
+</div>

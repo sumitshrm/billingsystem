@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_LabourEntry" object="${labourentry}" path="/labourentrys" z="Q798AoZdHy5GBCJqoDKGsC3gEZc=">
+        <field:display field="createdBy" id="s_com_org_entity_LabourEntry_createdBy" object="${labourentry}" render="false" z="user-managed"/>
+        <field:display field="lastUpdatedBy" id="s_com_org_entity_LabourEntry_lastUpdatedBy" object="${labourentry}" render="false" z="user-managed"/>
+        <field:display field="aggreement" id="s_com_org_entity_LabourEntry_aggreement" object="${labourentry}" z="9edr+jsm8yc7qlJpa3w1pm106r4="/>
+        <field:display field="labourSupplier" id="s_com_org_entity_LabourEntry_labourSupplier" object="${labourentry}" z="VZQIlx4iXDb0wMDsiDVWgOZ5Zog="/>
+        <field:display date="true" dateTimePattern="${labourEntry_date_date_format}" field="date" id="s_com_org_entity_LabourEntry_date" object="${labourentry}" z="MakB1hKLiNNlgjr8l//eak7SuTY="/>
+        <field:display field="location" id="s_com_org_entity_LabourEntry_location" object="${labourentry}" z="4hVNMamp7ej2/SA/+tE8m4zpp7o="/>
+        <field:display field="natureOfWork" id="s_com_org_entity_LabourEntry_natureOfWork" object="${labourentry}" z="5kXACiS+xyNOXzJ9iHWJlWcO2NQ="/>
+        <field:display field="numberOfWorkers" id="s_com_org_entity_LabourEntry_numberOfWorkers" object="${labourentry}" z="vLhEnN4x3CJ7K59FgU78+Q9y7+8="/>
+        <field:display field="unit" id="s_com_org_entity_LabourEntry_unit" object="${labourentry}" z="SDceHtb8vaohuRolIBeRVKGHh2k="/>
+        <field:display field="rate" id="s_com_org_entity_LabourEntry_rate" object="${labourentry}" z="6TtaBQe2kV4LH0aZYZiUBCoH+CA="/>
+        <field:display field="amount" id="s_com_org_entity_LabourEntry_amount" object="${labourentry}" z="6TtaBQeiure98H0aZYZiUBCoH+CA="/>
+        <field:display field="remarks" id="s_com_org_entity_LabourEntry_remarks" object="${labourentry}" z="K8hWu+MajLJ++FN5dr9QOYcctck="/>
+        <field:display date="true" dateTimePattern="${labourEntry_createdon_date_format}" field="createdOn" id="s_com_org_entity_LabourEntry_createdOn" object="${labourentry}" render="false" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${labourEntry_lastupdatedon_date_format}" field="lastUpdatedOn" id="s_com_org_entity_LabourEntry_lastUpdatedOn" object="${labourentry}" render="false" z="user-managed"/>
+    </page:show>
+</div>

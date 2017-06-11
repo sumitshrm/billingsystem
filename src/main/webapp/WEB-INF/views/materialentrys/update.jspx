@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:matcons="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_org_entity_MaterialEntry" modelAttribute="materialEntry" path="/materialentrys" versionField="Version" z="k9q00mI5If7BxOMC5UiOVZpVkLE=">
+        <field:select field="createdBy" id="c_com_org_entity_MaterialEntry_createdBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:select field="lastUpdatedBy" id="c_com_org_entity_MaterialEntry_lastUpdatedBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:select field="aggreement" id="c_com_org_entity_MaterialEntry_aggreement" itemValue="id" items="${aggreements}" path="/aggreements" z="x3EaFYapEvMz5j8icdPODzvFOLc="/>
+        <field:input field="site" id="c_com_org_entity_MaterialEntry_site" z="hfm6MrYW0/YJkj7+YjkDYK1pSTM="/>
+        <matcons:input-auto autoCompleteData="${itemnames}" autoCompletefield="name" field="item" id="c_com_org_entity_MaterialEntry_item" z="user-managed"/>
+        <field:input field="descriptionOfItem1" id="c_com_org_entity_MaterialEntry_descriptionOfItem1" required="true" z="flb3QyqPjmRHE1BBsa9uF6Z7q74="/>
+        <field:input field="descriptionOfItem2" id="c_com_org_entity_MaterialEntry_descriptionOfItem2" z="z7g+gZyZnvobG01TwyuC4P7g4Wo="/>
+        <field:datetime dateTimePattern="${materialEntry_date_date_format}" field="date" id="c_com_org_entity_MaterialEntry_date" z="3SWhTr3Iu4atGpLCvhfndpOo7dI="/>
+        <matcons:input-auto autoCompleteData="${companys}" autoCompletefield="name" field="company" id="c_com_org_entity_MaterialEntry_company" z="user-managed"/>
+        <matcons:input-auto autoCompleteData="${suppliers}" autoCompletefield="name" field="supplier" id="c_com_org_entity_MaterialEntry_supplier" z="user-managed"/>
+        <field:input field="quantity" id="c_com_org_entity_MaterialEntry_quantity" z="l2Z4Ko+LaDMFjRFobEqffLZFKg0="/>
+        <field:input field="unit" id="c_com_org_entity_MaterialEntry_unit" z="Mw1wDx13fkOajdzu00UxDo3cUyw="/>
+        <field:input field="rate" id="c_com_org_entity_MaterialEntry_rate" z="TBizSxYaAkvZnFUNOyfulMLbyvE="/>
+        <field:textarea field="remarks" id="c_com_org_entity_MaterialEntry_remarks" z="JWQ0I46Br5J7wH83m1HPSr0GYvQ="/>
+        <field:datetime dateTimePattern="${materialEntry_createdon_date_format}" field="createdOn" id="c_com_org_entity_MaterialEntry_createdOn" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${materialEntry_lastupdatedon_date_format}" field="lastUpdatedOn" id="c_com_org_entity_MaterialEntry_lastUpdatedOn" render="false" z="user-managed"/>
+    </form:update>
+</div>

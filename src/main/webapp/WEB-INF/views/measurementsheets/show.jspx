@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <spring:url value="/resources/script/jqwidgets" var="jqwidgets_url"/>
+    <spring:url value="/measurementsheets/${measurementsheet.id}/report" var="report_url"/>
+    <spring:url value="/measurementsheets/reloadabstract/${measurementsheet.id}" var="reload_url"/>
+    <spring:url value="/measurementsheets/updateabstract/${measurementsheet.id}" var="update_abstract_url"/>
+    <spring:url value="/documents/showdoc/${measurementsheet.id}" var="download_url"/>
+    <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxtabs.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdatatable.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script>
+ 
+ var tender_cost = ${measurementsheet.aggreement.tenderCost};
+ var message = '${message}';
+ $( document ).ready(function() {
+
+    calculateTotalAmount();
+    //write tender cost from hidden field to span to maintain format.
+    var tenderCost = $("#tender_cost_hidden").val();
+    $("#tender_cost").html(tenderCost);
+    
+    //add style to data table
+    
+    $('#jqxTabs').jqxTabs({ width: '100%',  position: 'top'});
+    
+ });
+ 
+function calculateAmount(totalQuantity, partRate, fullRate, quantityPerUnit, absDataId){
+    var isFinalBill = ${measurementsheet.isFinalBill};
+    var rate = partRate;
+    if(isFinalBill){rate=fullRate;}
+	var result = (totalQuantity*rate)/quantityPerUnit;
+	document.getElementById("total_quantity_"+absDataId).innerHTML = result.toFixed(2);
+	$("#total_quantity_hidden_"+absDataId).val(result.toFixed(2));
+	calculateTotalAmount();
+}
+
+function resetAbstractData(){
+	$(".abstractdata").val(0.0);
+	$("#total_amount_of_bill_span").html(0.0);
+	$("#percent_of_work_span").html(0.0 + "%");
+	$(".abstractdata_html").html(0.0);
+}
+
+function formatDouble(val){
+	return val.toFixed(2);
+}
+
+function calculateTotalAmount(){
+     var total_amount_of_bill = 0;
+     var costIndex = ${measurementsheet.aggreement.costIndex};
+     var contractorAbt = ${measurementsheet.aggreement.clausePercentage}; 
+     var clauseAboveOrbelow = '${measurementsheet.aggreement.clause}';
+     console.log(costIndex + ',' + contractorAbt + ',' + clauseAboveOrbelow);
+     var percentate = 0;
+     //Sum all items quantity excluding extra items.
+	$("input[name='total_quantity_hidden']").each(function() {
+		var value = $(this).val()*1;
+    	total_amount_of_bill +=value;
+	});
+	//add cost index
+	if(costIndex!=''){
+		console.log('add costIndex : ' + (total_amount_of_bill * costIndex)/100);
+		total_amount_of_bill = total_amount_of_bill + ((total_amount_of_bill * costIndex)/100);
+	}
+	console.log('total : ' + total_amount_of_bill);
+	// add contractors abbattment
+	if(contractorAbt!=''){
+		if(clauseAboveOrbelow=='Above'){
+			console.log('add contractorAbt : ' +(total_amount_of_bill * contractorAbt)/100);
+			total_amount_of_bill = total_amount_of_bill + ((total_amount_of_bill * contractorAbt)/100);
+		}else{
+			console.log('add contractorAbt : ' + (total_amount_of_bill * contractorAbt)/100);
+			total_amount_of_bill = total_amount_of_bill - ((total_amount_of_bill * contractorAbt)/100);
+		}
+		console.log('total : ' + total_amount_of_bill);
+	}
+	 //Sum all extra items quantity excluding items.
+	$("input[name='ei_total_quantity_hidden']").each(function() {
+		var value = $(this).val()*1;
+    	total_amount_of_bill +=value;
+	});
+	console.log('total : ' + total_amount_of_bill);
+	percentage = ((total_amount_of_bill/tender_cost)*100).toFixed(2);
+	$("#total_amount_of_bill_span").html(total_amount_of_bill.toFixed(2));
+	$("#percent_of_work_span").html(percentage + "%");
+}
+
+function shortDescription(d_item, d_subitem){
+	console.log(d_item.substr(0,12)+"...");
+}
+</script>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <c:url value="/itemmeasurements" var="editUrl"/>
+    <c:url value="/itemmeasurements" var="copyUrl"/>
+    <c:url value="/abstract" var="abstractUrl"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
+        <nav:item label="aggreement" url="/aggreements/${measurementsheet.aggreement.id}"/>
+        <nav:item active="true" label="measurement sheet" url="#"/>
+    </nav:nav>
+    <notification:popup object="${message}"/>
+    <page:show create="false" delete="true" id="ps_com_org_entity_MeasurementSheet" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
+        <field:display field="title" id="s_com_org_entity_MeasurementSheet_title" object="${measurementsheet}" z="J7JMK2STvGP/E15VHkXhTgxQZMs="/>
+        <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${measurementSheet_createdate_date_format}" field="createDate" id="s_com_org_entity_MeasurementSheet_createDate" object="${measurementsheet}" z="D5WW8sAGU9BC2TTk1bKQGZJke9w="/>
+        <field:display date="true" dateTimePattern="${measurementSheet_lastupdateddate_date_format}" field="lastUpdatedDate" id="s_com_org_entity_MeasurementSheet_lastUpdatedDate" object="${measurementsheet}" z="mDBgJkyfxq98nd8XSj8JCBE46NM="/>
+        <field:display field="aggreementNum" id="s_com_org_entity_MeasurementSheet_aggreement" object="${measurementsheet.aggreement}" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${measurementSheet_lastreportdate_date_format}" field="lastReportDate" id="s_com_org_entity_MeasurementSheet_lastReportDate" object="${measurementsheet}" z="v3NUi4Ba8MjohcHS6C0EAVCzBus="/>
+        <field:display field="document" id="s_com_org_entity_MeasurementSheet_document" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="logUser" id="s_com_org_entity_MeasurementSheet_logUser" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumber" object="${measurementsheet}" z="user-managed"/>
+        <field:display field="isFinalBill" id="s_com_org_entity_MeasurementSheet_isFinalBill" object="${measurementsheet}" z="CoTPzfDub5N6TIecOHgbhtSM6/o="/>
+        <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumberDisplayFormat" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="excelFile" id="s_com_org_entity_MeasurementSheet_excelFile" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="userManaged" id="s_com_org_entity_MeasurementSheet_userManaged" object="${measurementsheet}" z="iZRD+47YXMsW3h2mKpCLjnLKYNs="/>
+        <field:display field="itemAbstractSorted" id="s_com_org_entity_MeasurementSheet_itemAbstractSorted" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="copyPreviousMeasurement" id="s_com_org_entity_MeasurementSheet_copyPreviousMeasurement" object="${measurementsheet}" render="false" z="user-managed"/>
+        <field:display field="templateVersion" id="c_com_org_entity_measurementsheet_templateversion" object="${measurementsheet}" z="user-managed"/>
+    </page:show>
+    <div class="row">
+        <c:if test="${not measurementsheet.userManaged}">
+            <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
+                <div class="btn-group" style="margin-bottom:15px">
+                    <input class="btn btn-primary" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
+                    <input class="btn btn-primary" type="submit" value="generate reports"/>
+                </div>
+            </form:form>
+        </c:if>
+    </div>
+    <div class="row" id="jqxTabs">
+        <ul>
+            <li style="margin-left: 30px;">Abstract</li>
+            <li>Bill Schedule</li>
+            <li>Deviation</li>
+        </ul>
+        <div>
+            <div style="display:${not empty measurementsheet.itemAbstracts?'block':'none'}">
+                <form:form action="${update_abstract_url}" modelAttribute="measurementsheet">
+                    <div class="btn-group" style="margin-bottom:15px; margin-top:15px; margin-left:5px">
+                        <input class="btn btn-primary" type="submit" value="Update Abstract"/>
+                        <input class="btn btn-primary" onclick="javascript:resetAbstractData()" type="button" value="Reset values"/>
+                    </div>
+                    <div style="clear:both;">
+                        <div style="float: left;">
+                            <b>Tender cost: </b>
+                            <span id="tender_cost">a</span>
+                            <form:hidden align="right" id="tender_cost_hidden" path="aggreement.tenderCost" style=""/>
+                        </div>
+                        <div style="float: right;">
+                            <b>Total amount of this bill: </b>
+                            <span id="total_amount_of_bill_span">a</span>
+                        </div>
+                        <div style="float: center;text-align:center">
+                            <b>Percentage of work completed: </b>
+                            <span id="percent_of_work_span">a</span>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="abstract_table">
+                        <thead>
+                            <tr>
+                                <th>Item Number</th>
+                                <th>Item Description</th>
+                                <th>Unit</th>
+                                <th>Qty as per Agmt</th>
+                                <th>Quantity</th>
+                                <th>Full Rate</th>
+                                <c:if test="${measurementsheet.isFinalBill==false}">
+                                    <th>Part Rate</th>
+                                </c:if>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${measurementsheet.itemAbstractsSorted}" varStatus="vs">
+                                <tr>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.itemNumber}</td>
+                                    <td>
+                                        <c:if test="${measurementsheet.itemAbstractsSorted[vs.index].item.isSubItem}"/>
+                    	 ${measurementsheet.itemAbstractsSorted[vs.index].item.fullDescriptionHTML}
+                    	 </td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.unit}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.quantity}</td>
+                                    <td>
+                                        <form:input align="right" class="abstractdata" onClick="this.select();" onKeyUp="javascript:calculateAmount(this.value, ${measurementsheet.itemAbstractsSorted[vs.index].item.partRate},${measurementsheet.itemAbstractsSorted[vs.index].item.fullRate},${measurementsheet.itemAbstractsSorted[vs.index].item.quantityPerUnit},${measurementsheet.itemAbstractsSorted[vs.index].id})" path="itemAbstractsSorted[${vs.index}].total" style="width:100%; min-width: 100px;text-align:right"/>
+                                    </td>
+                                    <form:hidden path="itemAbstractsSorted[${vs.index}].id"/>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.fullRate}</td>
+                                    <c:if test="${measurementsheet.isFinalBill==false}">
+                                        <td>${measurementsheet.itemAbstractsSorted[vs.index].item.partRate}</td>
+                                    </c:if>
+                                    <td>
+                                        <span class="abstractdata_html" id="total_quantity_${measurementsheet.itemAbstractsSorted[vs.index].id}">${measurementsheet.itemAbstractsSorted[vs.index].amount}</span>
+                                        <input class="abstractdata" id="total_quantity_hidden_${measurementsheet.itemAbstractsSorted[vs.index].id}" name="${measurementsheet.itemAbstractsSorted[vs.index].item.isExtraItem ? 'ei_total_quantity_hidden' : 'total_quantity_hidden'}" type="hidden" value="${measurementsheet.itemAbstractsSorted[vs.index].amount}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <div style="margin-left:5px">
+                        <input class="btn btn-primary" type="submit" value="Update Abstract"/>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+        <div>
+            <div style="display:${not empty measurementsheet.itemAbstractsSorted?'block':'none'}">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+                    <thead>
+                        <c:if test="${measurementsheet.firstAndFinalBill==false}">
+                            <tr>
+                                <th colspan="${measurementsheet.isFinalBill?5:4}"/>
+                                <c:if test="${measurementsheet.isFinalBill==false}">
+                                    <th colspan="2" style="text-align: left">Rate</th>
+                                </c:if>
+                                <th align="center" colspan="3">Payment on the basis of Actual Measurements</th>
+                            </tr>
+                        </c:if>
+                        <tr>
+                            <th>Item Number</th>
+                            <th>Item Description</th>
+                            <th>Quantity executed upto date</th>
+                            <th>Unit</th>
+                            <th>Full Rate</th>
+                            <c:if test="${measurementsheet.isFinalBill==false}">
+                                <th>Part rate</th>
+                            </c:if>
+                            <c:if test="${measurementsheet.firstAndFinalBill==false}">
+                                <th>Upto date</th>
+                                <th>Upto previous bill</th>
+                                <th>Since previous bill</th>
+                            </c:if>
+                            <c:if test="${measurementsheet.firstAndFinalBill==true}">
+                                <th>Payment on the basis of Actual Measurements</th>
+                            </c:if>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${measurementsheet.itemAbstractsSorted}" varStatus="vs">
+                            <tr>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].item.itemNumber}</td>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].item.fullDescriptionHTML}</td>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].total}</td>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].item.unit}</td>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].item.fullRate}</td>
+                                <c:if test="${measurementsheet.isFinalBill==false}">
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.partRate}</td>
+                                </c:if>
+                                <c:if test="${measurementsheet.firstAndFinalBill==false}">
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].amount}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].amountUptoPreviousBill}</td>
+                                </c:if>
+                                <td>${measurementsheet.itemAbstractsSorted[vs.index].amountSincePreviousBill}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div style="display:${not empty measurementsheet.itemAbstractsSorted?'block':'none'}">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+                    <thead>
+                        <tr>
+                            <th colspan="4"/>
+                            <th align="center" colspan="3">Quantity</th>
+                            <th align="center" colspan="3">Rate Calculation</th>
+                            <th colspan="4"/>
+                        </tr>
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Item Number</th>
+                            <th>Item Description</th>
+                            <th>Unit</th>
+                            <th>As per aggreement</th>
+                            <th>Executed upto date</th>
+                            <th>Deviation quantity</th>
+                            <th>Rate</th>
+                            <th>CA @ ${measurementsheet.aggreement.clausePercentage} % ${measurementsheet.aggreement.clause}</th>
+                            <th>Rate proposed</th>
+                            <th>Deviation %</th>
+                            <th>Deviation (+)</th>
+                            <th>Deviation (-)</th>
+                            <th>Total deviation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${measurementsheet.itemAbstractsSorted}" varStatus="vs">
+                            <c:if test="${measurementsheet.itemAbstractsSorted[vs.index].item.isExtraItem == false}">
+                                <tr>
+                                    <td>${vs.index + 1}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.itemNumber}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.fullDescriptionHTML}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.unit}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.quantity}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].total}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].deviationQuantity}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].item.fullRate}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].contractorsAbattment}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].rateProposed}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].deviationPercentate}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].deviationPlus}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].deviationMinus}</td>
+                                    <td>${measurementsheet.itemAbstractsSorted[vs.index].totalDeviation}</td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="report_options"/>
+</div>

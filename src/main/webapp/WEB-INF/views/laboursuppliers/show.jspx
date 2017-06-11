@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_LabourSupplier" object="${laboursupplier}" path="/laboursuppliers" z="h6pF4biH8xnElomH6hnNuAZLGbU=">
+        <field:display field="createdBy" id="s_com_org_entity_LabourSupplier_createdBy" object="${laboursupplier}" z="xAjgo4dPeQ0BDwqMIn6m5cqd+ag="/>
+        <field:display field="lastUpdatedBy" id="s_com_org_entity_LabourSupplier_lastUpdatedBy" object="${laboursupplier}" z="r3KpoNBwnmA661JWrfaX/oE+S9Q="/>
+        <field:display field="name" id="s_com_org_entity_LabourSupplier_name" object="${laboursupplier}" z="RCZ9YJD/UbMIiDBc7++Qo9uxl/Y="/>
+        <field:display date="true" dateTimePattern="${labourSupplier_createdon_date_format}" field="createdOn" id="s_com_org_entity_LabourSupplier_createdOn" object="${laboursupplier}" z="RVZb1KybCdPt6Q2JDdXLSyeiTnQ="/>
+        <field:display date="true" dateTimePattern="${labourSupplier_lastupdatedon_date_format}" field="lastUpdatedOn" id="s_com_org_entity_LabourSupplier_lastUpdatedOn" object="${laboursupplier}" z="r6zttU41FDtKlCjM/CDrKlUhLbo="/>
+    </page:show>
+</div>

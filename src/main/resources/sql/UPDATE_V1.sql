@@ -1,0 +1,1 @@
+ALTER TABLE `measurement_sheet` ADD `TEMPLATE_VERSION` INT NOT NULL AFTER `log_user` 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements/"/>
+        <nav:item label="aggreement" url="/aggreements/${item.aggreement.id}"/>
+        <nav:item label="list items" url="/items/aggreement/${item.aggreement.id}"/>
+        <nav:item active="true" label="item" url="#"/>
+    </nav:nav>
+    <page:show create="false" id="ps_com_org_entity_Item" list="false" object="${item}" path="/items" z="user-managed">
+        <field:display field="aggreementNum" id="s_com_org_entity_Item_aggreement" object="${item.aggreement}" z="user-managed"/>
+        <field:display field="description" id="s_com_org_entity_Item_description" object="${item}" render="true" z="user-managed"/>
+        <field:display field="isExtraItem" id="s_com_org_entity_Item_isExtraItem" object="${item}" z="JD4jJc0rjFX+MMK06P3hl+kR5Fc="/>
+        <field:display field="quantity" id="s_com_org_entity_Item_quantity" object="${item}" z="x/6eQGi2ClPavuagMsPAiyvmKHE="/>
+        <field:display field="quantityPerUnit" id="s_com_org_entity_Item_quantityPerUnit" object="${item}" z="1TwtrmZTMfkh+r+TE50kCR2SXsU="/>
+        <field:display field="unit" id="s_com_org_entity_Item_unit" object="${item}" z="BbkLVpY1PrenLpnUhZ5xvqz4eNE="/>
+        <field:display field="dsrRate" id="s_com_org_entity_Item_dsrRate" object="${item}" render="${item.isExtraItem}" z="user-managed"/>
+        <field:display field="fullRate" id="s_com_org_entity_Item_fullRate" object="${item}" z="fFbDkyixhDPcRFR24zvZ6L6hxVc="/>
+        <field:display field="partRate" id="s_com_org_entity_Item_partRate" object="${item}" z="S0iVio+LMIObat/mgRtPKnyjmS0="/>
+        <field:display field="logUser" id="s_com_org_entity_Item_logUser" object="${item}" render="false" z="user-managed"/>
+        <field:display field="subItemNumber" id="s_com_org_entity_Item_subItemNumber" object="${item}" render="false" z="user-managed"/>
+        <field:display field="itemNumber" id="s_com_org_entity_Item_itemNumber" object="${item}" render="false" z="user-managed"/>
+        <field:display field="isSubItem" id="s_com_org_entity_Item_isSubItem" object="${item}" render="false" z="user-managed"/>
+        <field:display field="logUser" id="s_com_org_entity_Item_logUser" object="${item}" render="false" z="Uh9lDhCH1SIRdgGrYwLhLyPi27o="/>
+        <field:display field="drsCode" id="s_com_org_entity_Item_drsCode" object="${item}" z="GhDbxYN0HzzJOZ81nAjcQGUJ9M8="/>
+        <field:display field="measurementSheetId" id="s_com_org_entity_Item_measurementSheetId" object="${item}" render="false" z="user-managed"/>
+        <field:display field="sortOrder" id="s_com_org_entity_Item_sortOrder" object="${item}" render="false" z="user-managed"/>
+        <field:display field="parentItem" id="s_com_org_entity_Item_parentItem" object="${item}" render="false" z="user-managed"/>
+        <field:display field="subItemNumber" id="s_com_org_entity_Item_subItemNumber" object="${item}" render="false" z="0rlR7oRQ2uNBtFpXzlzK606XHRY="/>
+        <field:display field="fullDescription" id="s_com_org_entity_Item_fullDescription" object="${item}" render="false" z="user-managed"/>
+    </page:show>
+</div>

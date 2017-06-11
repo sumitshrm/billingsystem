@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_Template" items="${templates}" z="Z63I6/Lq4DWY7ezzACB8MQQMrpQ=">
+        <table:table data="${templates}" id="l_com_org_entity_Template" path="/templates" z="bsYzY/Lndh1wqBfjIKzP7gqRJM4=">
+            <table:column id="c_com_org_entity_Template_name" property="name" z="ZDyNflXcz6jYyp/mxfOUDqMNdlU="/>
+            <table:column id="c_com_org_entity_Template_type" property="type" z="Cp95nkpD4Gy0vQQn9DWfKtNW6rI="/>
+            <table:column id="c_com_org_entity_Template_description" property="description" z="jtlIG3ph+I1A9sLMh1mlkaNDRUc="/>
+            <table:column id="c_com_org_entity_Template_content" property="content" z="qhy+ma6R/2x+ZHPT1UWJljXlZjc="/>
+            <table:column id="c_com_org_entity_Template_contentType" property="contentType" z="222JAABh0XJA8hFmX7qn9ifXyuk="/>
+            <table:column id="c_com_org_entity_Template_fileSize" property="fileSize" z="COTnVcPeUACskygMdV6nQFOvoCg="/>
+        </table:table>
+    </page:list>
+</div>

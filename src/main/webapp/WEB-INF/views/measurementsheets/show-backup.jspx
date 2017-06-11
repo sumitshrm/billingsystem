@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <c:url value="/itemmeasurements" var="editUrl"/>
+    <c:url value="/itemmeasurements" var="copyUrl"/>
+    <c:url value="/abstract" var="abstractUrl"/>
+    <script type="text/javascript">
+            var sheetId = ${measurementsheet.id};
+    		var itemToMove = -1;
+    		var movable = false;
+    		var sourceWithoutInsertOption = ["copy", "delete", "edit", "move"];
+    		var sourceWithInsertOption = ["copy", "delete", "edit", "move", "insert before", "insert after"];
+            $(document).ready(function () {
+            	
+                // Create a jqxMenu
+                // open the context menu when the user presses the mouse right button.
+                $(".contextmenu").on('mousedown', function (event) {
+                	var selectedItemId = event.target.id.split("_")[1];
+                	if(movable){
+                    	createMenuWithInsertOption(selectedItemId);
+                	}else{
+                		createMenuWithoutInsertOption(selectedItemId);
+                	}
+                });
+                // Create tabs
+                $('#jqxTabs').jqxTabs({ position: 'top'});
+                var loadPage = function (url, tabIndex) {
+                    $.get(url, function (data) {
+                        $('#content' + tabIndex).html(data);
+                    });
+                }
+                $('#jqxTabs').on('selected', function (event) {
+                    var pageIndex = event.args.item + 1;
+                    if(pageIndex==2){
+                    	$('#content2').html('loading...');
+                    	loadPage("${abstractUrl}?msheetid=${measurementsheet.id}", pageIndex);
+                    }
+                    
+                });
+                
+            });
+            
+            function createMenuWithInsertOption(selectedItemId){
+            	var contextMenu = $("#jqxMenuWithInsert").jqxMenu({source: sourceWithInsertOption, width: '120px', autoOpenPopup: false, mode: 'popup'});
+                $("#jqxMenuWithInsert").on('itemclick', function (cevent) {
+                	console.log(cevent.args.innerHTML);
+                	var itemClicked = cevent.args.innerHTML
+                	if(itemClicked == "copy"){
+                		window.location.href = "${copyUrl}/"+selectedItemId+"?copy";
+                	}else if(itemClicked == "delete"){
+                		$("#form_"+selectedItemId).submit();
+                	}else if(itemClicked == "edit"){
+                		window.location.href = "${copyUrl}/"+selectedItemId+"?form";
+                	}else if(itemClicked == "move"){
+                		itemToMove = selectedItemId;
+                		movable = true;
+                	}else if(itemClicked == "insert before"){
+                		movable = false;
+                		insert(selectedItemId, true, sheetId, '${copyUrl}')
+                	}else if(itemClicked == "insert after"){
+                		movable = false;
+                		insert(selectedItemId, false, sheetId, '${copyUrl}')
+                	}
+                    //$("#eventLog").text("Id: " + event.args.id + ", Text: " + $(event.args).text());
+                });
+            	console.log(event);
+                var scrollTop = $(window).scrollTop();
+                var scrollLeft = $(window).scrollLeft();
+                    contextMenu.jqxMenu('open', parseInt(event.clientX) + 5 + scrollLeft, parseInt(event.clientY) + 5 + scrollTop);
+            }
+            
+            function createMenuWithoutInsertOption(selectedItemId){
+            	var contextMenu = $("#jqxMenuWithoutInsert").jqxMenu({source: sourceWithoutInsertOption, width: '120px', autoOpenPopup: false, mode: 'popup'});
+                $("#jqxMenuWithoutInsert").on('itemclick', function (cevent) {
+                	console.log(cevent.args.innerHTML);
+                	var itemClicked = cevent.args.innerHTML
+                	if(itemClicked == "copy"){
+                		window.location.href = "${copyUrl}/"+selectedItemId+"?copy";
+                	}else if(itemClicked == "delete"){
+                		$("#form_"+selectedItemId).submit();
+                	}else if(itemClicked == "edit"){
+                		window.location.href = "${copyUrl}/"+selectedItemId+"?form";
+                	}else if(itemClicked == "move"){
+                		itemToMove = selectedItemId;
+                		movable = true;
+                	}else{
+                		
+                	}
+                    //$("#eventLog").text("Id: " + event.args.id + ", Text: " + $(event.args).text());
+                });
+            	console.log(event);
+                var scrollTop = $(window).scrollTop();
+                var scrollLeft = $(window).scrollLeft();
+                    contextMenu.jqxMenu('open', parseInt(event.clientX) + 5 + scrollLeft, parseInt(event.clientY) + 5 + scrollTop);
+            }
+        </script>
+    <div id="jqxTabs">
+        <ul>
+            <li style="margin-left: 30px;">Measurement</li>
+            <li>Abstract</li>
+        </ul>
+        <div id="content1">
+            <table border="0">
+                <tr>
+                    <td colspan="2">
+                        <h1 align="center">Measurement Sheet</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <span style="float: left; margin:3px 3px 3px 3px;">
+                            <strong>Aggreement Number :- <c:out value="${measurementsheet.aggreement.aggreementNum}"/>
+                            </strong>
+                        </span>
+                        <span style="float: right; margin:0px 5px 0px 0px;">
+                            <a href="${editUrl}?form=form&amp;msheetid=${measurementsheet.id}">
+                                <input type="button" value="Create new Item"/>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Description :- <c:out value="${measurementsheet.aggreement.description}"/>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <br/>
+            <c:forEach items="${measurementsheet.itemMeasurements}" var="val">
+                <div>
+                    <table cellpadding="2">
+                        <tr>
+                            <td colspan="3">
+                                <div id="textbox">
+                                    <span style="float: left; margin:3px 3px 3px 3px;">
+                                        <strong>Aggreement Item Number : ${val.item.itemNumber}</strong>
+                                    </span>
+                                    <span style="float: right; margin:0px 5px 0px 0px;">
+                                        <form:form action="${editUrl}/${measurementsheet.id}/${val.id}" align="right" id="form_${val.id}" method="DELETE"/>
+                                        <input class="contextmenu" id="contextmenu_${val.id}" type="button" value="menu"/>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <span style="margin:10px 5px 5px 5px;">${val.item.description}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div id="jqxWidget" width="100%">
+                                    <div id="jqxgrid_${val.id}" width="100%"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <span style="float: left; margin:3px 3px 3px 3px;">
+                            	C/o TMB/ Page No.
+								</span>
+                                <span style="float: right; margin:3px 3px 3px 3px;">
+                                    <b>total : ${val.total}</b>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <script language="javascript">createDataGrig("jqxgrid_${val.id}", ${val.measurementJSON});</script>
+                </div>
+            </c:forEach>
+        </div>
+        <div id="content2">
+		 Loading...
+        </div>
+    </div>
+    <div id="jqxMenuWithInsert"/>
+    <div id="jqxMenuWithoutInsert"/>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_org_entity_ItemName" modelAttribute="itemName" path="/itemnames" versionField="Version" z="n5/rsRY5D+q7B7Le0K0lg3zuDH8=">
+        <field:select field="createdBy" id="c_com_org_entity_ItemName_createdBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:select field="lastUpdatedBy" id="c_com_org_entity_ItemName_lastUpdatedBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:input field="name" id="c_com_org_entity_ItemName_name" z="4NMfezS+QHx0ird5KkIssJq1XjE="/>
+        <field:datetime dateTimePattern="${itemName_createdon_date_format}" field="createdOn" id="c_com_org_entity_ItemName_createdOn" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${itemName_lastupdatedon_date_format}" field="lastUpdatedOn" id="c_com_org_entity_ItemName_lastUpdatedOn" render="false" z="user-managed"/>
+    </form:update>
+</div>

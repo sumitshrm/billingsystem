@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements/"/>
+        <nav:item label="aggreement" url="/aggreements/${item.aggreement.id}"/>
+        <nav:item label="list items" url="/items/aggreement/${item.aggreement.id}?page=1"/>
+        <nav:item label="item" url="/items/${item.id}"/>
+        <nav:item active="true" label="update item" url="#"/>
+    </nav:nav>
+    <notification:popup object="${message}"/>
+    <form:update id="fu_com_org_entity_Item" modelAttribute="item" path="/items" versionField="Version" z="6hvCmTrp3dN/VeY+JQB8SRA/zPw=">
+        <field:textarea field="description" id="c_com_org_entity_Item_description" required="true" z="qbfkUnNPy5c4WNKSawLc5HBMa5g="/>
+        <field:input field="quantity" id="c_com_org_entity_Item_quantity" validationMessageCode="field_invalid_number" z="thunFBkrEinrGLOsXqVrdCmf8W8="/>
+        <field:input field="quantityPerUnit" id="c_com_org_entity_Item_quantityPerUnit" validationMessageCode="field_invalid_number" z="S5A9nv8Sc6Sv9YhS3rLqx3qYoxQ="/>
+        <field:input field="unit" id="c_com_org_entity_Item_unit" z="/Pd50bTCVSOopXbEP81NCsOywX4="/>
+        <field:input field="dsrRate" id="c_com_org_entity_Item_dsrRate" render="${item.isExtraItem}" validationMessageCode="field_invalid_number" z="user-managed"/>
+        <field:input field="fullRate" id="c_com_org_entity_Item_fullRate" validationMessageCode="field_invalid_number" z="yG7QYa4P47A/xoac0Ismt+mrLvI="/>
+        <field:input field="partRate" id="c_com_org_entity_Item_partRate" validationMessageCode="field_invalid_number" z="zZQLoNxsUQu5MirbDmUojQBQ0K0="/>
+        <field:input field="drsCode" id="c_com_org_entity_Item_drsCode" z="LUC6821EC8Xsm7xqs+N0m1dDOsc="/>
+        <field:input field="fullDescription" id="c_com_org_entity_Item_fullDescription" render="false" z="user-managed"/>
+        <field:input field="subItemNumber" id="c_com_org_entity_Item_subItemNumber" render="false" z="user-managed"/>
+        <field:input field="itemNumber" id="c_com_org_entity_Item_itemNumber" render="false" required="true" z="user-managed"/>
+        <field:select field="aggreement" id="c_com_org_entity_Item_aggreement" itemValue="id" items="${aggreements}" path="/aggreements" render="false" required="true" z="user-managed"/>
+        <field:select field="parentItem" id="c_com_org_entity_Item_parentItem" itemValue="id" items="${items}" path="/items" render="false" z="user-managed"/>
+        <field:simple field="subItems" id="c_com_org_entity_Item_subItems" messageCode="entity_reference_not_managed" messageCodeAttribute="Item" render="false" z="user-managed"/>
+        <field:input field="sortOrder" id="c_com_org_entity_Item_sortOrder" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
+        <field:checkbox field="isExtraItem" id="c_com_org_entity_Item_isExtraItem" render="false" z="user-managed"/>
+        <field:input field="measurementSheetId" id="c_com_org_entity_Item_measurementSheetId" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
+        <field:simple field="itemAbstracts" id="c_com_org_entity_Item_itemAbstracts" messageCode="entity_reference_not_managed" messageCodeAttribute="Item Abstract" render="false" z="user-managed"/>
+        <field:select field="logUser" id="c_com_org_entity_Item_logUser" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+    </form:update>
+</div>

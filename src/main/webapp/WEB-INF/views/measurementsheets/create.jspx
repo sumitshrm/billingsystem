@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
+        <nav:item label="aggreement" url="/aggreements/${measurementSheet.aggreement.id}"/>
+        <nav:item active="true" label="create measurement sheet" url="#"/>
+    </nav:nav>
+    <form:create id="fc_com_org_entity_MeasurementSheet" modelAttribute="measurementSheet" path="/measurementsheets" render="${empty dependencies}" z="5SPcS7wAlb6u64Po1bO1BvpAaRs=">
+        <field:input field="title" id="c_com_org_entity_MeasurementSheet_title" z="user-managed"/>
+        <div style="display:none">
+            <field:input field="aggreement.id" id="c_com_org_entity_MeasurementSheet_aggreement" z="user-managed"/>
+        </div>
+        <field:datetime dateTimePattern="${measurementSheet_lastreportdate_date_format}" field="lastReportDate" id="c_com_org_entity_MeasurementSheet_lastReportDate" render="false" z="user-managed"/>
+        <field:select field="logUser" id="c_com_org_entity_MeasurementSheet_logUser" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:simple field="itemAbstracts" id="c_com_org_entity_MeasurementSheet_itemAbstracts" messageCode="entity_reference_not_managed" messageCodeAttribute="Item Abstract" render="false" z="user-managed"/>
+        <field:input field="serialNumber" id="c_com_org_entity_MeasurementSheet_serialNumber" required="true" validationMessageCode="field_invalid_integer" z="YAmqiUJWRq2nHAev7PwfXUCD4hU="/>
+        <field:checkbox field="isFinalBill" id="c_com_org_entity_MeasurementSheet_isFinalBill" z="ADtohpC7VlGLgCnd1RreZPSK3EM="/>
+        <field:input field="serialNumberDisplayFormat" id="c_com_org_entity_MeasurementSheet_serialNumberDisplayFormat" render="false" z="user-managed"/>
+        <field:select field="document" id="c_com_org_entity_MeasurementSheet_document" itemValue="id" items="${documents}" path="/documents" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${measurementSheet_createdate_date_format}" field="createDate" id="c_com_org_entity_MeasurementSheet_createDate" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${measurementSheet_lastupdateddate_date_format}" field="lastUpdatedDate" id="c_com_org_entity_MeasurementSheet_lastUpdatedDate" render="false" z="user-managed"/>
+        <field:input field="excelFile" id="c_com_org_entity_MeasurementSheet_excelFile" render="false" z="user-managed"/>
+        <field:checkbox field="userManaged" id="c_com_org_entity_MeasurementSheet_userManaged" z="pkDmFnuhtJHOBvHaBCB5/XwRQ/Y="/>
+        <field:checkbox field="itemAbstractSorted" id="c_com_org_entity_MeasurementSheet_itemAbstractSorted" render="false" z="user-managed"/>
+        <field:checkbox field="copyPreviousMeasurement" id="c_com_org_entity_MeasurementSheet_copyPreviousMeasurement" render="${not empty measurementSheet.previousMeasurementSheet}" z="user-managed"/>
+        <field:input field="templateVersion" id="c_com_org_entity_measurementsheet_templateversion" required="false" validationMessageCode="field_invalid_integer" z="YAmqiUJWRq2nHAev7PwfXUCD4hU="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_org_entity_MeasurementSheet" render="${not empty dependencies}" z="4TwLFDAihQ5mTmfrkCDrU1i+9cs="/>
+</div>

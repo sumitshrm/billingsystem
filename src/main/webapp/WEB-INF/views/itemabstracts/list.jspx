@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_ItemAbstract" items="${itemabstracts}" z="PMijw1aBiwan6Ti6ESZoI9NmlXs=">
+        <table:table data="${itemabstracts}" id="l_com_org_entity_ItemAbstract" path="/itemabstracts" z="20ncCT+kuK0SWHeF5itB+66Bgtc=">
+            <table:column id="c_com_org_entity_ItemAbstract_measurementSheet" property="measurementSheet" z="lRbe4TbD6XUgeq42Gr7deLgtXH8="/>
+            <table:column id="c_com_org_entity_ItemAbstract_item" property="item" z="ngzimuKvXjXDFs7s5ev2/RLZQfk="/>
+            <table:column id="c_com_org_entity_ItemAbstract_total" property="total" z="VtavT0+GovoEg3jK/G/kXTkPXRc="/>
+            <table:column id="c_com_org_entity_ItemAbstract_absCellRef" property="absCellRef" z="2At1ILmUJGTTb0CTskvLkZZJzwM="/>
+            <table:column id="c_com_org_entity_ItemAbstract_measCellRef" property="measCellRef" z="p0AEBpJfU+ldq8z5XhLfJincVng="/>
+            <table:column id="c_com_org_entity_ItemAbstract_itemDataTos" property="itemDataTos" z="iBk0UsKjQEgjIjhSyvEzWl5xEMI="/>
+        </table:table>
+    </page:list>
+</div>

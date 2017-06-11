@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item active="true" label="list aggreements" url="#"/>
+    </nav:nav>
+    <page:list id="pl_com_org_entity_Aggreement" items="${aggreements}" z="A9RGsv1QlBWctDZ+Df5ts9DC2bs=">
+            <table:table data="${aggreements}" id="l_com_org_entity_Aggreement" path="/aggreements" z="LvHPg74t86btnnUdoKTmBEbCb4k=">
+                <table:column id="c_com_org_entity_Aggreement_aggreementNum" property="aggreementNum" z="HiwGXdgYHMkTcopfUHhtYppS+P8="/>
+                <table:column id="c_com_org_entity_Aggreement_division" property="division" z="ynXVOvQAJjGJbSgO5IkUYO9q6to="/>
+                <table:column id="c_com_org_entity_Aggreement_subDivision" property="subDivision" z="XQqAoa/W3k0qcVlOXQUlrTWFZ6k="/>
+                <table:column id="c_com_org_entity_Aggreement_description" property="description" z="AUAHoWaFFFlzvN4Uu5h6kirjOWk="/>
+                <table:column id="c_com_org_entity_Aggreement_nameOfWork" property="nameOfWork" z="USlRHqktSgWgbp4i4fECOmQ3QEI="/>
+                <table:column id="c_com_org_entity_Aggreement_agency" property="agency" z="7JiZ8ejA3FAbX+M36MHMHJvwyho="/>
+            </table:table>
+    </page:list>
+</div>

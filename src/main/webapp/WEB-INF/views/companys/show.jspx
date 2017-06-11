@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_Company" object="${company}" path="/companys" z="ONs2XD0DZ5ugjQXwM1F8Z7rclhU=">
+        <field:display field="createdBy" id="s_com_org_entity_Company_createdBy" object="${company}" render="false" z="user-managed"/>
+        <field:display field="lastUpdatedBy" id="s_com_org_entity_Company_lastUpdatedBy" object="${company}" render="false" z="user-managed"/>
+        <field:display field="name" id="s_com_org_entity_Company_name" object="${company}" z="Q8pxpUnckTa8bcM6OUXZthVJylQ="/>
+        <field:display date="true" dateTimePattern="${company_createdon_date_format}" field="createdOn" id="s_com_org_entity_Company_createdOn" object="${company}" render="false" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${company_lastupdatedon_date_format}" field="lastUpdatedOn" id="s_com_org_entity_Company_lastUpdatedOn" object="${company}" render="false" z="user-managed"/>
+    </page:show>
+</div>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_ItemName" items="${itemnames}" z="JGsN9eGAwEg+W06qAlLmoyma8Vc=">
+        <table:table data="${itemnames}" id="l_com_org_entity_ItemName" path="/itemnames" z="L05QRcYA8yoNJqMMU8D+yDmjcRI=">
+            <table:column id="c_com_org_entity_ItemName_createdBy" property="createdBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_ItemName_lastUpdatedBy" property="lastUpdatedBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_ItemName_name" property="name" z="1fsinkL5Ey4jJK9J02C6Z/+gtcc="/>
+            <table:column date="true" dateTimePattern="${itemName_createdon_date_format}" id="c_com_org_entity_ItemName_createdOn" property="createdOn" render="false" z="user-managed"/>
+            <table:column date="true" dateTimePattern="${itemName_lastupdatedon_date_format}" id="c_com_org_entity_ItemName_lastUpdatedOn" property="lastUpdatedOn" render="false" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

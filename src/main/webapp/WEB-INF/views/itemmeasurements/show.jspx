@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_ItemMeasurement" object="${itemmeasurement}" path="/itemmeasurements" z="aiM6EyjUQeNQLh9cbW4I3Kjq/uI=">
+        <field:display field="measurementSheet" id="s_com_org_entity_ItemMeasurement_measurementSheet" object="${itemmeasurement}" z="yyjdS5LlR3Cw4va2puqvfRZf/Mo="/>
+        <field:display field="item" id="s_com_org_entity_ItemMeasurement_item" object="${itemmeasurement}" z="7bEQ7qNzLfYtB3IJXfLgOED0HkQ="/>
+        <field:display field="measurementJSON" id="s_com_org_entity_ItemMeasurement_measurementJSON" object="${itemmeasurement}" z="7DxOOYAUMJpZp40thpUV2m+v/08="/>
+        <field:display field="sequence" id="s_com_org_entity_ItemMeasurement_sequence" object="${itemmeasurement}" z="9CAbYbGv8kPBh75YvxT8jlelLPw="/>
+        <field:display field="measurementTos" id="s_com_org_entity_ItemMeasurement_measurementTos" object="${itemmeasurement}" z="Hxs9Nqfi7Yn7KMLHkhvFklyEhA8="/>
+        <field:display field="total" id="s_com_org_entity_ItemMeasurement_total" object="${itemmeasurement}" z="hBOaEjGan4UQmVj9I2kZD7kbNk4="/>
+    </page:show>
+</div>

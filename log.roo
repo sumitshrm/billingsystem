@@ -1,0 +1,459 @@
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-07-05 19:26:27
+project --topLevelPackage com.org --projectName billingsystem --java 6 --packaging JAR
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2015-07-05 19:26:29
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-07-05 19:36:09
+persistence setup --provider HIBERNATE --database MYSQL
+entity jpa --class ~.entity.Aggreement
+field string --fieldName aggreementNum --notNull --sizeMax 20
+field string --fieldName description --notNull --sizeMax 800
+web mvc setup
+web mvc all --package ~.web
+entity jpa --class ~.entity.Item
+field string --fieldName itemNumber --notNull --sizeMax 20
+field string --fieldName description --notNull --sizeMax 800
+web mvc all --package ~.web
+entity jpa --class ~.domain.LogUserRole
+field string --fieldName roleName --notNull --sizeMax 20
+entity jpa --class ~.domain.LogUser
+field boolean --fieldName enabled --notNull true
+field string --fieldName username --notNull --sizeMax 20
+field string --fieldName password --notNull --sizeMax 10
+// [failed] field boolean --fieldName enabled --notNull true
+field set --fieldName roles --type ~.domain.LogUserRole
+web mvc all --package ~.web
+security setup
+focus --class ~.entity.Item
+// [failed] field reference --fieldName aggreement --type ~.domain.Aggreement
+field reference --fieldName aggreement --type ~.entity.Aggreement
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2015-08-27 15:21:17
+
+entity jpa --class ~.entity.MeasurementSheet
+field number --fieldName measurementId --type java.lang.Long 
+// [failed] field number --fieldName measurementId --type java.lang.Long --notNull 
+entity jpa --class ~.entity.Measurement
+entity jpa --class ~.entity.ItemMeasurement
+focus --class ~.entity.Measurement
+field string --fieldName description --sizeMax 400
+field number --fieldName quantity --type int
+field number --fieldName length --type java.lang.Float 
+field number --fieldName width --type java.lang.Float
+field number --fieldName height --type java.lang.Float 
+field number --fieldName net --type java.lang.Float --transient 
+focus --class ~.entity.ItemMeasurement
+focus --class ~.entity.ItemMeasurement
+field set --fieldName measurements --type ~.entity.ItemMeasurement --notNull
+field reference --fieldName aggreement --type ~.entity.Aggreement
+focus --class ~.entity.MeasurementSheet
+field set --fieldName itemMeasurements --type ~.entity.ItemMeasurement --cardinality ONE_TO_MANY --mappedBy  measurementSheet
+field reference --class ~.entity.ItemMeasurement --fieldName measurementSheet --type ~.entity.MeasurementSheet --cardinality MANY_TO_ONE --joinColumnName measurement_sheet_oid
+focus --class ~.entity.ItemMeasurement
+field set --fieldName measurements --type ~.entity.Measurement --cardinality ONE_TO_MANY --mappedBy  itemMeasurement
+field reference --class ~.entity.Measurement --fieldName itemMeasurement --type ~.entity.ItemMeasurement --cardinality MANY_TO_ONE --joinColumnName item_measurement_id
+web mvc all --package ~.web
+field reference --class ~.entity.ItemMeasurement --fieldName aggreement --type ~.entity.Aggreement --cardinality MANY_TO_ONE --joinColumnName aggreement_id
+field reference --class ~.entity.ItemMeasurement --fieldName item --type ~.entity.Item --cardinality MANY_TO_ONE --joinColumnName item_id
+web mvc all --package ~.web
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2015-08-27 22:12:59
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2015-08-28 10:14:53
+focus --class ~.entity.ItemMeasurement
+field string --fieldName measurementJSON --sizeMax 800 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2015-08-28 19:49:14
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-10-01 20:44:54
+focus --class ~.entity.ItemMeasurement
+focus --class ~.entity.ItemMeasurement
+field number --fieldName sequence --type java.lang.Integer --notNull 
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2015-10-04 09:34:33
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-10-07 19:50:32
+web mvc controller --class ~.web.AbstractController --preferredMapping /abstract
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-10-07 22:44:24
+enum type --class com.org.util.Unit
+enum constant --name SQM
+enum constant --name CUM
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2015-10-11 12:39:42
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2015-10-11 16:46:12
+// Spring Roo 2.0.0.M1 [rev 33e5d76] log opened at 2015-10-15 16:51:56
+// Spring Roo 2.0.0.M1 [rev 33e5d76] log closed at 2015-10-15 16:55:58
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-10-15 16:58:51
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-10-16 18:26:44
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-10-17 10:48:29
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-10-18 23:09:28
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-10-22 12:37:25
+focus --class ~.entity.MeasurementSheet
+entity jpa --class ~.entity.Document
+field string    --fieldName name        --notNull --sizeMax 100
+field string    --fieldName description     --sizeMax 500
+field string    --fieldName filename        --notNull
+field string    --fieldName contentType     --notNull
+// [failed] field number --type long --fieldName size 
+field number --type long --fieldName fileSize
+controller all  --package ~.web
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-10-22 20:32:02
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-10-22 20:32:15
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-10-23 10:16:40
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-11 16:46:01
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-11 16:50:06
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-11 16:50:23
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-11 16:51:58
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-11 16:52:28
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-11 16:54:22
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-11 16:55:29
+hint
+focus --class ~.entity.MeasurementSheet
+focus --class ~.entity.MeasurementSheet
+field date --fieldName createDate --type java.util.Date --notNull 
+field date --fieldName lastUpdatedDate --type java.util.Date --notNull 
+development mode --enabled true
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-11 19:03:45
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-11 19:03:57
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-12 14:12:06
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-12 14:12:16
+hint
+focus --class ~.entity.Aggreement
+finder list
+finder add --finderName findAggreementsByUser
+finder list 
+focus --class ~.entity.Item
+finder list
+finder list
+finder add --finderName findItemsByUserAndAggreement
+// [failed] entity jpa --class com.org.domain
+// [failed] entity jpa --class ~.domain.User
+// [failed] entity jpa --class ~.domain.LogUser
+entity jpa --class ~.domain.LogUser
+// [failed] field string --fieldName UserName --notNull
+// [failed] field string --fieldName UserName --notNull
+// [failed] field string --fieldName UserName --notNull
+// [failed] field string --fieldName UserName --notNull
+// [failed] field string --fieldName UserName --notNull
+entity jpa --class ~.domain.LogUser
+finder list 
+focus --class ~.entity.Aggreement
+finder list 
+finder add --finderName findAggreementsByLogUser
+focus --class ~.entity.Item
+finder list --depth 2 --filter aggreement,logUser
+focus --class ~.entity.Aggreement
+finder add --finderName findAggreementsByIdAndLogUser
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-14 04:16:01
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-16 15:02:39
+hint
+focus --class ~.entity.Item
+finder list
+finder add --finderName findItemsByItemNumber
+finder add --finderName findItemByItemNumber
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-16 20:49:58
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-17 23:24:11
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-11-18 10:15:16
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-11-27 15:40:52
+web mvc all --package com.org.domain
+focus --class ~.domain.LogUser
+finder list
+finder add --finderName findLogUsersByUsernameEquals
+focus --class ~.entity.MeasurementSheet
+finder list 
+finder add --finderName findMeasurementSheetsByLogUser
+finder add --finderName findMeasurementSheetsByIdAndLogUser
+focus --class ~.entity.Item
+finder list
+finder add --finderName findItemsByLogUser
+finder add --finderName findItemsByIdAndLogUser
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-03 20:14:34
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-08 14:20:16
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-20 17:10:16
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-21 01:59:51
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-22 17:56:54
+embeddable --class ~.entity.ItemNumber
+focus --class ~.entity.Item
+field embedded --fieldName itemNumber --type ~.entity.ItemNumber
+// [failed] entity jpa --class ~.entity.TestItem
+entity jpa --class ~.entity.TempItem
+field string --fieldName description --notNull --sizeMax 800
+// [failed] web mvc scaffold --class ~.web.ItemController
+// [failed] web mvc scaffold --class ~.web.ItemController
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-22 18:48:48
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-22 18:48:57
+hint
+hint
+web mvc scaffold --class ~.web.ItemController --backingType ~.entity.Item
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-22 20:33:26
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-22 20:40:17
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-24 14:42:32
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-29 20:33:48
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2015-12-29 21:05:25
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2015-12-31 13:56:35
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-01-05 11:05:43
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-01 21:01:20
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-02 11:01:00
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-07 13:51:43
+entity jpa --class ~.entity.ItemAbstract
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-07 21:53:05
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 15:55:30
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 16:09:28
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 16:10:00
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 16:10:49
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 16:11:01
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 16:11:58
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 16:12:07
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 16:21:36
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 17:48:01
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 17:50:35
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 17:53:20
+hint
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-13 18:15:07
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-02-13 18:15:39
+hint
+focus --class ~.entity.Item
+focus --class ~.entity.Item
+hint
+field number --fieldName quantityPerUnit --type java.lang.Double --column --notNull --value 1.0
+focus --class ~.entity.MeasurementSheet
+finder list 
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-02-15 11:13:32
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-03-24 20:20:46
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-03-28 17:20:46
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-04-03 10:53:31
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-04-03 10:57:53
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-04-03 11:03:04
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-04-03 13:53:43
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-04-15 15:22:49
+hint
+focus --class ~.entity.Template
+finder list 
+finder add --finderName findTemplatesByType
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-04-18 00:55:56
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-04-18 14:35:38
+hint
+hint
+web mvc controller --class ~.web.ExcelGatewayController --preferredMapping /excelgateway
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-04-18 20:20:08
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-04-22 17:59:03
+hint
+hint
+focus --class ~.entity.Item
+finder list 
+finder add --finderName findItemsByItemNumberAndAggreement
+finder add --finderName findItemsByItemNumberAndMeasurementSheetId
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-04-23 22:54:53
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 16:38:10
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 16:45:41
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 17:15:38
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 17:32:41
+// Spring Roo 2.0.0.M1 [rev 33e5d76] log opened at 2016-05-01 17:33:28
+// Spring Roo 2.0.0.M1 [rev 33e5d76] log opened at 2016-05-01 17:34:35
+hint
+exit
+// Spring Roo 2.0.0.M1 [rev 33e5d76] log closed at 2016-05-01 17:36:20
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 17:42:07
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 17:46:19
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 18:41:18
+hint
+hint
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 18:42:50
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 18:44:19
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 18:48:12
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-01 18:51:41
+hint
+hint
+focus --class ~.entity.Item
+finder list
+finder add countFindItemsByAggreementAndIsExtraItem
+finder add findItemsByAggreementAndIsExtraItem
+help finder
+help finder add
+finder add --finderName countFindItemsByItemNumber
+finder list
+finder add findItemsByAggreementAnddasdfsdfsdMeasurementSheetIdNotEquals
+finder add findItemsByAggreementIdAndMeasurementSheetIdNotEquals
+finder add findItemsByAggreementAndMeasurementSheetIdNotIn
+finder add findItemsByAggreementAndMeasurementSheetNotIn
+finder add findItemsByAggreementAndMeasurementSheetIdNotEquals
+finder add findItemsByAggreementAndMeasurementSheetIsNullOrMeasurementSheetIdNotEquals
+finder add findItemsByAggreementAndMeasurementSheetIsNullOrMeasurementSheetIdNotEquals
+finder add findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-01 23:59:15
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-07 23:32:52
+hint
+focus --class ~.entity.Item
+finder add --finderName findItemByAggreementAndMeasurementSheetId
+finder list
+finder add --finderName findItemsByAggreementAndMeasurementSheetId
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-08 18:35:09
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-08 20:06:58
+hint
+focus --class ~.entity.Item
+finder add --finderName findItemsByAggreement
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-08 23:48:08
+hint
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-09 00:42:53
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-21 12:56:03
+hint 
+entity jpa --class ~.domain.config
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-21 21:33:11
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-22 02:21:21
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-23 11:47:36
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 12:24:05
+focus --class ~.entity.item
+finder list
+finder add --finderName countFindItemsByAggreementAndIsExtraItemAndParentItemIsNull
+finder add --finderName findItemsByAggreementAndIsExtraItemAndParentItemIsNull
+focus --class ~.entity.ItemAbstract
+finder list
+finder add --finderName findItemAbstractByItem
+finder add --finderName findItemAbstractsByItem
+finder add --finderName findItemAbstractsByMeasurementSheetAndItem
+finder add --finderName findItemAbstractsByItem
+finder add --finderName findItemAbstractsByMeasurementSheetAndItem
+hint
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-26 16:00:34
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 16:00:41
+// [failed] focus --class ~.entity.itemabstract
+finder add --finderName findItemsByAggreementAndMeasurementSheetIdIsNull
+focus --class ~.entity.ItemAbstract
+finder add --finderName findItemsByAggreementAndMeasurementSheetIdIsNull
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-26 16:02:56
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 16:03:19
+focus --class ~.entity.ItemAbstract
+// [failed] finder list
+focus --class ~.entity.Item
+finder list
+focus --class ~.entity.ItemAbstract
+// [failed] finder list
+// [failed] finder list
+// [failed] finder list
+// [failed] finder list
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-26 16:37:51
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 16:38:06
+focus --class ~.entity.ItemAbstract
+// [failed] finder list
+// [failed] finder list
+hint
+// [failed] finder list
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-26 16:46:38
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 16:46:44
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-26 16:49:50
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-26 16:49:55
+hint
+focus --class ~.entity.item
+finder list
+focus --class ~.entity.ItemAbstract
+// [failed] finder list
+finder list
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-28 11:34:08
+hint
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-05-30 11:22:27
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-05-31 14:30:52
+focus --class ~.entity.Item
+finder add --finderName findItemByAggreementAndLogUser
+finder list
+finder add --finderName findItemsByAggreementAndLogUser
+finder add --finderName findItemsByAggreementIdAndLogUser
+finder add --finderName findItemsByAggreementsIdAndLogUser
+finder add --finderName findItemsByAggreementidAndLogUser
+hint
+finder add --finderName findItemsByAggreementAndLogUser
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-04 12:03:11
+// [failed] focus --class ItemAbstract
+finder add findItemAbstractByMeasurementSheet
+focus --class ~.entity.ItemAbstract
+finder add findItemAbstractByMeasurementSheet
+finder list
+finder add --finderName findItemAbstractByMeasurementSheet
+finder add --finderName findItemAbstractsByMeasurementSheet
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-11 15:25:59
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-12 14:02:16
+hint
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-06-14 12:49:19
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-17 11:24:05
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-18 13:56:57
+exit
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log closed at 2016-06-18 13:57:19
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-18 16:08:54
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-06-20 13:20:48
+hint
+logging setup --level DEBUG 
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-07-06 19:46:32
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-07-10 01:38:50
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-08-05 20:43:53
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-08-14 11:09:10
+entity jpa --class ~.entity.ManagedEntity --inheritanceType TABLE_PER_CLASS --abstract
+hint
+focus --class ~.entity.Company
+web mvc all --package ~.web
+focus --class ~.entity.Company
+finder list
+finder add --finderName findCompanysByCreatedBy
+focus --class ~.entity.ItemName
+finder list
+finder add --finderName findItemNamesByCreatedBy
+focus --class ~.entity.Labour
+finder list
+finder add --finderName findLaboursByCreatedBy
+focus --class LabourEntry
+finder list
+finder add --finderName findLabourEntrysByCreatedBy
+focus --class LabourSupplier
+finder list
+finder add --finderName findLabourSuppliersByCreatedBy
+focus --class MaterialEntry
+finder list
+finder add findMaterialEntrysByCreatedBy
+focus --class Supplier
+finder list
+finder add --finderName findSuppliersByCreatedBy
+hint
+focus --class ItemName
+finder list
+finder add --finderName findItemNamesByNameAndCreatedBy
+finder add --finderName findItemNamesByNameLikeAndCreatedBy
+focus --class Company
+finder list
+finder add --finderName findCompanyByNameLikeAndCreatedBy
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-08-14 21:59:57
+hint
+// [failed] focus --class COmpany
+// [failed] focus --class Company
+focus --class ~.entity.Company
+finder list
+finder add --finderName findCompanysByNameLikeAndCreatedBy
+focus --class supplier
+finder list
+finder add --finderName findSyppliersByNameLikeAndCreatedBy
+finder add --finderName findSuppliersByNameLikeAndCreatedBy
+hint
+hint
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-08-15 12:41:09
+// [failed] focus --class labourentry
+// [failed] focus --class LabourEntry
+// [failed] finder list
+focus --class ~.entity.LabourEntry
+finder list
+finder add --finderName findLabourEntrysByNameLikeAndCreatedBy
+// [failed] focus --class LabourSuppplier
+// [failed] finder list
+focus --class LabourSupplier
+finder list
+finder add --finderName findLabourSupplierByNameLikeAndCreatedBy
+finder add --finderName findLabourSuppliersByNameLikeAndCreatedBy
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-09-24 15:46:07
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-11-04 15:08:41
+// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2017-01-31 18:10:17
+web mvc controller --class ~.web.BillformsController --preferredMapping /billforms

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:sec="http://www.springframework.org/security/tags" class="sidebar-nav navbar-collapse" id="menu" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <!-- search form -->
+            <form action="#" class="sidebar-form" method="get">
+                <div class="input-group">
+                    <input class="form-control" name="q" placeholder="Search..." type="text"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-flat" id="search-btn" name="search" type="submit">
+                            <m:icon styleclass="fa fa-search"/>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <menu:menu id="_menu" z="user-managed">
+                <sec:authorize ifAllGranted="USER_ROLE">
+                    <menu:category icon="fa fa-files-o" id="c_aggreement" z="user-managed">
+                        <menu:item id="i_aggreement_new" messageCode="global_menu_new" url="/aggreements?form" z="xVEekns/drw9RlW3Kwse27kfjl4="/>
+                        <menu:item id="i_aggreement_list" messageCode="global_menu_list" url="/aggreements" z="user-managed"/>
+                    </menu:category>
+                    <menu:category icon="fa fa-balance-scale" id="c_materialentry" z="user-managed">
+                        <menu:item id="i_materialentry_new" messageCode="global_menu_new" url="/materialentrys?form" z="2cRzbj1GsdKxJByX7LZzjBrsxH8="/>
+                        <menu:item id="i_materialentry_list" messageCode="global_menu_list" url="/materialentrys" z="user-managed"/>
+                        <menu:item id="i_company_new" messageCode="global_menu_new" url="/companys?form" z="SWjXbZ96+4L3yJZ+Q7yyqEFQPV4="/>
+                        <menu:item id="i_company_list" messageCode="global_menu_list" render="false" url="/companys" z="user-managed"/>
+                        <menu:item id="i_supplier_new" messageCode="global_menu_new" url="/suppliers?form" z="48D4zeaX6ENxXujfvnWrtY5odlQ="/>
+                        <menu:item id="i_supplier_list" messageCode="global_menu_list" render="false" url="/suppliers" z="user-managed"/>
+                        <menu:item id="i_itemname_new" messageCode="global_menu_new" url="/itemnames?form" z="KDnK7/hrg30+kBKfZYsuKOkAiQc="/>
+                        <menu:item id="i_itemname_list" messageCode="global_menu_list" render="false" url="/itemnames" z="user-managed"/>
+                    </menu:category>
+                    <menu:category icon="fa fa-user" id="c_labourentry" z="user-managed">
+                        <menu:item id="i_labourentry_new" messageCode="global_menu_new" url="/labourentrys?form" z="CFJKWmTpGklg41nRlHAU9i4GphE="/>
+                        <menu:item id="i_labourentry_list" messageCode="global_menu_list" url="/labourentrys" z="user-managed"/>
+                        <menu:item id="i_laboursupplier_new" messageCode="global_menu_new" url="/laboursuppliers?form" z="EcLr50HKS/AYYtcoCcXHOI6cKQQ="/>
+                        <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
+                    </menu:category>
+                    <menu:category id="c_controller" render="true" z="user-managed">
+                    <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" url="/excelgateway/index" z="OLXyiOdShogJ6omMmzMWkuBE/9Y=" render="false"/>
+                    <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
+                </menu:category>
+                </sec:authorize>
+                <menu:category id="c_item" render="false" z="user-managed">
+                    <menu:item id="i_item_new" messageCode="global_menu_new" url="/items?form" z="I+/MpOYxZ47XKvsQW1PUi6uC060="/>
+                    <menu:item id="i_item_list" messageCode="global_menu_list" url="/items" z="user-managed"/>
+                </menu:category>
+                <sec:authorize ifAllGranted="ADMIN_ROLE">
+                    <menu:category id="c_loguser" z="Ya37W2Dk3lcEcn0gGjq3sCqfdxc=">
+                        <menu:item id="i_loguser_new" messageCode="global_menu_new" url="/logusers?form" z="YxH3QphXpDJh34UhJibtVutDlQw="/>
+                        <menu:item id="i_loguser_list" messageCode="global_menu_list" url="/logusers" z="user-managed"/>
+                    </menu:category>
+                    <menu:category id="c_loguserrole" z="3/Zp/Qx8fK+gTuaRZCFbzw0xK1w=">
+                        <menu:item id="i_loguserrole_new" messageCode="global_menu_new" url="/loguserroles?form" z="95p6IqtGNKLJl2xo8dUu4gx2rMI="/>
+                        <menu:item id="i_loguserrole_list" messageCode="global_menu_list" url="/loguserroles" z="user-managed"/>
+                    </menu:category>
+                    <menu:category id="c_document" z="IwaW5r7KHuYYhv8LICTHRKgUWao=">
+                        <menu:item id="i_document_list" messageCode="global_menu_list" url="/documents" z="user-managed"/>
+                        <menu:item id="i_document_new" messageCode="global_menu_new" url="/documents?form" z="bv1eg7qAwaBE1ATd78QiQm2M3ZE="/>
+                    </menu:category>
+                </sec:authorize>
+                <menu:category id="c_measurementsheet" render="false" z="user-managed">
+                    <menu:item id="i_measurementsheet_new" messageCode="global_menu_new" url="/measurementsheets?form" z="V8sYyMt0fGUz9/ETgpBfyEzzIGE="/>
+                    <menu:item id="i_measurementsheet_list" messageCode="global_menu_list" url="/measurementsheets" z="user-managed"/>
+                </menu:category>
+                
+                <menu:category id="c_itemabstract" render="false" z="user-managed">
+                    <menu:item id="i_itemabstract_new" messageCode="global_menu_new" url="/itemabstracts?form" z="3H9lbpDB5cIDHc2aTm0/nqkeJJM="/>
+                    <menu:item id="i_itemabstract_list" messageCode="global_menu_list" url="/itemabstracts" z="user-managed"/>
+                </menu:category>
+                <menu:category id="c_labour" render="false" z="user-managed">
+                    <menu:item id="i_labour_new" messageCode="global_menu_new" url="/labours?form" z="tF86iBf7lb2cHm7Pbw/JBWp77xA="/>
+                    <menu:item id="i_labour_list" messageCode="global_menu_list" url="/labours" z="user-managed"/>
+                </menu:category>
+                <menu:category id="c_config" render="false" z="user-managed">
+                    <menu:item id="i_config_new" messageCode="global_menu_new" url="/configs?form" z="hltUiGjOLFBiNs2Ca49d2NWAiFw="/>
+                    <menu:item id="i_config_list" messageCode="global_menu_list" url="/configs" z="user-managed"/>
+                </menu:category>
+                <menu:category id="c_template" render="false" z="user-managed">
+                    <menu:item id="i_template_new" messageCode="global_menu_new" url="/templates?form" z="B1j6uV5puYklY6nMYwIfkjxs1QM="/>
+                    <menu:item id="i_template_list" messageCode="global_menu_list" url="/templates" z="user-managed"/>
+                </menu:category>
+                <menu:category id="c_itemname" render="false" z="user-managed"/>
+                <menu:category id="c_supplier" render="false" z="user-managed"/>
+                <menu:category id="c_company" render="false" z="user-managed"/>
+                <menu:category id="c_laboursupplier" render="false" z="user-managed"/>
+            </menu:menu>
+            <script>
+    /*menu handler to set the active menu*/
+    
+$(function(){
+  var anyMenuOpen = false;
+  function stripTrailingSlash(str) {
+    if(str.substr(-1) == '/') {
+      return str.substr(0, str.length - 1);
+    }
+    return str;
+  }
+
+  var url = (location.pathname+location.search);  
+  var activePage = stripTrailingSlash(url);
+  $('.sidebar-menu li a').each(function(){ 
+	var currentPage = stripTrailingSlash($(this).attr('href'));
+    if (activePage == currentPage) {
+      $(this).parent().addClass('active'); 
+      $(this).parent().parent().parent().addClass('active'); 
+      anyMenuOpen = true;
+    } 
+  });
+  if(anyMenuOpen == false){
+  	$('.sidebar-menu li a').each(function(){ 
+  	console.log(this);
+      $(this).parent().addClass('active'); 
+      return false;
+  });
+  
+  }
+});
+
+    </script>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+</div>

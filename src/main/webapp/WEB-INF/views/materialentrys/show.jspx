@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_MaterialEntry" object="${materialentry}" path="/materialentrys" z="QpEFOoOBc3RCPTCQLwkSe5LuutA=">
+        <field:display field="createdBy" id="s_com_org_entity_MaterialEntry_createdBy" object="${materialentry}" render="false" z="user-managed"/>
+        <field:display field="lastUpdatedBy" id="s_com_org_entity_MaterialEntry_lastUpdatedBy" object="${materialentry}" render="false" z="user-managed"/>
+        <field:display field="aggreementNum" id="s_com_org_entity_MaterialEntry_aggreement" object="${materialentry.aggreement}" z="user-managed"/>
+        <field:display field="site" id="s_com_org_entity_MaterialEntry_site" object="${materialentry}" z="1GNh+vBvwp6jZdGnRDQs+7mnjRA="/>
+        <field:display field="name" id="s_com_org_entity_MaterialEntry_item" object="${materialentry.item}" z="user-managed"/>
+        <field:display field="descriptionOfItem1" id="s_com_org_entity_MaterialEntry_descriptionOfItem1" object="${materialentry}" z="FTTnxntM7IUW3hpoOpkUnvpzWfE="/>
+        <field:display field="descriptionOfItem2" id="s_com_org_entity_MaterialEntry_descriptionOfItem2" object="${materialentry}" z="Oez+OP+iAQAG9yydMdV6w52/RIY="/>
+        <field:display date="true" dateTimePattern="${materialEntry_date_date_format}" field="date" id="s_com_org_entity_MaterialEntry_date" object="${materialentry}" z="FkfDQt3TnemQVyGHCQ7OFnNZPBE="/>
+        <field:display field="name" id="s_com_org_entity_MaterialEntry_company" object="${materialentry.company}" z="user-managed"/>
+        <field:display field="name" id="s_com_org_entity_MaterialEntry_supplier" object="${materialentry.supplier}" z="user-managed"/>
+        <field:display field="quantity" id="s_com_org_entity_MaterialEntry_quantity" object="${materialentry}" z="VTyDd6Za1Vgo+UOGy7L+RPPshgU="/>
+        <field:display field="unit" id="s_com_org_entity_MaterialEntry_unit" object="${materialentry}" z="joVxPhNmMeWb2865jfoz+CBXedQ="/>
+        <field:display field="rate" id="s_com_org_entity_MaterialEntry_rate" object="${materialentry}" z="9Rnf4iPTYMM3sPArRlIwGvnOtOI="/>
+        <field:display field="amount" id="s_com_org_entity_MaterialEntry_amount" object="${materialentry}" z="9Rnf4iPTYMM3sPAfdfdrRlIwGvnOtOI="/>
+        <field:display field="remarks" id="s_com_org_entity_MaterialEntry_remarks" object="${materialentry}" z="wg8xCM1aN6ckn1/i0ICbiQRW1BY="/>
+        <field:display date="true" dateTimePattern="${materialEntry_createdon_date_format}" field="createdOn" id="s_com_org_entity_MaterialEntry_createdOn" object="${materialentry}" render="false" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${materialEntry_lastupdatedon_date_format}" field="lastUpdatedOn" id="s_com_org_entity_MaterialEntry_lastUpdatedOn" object="${materialentry}" render="false" z="user-managed"/>
+    </page:show>
+</div>

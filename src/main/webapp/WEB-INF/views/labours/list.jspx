@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_Labour" items="${labours}" z="cgkXIvMwlLVl+LzusvZTEN6Ho1o=">
+        <table:table data="${labours}" id="l_com_org_entity_Labour" path="/labours" z="4QztdSBEp4tFsoQ0URe6wx9PZis=">
+            <table:column id="c_com_org_entity_Labour_createdBy" property="createdBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Labour_lastUpdatedBy" property="lastUpdatedBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Labour_name" property="name" z="Q1eIEYoMYfJQ00yODsYBCrKzxYE="/>
+            <table:column date="true" dateTimePattern="${labour_createdon_date_format}" id="c_com_org_entity_Labour_createdOn" property="createdOn" render="false" z="user-managed"/>
+            <table:column date="true" dateTimePattern="${labour_lastupdatedon_date_format}" id="c_com_org_entity_Labour_lastUpdatedOn" property="lastUpdatedOn" render="false" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

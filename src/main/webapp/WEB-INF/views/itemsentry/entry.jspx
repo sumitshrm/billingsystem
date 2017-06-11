@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<style type="text/css">
+	ul#icons li {
+		cursor: pointer;
+		float: left;
+		list-style: none outside none;
+		margin: 2px;
+		padding: 4px;
+	}
+	</style>
+	<div  align="center">
+hello 
+<ul id="icons">
+		<li class="ui-state-default ui-corner-all" title="Info">
+			<span class="ui-icon ui-icon-info"></span>
+		</li>
+
+		<li class="ui-state-default ui-corner-all" title="Upload">
+			<span class="ui-icon ui-icon-circle-arrow-n"></span>
+		</li>
+
+		<li class="ui-state-default ui-corner-all" title="Delete">
+			<span class="ui-icon ui-icon-circle-close"></span>
+		</li>
+	</ul>
+	
+	
+		<div class="ui-state-default ui-corner-all" title="Info">
+			<span class="ui-icon ui-icon-info"></span>
+		</div>
+
+	
+</div>
+	
+	
+	
+</div>

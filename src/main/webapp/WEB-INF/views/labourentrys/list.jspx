@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_LabourEntry" items="${labourentrys}" z="M4SXUVzIAYqTPyGbuJzel+1z5ks=">
+        <table:table data="${labourentrys}" id="l_com_org_entity_LabourEntry" path="/labourentrys" z="WrVwHv9QTUP8HIyB7XNR7nralvM=">
+            <table:column id="c_com_org_entity_LabourEntry_createdBy" property="createdBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_LabourEntry_lastUpdatedBy" property="lastUpdatedBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_LabourEntry_aggreement" property="aggreement" z="UNLbunldZKXuv928TtasrZ64Yfg="/>
+            <table:column id="c_com_org_entity_LabourEntry_labourSupplier" property="labourSupplier" z="9eX7Ut0671//AIfPCA8qzwK8eKA="/>
+            
+        <table:column date="true" dateTimePattern="${labourEntry_createdon_date_format}" property="date" id="c_com_org_entity_LabourEntry_date" z="uJ1fw8zlTBxo2UW2LJ9Gev2dzZc="/>
+        <table:column property="location" id="c_com_org_entity_LabourEntry_location" z="GVDNYX9xnXX9k+uyNsXxC0NFgs8="/>
+        <table:column property="natureOfWork" id="c_com_org_entity_LabourEntry_natureOfWork" z="8kq+3mQEigwHTJ9BkEjoDonfhgc="/>
+        <table:column property="numberOfWorkers" id="c_com_org_entity_LabourEntry_numberOfWorkers" z="7qESnHTWh1f6h8nujM/J+v12pc8="/>
+        <table:column property="unit" id="c_com_org_entity_LabourEntry_unit" z="anVtVbs18jggxOt9vm7ORgBj6Ak="/>
+        <table:column property="rate" id="c_com_org_entity_LabourEntry_rate" z="w3nfiqCM7wGyNH6jpDKtEuLJyNo="/>
+        <table:column property="amount" id="c_com_org_entity_LabourEntry_amount" z="X7SXAduLe288RfsdfsdyfCnsxb2VjJ2ac="/>
+        <table:column property="remarks" id="c_com_org_entity_LabourEntry_remarks" z="X7SXAduLe288RyfCnsxb2VjJ2ac="/>
+            
+            
+            <table:column date="true" dateTimePattern="${labourEntry_createdon_date_format}" id="c_com_org_entity_LabourEntry_createdOn" property="createdOn" render="false" z="user-managed"/>
+            <table:column date="true" dateTimePattern="${labourEntry_lastupdatedon_date_format}" id="c_com_org_entity_LabourEntry_lastUpdatedOn" property="lastUpdatedOn" render="false" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

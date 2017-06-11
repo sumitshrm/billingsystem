@@ -1,0 +1,8 @@
+target
+.settings/*
+!.settings/.jsdtscope
+.project
+.classpath
+src/main/resources/META-INF/spring/database.properties
+/target/
+/target/

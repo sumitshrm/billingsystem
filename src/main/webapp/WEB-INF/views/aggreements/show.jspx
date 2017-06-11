@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements"/>
+        <nav:item active="true" label="aggreement" url="#"/>
+    </nav:nav>
+    <page:show id="ps_com_org_entity_Aggreement" object="${aggreement}" path="/aggreements" z="xAIkXi+zxRWQm72SC7+ZrEMHU9s=">
+        <field:display field="aggreementNum" id="s_com_org_entity_Aggreement_aggreementNum" object="${aggreement}" z="38NLbkslwm044J59ieH1/K8UhBQ="/>
+        <field:display field="division" id="s_com_org_entity_Aggreement_division" object="${aggreement}" z="kJp+84M+bcIUIstSS5odvRaZp/w="/>
+        <field:display field="subDivision" id="s_com_org_entity_Aggreement_subDivision" object="${aggreement}" z="KZPVAww1fU/EMSm/9CRtACkz8BQ="/>
+        <field:display field="description" id="s_com_org_entity_Aggreement_description" object="${aggreement}" z="BaFwrlmzqAXPf4OchdDWHBic1hc="/>
+        <field:display field="nameOfWork" id="s_com_org_entity_Aggreement_nameOfWork" object="${aggreement}" z="ypnLI5ayHex60TaaT3LLnTuyjS4="/>
+        <field:display field="agency" id="s_com_org_entity_Aggreement_agency" object="${aggreement}" z="REi3vrN8gDyl3QF7Amwr2yDMaTw="/>
+        <field:display date="true" dateTimePattern="${aggreement_dateofstart_date_format}" field="dateOfStart" id="s_com_org_entity_Aggreement_dateOfStart" object="${aggreement}" z="S5627We4nkdcMLxL7Bk+ISlvBgE="/>
+        <field:display date="true" dateTimePattern="${aggreement_dateofcompletions_date_format}" field="dateOfCompletionS" id="s_com_org_entity_Aggreement_dateOfCompletionS" object="${aggreement}" z="iVipkyTUrOtPGZSbe+sE3zjsSTU="/>
+        <field:display date="true" dateTimePattern="${aggreement_dateofabstract_date_format}" field="dateOfAbstract" id="s_com_org_entity_Aggreement_dateOfAbstract" object="${aggreement}" z="3Ptfqd3elZ56wrLeLesPF7i2Hpo="/>
+        <field:display field="clausePercentage" id="s_com_org_entity_Aggreement_clausePercentage" object="${aggreement}" z="hcoy/vU4VvDemFH0nNJ7Hye02II="/>
+        <field:display field="clause" id="s_com_org_entity_Aggreement_clause" object="${aggreement}" z="nNoGCTYDUglcbfpchlCpFQm03js="/>
+        <div style="display:none">
+            <field:display field="logUser" id="s_com_org_entity_Aggreement_logUser" object="${aggreement}" z="GrRXqtwNOgsrHPcke2CIshvw2XA="/>
+        </div>
+        <field:display field="dateOfCompletionA" id="s_com_org_entity_Aggreement_dateOfCompletionA" object="${aggreement}" z="gFn4JzyoBEcYJy1ZBNyayCVPVBg="/>
+        <field:display field="tenderCost" id="s_com_org_entity_Aggreement_tenderCost" object="${aggreement}" z="WoEJt09L8AKQgCDB1XnMKLjlgsU="/>
+        <field:display field="estimatedCost" id="s_com_org_entity_Aggreement_estimatedCost" object="${aggreement}" z="g90j7uZDUIUKqZUwY1qWAGVs1YU="/>
+        <field:display field="costIndex" id="s_com_org_entity_Aggreement_costIndex" object="${aggreement}" z="HuCJW64Nwc4NJZSXrMc+DVXfAl8="/>
+    </page:show>
+    <div class="row">
+        <div class="btn-group">
+            <input class="btn btn-primary" onclick="location.href='../measurementsheets?form&amp;aggreement=${aggreement.id}';" type="button" value="create new measurement"/>
+            <input class="btn btn-primary" onclick="location.href='../items/aggreement/${aggreement.id}'" type="button" value="manage items"/>
+        </div>
+    </div>
+    <page:list id="pl_com_org_entity_MeasurementSheet" items="${aggreement.measurementSheets}" openPane="true" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
+        <table:table create="false" data="${aggreement.measurementSheets}" id="l_com_org_entity_MeasurementSheet" path="/measurementsheets" responsive="false" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=">
+            <table:column id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
+        </table:table>
+    </page:list>
+    <br/>
+</div>

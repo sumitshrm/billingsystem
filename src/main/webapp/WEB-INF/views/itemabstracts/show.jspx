@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_ItemAbstract" object="${itemabstract}" path="/itemabstracts" z="eZjqeUR5t1brELtr3OpBhSckdkc=">
+        <field:display field="measurementSheet" id="s_com_org_entity_ItemAbstract_measurementSheet" object="${itemabstract}" z="VAsL7PCvTzYD3omigNAAya+AgT8="/>
+        <field:display field="item" id="s_com_org_entity_ItemAbstract_item" object="${itemabstract}" z="iXl6RsNlc6uShYtw9xh/79d1+tw="/>
+        <field:display field="total" id="s_com_org_entity_ItemAbstract_total" object="${itemabstract}" z="/Tw2hPQR+Ed7tjNKHw4IZqnLuqk="/>
+        <field:display field="absCellRef" id="s_com_org_entity_ItemAbstract_absCellRef" object="${itemabstract}" z="yYYCy0gARl293/aYpnSJrxFK308="/>
+        <field:display field="measCellRef" id="s_com_org_entity_ItemAbstract_measCellRef" object="${itemabstract}" z="Y7PvtH1DX2IdwyPYVVKnjiMhWjI="/>
+        <field:display field="itemDataTos" id="s_com_org_entity_ItemAbstract_itemDataTos" object="${itemabstract}" z="WyItqoQHJgFnPSVXOzEU0+oFUxM="/>
+    </page:show>
+</div>

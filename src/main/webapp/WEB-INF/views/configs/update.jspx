@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_org_domain_Config" modelAttribute="config" path="/configs" versionField="Version" z="aEDev2aPzyu0dWoKrblk7CTORNA=">
+        <field:input field="cellName" id="c_com_org_domain_Config_cellName" required="true" z="yVPJyqaUgQxBej98yU4lYVRLkJU="/>
+        <field:input field="value" id="c_com_org_domain_Config_value" required="true" z="rbYCE93AFr9/yIdYZDYcmJHSIyI="/>
+    </form:update>
+</div>

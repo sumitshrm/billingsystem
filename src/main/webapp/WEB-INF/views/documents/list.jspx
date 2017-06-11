@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_Document" items="${documents}" z="YOs1IVpQwDpsewnDJOS/B6t2e78=">
+        <table:table data="${documents}" id="l_com_org_entity_Document" path="/documents" update="false" z="0DohTnGMUWFr17gwLy4GemrUGUg=">
+            <table:column id="c_com_org_entity_Document_name" property="name" z="5M2U1CpMIFzLZKsloY0J6Rj5DKE="/>
+            <table:column id="c_com_org_entity_Document_description" property="description" z="YfXryZUWqI4q7KeNmvfaB7sj0bc="/>
+            <table:column id="c_com_org_entity_Document_filename" property="filename" z="r5BzAeoNA6Wj0KfyfOEQpQdHBkg="/>
+            <!-- <table:column id="c_com_org_entity_Document_content" property="content" z="64gHeRllHVXn2wXFkYM3Z50Fam0="/> -->
+            <table:column id="c_com_org_entity_Document_content" property="content" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Document_url" property="url" z="gmIFk0KEWb7Ha0PXtF03L3MBak8="/>
+            <table:column id="c_com_org_entity_Document_excelFile" property="excelFile" z="WQ4Xp8qzbqXj4PDDG2OK55PHmq8="/>
+        </table:table>
+    </page:list>
+</div>

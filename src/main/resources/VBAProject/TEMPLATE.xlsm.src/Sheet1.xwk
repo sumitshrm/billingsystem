@@ -1,0 +1,20 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "Sheet1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As range, Cancel As Boolean)
+     row = Target.Cells(1, 1).row
+     itemNum = range("M_ITEM_NUM").Cells(row, 1).value
+     dType = range("M_ITEM_NUM_METADATA").Cells(row, 1).value
+     If itemNum <> "" And dType = "i" Then
+     Call populateItems2
+     showNewItemForm (row)
+     
+     End If
+     
+End Sub

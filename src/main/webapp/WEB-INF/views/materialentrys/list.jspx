@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_MaterialEntry" items="${materialentrys}" z="1YLFe3cLfQqXtJSTs3KmgFEt7aw=">
+        <table:table data="${materialentrys}" id="l_com_org_entity_MaterialEntry" path="/materialentrys" z="5lqBHEs6sQJIYBKiJ2LWGvw7bao=">
+            <table:column id="c_com_org_entity_MaterialEntry_createdBy" property="createdBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_MaterialEntry_lastUpdatedBy" property="lastUpdatedBy" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_MaterialEntry_aggreement" property="aggreement" z="pEPoYiH3ceorExLJ5LQyIO9Lc2s="/>
+            <table:column id="c_com_org_entity_MaterialEntry_site" property="site" z="Pvue5b8WuIB9wFYpJaDAvJ/YlCc="/>
+            
+            <table:column id="c_com_org_entity_MaterialEntry_descriptionOfItem1" property="descriptionOfItem1" z="Pvue5b8WuIBdfsfwwer9wFYjhjhpJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_descriptionOfItem2" property="descriptionOfItem2" z="Pvue5b8WuIB9wrewrwgfgdfFYjhjhpJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_date" property="date" z="Pvue5b8WuIB9wFYjjgfhfhjhpJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_company" property="company" z="Pvue5b8WuIB9wFYjqeqwegfghjhpJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_supplier" property="supplier" z="Pvue5b8WuIB9wFYjhdfvcvxvjhpJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_quantity" property="quantity" z="Pvue5b8WuIB9wFYjhjhpyryafgJaDAvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_unit" property="unit" z="Pvue5b8WuIB9wFYjhjhpyryafgJaDAvJ/YlfdfCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_rate" property="rate" z="Pvue5b8WuIB9wFYjhjhpyryafgJaDAvJsfs/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_amount" property="amount" z="PvueIB9wFYjhjhpyryafgJaDAewrwvJ/YlCc="/>
+            <table:column id="c_com_org_entity_MaterialEntry_remarks" property="remarks" z="Pvue5b8WuIB9wFYjhfdfaDAewrwvJ/YlCc="/>
+            
+            <table:column date="true" dateTimePattern="${materialEntry_createdon_date_format}" id="c_com_org_entity_MaterialEntry_createdOn" property="createdOn" render="false" z="user-managed"/>
+            <table:column date="true" dateTimePattern="${materialEntry_lastupdatedon_date_format}" id="c_com_org_entity_MaterialEntry_lastUpdatedOn" property="lastUpdatedOn" render="false" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

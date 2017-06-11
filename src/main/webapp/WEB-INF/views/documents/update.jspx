@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_org_entity_Document" modelAttribute="document" path="/documents" versionField="Version" z="o8ik3sBvUXfN8zAjFFgKV9WHo/A=">
+        <field:textarea field="name" id="c_com_org_entity_Document_name" required="true" z="Qlxf5XQo49WsGqa7M8wnQnOt4Hg="/>
+        <field:textarea field="description" id="c_com_org_entity_Document_description" z="jRwAGhix8XQmUPWdGF05AtvOLiI="/>
+        <field:input field="filename" id="c_com_org_entity_Document_filename" required="true" z="CMVxiGbg+LZiLUN/WxJA9YdBIm8="/>
+        <field:input field="contentType" id="c_com_org_entity_Document_contentType" required="true" z="LIRE/2ovTaSXoi6RSUoVVdAlg/8="/>
+        <field:input field="fileSize" id="c_com_org_entity_Document_fileSize" z="v4uWoVfj2I0wixGB/C7QqeLYexY="/>
+    </form:update>
+</div>

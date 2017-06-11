@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_org_entity_ItemMeasurement" items="${itemmeasurements}" z="Fi5BU0wu/54ROgAkD4L4Ihfziog=">
+        <table:table data="${itemmeasurements}" id="l_com_org_entity_ItemMeasurement" path="/itemmeasurements" z="0/RioUCh1lSixYu4w44g2hV6Yrs=">
+            <table:column id="c_com_org_entity_ItemMeasurement_measurementSheet" property="measurementSheet" z="IBOpL4LhS1eSdFcQRrR68SDa7Tc="/>
+            <table:column id="c_com_org_entity_ItemMeasurement_item" property="item" z="x4svQOq+vOUQuSOHbcaDsNmUeRU="/>
+            <table:column id="c_com_org_entity_ItemMeasurement_measurementJSON" property="measurementJSON" z="1lBh9MBjVZYQuTdwIvkCfpIjw3Y="/>
+            <table:column id="c_com_org_entity_ItemMeasurement_sequence" property="sequence" z="tNJlA5Dut+GbaJ5qgFNNmepnJWo="/>
+            <table:column id="c_com_org_entity_ItemMeasurement_measurementTos" property="measurementTos" z="FaRjARiXi6Qp/elbORW1KWIjFjQ="/>
+            <table:column id="c_com_org_entity_ItemMeasurement_total" property="total" z="f/hp2BGwxIKnwrbQbN0GRY6YEfM="/>
+        </table:table>
+    </page:list>
+</div>

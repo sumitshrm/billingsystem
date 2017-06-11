@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_Document" object="${document}" path="/documents" update="false" z="FyB1x3zmEzkOEJc9CznRo0gUvHU=">
+        <field:display field="name" id="s_com_org_entity_Document_name" object="${document}" z="9NQSgHXWT9CM1UUMk023is3mhS8="/>
+        <field:display field="description" id="s_com_org_entity_Document_description" object="${document}" z="2fN8b5aT1qF0lJNfm+r46hMXxtQ="/>
+        <field:display field="filename" id="s_com_org_entity_Document_filename" object="${document}" z="OCMiZhsv1DYiocSQdBio6/TMpXw="/>
+        <field:display field="content" id="s_com_org_entity_Document_content" object="${document}" render="false" z="user-managed"/>
+        <field:link field="url" id="s_com_org_entity_Document_url" label="document" object="${document}" text="filename" z="user-managed"/>
+        <field:display field="excelFile" id="s_com_org_entity_Document_excelFile" object="${document}" z="st3Y4+QIcyIvzh53rerN2mgezn4="/>
+    </page:show>
+</div>

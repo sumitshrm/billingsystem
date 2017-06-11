@@ -1,0 +1,115 @@
+
+<div xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <spring:message code="security_login_title" var="title" htmlEscape="false" />
+  <!--
+  <util:panel id="title" title="${title}">
+    <c:if test="${not empty param.login_error}">
+      <div class="errors">
+        <p>
+          <spring:message code="security_login_unsuccessful" />
+          <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+        </p>
+      </div>
+    </c:if>
+    <c:if test="${empty param.login_error}">
+      <p>
+        <spring:message code="security_login_message" />
+      </p>
+    </c:if> 
+    <spring:url value="/resources/j_spring_security_check" var="form_url" />
+    <form name="f" action="${fn:escapeXml(form_url)}" method="POST" id="login_form">
+    <input type="hidden" value="${SPRING_SECURITY_LAST_EXCEPTION.message}" name="j_error_message"></input>
+    
+      <div>
+        <label for="j_username">
+          <spring:message code="security_login_form_name" />
+        </label>
+        <input id="j_username" type='text' name='j_username' style="width:150px" value=""/>
+        <spring:message code="security_login_form_name_message" var="name_msg" htmlEscape="false" />
+        <script type="text/javascript">
+          <c:set var="sec_name_msg">
+            <spring:escapeBody javaScriptEscape="true">${name_msg}</spring:escapeBody>
+          </c:set>
+          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_username", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_name_msg}", required : true}})); 
+        </script>
+      </div>
+      <br />
+      <div>
+        <label for="j_password">
+          <spring:message code="security_login_form_password" />
+        </label>
+        <input id="j_password" type='password' name='j_password' style="width:150px" value="" />
+        <spring:message code="security_login_form_password_message" var="pwd_msg" htmlEscape="false" />
+        <script type="text/javascript">
+          <c:set var="sec_pwd_msg">
+            <spring:escapeBody javaScriptEscape="true">${pwd_msg}</spring:escapeBody>
+          </c:set>
+          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_password", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_pwd_msg}", required : true}})); 
+        </script>
+      </div>
+      <br />
+      <div class="submit">
+        <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+        <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
+        <input id="proceed" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
+        <spring:message code="button_reset" var="reset_label" htmlEscape="false" />
+        <input id="reset" type="reset" value="${fn:escapeXml(reset_label)}" />
+      </div>
+    </form>
+  </util:panel>
+  -->
+  
+  
+  
+  <div class="container">
+  
+  
+    
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                    <c:if test="${not empty param.login_error}">
+      <div class="errors">
+        <p>
+          <spring:message code="security_login_unsuccessful" />
+          <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+        </p>
+      </div>
+    </c:if>
+    <spring:url value="/resources/j_spring_security_check" var="form_url" />
+    
+                        <form role="form" name="f" action="${fn:escapeXml(form_url)}" method="POST" id="login_form">
+                                <input type="hidden" value="${SPRING_SECURITY_LAST_EXCEPTION.message}" name="j_error_message"></input>
+                        
+                            <fieldset>
+                                <div class="form-group">
+                                
+                                    <input id="j_username" class="form-control" placeholder="user name" name="j_username" type="text" autofocus="true"></input>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" id="j_password" type='password' name='j_password' value=""></input>
+                                </div>
+                                
+                                <!-- Change this to a button or input when using this as a form -->
+                            	<div class="submit">
+        <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+        <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
+        <input id="proceed"  class="btn btn-lg btn-success btn-block" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
+        <spring:message code="button_reset" var="reset_label" htmlEscape="false" />
+        <input id="reset" type="reset"  class="btn btn-lg btn-success btn-block" value="${fn:escapeXml(reset_label)}" />
+      </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

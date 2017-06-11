@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_org_entity_ItemAbstract" modelAttribute="itemAbstract" path="/itemabstracts" versionField="Version" z="pB7m/Elhb7xDX1CeI4rMY8XAhbg=">
+        <field:select field="measurementSheet" id="c_com_org_entity_ItemAbstract_measurementSheet" itemValue="id" items="${measurementsheets}" path="/measurementsheets" z="JcvjHh1xCyvoeFwhQzBE8Z8IXWY="/>
+        <field:select field="item" id="c_com_org_entity_ItemAbstract_item" itemValue="id" items="${items}" path="/items" z="+GqD5aaiUXxMcN7rlsANXVy64G0="/>
+        <field:input field="total" id="c_com_org_entity_ItemAbstract_total" z="6eeAB90fxzl7paBH+dzmrwv9cP0="/>
+        <field:input field="absCellRef" id="c_com_org_entity_ItemAbstract_absCellRef" z="4rE21hyJw8dNAogf8gQYkFzkK9k="/>
+        <field:input field="measCellRef" id="c_com_org_entity_ItemAbstract_measCellRef" z="Lj8yTASksy76P3d4xl4USFLkrFI="/>
+        <field:input field="itemDataTos" id="c_com_org_entity_ItemAbstract_itemDataTos" z="5jWelKEvVNv8+k6YfYYLkRT2Z/o="/>
+    </form:update>
+</div>

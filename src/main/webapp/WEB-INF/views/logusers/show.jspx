@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_domain_LogUser" object="${loguser}" path="/logusers" z="8NSVilNtOD25L/JEhZ+J7HTIejU=">
+        <field:display field="enabled" id="s_com_org_domain_LogUser_enabled" object="${loguser}" z="NjteUOgHbin36L9IP4dA2MugqyU="/>
+        <field:display field="username" id="s_com_org_domain_LogUser_username" object="${loguser}" z="99hovJgb8pYgsI3WB+PsSvjbbxQ="/>
+        <field:display field="password" id="s_com_org_domain_LogUser_password" object="${loguser}" z="FSbkHKR7ngtQcrcr+q4TUgbhlv8="/>
+        <field:display field="roles" id="s_com_org_domain_LogUser_roles" object="${loguser}" z="pjhEKyzOPjTx4Pp48iRGyCwLamE="/>
+    </page:show>
+</div>

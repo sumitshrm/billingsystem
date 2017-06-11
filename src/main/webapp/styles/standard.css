@@ -1,0 +1,127 @@
+.utilbox {width: 18px;}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.loading {
+    display:    block;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../images/loading.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loaded .modal {
+    display: none;
+}
+
+.form-label {
+	width:200px;
+	float:left;
+	margin-left: 5px;
+	margin-top: 0px;
+}
+
+label {
+	/* font-weight: normal; */
+}
+
+.quicklinks {
+	clear:both; 
+	padding-bottom: 15px
+}
+.quicklinks span {
+	float: right;
+}
+
+.quicklinks button {
+	margin-right:3px;
+}
+
+.quicklinks a {
+	margin-right:3px;
+}
+
+input.image {
+	border: none;
+	height: auto;
+	vertical-align: middle;
+}
+
+.container-margin{
+	margin-top: 7px;
+	margin-bottom: 7px;
+	margin-left: 5px;
+	/*margin-right : 5px;*/
+}
+
+.container-margin input{ /* You Can Name it what you want*/
+margin-right:5px;
+}
+.container-margin input:last-child{
+margin-right:0px;
+/*so the last one dont push the div thas giving the space only between the inputs*/
+}
+
+/*
+COPIED FROM sb-admin-2
+*/
+.page-header-blank {
+  padding-bottom: 5px;
+  margin: 0px 0 5px;
+  border-bottom: 0px solid #eee;
+}
+
+/*Override dijit input box start*/
+.dijitInputInner {
+	height:24px;
+	
+}
+.dijitReset {
+    margin: 3px 0px 0px 0px;
+}
+.dijitTextBox, .dijitTextArea[cols]{ 
+    width: 100%;
+    max-width: 400px;
+    padding-left : 4px;
+}
+.dijitButtonNode {
+	height:26px;
+}
+
+.content{
+	padding-top:0px;
+}
+
+.content-wrapper{
+	background-color: #fff;
+}
+
+.form-group {
+    margin-bottom: 8px;
+}
+/*Override dijit input box finish*/
+
+/*Override bootstrap css------start------*/
+.row {
+    margin-right: -0px;
+    margin-left: -0px;
+}
+/*Override bootstrap css------finish------*/
+
