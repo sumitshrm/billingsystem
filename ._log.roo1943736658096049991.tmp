@@ -454,3 +454,4 @@ finder list
 finder add --finderName findLabourSupplierByNameLikeAndCreatedBy
 finder add --finderName findLabourSuppliersByNameLikeAndCreatedBy
 // Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-09-24 15:46:07
+//test
