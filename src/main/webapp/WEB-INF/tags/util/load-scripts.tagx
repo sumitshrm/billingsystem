@@ -38,7 +38,6 @@
    <link rel="stylesheet" href="${jqwidgets_url}/styles/jqx.base.css" type="text/css" />
     <link rel="stylesheet" href="${jqwidgets_url}/styles/jqx.ui-smoothness.css" type="text/css" />
     <link rel="stylesheet" href="${jqwidgets_url}/styles/jqx.bootstrap.css" type="text/css" />
-    <link rel="stylesheet" href="${styles_url}/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" type="text/css"  href="${styles_url}/breadcrum-navigation.css" />
     <script type="text/javascript" src="${jquery_url}/jquery-1.11.1.min.js"><!-- required for FF3 and Opera --></script>
 	<script type="text/javascript" src="${jqwidgets_url}/jqxcore.js"><!-- required for FF3 and Opera --></script>

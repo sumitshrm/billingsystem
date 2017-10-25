@@ -7,7 +7,6 @@
         <field:display field="description" id="s_com_org_entity_Document_description" object="${document}" z="2fN8b5aT1qF0lJNfm+r46hMXxtQ="/>
         <field:display field="filename" id="s_com_org_entity_Document_filename" object="${document}" z="OCMiZhsv1DYiocSQdBio6/TMpXw="/>
         <field:display field="content" id="s_com_org_entity_Document_content" object="${document}" render="false" z="user-managed"/>
-        <field:link field="url" id="s_com_org_entity_Document_url" label="document" object="${document}" text="filename" z="user-managed"/>
         <field:display field="excelFile" id="s_com_org_entity_Document_excelFile" object="${document}" z="st3Y4+QIcyIvzh53rerN2mgezn4="/>
     </page:show>
 </div>

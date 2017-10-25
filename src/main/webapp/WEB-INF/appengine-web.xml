@@ -4,7 +4,8 @@
 	<sessions-enabled>true</sessions-enabled>
 	<use-google-connector-j>true</use-google-connector-j>
   <system-properties>
-    <property name="ae-cloudsql.cloudsql-database-url" value="jdbc:google:mysql://billingsystem-183513:us-central1:my-sql-instance/billingsystem?user=root&amp;password=root" />
-    <property name="ae-cloudsql.local-database-url" value="jdbc:mysql://google/billingsystem?cloudSqlInstance=billingsystem-183513:us-central1:my-sql-instance&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=root&amp;password=root&amp;useSSL=false" />
+    <property name="ae-cloudsql.cloudsql-database-url" value="jdbc:google:mysql://billingsystem-183513:us-central1:my-sql-instance/billingsystem?user=admin&amp;password=admin" />
+    <property name="ae-cloudsql.local-database-url" value="jdbc:mysql://google/billingsystem?cloudSqlInstance=billingsystem-183513:us-central1:my-sql-instance&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=admin&amp;password=admin&amp;useSSL=false" />
   </system-properties>
+  <runtime>java8</runtime>
 </appengine-web-app>
