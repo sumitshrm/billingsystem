@@ -2,6 +2,7 @@ package com.org.report.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -64,15 +65,43 @@ public class ScheduleGeneratorService implements IExcelReportService{
 		alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
 		XSSFCellStyle boldStyle = ExcelUtill.getBoldFont(wb);
+		List<Item> extraItems = new ArrayList<Item>();
 		List<ItemAbstract> extraItemAbstract = new ArrayList<ItemAbstract>();
+		Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
 		//Write itemabstract data only for items (exclude extra items)
-		for(ItemAbstract itemAbstract : msheet.getItemAbstractsSorted()){
-			if(!itemAbstract.getItem().isIsExtraItem()){
-				currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
-						currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
-						descriptionStyle, alignTopStyle, boxStyle, itemAbstract);
+		for(Item item : msheet.getAggreement().getItems()){
+			if(!item.isIsExtraItem()){
+				if(item.isValidItem()){
+					currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
+							currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
+							descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
+				}else{
+					//if this is not a leaf item in hyrarchy then write only item number and description.
+					XSSFRow row = xsheet.createRow(currentRow++);
+					ExcelUtill.writeCellValue(item.getItemNumber(),
+							row.createCell(scheduleRange.getrItemNum().getFirstColNum()),boxStyle);
+					ExcelUtill.writeCellValue(item.getDescription(),
+							row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),descriptionStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+					if(!msheet.isFirstAndFinalBill()){
+						RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
+						if(!msheet.isIsFinalBill()){
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
+						} 
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
+					}else{
+						ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+					}
+				}
 			}else{
-				extraItemAbstract.add(itemAbstract);
+				extraItemAbstract.add(itemAbstractMap.get(item.getItemNumber()));
+				extraItems.add(item);
 			}
 		}
 		//Write totals before extra item entries for payment since previous bill
@@ -81,10 +110,35 @@ public class ScheduleGeneratorService implements IExcelReportService{
 				msheet);
 		//Write itemabstract data for Extra items. 
 		int itemsTotalRow = currentRow;
-		for(ItemAbstract itemAbstract : extraItemAbstract){
-			currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
-					currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
-					descriptionStyle, alignTopStyle, boxStyle, itemAbstract);
+		for(Item item : extraItems){
+			if(item.isValidItem()){
+				currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
+						currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
+						descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
+			}else{//if this is not the leaf item then write item number and description only.
+				//if this is not a leaf item in hyrarchy then write only item number and description.
+				XSSFRow row = xsheet.createRow(currentRow++);
+				ExcelUtill.writeCellValue(item.getItemNumber(),
+						row.createCell(scheduleRange.getrItemNum().getFirstColNum()),alignTopStyle);
+				ExcelUtill.writeCellValue(item.getDescription(),
+						row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+				if(!msheet.isFirstAndFinalBill()){
+					RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
+					ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
+					if(!msheet.isIsFinalBill()){
+						ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
+					} 
+					ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
+				}else{
+					ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
+					ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+				}
+			}
 		}
 		//Write total data after extra items.
 		if(extraItemAbstract.size()>0){
@@ -166,7 +220,7 @@ public class ScheduleGeneratorService implements IExcelReportService{
 		//Item numner
 		ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
 		//Item Description
-		ExcelUtill.writeCellValue(item.getFullDescription(), row.createCell(itemDescCol), descriptionStyle);
+		ExcelUtill.writeCellValue(item.getDescription(), row.createCell(itemDescCol), descriptionStyle);
 		ExcelUtill.writeCellValue("="+itemAbstract.getAbsCellRef(), row.createCell(quantityCol), boxStyle);
 		ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol), boxStyle);
 		if(!msheet.isFirstAndFinalBill()){
@@ -390,7 +444,6 @@ public class ScheduleGeneratorService implements IExcelReportService{
 			wb.setSheetHidden(wb.getSheetIndex(Worksheets.RB_SCHEDULE), true);
 			//unhide required sheet and columns
 			wb.setSheetHidden(wb.getSheetIndex(Worksheets.FNFB_SCHEDULE), false);
-			xsheet.setColumnHidden(rbScheduleRange.getrPartRate().getFirstColNum(), true);
 		}else{
 			xsheet = wb.getSheet(Worksheets.RB_SCHEDULE);
 			//if this is a final bill then hide part rate column

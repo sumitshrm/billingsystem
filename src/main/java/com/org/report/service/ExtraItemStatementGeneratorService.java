@@ -1,5 +1,7 @@
 package com.org.report.service;
 
+import java.util.Map;
+
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -87,53 +89,77 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 		int totalAmountCol = extraItemRange.getrTotalAmount().getFirstColNum();
 		int remarksCol = extraItemRange.getrRemarks().getFirstColNum();
 		XSSFRow row = null;
-		Item item = null;
 		XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
 		descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
 		XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
 		alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
 		int slno = 1;
-		for (ItemAbstract itemAbstract : msheet.getItemAbstractsSorted()) {
+		Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
+		for (Item item : msheet.getAggreement().getItems()) {
 			/*
 			 * if(itemAbstract.getItem().isIsExtraItem() ||
 			 * itemAbstract.getTotalDeviation()==0){ // do not write deviation
 			 * report for extra items. continue; }
 			 */
-			if (!itemAbstract.getItem().isIsExtraItem()) {
+			if (!item.isIsExtraItem()) {
 				// write statement for extra items only
 				continue;
 			}
 			row = xsheet.createRow(currRow++);
-			item = itemAbstract.getItem();
-			ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol),
-					alignTopStyle);
-			ExcelUtill.writeCellValue(item.getItemNumber(),
-					row.createCell(itemNumCol), alignTopStyle);
-			ExcelUtill.writeCellValue(item.getDrsCode(),
-					row.createCell(dsrRateCol), alignTopStyle);
-			ExcelUtill.writeCellValue(item.getFullDescription(),
-					row.createCell(descCol), descriptionStyle);
-			ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol),
-					boxStyle);
-			ExcelUtill.writeCellValue("=" + itemAbstract.getAbsCellRef(),
-					row.createCell(qtyExecUptoDateCol), boxStyle);
-			ExcelUtill.writeCellValue(item.getDsrRate(),
-					row.createCell(rateCol), boxStyle);
-			ExcelUtill.writeCellValue(
-					getCaFormula(currRow, rateCol, item.getAggreement()
-							.getClausePercentage()), row.createCell(lessCaCol),
-					boxStyle);
-			ExcelUtill.writeCellValue(
-					getRateProposedFormula(currRow, rateCol, lessCaCol, msheet
-							.getAggreement().getClause()), row
-							.createCell(rateProposedCol), boxStyle);
-			ExcelUtill.writeCellValue(
-					getTotalAmountFormula(currRow, qtyExecUptoDateCol,
-							rateProposedCol), row.createCell(totalAmountCol),
-					boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(remarksCol),
-					boxStyle);
+			if(item.isValidItem()){
+				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol),
+						alignTopStyle);
+				ExcelUtill.writeCellValue(item.getItemNumber(),
+						row.createCell(itemNumCol), alignTopStyle);
+				ExcelUtill.writeCellValue(item.getDrsCode(),
+						row.createCell(dsrRateCol), alignTopStyle);
+				ExcelUtill.writeCellValue(item.getDescription(),
+						row.createCell(descCol), descriptionStyle);
+				ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol),
+						boxStyle);
+				ExcelUtill.writeCellValue("=" + itemAbstractMap.get(item.getItemNumber()).getAbsCellRef(),
+						row.createCell(qtyExecUptoDateCol), boxStyle);
+				ExcelUtill.writeCellValue(item.getDsrRate(),
+						row.createCell(rateCol), boxStyle);
+				ExcelUtill.writeCellValue(
+						getCaFormula(currRow, rateCol, item.getAggreement()
+								.getClausePercentage()), row.createCell(lessCaCol),
+						boxStyle);
+				ExcelUtill.writeCellValue(
+						getRateProposedFormula(currRow, rateCol, lessCaCol, msheet
+								.getAggreement().getClause()), row
+								.createCell(rateProposedCol), boxStyle);
+				ExcelUtill.writeCellValue(
+						getTotalAmountFormula(currRow, qtyExecUptoDateCol,
+								rateProposedCol), row.createCell(totalAmountCol),
+						boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(remarksCol),
+						boxStyle);
+			}else{
+				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol),
+						alignTopStyle);
+				ExcelUtill.writeCellValue(item.getItemNumber(),
+						row.createCell(itemNumCol), alignTopStyle);
+				ExcelUtill.writeCellValue(item.getDrsCode(),
+						row.createCell(dsrRateCol), alignTopStyle);
+				ExcelUtill.writeCellValue(item.getDescription(),
+						row.createCell(descCol), descriptionStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(unitCol),
+						boxStyle);
+				ExcelUtill.writeCellValue(null,
+						row.createCell(qtyExecUptoDateCol), boxStyle);
+				ExcelUtill.writeCellValue(null,
+						row.createCell(rateCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(lessCaCol),
+						boxStyle);
+				ExcelUtill.writeCellValue(null, row
+								.createCell(rateProposedCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(totalAmountCol),
+						boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(remarksCol),
+						boxStyle);
+			}
 		}
 
 		row = xsheet.createRow(currRow++);
@@ -202,6 +228,8 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 		String f1 = ExcelUtill.intToChar(rateCol) + "" + (row);
 		if (clausePercent > 0) {
 			formula = "=ROUND(" + f1 + "*" + clausePercent + "%,2)";
+		}else{
+			formula = null;
 		}
 		return formula;
 	}
