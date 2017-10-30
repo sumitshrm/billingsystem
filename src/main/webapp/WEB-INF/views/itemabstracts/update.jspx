@@ -9,5 +9,7 @@
         <field:input field="absCellRef" id="c_com_org_entity_ItemAbstract_absCellRef" z="4rE21hyJw8dNAogf8gQYkFzkK9k="/>
         <field:input field="measCellRef" id="c_com_org_entity_ItemAbstract_measCellRef" z="Lj8yTASksy76P3d4xl4USFLkrFI="/>
         <field:input field="itemDataTos" id="c_com_org_entity_ItemAbstract_itemDataTos" z="5jWelKEvVNv8+k6YfYYLkRT2Z/o="/>
+        <field:input field="partRateRef" id="c_com_org_entity_ItemAbstract_partRateRef" z="4lc4heJsQK1HVmbeLHuSfZsY1os="/>
+        <field:input field="fullRateRef" id="c_com_org_entity_ItemAbstract_fullRateRef" z="zTuZ9IQgl+8Vo5FxPhVJrslI/Ts="/>
     </form:update>
 </div>

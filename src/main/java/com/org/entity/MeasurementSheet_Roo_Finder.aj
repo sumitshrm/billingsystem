@@ -42,14 +42,14 @@ privileged aspect MeasurementSheet_Roo_Finder {
         if (id == null) throw new IllegalArgumentException("The id argument is required");
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = MeasurementSheet.entityManager();
-        String jpaQuery = "SELECT o FROM MeasurementSheet AS o WHERE o.id = :id AND o.logUser = :logUser";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM MeasurementSheet AS o WHERE o.id = :id AND o.logUser = :logUser");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<MeasurementSheet> q = em.createQuery(jpaQuery, MeasurementSheet.class);
+        TypedQuery<MeasurementSheet> q = em.createQuery(queryBuilder.toString(), MeasurementSheet.class);
         q.setParameter("id", id);
         q.setParameter("logUser", logUser);
         return q;
@@ -66,14 +66,14 @@ privileged aspect MeasurementSheet_Roo_Finder {
     public static TypedQuery<MeasurementSheet> MeasurementSheet.findMeasurementSheetsByLogUser(LogUser logUser, String sortFieldName, String sortOrder) {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = MeasurementSheet.entityManager();
-        String jpaQuery = "SELECT o FROM MeasurementSheet AS o WHERE o.logUser = :logUser";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM MeasurementSheet AS o WHERE o.logUser = :logUser");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<MeasurementSheet> q = em.createQuery(jpaQuery, MeasurementSheet.class);
+        TypedQuery<MeasurementSheet> q = em.createQuery(queryBuilder.toString(), MeasurementSheet.class);
         q.setParameter("logUser", logUser);
         return q;
     }

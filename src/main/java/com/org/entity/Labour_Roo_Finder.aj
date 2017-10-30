@@ -29,14 +29,14 @@ privileged aspect Labour_Roo_Finder {
     public static TypedQuery<Labour> Labour.findLaboursByCreatedBy(LogUser createdBy, String sortFieldName, String sortOrder) {
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = Labour.entityManager();
-        String jpaQuery = "SELECT o FROM Labour AS o WHERE o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Labour AS o WHERE o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Labour> q = em.createQuery(jpaQuery, Labour.class);
+        TypedQuery<Labour> q = em.createQuery(queryBuilder.toString(), Labour.class);
         q.setParameter("createdBy", createdBy);
         return q;
     }

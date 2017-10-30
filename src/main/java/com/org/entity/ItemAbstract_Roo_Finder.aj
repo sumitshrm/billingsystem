@@ -48,14 +48,14 @@ privileged aspect ItemAbstract_Roo_Finder {
     public static TypedQuery<ItemAbstract> ItemAbstract.findItemAbstractsByItem(Item item, String sortFieldName, String sortOrder) {
         if (item == null) throw new IllegalArgumentException("The item argument is required");
         EntityManager em = ItemAbstract.entityManager();
-        String jpaQuery = "SELECT o FROM ItemAbstract AS o WHERE o.item = :item";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ItemAbstract AS o WHERE o.item = :item");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<ItemAbstract> q = em.createQuery(jpaQuery, ItemAbstract.class);
+        TypedQuery<ItemAbstract> q = em.createQuery(queryBuilder.toString(), ItemAbstract.class);
         q.setParameter("item", item);
         return q;
     }
@@ -71,14 +71,14 @@ privileged aspect ItemAbstract_Roo_Finder {
     public static TypedQuery<ItemAbstract> ItemAbstract.findItemAbstractsByMeasurementSheet(MeasurementSheet measurementSheet, String sortFieldName, String sortOrder) {
         if (measurementSheet == null) throw new IllegalArgumentException("The measurementSheet argument is required");
         EntityManager em = ItemAbstract.entityManager();
-        String jpaQuery = "SELECT o FROM ItemAbstract AS o WHERE o.measurementSheet = :measurementSheet";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ItemAbstract AS o WHERE o.measurementSheet = :measurementSheet");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<ItemAbstract> q = em.createQuery(jpaQuery, ItemAbstract.class);
+        TypedQuery<ItemAbstract> q = em.createQuery(queryBuilder.toString(), ItemAbstract.class);
         q.setParameter("measurementSheet", measurementSheet);
         return q;
     }
@@ -97,14 +97,14 @@ privileged aspect ItemAbstract_Roo_Finder {
         if (measurementSheet == null) throw new IllegalArgumentException("The measurementSheet argument is required");
         if (item == null) throw new IllegalArgumentException("The item argument is required");
         EntityManager em = ItemAbstract.entityManager();
-        String jpaQuery = "SELECT o FROM ItemAbstract AS o WHERE o.measurementSheet = :measurementSheet AND o.item = :item";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ItemAbstract AS o WHERE o.measurementSheet = :measurementSheet AND o.item = :item");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<ItemAbstract> q = em.createQuery(jpaQuery, ItemAbstract.class);
+        TypedQuery<ItemAbstract> q = em.createQuery(queryBuilder.toString(), ItemAbstract.class);
         q.setParameter("measurementSheet", measurementSheet);
         q.setParameter("item", item);
         return q;

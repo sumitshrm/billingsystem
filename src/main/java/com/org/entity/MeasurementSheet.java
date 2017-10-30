@@ -129,6 +129,10 @@ public class MeasurementSheet {
     	return filename;
     }
     
+    public String getStorageFileName() {
+    	return "MSHEET_"+getId()+"_"+getAggreement().getId()+".xlsm";
+    }
+    
     public ItemAbstract getPreviousItemAbstract(Item item){
     	MeasurementSheet msheet = getPreviousMeasurementSheet();
     	if(msheet==null){

@@ -7,6 +7,7 @@ import com.org.entity.Item;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Item_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect Item_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long Item.countItems() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Item o", Long.class).getSingleResult();
+        return findAllItems().size();
     }
     
+    @Transactional
     public static List<Item> Item.findAllItems() {
         return entityManager().createQuery("SELECT o FROM Item o", Item.class).getResultList();
     }
     
+    @Transactional
     public static List<Item> Item.findAllItems(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Item o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect Item_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Item.class).getResultList();
     }
     
+    @Transactional
     public static Item Item.findItem(Long id) {
         if (id == null) return null;
         return entityManager().find(Item.class, id);
     }
     
+    @Transactional
     public static List<Item> Item.findItemEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Item o", Item.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Item> Item.findItemEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Item o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect Item_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Item.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void Item.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

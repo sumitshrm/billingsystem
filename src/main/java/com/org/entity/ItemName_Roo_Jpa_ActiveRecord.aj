@@ -11,14 +11,17 @@ privileged aspect ItemName_Roo_Jpa_ActiveRecord {
     
     public static final List<String> ItemName.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name");
     
+    @Transactional
     public static long ItemName.countItemNames() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM ItemName o", Long.class).getSingleResult();
+        return findAllItemNames().size();
     }
     
+    @Transactional
     public static List<ItemName> ItemName.findAllItemNames() {
         return entityManager().createQuery("SELECT o FROM ItemName o", ItemName.class).getResultList();
     }
     
+    @Transactional
     public static List<ItemName> ItemName.findAllItemNames(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ItemName o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -30,15 +33,18 @@ privileged aspect ItemName_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, ItemName.class).getResultList();
     }
     
+    @Transactional
     public static ItemName ItemName.findItemName(Long id) {
         if (id == null) return null;
         return entityManager().find(ItemName.class, id);
     }
     
+    @Transactional
     public static List<ItemName> ItemName.findItemNameEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM ItemName o", ItemName.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<ItemName> ItemName.findItemNameEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ItemName o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {

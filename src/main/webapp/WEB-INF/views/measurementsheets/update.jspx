@@ -29,5 +29,6 @@
         <field:checkbox field="userManaged" id="c_com_org_entity_MeasurementSheet_userManaged" z="pkDmFnuhtJHOBvHaBCB5/XwRQ/Y="/>
         <field:checkbox field="itemAbstractSorted" id="c_com_org_entity_MeasurementSheet_itemAbstractSorted" render="false" z="user-managed"/>
         <field:checkbox field="copyPreviousMeasurement" id="c_com_org_entity_MeasurementSheet_copyPreviousMeasurement" render="false" z="user-managed"/>
+        <field:input field="templateVersion" id="c_com_org_entity_MeasurementSheet_templateVersion" render="false" z="user-managed"s/>
     </form:update>
 </div>

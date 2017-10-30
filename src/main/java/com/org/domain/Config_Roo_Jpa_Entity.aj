@@ -16,7 +16,7 @@ privileged aspect Config_Roo_Jpa_Entity {
     declare @type: Config: @Entity;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long Config.id;
     

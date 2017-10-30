@@ -26,7 +26,7 @@
         <field:checkbox field="userManaged" id="c_com_org_entity_MeasurementSheet_userManaged" z="pkDmFnuhtJHOBvHaBCB5/XwRQ/Y="/>
         <field:checkbox field="itemAbstractSorted" id="c_com_org_entity_MeasurementSheet_itemAbstractSorted" render="false" z="user-managed"/>
         <field:checkbox field="copyPreviousMeasurement" id="c_com_org_entity_MeasurementSheet_copyPreviousMeasurement" render="${not empty measurementSheet.previousMeasurementSheet}" z="user-managed"/>
-        <field:input field="templateVersion" id="c_com_org_entity_measurementsheet_templateversion" required="false" validationMessageCode="field_invalid_integer" z="YAmqiUJWRq2nHAev7PwfXUCD4hU="/>
+        <field:input field="templateVersion" id="c_com_org_entity_MeasurementSheet_templateVersion" z="user-managed" render="false"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_org_entity_MeasurementSheet" render="${not empty dependencies}" z="4TwLFDAihQ5mTmfrkCDrU1i+9cs="/>
 </div>

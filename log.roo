@@ -457,3 +457,13 @@ finder add --finderName findLabourSuppliersByNameLikeAndCreatedBy
 // Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2016-11-04 15:08:41
 // Spring Roo 1.2.6.BUILD-SNAPSHOT [rev d938402] log opened at 2017-01-31 18:10:17
 web mvc controller --class ~.web.BillformsController --preferredMapping /billforms
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-10-29 14:17:22
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-10-29 14:57:00
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-10-29 16:04:01
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-10-29 16:33:15
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-10-29 16:33:25
+hint
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-10-29 21:50:27
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-10-29 21:57:22
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-10-30 01:54:06

@@ -29,14 +29,14 @@ privileged aspect MaterialEntry_Roo_Finder {
     public static TypedQuery<MaterialEntry> MaterialEntry.findMaterialEntrysByCreatedBy(LogUser createdBy, String sortFieldName, String sortOrder) {
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = MaterialEntry.entityManager();
-        String jpaQuery = "SELECT o FROM MaterialEntry AS o WHERE o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM MaterialEntry AS o WHERE o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<MaterialEntry> q = em.createQuery(jpaQuery, MaterialEntry.class);
+        TypedQuery<MaterialEntry> q = em.createQuery(queryBuilder.toString(), MaterialEntry.class);
         q.setParameter("createdBy", createdBy);
         return q;
     }

@@ -46,14 +46,14 @@ privileged aspect LabourSupplier_Roo_Finder {
     public static TypedQuery<LabourSupplier> LabourSupplier.findLabourSuppliersByCreatedBy(LogUser createdBy, String sortFieldName, String sortOrder) {
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = LabourSupplier.entityManager();
-        String jpaQuery = "SELECT o FROM LabourSupplier AS o WHERE o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM LabourSupplier AS o WHERE o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<LabourSupplier> q = em.createQuery(jpaQuery, LabourSupplier.class);
+        TypedQuery<LabourSupplier> q = em.createQuery(queryBuilder.toString(), LabourSupplier.class);
         q.setParameter("createdBy", createdBy);
         return q;
     }
@@ -86,14 +86,14 @@ privileged aspect LabourSupplier_Roo_Finder {
         }
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = LabourSupplier.entityManager();
-        String jpaQuery = "SELECT o FROM LabourSupplier AS o WHERE LOWER(o.name) LIKE LOWER(:name)  AND o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM LabourSupplier AS o WHERE LOWER(o.name) LIKE LOWER(:name)  AND o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<LabourSupplier> q = em.createQuery(jpaQuery, LabourSupplier.class);
+        TypedQuery<LabourSupplier> q = em.createQuery(queryBuilder.toString(), LabourSupplier.class);
         q.setParameter("name", name);
         q.setParameter("createdBy", createdBy);
         return q;

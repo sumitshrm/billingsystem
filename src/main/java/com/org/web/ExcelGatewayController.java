@@ -43,6 +43,7 @@ import com.org.exception.ForeignKeyConstraintException;
 import com.org.exception.ParentItemNotFoundException;
 import com.org.report.service.ItemsGeneratorService;
 import com.org.service.MeasurementSheetService;
+import com.org.service.blobstore.FileStorageService;
 import com.org.util.QueryUtil;
 
 @RequestMapping("/excelgateway")
@@ -54,6 +55,9 @@ public class ExcelGatewayController {
 	
 	@Autowired
 	private ItemsGeneratorService itemsService;
+	
+	@Autowired
+	private FileStorageService fileStorageService;
 
     @RequestMapping(method = RequestMethod.POST, value = "{id}")
     public void post(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
@@ -211,12 +215,12 @@ public class ExcelGatewayController {
     
     private void updateExtraItemsInExcel(ItemsTo itemsTo) throws Exception{
     	MeasurementSheet msheet = MeasurementSheet.findMeasurementSheet(itemsTo.getMsheetId());
-    	XSSFWorkbook wb = msheet.getDocument().getWorkbook();
+    	XSSFWorkbook wb = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
     	Set<Item> items = itemsTo.getItems()!=null? new HashSet<Item>(itemsTo.getItems()):null;
     	if(items!=null){
     		itemsService.writeItems(items, wb, msheet, true);
     	}
-    	msheet.getDocument().save();
+    	wb.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
     }
     
     @RequestMapping(value = "updatedocxl/{id}", method = RequestMethod.POST)
@@ -224,11 +228,13 @@ public class ExcelGatewayController {
 			@PathVariable("id") Long id,
 			@RequestParam("FileField") MultipartFile content) {
 		MeasurementSheet measurementSheet = QueryUtil.getUniqueResult(MeasurementSheet.findMeasurementSheetsByIdAndLogUser(id, LogUser.getCurrentUser()));
+		XSSFWorkbook wb = null;
 		if(measurementSheet!=null){
 		try {
 			meausrementService.uploadExcelDocument(measurementSheet, content);
 			System.out.println("upload complete");
-			XSSFSheet abstractSheet = measurementSheet.getDocument().getWorkbook().getSheet(Worksheets.ABSTRACTSHEET);
+			wb = new XSSFWorkbook(fileStorageService.doGet(measurementSheet.getStorageFileName()));
+			XSSFSheet abstractSheet = wb.getSheet(Worksheets.ABSTRACTSHEET);
 			System.out.println("start updating part reference");
 			meausrementService.updatePartRateFromAbstract(measurementSheet, abstractSheet);
 			System.out.println("update part reference complete");
@@ -239,7 +245,15 @@ public class ExcelGatewayController {
 			command.setStatus(ResponseStatus.EXCEPTION);
 			e.printStackTrace(); 
 		} finally {
-			measurementSheet.getDocument().save();
+			if(wb!=null) {
+				try {
+					wb.write(fileStorageService.getOutputStream(measurementSheet.getStorageFileName()));
+				} catch (IOException e) {
+					command.setStatus(ResponseStatus.EXCEPTION);
+					command.setMessage("ERROR : Measurement sheet with id '"+id+"' can not be saved.");
+				}
+			}
+			
 		}
 		}else{
 			command.setStatus(ResponseStatus.EXCEPTION);

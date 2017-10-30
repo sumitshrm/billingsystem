@@ -12,7 +12,7 @@ import org.junit.Test;
 public class XLRangeTest extends XLTest{
 	
 
-	@Test
+	//@Test
 	public void test() throws IOException {
 		init();
 		XLColumnRange xlrange = new XLColumnRange(workbook, "CHECK");

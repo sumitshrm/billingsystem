@@ -11,14 +11,17 @@ privileged aspect Supplier_Roo_Jpa_ActiveRecord {
     
     public static final List<String> Supplier.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name");
     
+    @Transactional
     public static long Supplier.countSuppliers() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Supplier o", Long.class).getSingleResult();
+        return findAllSuppliers().size();
     }
     
+    @Transactional
     public static List<Supplier> Supplier.findAllSuppliers() {
         return entityManager().createQuery("SELECT o FROM Supplier o", Supplier.class).getResultList();
     }
     
+    @Transactional
     public static List<Supplier> Supplier.findAllSuppliers(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Supplier o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -30,15 +33,18 @@ privileged aspect Supplier_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Supplier.class).getResultList();
     }
     
+    @Transactional
     public static Supplier Supplier.findSupplier(Long id) {
         if (id == null) return null;
         return entityManager().find(Supplier.class, id);
     }
     
+    @Transactional
     public static List<Supplier> Supplier.findSupplierEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Supplier o", Supplier.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Supplier> Supplier.findSupplierEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Supplier o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {

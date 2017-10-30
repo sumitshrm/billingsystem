@@ -46,14 +46,14 @@ privileged aspect Company_Roo_Finder {
     public static TypedQuery<Company> Company.findCompanysByCreatedBy(LogUser createdBy, String sortFieldName, String sortOrder) {
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = Company.entityManager();
-        String jpaQuery = "SELECT o FROM Company AS o WHERE o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Company AS o WHERE o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Company> q = em.createQuery(jpaQuery, Company.class);
+        TypedQuery<Company> q = em.createQuery(queryBuilder.toString(), Company.class);
         q.setParameter("createdBy", createdBy);
         return q;
     }
@@ -86,14 +86,14 @@ privileged aspect Company_Roo_Finder {
         }
         if (createdBy == null) throw new IllegalArgumentException("The createdBy argument is required");
         EntityManager em = Company.entityManager();
-        String jpaQuery = "SELECT o FROM Company AS o WHERE LOWER(o.name) LIKE LOWER(:name)  AND o.createdBy = :createdBy";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Company AS o WHERE LOWER(o.name) LIKE LOWER(:name)  AND o.createdBy = :createdBy");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Company> q = em.createQuery(jpaQuery, Company.class);
+        TypedQuery<Company> q = em.createQuery(queryBuilder.toString(), Company.class);
         q.setParameter("name", name);
         q.setParameter("createdBy", createdBy);
         return q;
