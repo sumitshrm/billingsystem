@@ -106,7 +106,7 @@ public class DocumentService {
 			abstractGeneratorService.removeReportData(msheet, workbook);
 			scheduleService.removeReportData(msheet, workbook);
 			deviationService.removeReportData(msheet, workbook);
-			itemsGeneratorService.removeExtraItemsData(msheet);
+			itemsGeneratorService.removeExtraItemsData(workbook);
 		}
 		if(msheet.getTemplateVersion()>0){
 			partRateStatementGeneratorService.generateMasterData(msheet, workbook);
@@ -151,7 +151,7 @@ public class DocumentService {
 			abstractGeneratorService.removeReportData(msheet, workbook);
 			scheduleService.removeReportData(msheet, workbook);
 			deviationService.removeReportData(msheet, workbook);
-			itemsGeneratorService.removeExtraItemsData(msheet);
+			itemsGeneratorService.removeExtraItemsData(workbook);
 		}
 		if(msheet.getTemplateVersion()>0){
 			partRateStatementGeneratorService.generateMasterData(msheet, workbook);
@@ -171,6 +171,7 @@ public class DocumentService {
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.FNFB_SCHEDULE), true);
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.TEMPSHEET), true);
 		}
+		
 		workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
 		workbook.close();
 		return newDoc;
@@ -244,9 +245,9 @@ public class DocumentService {
 		msheet.persist();
 	}
 	
-	public void removeReportData(MeasurementSheet msheet){
+	public void removeReportData(MeasurementSheet msheet) throws IOException{
 		
-		XSSFWorkbook workbook = fileStorageService.doGet(msheet.getStorageFileName());
+		XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
 		abstractGeneratorService.removeReportData(msheet, workbook);
 		scheduleService.removeReportData(msheet, workbook);
 		deviationService.removeReportData(msheet, workbook);

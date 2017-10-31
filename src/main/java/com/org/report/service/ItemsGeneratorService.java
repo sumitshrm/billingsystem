@@ -95,8 +95,7 @@ public class ItemsGeneratorService {
 
 	}
 	
-	public void removeExtraItemsData(MeasurementSheet msheet) throws IOException{
-		XSSFWorkbook wb = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
+	public void removeExtraItemsData(XSSFWorkbook wb ) throws IOException{
 		XSSFSheet xsheet_extra_items = wb
 				.getSheet(Worksheets.EXTRA_ITEMS_SHEET);
 		ExcelUtill.deleteRow(xsheet_extra_items, 1, xsheet_extra_items.getLastRowNum());
