@@ -9,5 +9,6 @@
         <field:display field="content" id="s_com_org_entity_Document_content" object="${document}" render="false" z="user-managed"/>
         <field:display field="excelFile" id="s_com_org_entity_Document_excelFile" object="${document}" z="st3Y4+QIcyIvzh53rerN2mgezn4="/>
         <field:display field="url" id="s_com_org_entity_Document_url" object="${document}" z="BfNsAofSW38L0VW/g2yFVdX6QGs="/>
+        <field:display field="workbook" id="s_com_org_entity_Document_workbook" object="${document}" z="7PuD38IOBWaz9TljuR7CFvqwW/o="/>
     </page:show>
 </div>

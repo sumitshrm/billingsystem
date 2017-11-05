@@ -9,8 +9,8 @@
             <table:column id="c_com_org_entity_Document_filename" property="filename" z="r5BzAeoNA6Wj0KfyfOEQpQdHBkg="/>
             <!-- <table:column id="c_com_org_entity_Document_content" property="content" z="64gHeRllHVXn2wXFkYM3Z50Fam0="/> -->
             <table:column id="c_com_org_entity_Document_content" property="content" render="false" z="user-managed"/>
-            <table:column id="c_com_org_entity_Document_url" property="url" z="gmIFk0KEWb7Ha0PXtF03L3MBak8="/>
             <table:column id="c_com_org_entity_Document_excelFile" property="excelFile" z="WQ4Xp8qzbqXj4PDDG2OK55PHmq8="/>
+            <table:column id="c_com_org_entity_Document_workbook" property="workbook" z="obbAZ+URT1tzzYGrQyLSXKkBhXA="/>
         </table:table>
     </page:list>
 </div>

@@ -7,10 +7,17 @@ import com.org.domain.Config;
 import com.org.domain.LogUser;
 import com.org.domain.LogUserRole;
 import com.org.entity.Aggreement;
+import com.org.entity.Company;
 import com.org.entity.Document;
 import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
+import com.org.entity.ItemName;
+import com.org.entity.Labour;
+import com.org.entity.LabourEntry;
+import com.org.entity.LabourSupplier;
+import com.org.entity.MaterialEntry;
 import com.org.entity.MeasurementSheet;
+import com.org.entity.Supplier;
 import com.org.entity.Template;
 import com.org.web.ApplicationConversionServiceFactoryBean;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -109,6 +116,22 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
+    public Converter<Long, Company> ApplicationConversionServiceFactoryBean.getIdToCompanyConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Company>() {
+            public com.org.entity.Company convert(java.lang.Long id) {
+                return Company.findCompany(id);
+            }
+        };
+    }
+    
+    public Converter<String, Company> ApplicationConversionServiceFactoryBean.getStringToCompanyConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Company>() {
+            public com.org.entity.Company convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Company.class);
+            }
+        };
+    }
+    
     public Converter<Document, String> ApplicationConversionServiceFactoryBean.getDocumentToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.Document, java.lang.String>() {
             public String convert(Document document) {
@@ -181,6 +204,102 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
+    public Converter<Long, ItemName> ApplicationConversionServiceFactoryBean.getIdToItemNameConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.ItemName>() {
+            public com.org.entity.ItemName convert(java.lang.Long id) {
+                return ItemName.findItemName(id);
+            }
+        };
+    }
+    
+    public Converter<String, ItemName> ApplicationConversionServiceFactoryBean.getStringToItemNameConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.ItemName>() {
+            public com.org.entity.ItemName convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), ItemName.class);
+            }
+        };
+    }
+    
+    public Converter<Long, Labour> ApplicationConversionServiceFactoryBean.getIdToLabourConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Labour>() {
+            public com.org.entity.Labour convert(java.lang.Long id) {
+                return Labour.findLabour(id);
+            }
+        };
+    }
+    
+    public Converter<String, Labour> ApplicationConversionServiceFactoryBean.getStringToLabourConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Labour>() {
+            public com.org.entity.Labour convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Labour.class);
+            }
+        };
+    }
+    
+    public Converter<LabourEntry, String> ApplicationConversionServiceFactoryBean.getLabourEntryToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.org.entity.LabourEntry, java.lang.String>() {
+            public String convert(LabourEntry labourEntry) {
+                return new StringBuilder().append(labourEntry.getCreatedOn()).append(' ').append(labourEntry.getLastUpdatedOn()).append(' ').append(labourEntry.getDate()).append(' ').append(labourEntry.getLocation()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, LabourEntry> ApplicationConversionServiceFactoryBean.getIdToLabourEntryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.LabourEntry>() {
+            public com.org.entity.LabourEntry convert(java.lang.Long id) {
+                return LabourEntry.findLabourEntry(id);
+            }
+        };
+    }
+    
+    public Converter<String, LabourEntry> ApplicationConversionServiceFactoryBean.getStringToLabourEntryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.LabourEntry>() {
+            public com.org.entity.LabourEntry convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), LabourEntry.class);
+            }
+        };
+    }
+    
+    public Converter<Long, LabourSupplier> ApplicationConversionServiceFactoryBean.getIdToLabourSupplierConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.LabourSupplier>() {
+            public com.org.entity.LabourSupplier convert(java.lang.Long id) {
+                return LabourSupplier.findLabourSupplier(id);
+            }
+        };
+    }
+    
+    public Converter<String, LabourSupplier> ApplicationConversionServiceFactoryBean.getStringToLabourSupplierConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.LabourSupplier>() {
+            public com.org.entity.LabourSupplier convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), LabourSupplier.class);
+            }
+        };
+    }
+    
+    public Converter<MaterialEntry, String> ApplicationConversionServiceFactoryBean.getMaterialEntryToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.org.entity.MaterialEntry, java.lang.String>() {
+            public String convert(MaterialEntry materialEntry) {
+                return new StringBuilder().append(materialEntry.getCreatedOn()).append(' ').append(materialEntry.getLastUpdatedOn()).append(' ').append(materialEntry.getSite()).append(' ').append(materialEntry.getDescriptionOfItem1()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, MaterialEntry> ApplicationConversionServiceFactoryBean.getIdToMaterialEntryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.MaterialEntry>() {
+            public com.org.entity.MaterialEntry convert(java.lang.Long id) {
+                return MaterialEntry.findMaterialEntry(id);
+            }
+        };
+    }
+    
+    public Converter<String, MaterialEntry> ApplicationConversionServiceFactoryBean.getStringToMaterialEntryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.MaterialEntry>() {
+            public com.org.entity.MaterialEntry convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), MaterialEntry.class);
+            }
+        };
+    }
+    
     public Converter<MeasurementSheet, String> ApplicationConversionServiceFactoryBean.getMeasurementSheetToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.MeasurementSheet, java.lang.String>() {
             public String convert(MeasurementSheet measurementSheet) {
@@ -201,6 +320,22 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.MeasurementSheet>() {
             public com.org.entity.MeasurementSheet convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), MeasurementSheet.class);
+            }
+        };
+    }
+    
+    public Converter<Long, Supplier> ApplicationConversionServiceFactoryBean.getIdToSupplierConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Supplier>() {
+            public com.org.entity.Supplier convert(java.lang.Long id) {
+                return Supplier.findSupplier(id);
+            }
+        };
+    }
+    
+    public Converter<String, Supplier> ApplicationConversionServiceFactoryBean.getStringToSupplierConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Supplier>() {
+            public com.org.entity.Supplier convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Supplier.class);
             }
         };
     }
@@ -242,6 +377,9 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getAggreementToStringConverter());
         registry.addConverter(getIdToAggreementConverter());
         registry.addConverter(getStringToAggreementConverter());
+        registry.addConverter(getCompanyToStringConverter());
+        registry.addConverter(getIdToCompanyConverter());
+        registry.addConverter(getStringToCompanyConverter());
         registry.addConverter(getDocumentToStringConverter());
         registry.addConverter(getIdToDocumentConverter());
         registry.addConverter(getStringToDocumentConverter());
@@ -251,9 +389,27 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getItemAbstractToStringConverter());
         registry.addConverter(getIdToItemAbstractConverter());
         registry.addConverter(getStringToItemAbstractConverter());
+        registry.addConverter(getItemNameToStringConverter());
+        registry.addConverter(getIdToItemNameConverter());
+        registry.addConverter(getStringToItemNameConverter());
+        registry.addConverter(getLabourToStringConverter());
+        registry.addConverter(getIdToLabourConverter());
+        registry.addConverter(getStringToLabourConverter());
+        registry.addConverter(getLabourEntryToStringConverter());
+        registry.addConverter(getIdToLabourEntryConverter());
+        registry.addConverter(getStringToLabourEntryConverter());
+        registry.addConverter(getLabourSupplierToStringConverter());
+        registry.addConverter(getIdToLabourSupplierConverter());
+        registry.addConverter(getStringToLabourSupplierConverter());
+        registry.addConverter(getMaterialEntryToStringConverter());
+        registry.addConverter(getIdToMaterialEntryConverter());
+        registry.addConverter(getStringToMaterialEntryConverter());
         registry.addConverter(getMeasurementSheetToStringConverter());
         registry.addConverter(getIdToMeasurementSheetConverter());
         registry.addConverter(getStringToMeasurementSheetConverter());
+        registry.addConverter(getSupplierToStringConverter());
+        registry.addConverter(getIdToSupplierConverter());
+        registry.addConverter(getStringToSupplierConverter());
         registry.addConverter(getTemplateToStringConverter());
         registry.addConverter(getIdToTemplateConverter());
         registry.addConverter(getStringToTemplateConverter());

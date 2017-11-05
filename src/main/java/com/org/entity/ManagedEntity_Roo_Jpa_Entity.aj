@@ -20,7 +20,7 @@ privileged aspect ManagedEntity_Roo_Jpa_Entity {
     declare @type: ManagedEntity: @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS);
     
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long ManagedEntity.id;
     
