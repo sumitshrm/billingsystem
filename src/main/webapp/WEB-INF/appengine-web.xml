@@ -6,7 +6,7 @@
   <system-properties>
     <property name="cloud-database-driver" value="com.mysql.jdbc.GoogleDriver" />
     <property name="local-database-driver" value="com.mysql.jdbc.Driver" />
-    <property name="cloud-database-url" value="jdbc:google:mysql://billingsystem-183513:us-central1:my-sql-instance/billingsystem?user=admin&amp;password=admin" />
+    <property name="cloud-database-url" value="jdbc:google:mysql://billingsystem-183513:us-central1:my-sql-instance/billingsystem?rewriteBatchedStatements=true&amp;user=admin&amp;password=admin" />
     <property name="local-database-url" value="jdbc:mysql://localhost:3306/billingsystem?user=root&amp;password=" />
   </system-properties>
   <runtime>java8</runtime>
