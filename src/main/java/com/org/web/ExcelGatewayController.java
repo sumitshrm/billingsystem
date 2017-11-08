@@ -120,9 +120,16 @@ public class ExcelGatewayController {
 	}
 
 	private void saveItemsAndAddToCommand(ItemsTo itemsTo, ExcelGatewayTo command) {
+		int count = 0;
 		for(Item item : itemsTo.getItems()){
 			item.persist();
+			if ( count % 50 == 0 ) { //20, same as the JDBC batch size
+				//flush a batch of inserts and release memory:
+				item.flush();
+				item.clear();
+			    }
 			command.getItemNumbers().add(item.getItemNumber());
+			count++;
 		}
 		
 	}
