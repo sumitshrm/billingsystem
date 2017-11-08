@@ -17,8 +17,9 @@ import com.org.domain.LogUser;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(inheritanceType = "TABLE_PER_CLASS")
+@RooJpaActiveRecord(inheritanceType = "TABLE_PER_CLASS", mappedSuperclass=true)
 public abstract class ManagedEntity {
+	
 	
 	@ManyToOne
 	private LogUser createdBy;
