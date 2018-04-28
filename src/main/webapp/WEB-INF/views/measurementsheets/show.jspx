@@ -124,7 +124,7 @@ function shortDescription(d_item, d_subitem){
         <field:display field="userManaged" id="s_com_org_entity_MeasurementSheet_userManaged" object="${measurementsheet}" z="iZRD+47YXMsW3h2mKpCLjnLKYNs="/>
         <field:display field="itemAbstractSorted" id="s_com_org_entity_MeasurementSheet_itemAbstractSorted" object="${measurementsheet}" render="false" z="user-managed"/>
         <field:display field="copyPreviousMeasurement" id="s_com_org_entity_MeasurementSheet_copyPreviousMeasurement" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="templateVersion" id="c_com_org_entity_measurementsheet_templateversion" object="${measurementsheet}" z="user-managed"/>
+        <field:display field="templateVersion" id="s_com_org_entity_MeasurementSheet_templateVersion" object="${measurementsheet}" z="user-managed"/>
     </page:show>
     <div class="row">
         <c:if test="${not measurementsheet.userManaged}">

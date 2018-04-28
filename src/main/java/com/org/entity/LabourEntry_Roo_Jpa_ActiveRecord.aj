@@ -11,14 +11,17 @@ privileged aspect LabourEntry_Roo_Jpa_ActiveRecord {
     
     public static final List<String> LabourEntry.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "labourSupplier", "date", "location", "natureOfWork", "numberOfWorkers", "unit", "rate", "remarks");
     
+    @Transactional
     public static long LabourEntry.countLabourEntrys() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM LabourEntry o", Long.class).getSingleResult();
+        return findAllLabourEntrys().size();
     }
     
+    @Transactional
     public static List<LabourEntry> LabourEntry.findAllLabourEntrys() {
         return entityManager().createQuery("SELECT o FROM LabourEntry o", LabourEntry.class).getResultList();
     }
     
+    @Transactional
     public static List<LabourEntry> LabourEntry.findAllLabourEntrys(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM LabourEntry o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -30,15 +33,18 @@ privileged aspect LabourEntry_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, LabourEntry.class).getResultList();
     }
     
+    @Transactional
     public static LabourEntry LabourEntry.findLabourEntry(Long id) {
         if (id == null) return null;
         return entityManager().find(LabourEntry.class, id);
     }
     
+    @Transactional
     public static List<LabourEntry> LabourEntry.findLabourEntryEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM LabourEntry o", LabourEntry.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<LabourEntry> LabourEntry.findLabourEntryEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM LabourEntry o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {

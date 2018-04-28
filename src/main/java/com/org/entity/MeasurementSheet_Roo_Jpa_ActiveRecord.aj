@@ -7,6 +7,7 @@ import com.org.entity.MeasurementSheet;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
@@ -14,7 +15,7 @@ privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager MeasurementSheet.entityManager;
     
-    public static final List<String> MeasurementSheet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "title", "serialNumber", "isFinalBill", "document", "userManaged", "serialNumberDisplayFormat", "workbook", "itemAbstractSorted", "excelFile", "copyPreviousMeasurement", "createDate", "lastUpdatedDate", "lastReportDate", "logUser", "itemAbstracts");
+    public static final List<String> MeasurementSheet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "title", "serialNumber", "isFinalBill", "document", "userManaged", "templateVersion", "serialNumberDisplayFormat", "workbook", "itemAbstractSorted", "excelFile", "copyPreviousMeasurement", "createDate", "lastUpdatedDate", "lastReportDate", "logUser", "itemAbstracts");
     
     public static final EntityManager MeasurementSheet.entityManager() {
         EntityManager em = new MeasurementSheet().entityManager;
@@ -22,14 +23,17 @@ privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long MeasurementSheet.countMeasurementSheets() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM MeasurementSheet o", Long.class).getSingleResult();
+        return findAllMeasurementSheets().size();
     }
     
+    @Transactional
     public static List<MeasurementSheet> MeasurementSheet.findAllMeasurementSheets() {
         return entityManager().createQuery("SELECT o FROM MeasurementSheet o", MeasurementSheet.class).getResultList();
     }
     
+    @Transactional
     public static List<MeasurementSheet> MeasurementSheet.findAllMeasurementSheets(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM MeasurementSheet o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, MeasurementSheet.class).getResultList();
     }
     
+    @Transactional
     public static MeasurementSheet MeasurementSheet.findMeasurementSheet(Long id) {
         if (id == null) return null;
         return entityManager().find(MeasurementSheet.class, id);
     }
     
+    @Transactional
     public static List<MeasurementSheet> MeasurementSheet.findMeasurementSheetEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM MeasurementSheet o", MeasurementSheet.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<MeasurementSheet> MeasurementSheet.findMeasurementSheetEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM MeasurementSheet o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, MeasurementSheet.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void MeasurementSheet.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

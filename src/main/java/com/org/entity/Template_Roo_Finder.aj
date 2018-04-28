@@ -29,14 +29,14 @@ privileged aspect Template_Roo_Finder {
     public static TypedQuery<Template> Template.findTemplatesByType(TemplateType type, String sortFieldName, String sortOrder) {
         if (type == null) throw new IllegalArgumentException("The type argument is required");
         EntityManager em = Template.entityManager();
-        String jpaQuery = "SELECT o FROM Template AS o WHERE o.type = :type";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Template AS o WHERE o.type = :type");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Template> q = em.createQuery(jpaQuery, Template.class);
+        TypedQuery<Template> q = em.createQuery(queryBuilder.toString(), Template.class);
         q.setParameter("type", type);
         return q;
     }

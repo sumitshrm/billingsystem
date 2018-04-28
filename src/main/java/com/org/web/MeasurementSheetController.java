@@ -27,6 +27,7 @@ import com.org.report.service.AbstractGeneratorServiceV2;
 import com.org.report.service.PartRateStatementGeneratorService;
 import com.org.service.DocumentService;
 import com.org.service.MeasurementSheetService;
+import com.org.service.blobstore.FileStorageService;
 import com.org.util.QueryUtil;
 import com.org.view.MessageType;
 import com.org.view.MessageVo;
@@ -49,6 +50,9 @@ public class MeasurementSheetController {
     @Autowired
     @Qualifier("abstractGeneratorServiceV2")
     private AbstractGeneratorServiceV2 abstractServiceV2;
+    
+    @Autowired
+    private FileStorageService fileStorageService;
     
 
     @RequestMapping(params = { "form", "aggreement" }, produces = "text/html")
@@ -74,7 +78,7 @@ public class MeasurementSheetController {
         measurementSheet.persist();
         Document defaultDoc;
         try {
-            defaultDoc = documentService.createDefaultDocument(filename, measurementSheet);
+            defaultDoc = documentService.createDefaultDocument(measurementSheet);
             defaultDoc.persist();
             measurementSheet.setDocument(defaultDoc);
             documentService.generateReportManualy(measurementSheet);
@@ -110,19 +114,20 @@ public class MeasurementSheetController {
     public String reloadAbstractDataFromMeasurementSheet(@PathVariable("id") Long msheetId, Model uiModel) {
         MeasurementSheet msheet = QueryUtil.getUniqueResult(MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetId, LogUser.getCurrentUser()));
         if (msheet != null) {
-            XSSFWorkbook workbook = msheet.getDocument().getWorkbook();
+            
             try {
+            	XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
             	if(msheet.getTemplateVersion()==0){
             		abstractService.reloadData(msheet, workbook);
             	}else{
             		abstractServiceV2.reloadData(msheet, workbook);
             	}
+            	workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 uiModel.addAttribute("message", e.getMessage());
             } finally {
-                msheet.getDocument().close();
             }
         }
         return "redirect:/measurementsheets/" + msheet.getId();
@@ -139,14 +144,20 @@ public class MeasurementSheetController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         MeasurementSheet measurementSheet = MeasurementSheet.findMeasurementSheet(id);
-        File excelFile = measurementSheet.getDocument() == null ? null : measurementSheet.getDocument().getExcelFile();
+       /* File excelFile = measurementSheet.getDocument() == null ? null : measurementSheet.getDocument().getExcelFile();
         if (excelFile == null) {
             System.out.println("WARNING:File not found for measuremnt sheet id : " + measurementSheet.getId());
         }
         boolean fileDeleted = excelFile == null ? false : excelFile.delete();
         if (!fileDeleted) {
             System.out.println("WARNING:File can not be deleted for measurement sheet id : " + measurementSheet.getId());
-        }
+        }*/
+        try {
+			fileStorageService.delete(measurementSheet.getStorageFileName());
+		} catch (Exception e) {
+			System.out.println("FILE CAN NOT BE DELETED : " + measurementSheet.getStorageFileName());
+			e.printStackTrace();
+		}
         measurementSheet.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -193,7 +204,7 @@ public class MeasurementSheetController {
             e.printStackTrace();
             uiModel.addAttribute("message", new MessageVo("notification_message_error", MessageType.ERROR).addParam(e.getMessage()));
         } finally {
-            measurementSheet.getDocument().close();
+            //measurementSheet.getDocument().close();
         }
         uiModel.addAttribute("measurementsheet", measurementSheet);
         uiModel.addAttribute("itemId", measurementSheet.getId());

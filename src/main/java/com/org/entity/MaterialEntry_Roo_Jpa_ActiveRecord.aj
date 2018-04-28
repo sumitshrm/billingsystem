@@ -11,14 +11,17 @@ privileged aspect MaterialEntry_Roo_Jpa_ActiveRecord {
     
     public static final List<String> MaterialEntry.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "site", "item", "descriptionOfItem1", "descriptionOfItem2", "date", "company", "supplier", "quantity", "unit", "rate", "remarks");
     
+    @Transactional
     public static long MaterialEntry.countMaterialEntrys() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM MaterialEntry o", Long.class).getSingleResult();
+        return findAllMaterialEntrys().size();
     }
     
+    @Transactional
     public static List<MaterialEntry> MaterialEntry.findAllMaterialEntrys() {
         return entityManager().createQuery("SELECT o FROM MaterialEntry o", MaterialEntry.class).getResultList();
     }
     
+    @Transactional
     public static List<MaterialEntry> MaterialEntry.findAllMaterialEntrys(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM MaterialEntry o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -30,15 +33,18 @@ privileged aspect MaterialEntry_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, MaterialEntry.class).getResultList();
     }
     
+    @Transactional
     public static MaterialEntry MaterialEntry.findMaterialEntry(Long id) {
         if (id == null) return null;
         return entityManager().find(MaterialEntry.class, id);
     }
     
+    @Transactional
     public static List<MaterialEntry> MaterialEntry.findMaterialEntryEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM MaterialEntry o", MaterialEntry.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<MaterialEntry> MaterialEntry.findMaterialEntryEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM MaterialEntry o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {

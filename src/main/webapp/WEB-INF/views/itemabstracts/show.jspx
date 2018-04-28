@@ -9,5 +9,7 @@
         <field:display field="absCellRef" id="s_com_org_entity_ItemAbstract_absCellRef" object="${itemabstract}" z="yYYCy0gARl293/aYpnSJrxFK308="/>
         <field:display field="measCellRef" id="s_com_org_entity_ItemAbstract_measCellRef" object="${itemabstract}" z="Y7PvtH1DX2IdwyPYVVKnjiMhWjI="/>
         <field:display field="itemDataTos" id="s_com_org_entity_ItemAbstract_itemDataTos" object="${itemabstract}" z="WyItqoQHJgFnPSVXOzEU0+oFUxM="/>
+        <field:display field="partRateRef" id="s_com_org_entity_ItemAbstract_partRateRef" object="${itemabstract}" z="yu4N72Qszgh3GDh6V2oRNYme7x8="/>
+        <field:display field="fullRateRef" id="s_com_org_entity_ItemAbstract_fullRateRef" object="${itemabstract}" z="vQnGFjorl+M/U2pD4EDxQTaVJiE="/>
     </page:show>
 </div>

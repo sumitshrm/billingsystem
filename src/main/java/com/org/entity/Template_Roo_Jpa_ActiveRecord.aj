@@ -7,6 +7,7 @@ import com.org.entity.Template;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Template_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect Template_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long Template.countTemplates() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Template o", Long.class).getSingleResult();
+        return findAllTemplates().size();
     }
     
+    @Transactional
     public static List<Template> Template.findAllTemplates() {
         return entityManager().createQuery("SELECT o FROM Template o", Template.class).getResultList();
     }
     
+    @Transactional
     public static List<Template> Template.findAllTemplates(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Template o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect Template_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Template.class).getResultList();
     }
     
+    @Transactional
     public static Template Template.findTemplate(Long id) {
         if (id == null) return null;
         return entityManager().find(Template.class, id);
     }
     
+    @Transactional
     public static List<Template> Template.findTemplateEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Template o", Template.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Template> Template.findTemplateEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Template o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect Template_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Template.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void Template.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

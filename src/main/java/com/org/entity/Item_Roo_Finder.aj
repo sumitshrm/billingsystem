@@ -114,14 +114,14 @@ privileged aspect Item_Roo_Finder {
     public static TypedQuery<Item> Item.findItemsByAggreement(Aggreement aggreement, String sortFieldName, String sortOrder) {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         return q;
     }
@@ -138,14 +138,14 @@ privileged aspect Item_Roo_Finder {
     public static TypedQuery<Item> Item.findItemsByAggreementAndIsExtraItem(Aggreement aggreement, boolean isExtraItem, String sortFieldName, String sortOrder) {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.isExtraItem = :isExtraItem";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.isExtraItem = :isExtraItem");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         q.setParameter("isExtraItem", isExtraItem);
         return q;
@@ -163,14 +163,14 @@ privileged aspect Item_Roo_Finder {
     public static TypedQuery<Item> Item.findItemsByAggreementAndIsExtraItemAndParentItemIsNull(Aggreement aggreement, boolean isExtraItem, String sortFieldName, String sortOrder) {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.isExtraItem = :isExtraItem AND o.parentItem IS NULL";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.isExtraItem = :isExtraItem AND o.parentItem IS NULL");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         q.setParameter("isExtraItem", isExtraItem);
         return q;
@@ -190,14 +190,14 @@ privileged aspect Item_Roo_Finder {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         q.setParameter("logUser", logUser);
         return q;
@@ -217,14 +217,14 @@ privileged aspect Item_Roo_Finder {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.measurementSheetId = :measurementSheetId";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.measurementSheetId = :measurementSheetId");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         q.setParameter("measurementSheetId", measurementSheetId);
         return q;
@@ -244,14 +244,14 @@ privileged aspect Item_Roo_Finder {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.measurementSheetId IS NULL  OR o.measurementSheetId != :measurementSheetId";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.measurementSheetId IS NULL  OR o.measurementSheetId != :measurementSheetId");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("aggreement", aggreement);
         q.setParameter("measurementSheetId", measurementSheetId);
         return q;
@@ -271,14 +271,14 @@ privileged aspect Item_Roo_Finder {
         if (id == null) throw new IllegalArgumentException("The id argument is required");
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.id = :id AND o.logUser = :logUser";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.id = :id AND o.logUser = :logUser");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("id", id);
         q.setParameter("logUser", logUser);
         return q;
@@ -295,14 +295,14 @@ privileged aspect Item_Roo_Finder {
     public static TypedQuery<Item> Item.findItemsByItemNumber(String itemNumber, String sortFieldName, String sortOrder) {
         if (itemNumber == null || itemNumber.length() == 0) throw new IllegalArgumentException("The itemNumber argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("itemNumber", itemNumber);
         return q;
     }
@@ -321,14 +321,14 @@ privileged aspect Item_Roo_Finder {
         if (itemNumber == null || itemNumber.length() == 0) throw new IllegalArgumentException("The itemNumber argument is required");
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber AND o.aggreement = :aggreement";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber AND o.aggreement = :aggreement");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("itemNumber", itemNumber);
         q.setParameter("aggreement", aggreement);
         return q;
@@ -345,14 +345,14 @@ privileged aspect Item_Roo_Finder {
     public static TypedQuery<Item> Item.findItemsByLogUser(LogUser logUser, String sortFieldName, String sortOrder) {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Item.entityManager();
-        String jpaQuery = "SELECT o FROM Item AS o WHERE o.logUser = :logUser";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.logUser = :logUser");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Item> q = em.createQuery(jpaQuery, Item.class);
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("logUser", logUser);
         return q;
     }

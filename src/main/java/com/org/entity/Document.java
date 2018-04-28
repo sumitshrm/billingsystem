@@ -88,16 +88,7 @@ public class Document {
 			
 	}
 	
-	public void close(){
-		if(this.getWorkbook()!=null){
-			try {
-				this.getWorkbook().close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	
 	@Override
 	public String toString() {
 		return filename;

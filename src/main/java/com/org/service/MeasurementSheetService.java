@@ -3,6 +3,7 @@ package com.org.service;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.XLColumnRange;
 import com.org.report.service.AbstractGeneratorService;
 import com.org.report.service.ScheduleGeneratorService;
+import com.org.service.blobstore.FileStorageService;
 
 @Service
 public class MeasurementSheetService {
@@ -43,8 +45,11 @@ public class MeasurementSheetService {
 	@Autowired
 	private ScheduleGeneratorService scheduleService;
 	
-	public void updateItems(MeasurementSheet msheet){
-		XSSFWorkbook wb = msheet.getDocument().getWorkbook();
+	@Autowired
+	private FileStorageService fileStorageService;
+	
+	public void updateItems(MeasurementSheet msheet) throws IOException{
+		XSSFWorkbook wb = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
 		XSSFSheet xsheet_items = wb.getSheet(Worksheets.ITEMS_SHEET);
 		XSSFSheet xsheet_extraitems = wb.getSheet(Worksheets.EXTRA_ITEMS_SHEET);
 		XSSFSheet xsheet_abstract = wb.getSheet(Worksheets.ABSTRACTSHEET);
@@ -145,16 +150,12 @@ public class MeasurementSheetService {
 		boolean selectedIsFinalBill = measurementSheet.isIsFinalBill();
 
 		if (!file.isEmpty()) {
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(measurementSheet
-							.getDocument().getUrl())));
-			FileCopyUtils.copy(file.getInputStream(), stream);
-			stream.close();
+			fileStorageService.doPost(file.getInputStream(), msheetMerged.getStorageFileName());
 			System.out.println("File uploaded successfully");
 		}
 
 		if (selectedIsFinalBill != currentIsFinalBill) {
-			XSSFWorkbook wb = msheetMerged.getDocument().getWorkbook();
+			XSSFWorkbook wb = new XSSFWorkbook(fileStorageService.doGet(msheetMerged.getStorageFileName()));
 			ExcelUtill.writeMasterData(wb.getSheet(Worksheets.ABSTRACTSHEET),
 					MasterDataCellName.SNO_OF_BILL,
 					msheetMerged.getSerialNumberDisplayFormat());
@@ -179,7 +180,8 @@ public class MeasurementSheetService {
 				itemAbstract.setTotal(0);
 				itemAbstract.persist();
 			}
-			msheetMerged.getDocument().save();
+			wb.write(fileStorageService.getOutputStream(msheetMerged.getStorageFileName()));
+			wb.close();
 		}
 		msheetMerged.setTitle(measurementSheet.getTitle());
 		msheetMerged.setIsFinalBill(measurementSheet.isIsFinalBill());

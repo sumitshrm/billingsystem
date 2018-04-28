@@ -7,6 +7,7 @@ import com.org.entity.Document;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Document_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect Document_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long Document.countDocuments() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Document o", Long.class).getSingleResult();
+        return findAllDocuments().size();
     }
     
+    @Transactional
     public static List<Document> Document.findAllDocuments() {
         return entityManager().createQuery("SELECT o FROM Document o", Document.class).getResultList();
     }
     
+    @Transactional
     public static List<Document> Document.findAllDocuments(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Document o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect Document_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Document.class).getResultList();
     }
     
+    @Transactional
     public static Document Document.findDocument(Long id) {
         if (id == null) return null;
         return entityManager().find(Document.class, id);
     }
     
+    @Transactional
     public static List<Document> Document.findDocumentEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Document o", Document.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Document> Document.findDocumentEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Document o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect Document_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Document.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void Document.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

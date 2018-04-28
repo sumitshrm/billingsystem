@@ -5,15 +5,31 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.tools.cloudstorage.GcsFileOptions;
+import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.appengine.tools.cloudstorage.GcsInputChannel;
+import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
+import com.google.appengine.tools.cloudstorage.GcsService;
+import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.org.constants.Worksheets;
 import com.org.domain.Config;
 import com.org.entity.Aggreement;
@@ -35,6 +51,7 @@ import com.org.report.service.ItemsGeneratorService;
 import com.org.report.service.MeasurementGeneratorService;
 import com.org.report.service.PartRateStatementGeneratorService;
 import com.org.report.service.ScheduleGeneratorService;
+import com.org.service.blobstore.FileStorageService;
 
 @Service
 public class DocumentService {
@@ -62,7 +79,11 @@ public class DocumentService {
 	
     @Autowired
     private PartRateStatementGeneratorService partRateStatementGeneratorService;
+    
+    @Autowired
+    private FileStorageService fileStorageService;
 	
+    @Deprecated
 	public Document createDefaultDocument(String filename, MeasurementSheet msheet) throws Exception{
 		String msheetUrl = System.getenv("OPENSHIFT_DATA_DIR")+"\\"+"MSHEET_"+msheet.getId()+"_"+msheet.getAggreement().getId()+".xlsm";
 		String tempUrl = this.getTemplateUrl(msheet.getTemplateVersion());
@@ -75,17 +96,17 @@ public class DocumentService {
 		File templateFile = msheet.isCopyPreviousMeasurement()
 				&& prevMsheet != null ? prevMsheet.getDocument().getExcelFile()
 				: new File(tempUrl);
-		
 		File msheetFile = new File(msheetUrl);
 		msheet.setExcelFile(msheetFile);
 		copyFileUsingChannel(templateFile, msheetFile);
-		XSSFWorkbook workbook = msheet.getDocument().getWorkbook();
+		XSSFWorkbook workbook = null;
+		//msheet.getDocument().getWorkbook();
 		measurementGeneratorService.generateMasterData(msheet, workbook);
 		if (msheet.isCopyPreviousMeasurement() && prevMsheet != null) {
 			abstractGeneratorService.removeReportData(msheet, workbook);
 			scheduleService.removeReportData(msheet, workbook);
 			deviationService.removeReportData(msheet, workbook);
-			itemsGeneratorService.removeExtraItemsData(msheet);
+			itemsGeneratorService.removeExtraItemsData(workbook);
 		}
 		if(msheet.getTemplateVersion()>0){
 			partRateStatementGeneratorService.generateMasterData(msheet, workbook);
@@ -105,7 +126,54 @@ public class DocumentService {
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.FNFB_SCHEDULE), true);
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.TEMPSHEET), true);
 		}
-		msheet.getDocument().save();
+		//msheet.getDocument().save();
+		return newDoc;
+	}
+	
+	
+	public Document createDefaultDocument(MeasurementSheet msheet) throws Exception {
+		String tempUrl = this.getTemplateUrl(msheet.getTemplateVersion());
+		Document newDoc = new Document();
+		newDoc.setFilename(msheet.getDocumentFileName()+".xlsm");
+		newDoc.setUrl("test");
+		msheet.setDocument(newDoc);
+		MeasurementSheet prevMsheet = msheet.getPreviousMeasurementSheet();
+		//Copy from previous measurement sheet if selected by user.
+		InputStream msheetFileStream = null;
+		if(msheet.isCopyPreviousMeasurement() && prevMsheet != null) {
+			msheetFileStream = fileStorageService.doGet(prevMsheet.getStorageFileName());
+		}else {
+			msheetFileStream = new FileInputStream(new File(tempUrl));
+		}
+		XSSFWorkbook workbook = new XSSFWorkbook(msheetFileStream);
+		measurementGeneratorService.generateMasterData(msheet, workbook);
+		if (msheet.isCopyPreviousMeasurement() && prevMsheet != null) {
+			abstractGeneratorService.removeReportData(msheet, workbook);
+			scheduleService.removeReportData(msheet, workbook);
+			deviationService.removeReportData(msheet, workbook);
+			itemsGeneratorService.removeExtraItemsData(workbook);
+		}
+		if(msheet.getTemplateVersion()>0){
+			partRateStatementGeneratorService.generateMasterData(msheet, workbook);
+			extraItemGeneratorService.generateMasterData(msheet, workbook);
+		}
+		if(!msheet.isUserManaged()){
+			abstractGeneratorService.generateMasterData(msheet, workbook);
+			scheduleService.generateMasterData(msheet, workbook);
+			deviationService.generateMasterData(msheet, workbook);
+			itemsGeneratorService.writeItems(msheet.getAggreement().getItems(), workbook, msheet, true);
+		}else{
+			workbook.setActiveSheet(workbook.getSheetIndex(Worksheets.EXTRA_ITEMS_SHEET));
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.MEASUREMENTSHEET), true);
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.ABSTRACTSHEET), true);
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.DEVIATIONSHEET), true);
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.RB_SCHEDULE), true);
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.FNFB_SCHEDULE), true);
+			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.TEMPSHEET), true);
+		}
+		
+		workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
+		workbook.close();
 		return newDoc;
 	}
 	
@@ -159,7 +227,7 @@ public class DocumentService {
 		// create the map of items and extra items
 		//generateReportManualy(msheet);
 		if(msheet.getAggreement().getItems().size()>0){
-			XSSFWorkbook workbook = msheet.getDocument().getWorkbook();
+			XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
 			if(msheet.getTemplateVersion()==0){
 				abstractGeneratorService.generateReport(msheet, workbook);
 			}else{
@@ -170,14 +238,16 @@ public class DocumentService {
 			
 			scheduleService.generateReport(msheet, workbook);
 			deviationService.generateReport(msheet, workbook);
-			msheet.getDocument().save();
+			workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
+			workbook.close();
 		}
 		msheet.setLastReportDate(new Date());
 		msheet.persist();
 	}
 	
-	public void removeReportData(MeasurementSheet msheet){
-		XSSFWorkbook workbook = msheet.getDocument().getWorkbook();
+	public void removeReportData(MeasurementSheet msheet) throws IOException{
+		
+		XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
 		abstractGeneratorService.removeReportData(msheet, workbook);
 		scheduleService.removeReportData(msheet, workbook);
 		deviationService.removeReportData(msheet, workbook);
@@ -203,5 +273,7 @@ public class DocumentService {
 		}
 		return null;
 	}
+	
+	  
 
 }

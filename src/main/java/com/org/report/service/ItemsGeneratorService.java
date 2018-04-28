@@ -1,5 +1,6 @@
 package com.org.report.service;
 
+import java.io.IOException;
 import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.org.constants.Worksheets;
@@ -22,9 +24,13 @@ import com.org.excel.service.ExcelUtill;
 import com.org.excel.util.ExtraItemRanges;
 import com.org.excel.util.ItemRanges;
 import com.org.excel.util.XLColumnRange;
+import com.org.service.blobstore.FileStorageService;
 
 @Service
 public class ItemsGeneratorService {
+	
+	@Autowired
+	private FileStorageService fileStorageService;
 	
 	public void writeItems(Set<Item> items, XSSFWorkbook wb, MeasurementSheet msheet, boolean writeExtraItem) throws Exception {
 		
@@ -89,8 +95,8 @@ public class ItemsGeneratorService {
 
 	}
 	
-	public void removeExtraItemsData(MeasurementSheet msheet){
-		XSSFSheet xsheet_extra_items = msheet.getDocument().getWorkbook()
+	public void removeExtraItemsData(XSSFWorkbook wb ) throws IOException{
+		XSSFSheet xsheet_extra_items = wb
 				.getSheet(Worksheets.EXTRA_ITEMS_SHEET);
 		ExcelUtill.deleteRow(xsheet_extra_items, 1, xsheet_extra_items.getLastRowNum());
 	}

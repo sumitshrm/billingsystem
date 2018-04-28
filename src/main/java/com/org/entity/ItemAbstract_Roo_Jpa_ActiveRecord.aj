@@ -7,6 +7,7 @@ import com.org.entity.ItemAbstract;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect ItemAbstract_Roo_Jpa_ActiveRecord {
@@ -14,7 +15,7 @@ privileged aspect ItemAbstract_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager ItemAbstract.entityManager;
     
-    public static final List<String> ItemAbstract.fieldNames4OrderClauseFilter = java.util.Arrays.asList("measurementSheet", "item", "total", "absCellRef", "measCellRef", "itemDataTos", "df");
+    public static final List<String> ItemAbstract.fieldNames4OrderClauseFilter = java.util.Arrays.asList("measurementSheet", "item", "total", "absCellRef", "measCellRef", "partRateRef", "fullRateRef", "itemDataTos", "df");
     
     public static final EntityManager ItemAbstract.entityManager() {
         EntityManager em = new ItemAbstract().entityManager;
@@ -22,14 +23,17 @@ privileged aspect ItemAbstract_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long ItemAbstract.countItemAbstracts() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM ItemAbstract o", Long.class).getSingleResult();
+        return findAllItemAbstracts().size();
     }
     
+    @Transactional
     public static List<ItemAbstract> ItemAbstract.findAllItemAbstracts() {
         return entityManager().createQuery("SELECT o FROM ItemAbstract o", ItemAbstract.class).getResultList();
     }
     
+    @Transactional
     public static List<ItemAbstract> ItemAbstract.findAllItemAbstracts(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ItemAbstract o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect ItemAbstract_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, ItemAbstract.class).getResultList();
     }
     
+    @Transactional
     public static ItemAbstract ItemAbstract.findItemAbstract(Long id) {
         if (id == null) return null;
         return entityManager().find(ItemAbstract.class, id);
     }
     
+    @Transactional
     public static List<ItemAbstract> ItemAbstract.findItemAbstractEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM ItemAbstract o", ItemAbstract.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<ItemAbstract> ItemAbstract.findItemAbstractEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ItemAbstract o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect ItemAbstract_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, ItemAbstract.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void ItemAbstract.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

@@ -28,14 +28,14 @@ privileged aspect LogUser_Roo_Finder {
     public static TypedQuery<LogUser> LogUser.findLogUsersByUsernameEquals(String username, String sortFieldName, String sortOrder) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
         EntityManager em = LogUser.entityManager();
-        String jpaQuery = "SELECT o FROM LogUser AS o WHERE o.username = :username";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM LogUser AS o WHERE o.username = :username");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<LogUser> q = em.createQuery(jpaQuery, LogUser.class);
+        TypedQuery<LogUser> q = em.createQuery(queryBuilder.toString(), LogUser.class);
         q.setParameter("username", username);
         return q;
     }

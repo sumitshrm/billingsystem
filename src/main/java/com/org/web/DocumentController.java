@@ -26,6 +26,8 @@ import com.org.entity.Document;
 import com.org.entity.MeasurementSheet;
 import com.org.excel.service.ExcelUtill;
 import com.org.report.service.ItemsGeneratorService;
+import com.org.service.DocumentService;
+import com.org.service.blobstore.FileStorageService;
 
 @RequestMapping("/documents")
 @Controller
@@ -34,6 +36,9 @@ public class DocumentController {
 
     @Autowired
     ItemsGeneratorService itemService;
+    
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -52,7 +57,7 @@ public class DocumentController {
         document.setUrl(request.getContextPath() + "/documents/showdoc/" + document.getId());
         document.persist();
         return "redirect:/documents?page=1&amp;size=10" + encodeUrlPathSegment(document.getId().toString(), request);
-    }
+    } 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
@@ -70,20 +75,17 @@ public class DocumentController {
         try {
             response.setHeader("Content-Disposition", "attachment;filename=\"" + ExcelUtill.getFileNameWithTimeStamp(msheet.getDocument().getFilename()) + "\"");
             OutputStream out = response.getOutputStream();
-            Document document = msheet.getDocument();
-            XSSFWorkbook wb = document.getWorkbook();
+            InputStream inputStream = fileStorageService.doGet(msheet.getStorageFileName());
+            XSSFWorkbook wb = new XSSFWorkbook(inputStream);
             itemService.writeItems(msheet.getAggreement().getItems(), wb, msheet, true);
-            msheet.getDocument().save();
-            InputStream inputStream = new FileInputStream(document.getUrl());
-            IOUtils.copy(inputStream, out);
-            inputStream.close();
+            wb.write(out);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            msheet.getDocument().close();
+            //msheet.getDocument().close();
         }
         return null;
     }

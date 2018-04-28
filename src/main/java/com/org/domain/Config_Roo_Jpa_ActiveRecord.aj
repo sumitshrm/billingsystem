@@ -7,6 +7,7 @@ import com.org.domain.Config;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Config_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect Config_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long Config.countConfigs() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Config o", Long.class).getSingleResult();
+        return findAllConfigs().size();
     }
     
+    @Transactional
     public static List<Config> Config.findAllConfigs() {
         return entityManager().createQuery("SELECT o FROM Config o", Config.class).getResultList();
     }
     
+    @Transactional
     public static List<Config> Config.findAllConfigs(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Config o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect Config_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Config.class).getResultList();
     }
     
+    @Transactional
     public static Config Config.findConfig(Long id) {
         if (id == null) return null;
         return entityManager().find(Config.class, id);
     }
     
+    @Transactional
     public static List<Config> Config.findConfigEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Config o", Config.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Config> Config.findConfigEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Config o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect Config_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Config.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void Config.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

@@ -7,6 +7,7 @@ import com.org.domain.LogUser;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect LogUser_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect LogUser_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long LogUser.countLogUsers() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM LogUser o", Long.class).getSingleResult();
+        return findAllLogUsers().size();
     }
     
+    @Transactional
     public static List<LogUser> LogUser.findAllLogUsers() {
         return entityManager().createQuery("SELECT o FROM LogUser o", LogUser.class).getResultList();
     }
     
+    @Transactional
     public static List<LogUser> LogUser.findAllLogUsers(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM LogUser o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect LogUser_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, LogUser.class).getResultList();
     }
     
+    @Transactional
     public static LogUser LogUser.findLogUser(Long id) {
         if (id == null) return null;
         return entityManager().find(LogUser.class, id);
     }
     
+    @Transactional
     public static List<LogUser> LogUser.findLogUserEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM LogUser o", LogUser.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<LogUser> LogUser.findLogUserEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM LogUser o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect LogUser_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, LogUser.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void LogUser.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

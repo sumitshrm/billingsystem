@@ -183,7 +183,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<ItemAbstract, String> ApplicationConversionServiceFactoryBean.getItemAbstractToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.ItemAbstract, java.lang.String>() {
             public String convert(ItemAbstract itemAbstract) {
-                return new StringBuilder().append(itemAbstract.getTotal()).append(' ').append(itemAbstract.getAbsCellRef()).append(' ').append(itemAbstract.getMeasCellRef()).toString();
+                return new StringBuilder().append(itemAbstract.getTotal()).append(' ').append(itemAbstract.getAbsCellRef()).append(' ').append(itemAbstract.getMeasCellRef()).append(' ').append(itemAbstract.getPartRateRef()).toString();
             }
         };
     }
@@ -303,7 +303,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<MeasurementSheet, String> ApplicationConversionServiceFactoryBean.getMeasurementSheetToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.MeasurementSheet, java.lang.String>() {
             public String convert(MeasurementSheet measurementSheet) {
-                return new StringBuilder().append(measurementSheet.getSerialNumberDisplayFormat()).append(' ').append(measurementSheet.getTitle()).append(' ').append(measurementSheet.getSerialNumber()).append(' ').append(measurementSheet.getExcelFile()).toString();
+                return new StringBuilder().append(measurementSheet.getSerialNumberDisplayFormat()).append(' ').append(measurementSheet.getTemplateVersion()).append(' ').append(measurementSheet.getTitle()).append(' ').append(measurementSheet.getSerialNumber()).toString();
             }
         };
     }

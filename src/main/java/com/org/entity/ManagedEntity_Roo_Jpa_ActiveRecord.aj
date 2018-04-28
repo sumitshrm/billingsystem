@@ -7,6 +7,7 @@ import com.org.entity.ManagedEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect ManagedEntity_Roo_Jpa_ActiveRecord {
@@ -23,14 +24,17 @@ privileged aspect ManagedEntity_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long ManagedEntity.countManagedEntitys() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM ManagedEntity o", Long.class).getSingleResult();
+        return findAllManagedEntitys().size();
     }
     
+    @Transactional
     public static List<ManagedEntity> ManagedEntity.findAllManagedEntitys() {
         return entityManager().createQuery("SELECT o FROM ManagedEntity o", ManagedEntity.class).getResultList();
     }
     
+    @Transactional
     public static List<ManagedEntity> ManagedEntity.findAllManagedEntitys(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ManagedEntity o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -42,15 +46,18 @@ privileged aspect ManagedEntity_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, ManagedEntity.class).getResultList();
     }
     
+    @Transactional
     public static ManagedEntity ManagedEntity.findManagedEntity(Long id) {
         if (id == null) return null;
         return entityManager().find(ManagedEntity.class, id);
     }
     
+    @Transactional
     public static List<ManagedEntity> ManagedEntity.findManagedEntityEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM ManagedEntity o", ManagedEntity.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<ManagedEntity> ManagedEntity.findManagedEntityEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM ManagedEntity o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -62,7 +69,7 @@ privileged aspect ManagedEntity_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, ManagedEntity.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void ManagedEntity.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);

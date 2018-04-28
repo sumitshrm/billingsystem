@@ -16,7 +16,7 @@ privileged aspect Aggreement_Roo_Jpa_Entity {
     declare @type: Aggreement: @Entity;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long Aggreement.id;
     

@@ -16,7 +16,7 @@ privileged aspect MeasurementSheet_Roo_Jpa_Entity {
     declare @type: MeasurementSheet: @Entity;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long MeasurementSheet.id;
     

@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -127,6 +129,10 @@ public class MeasurementSheet {
     	return filename;
     }
     
+    public String getStorageFileName() {
+    	return "MSHEET_"+getId()+"_"+getAggreement().getId()+".xlsm";
+    }
+    
     public ItemAbstract getPreviousItemAbstract(Item item){
     	MeasurementSheet msheet = getPreviousMeasurementSheet();
     	if(msheet==null){
@@ -200,6 +206,24 @@ public class MeasurementSheet {
 			setItemAbstractSorted(true);
 		}
 		return itemAbstracts;
+	}
+	
+	public Map<String, ItemAbstract> getItemAbstractsMap(){
+		Map<String, ItemAbstract> itemAbstractMap = new LinkedHashMap<String, ItemAbstract>();
+		for(ItemAbstract itemAbstract : getItemAbstracts()){
+			itemAbstractMap.put(itemAbstract.getItem().getItemNumber(), itemAbstract);
+		}
+		return itemAbstractMap;
+	}
+	
+	public Map<String, ItemAbstract> getItemAbstractsMapForDeviation(){
+		Map<String, ItemAbstract> itemAbstractMap = new LinkedHashMap<String, ItemAbstract>();
+		for(ItemAbstract itemAbstract : getItemAbstracts()){
+			if(itemAbstract.getTotalDeviation()!=0){
+				itemAbstractMap.put(itemAbstract.getItem().getItemNumber(), itemAbstract);
+			}
+		}
+		return itemAbstractMap;
 	}
 
 	public boolean isCopyPreviousMeasurement() {

@@ -229,7 +229,7 @@ public class ExcelUtill {
 
 	public static void writeCellValue(Object o, Cell cell) throws Exception {
 		if(o==null){
-			cell.setCellValue("");
+			//cell.setCellValue("");
 		} 
 		else if (o != null && o instanceof String) {
 			String val = (String) o;

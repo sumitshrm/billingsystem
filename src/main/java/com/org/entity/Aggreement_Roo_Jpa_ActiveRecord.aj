@@ -7,6 +7,7 @@ import com.org.entity.Aggreement;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Aggreement_Roo_Jpa_ActiveRecord {
@@ -22,14 +23,17 @@ privileged aspect Aggreement_Roo_Jpa_ActiveRecord {
         return em;
     }
     
+    @Transactional
     public static long Aggreement.countAggreements() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Aggreement o", Long.class).getSingleResult();
+        return findAllAggreements().size();
     }
     
+    @Transactional
     public static List<Aggreement> Aggreement.findAllAggreements() {
         return entityManager().createQuery("SELECT o FROM Aggreement o", Aggreement.class).getResultList();
     }
     
+    @Transactional
     public static List<Aggreement> Aggreement.findAllAggreements(String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Aggreement o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -41,15 +45,18 @@ privileged aspect Aggreement_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Aggreement.class).getResultList();
     }
     
+    @Transactional
     public static Aggreement Aggreement.findAggreement(Long id) {
         if (id == null) return null;
         return entityManager().find(Aggreement.class, id);
     }
     
+    @Transactional
     public static List<Aggreement> Aggreement.findAggreementEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Aggreement o", Aggreement.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
+    @Transactional
     public static List<Aggreement> Aggreement.findAggreementEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
         String jpaQuery = "SELECT o FROM Aggreement o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
@@ -61,7 +68,7 @@ privileged aspect Aggreement_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Aggreement.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void Aggreement.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
