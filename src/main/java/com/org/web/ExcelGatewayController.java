@@ -120,9 +120,14 @@ public class ExcelGatewayController {
 	}
 
 	private void saveItemsAndAddToCommand(ItemsTo itemsTo, ExcelGatewayTo command) {
+		int count =1;
 		for(Item item : itemsTo.getItems()){
 			item.persist();
 			command.getItemNumbers().add(item.getItemNumber());
+			 if ( ++count % 50 == 0 ) {
+			      item.flush();
+			      item.clear();
+			   }
 		}
 		
 	}
