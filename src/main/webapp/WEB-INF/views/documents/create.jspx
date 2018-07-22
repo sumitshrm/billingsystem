@@ -16,7 +16,6 @@
         <field:input field="content" id="c_com_org_entity_Document_content" z="Z707v8lGTOstHrOOPp5j+HZWMRE="/>
         <field:textarea field="url" id="c_com_org_entity_Document_url" required="true" z="5aSUdF1HDtnh/wTCUx3jvc4zeLk="/>
         <field:input field="excelFile" id="c_com_org_entity_Document_excelFile" z="znT7cDb8O1rIk6qRO+Qq4777GGo="/>
-        <field:input field="workbook" id="c_com_org_entity_Document_workbook" z="bx0pIV//666iLfQ2v13vGbj46yk="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_org_entity_Document" render="${not empty dependencies}" z="PcgBXkVBWkgBndZVtyt5I7gRUfI="/>
 </div>
