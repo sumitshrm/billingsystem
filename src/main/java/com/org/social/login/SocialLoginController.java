@@ -3,6 +3,8 @@ package com.org.social.login;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +23,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.org.domain.LogUser;
+import com.org.domain.LogUserRole;
 
 @RequestMapping("/sociallogin")
 @Controller
@@ -62,11 +66,8 @@ public class SocialLoginController {
 				String givenName = (String) payload.get("given_name");
 
 				if (emailVerified) {
-
-					System.out.println("logged in withuser new");
-					// SignInUtils.signin("admin", manager);
-					UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken("user",
-							"user");
+					LogUser user = this.getOrCreateUser(email, userId);
+					UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 					Authentication auth = manager.authenticate(authReq);
 					SecurityContextHolder.getContext().setAuthentication(auth);
 				}
@@ -78,6 +79,26 @@ public class SocialLoginController {
 			e.printStackTrace();
 		}
 		return "index";
+	}
+	
+	private LogUser getOrCreateUser(String username, String password) {
+		LogUser user = null;
+		try {
+			user = LogUser.findLogUsersByUsernameEquals(username).getSingleResult();
+			return user;
+		} catch (Exception e) { 
+			user= new LogUser();
+			LogUserRole role = LogUserRole.findLogUserRolesByRoleNameEquals("USER_ROLE").getResultList().get(0);
+			Set<LogUserRole> logUserRoles = new HashSet<LogUserRole>();
+			logUserRoles.add(role);
+			user.setRoles(logUserRoles);
+			user.setUsername(username);
+			user.setPassword(password);
+			user.setEnabled(true);
+			user.persist();
+			return user;
+		}
+		
 	}
 	
 	public Collection<GrantedAuthority> getAuthorities() {

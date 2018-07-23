@@ -25,12 +25,12 @@ public class LogUser {
     private Boolean enabled;
 
     @NotNull
-    @Size(max = 20, min = 4)
+    @Size(max = 100, min = 4)
     @Column(unique = true)
     private String username;
 
     @NotNull
-    @Size(max = 10, min = 4)
+    @Size(max = 100, min = 4)
     private String password;
 
     @NotNull

@@ -5,8 +5,8 @@
     <notification:popup object="${message}"/>
     <form:update id="fu_com_org_domain_LogUser" modelAttribute="logUser" path="/logusers" versionField="Version" z="ZazEX5mICpoAvjOQBksUCDRueQY=">
         <field:checkbox field="enabled" id="c_com_org_domain_LogUser_enabled" z="nGShHeBd6s6M32vhDmsAuumIqWU="/>
-        <field:input field="username" id="c_com_org_domain_LogUser_username" max="20" min="4" required="true" z="8VIUJi1aUp45T9/Nj88siTXh9fU="/>
-        <field:input field="password" id="c_com_org_domain_LogUser_password" max="10" min="4" required="true" z="NxCRvEhH1/GETQSzwjXUn9DZ6zc="/>
+        <field:textarea field="username" id="c_com_org_domain_LogUser_username" required="true" z="tzgLJpFNbH/AHs/pwy1FavIP7c4="/>
+        <field:textarea field="password" id="c_com_org_domain_LogUser_password" required="true" z="OHN11SVeGsh22B1td1xP7LKZ0Q8="/>
         <field:select field="roles" id="c_com_org_domain_LogUser_roles" itemValue="id" items="${loguserroles}" multiple="true" path="/loguserroles" required="true" z="rIGlJN/R0NSoyailzHmeeDQmqOc="/>
     </form:update>
 </div>
