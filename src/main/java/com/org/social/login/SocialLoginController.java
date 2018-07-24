@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -34,16 +37,20 @@ public class SocialLoginController {
 	@Qualifier("authenticationManager")
 	private AuthenticationManager manager; 
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	@RequestMapping("/google")
-	public String loginGoogle(@RequestParam(value = "token", required = false) String id) {
+	public @ResponseBody String loginGoogle(@RequestParam(value = "token", required = false) String id) {
 		System.out.println("logging in " + id);
 		try {
 			final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
 			// final JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 			JacksonFactory jsonFactory = new JacksonFactory();
+			String google_client=messageSource.getMessage("google.client", null, null);
 			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
 					.setAudience(Collections
-							.singletonList("331621766217-g19moqkodnpv06ngbimch9knr3rbdpuo.apps.googleusercontent.com"))
+							.singletonList(google_client))
 					.build();
 
 			// (Receive idTokenString by HTTPS POST)
@@ -54,7 +61,6 @@ public class SocialLoginController {
 
 				// Print user identifier
 				String userId = payload.getSubject();
-				System.out.println("User ID: " + userId);
 
 				// Get profile information from payload
 				String email = payload.getEmail();
@@ -73,12 +79,13 @@ public class SocialLoginController {
 				}
 
 			} else {
-				System.out.println("Invalid ID token.");
+				return "Login failed, try again. Reason: " + "Invalid ID token.";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "Login failed, try again. Reason: " + e.getMessage();
 		}
-		return "index";
+		return "success";
 	}
 	
 	private LogUser getOrCreateUser(String username, String password) {

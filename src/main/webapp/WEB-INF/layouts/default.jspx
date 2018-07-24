@@ -5,10 +5,11 @@
 	
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />  
 	<jsp:directive.page pageEncoding="UTF-8" /> 
+	<spring:message code="google.client" var="google_client" htmlEscape="false"/>
 			
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="google-signin-client_id" content="331621766217-g19moqkodnpv06ngbimch9knr3rbdpuo.apps.googleusercontent.com" />
+		<meta name="google-signin-client_id" content="${google_client}" />
 		
 		
 		<util:load-scripts />

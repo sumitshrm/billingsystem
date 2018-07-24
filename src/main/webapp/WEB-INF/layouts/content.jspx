@@ -9,7 +9,7 @@
 
 <jsp:directive.page contentType="text/html;charset=UTF-8" />
 <jsp:directive.page pageEncoding="UTF-8" />
-
+<spring:message code="google.client" var="google_client" htmlEscape="false" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
@@ -17,7 +17,14 @@
 function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	getAjax('/sociallogin/google?token='+id_token, function(data){ 
-		window.location = "/";
+		console.log(data);
+		if(data=="success"){
+			window.location = "/";
+		}else{
+			//window.location = "/login?login_error=t";
+			alert(data);
+		}
+		//window.location = "/";
 	});
 	}
 	
@@ -33,7 +40,7 @@ function getAjax(url, success) {
 }
 </script>
 <script src="https://apis.google.com/js/platform.js"><!-- required for FF3 and Opera --></script>
-<meta name="google-signin-client_id" content="331621766217-g19moqkodnpv06ngbimch9knr3rbdpuo.apps.googleusercontent.com" />
+<meta name="google-signin-client_id" content="${google_client}" />
 
 
 <util:load-scripts />
