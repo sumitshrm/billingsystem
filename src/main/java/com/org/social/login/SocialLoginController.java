@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -35,7 +36,7 @@ public class SocialLoginController {
 	private AuthenticationManager manager; 
 	
 	@RequestMapping("/google")
-	public String loginGoogle(@RequestParam(value = "token", required = false) String id) {
+	public @ResponseBody String loginGoogle(@RequestParam(value = "token", required = false) String id) {
 		System.out.println("logging in " + id);
 		try {
 			final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
@@ -77,8 +78,9 @@ public class SocialLoginController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "Login failed, try again. Reason: " + e.getMessage();
 		}
-		return "index";
+		return "success";
 	}
 	
 	private LogUser getOrCreateUser(String username, String password) {

@@ -17,7 +17,14 @@
 function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	getAjax('/sociallogin/google?token='+id_token, function(data){ 
-		window.location = "/";
+		console.log(data);
+		if(data=="success"){
+			window.location = "/";
+		}else{
+			//window.location = "/login?login_error=t";
+			alert(data);
+		}
+		//window.location = "/";
 	});
 	}
 	
