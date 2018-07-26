@@ -96,7 +96,7 @@ public class AbstractGeneratorServiceV2 extends AbstractGeneratorService{
 		 if(configDataPageNumCell==null){
 			 configDataPageNumCell =  itemAbsData.getConfigDataRow().createCell(ExcelUtill.getColumnNumberByRangeName(workbook, MeasurementSheetConstants.CD_A_PAGE));
 		 }
-		 c_description.setCellFormula("HYPERLINK(CELL(\"address\","+Worksheets.ABSTRACTSHEET+"!"+ExcelUtill.getCellReference(target)+"), T_PAGE_NUMBER & "+Worksheets.CONFIG_DATA_SHEET+"!"+ExcelUtill.getCellReference(configDataPageNumCell)+")");
+		 c_description.setCellFormula("HYPERLINK(CELL(\"address\","+Worksheets.ABSTRACTSHEET+"!"+ExcelUtill.getCellReference(target)+"), T_PAGE_NUMBER_MSHEET & "+Worksheets.CONFIG_DATA_SHEET+"!"+ExcelUtill.getCellReference(configDataPageNumCell)+")");
 		
 	}
 
