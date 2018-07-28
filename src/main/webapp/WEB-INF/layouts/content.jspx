@@ -18,7 +18,12 @@ function onSignIn(googleUser) {
 	getAjax('/sociallogin/google?token='+id_token, function(data){ 
 		console.log(data);
 		if(data=="success"){
-			window.location = "/";
+			if(document.title=='XLWINDOW'){
+				window.location = "/excelgateway?measurementSheet=0";
+			}else{
+				window.location = "/";
+			}
+			
 		}else{
 			//window.location = "/login?login_error=t";
 			alert(data);
@@ -27,6 +32,19 @@ function onSignIn(googleUser) {
 	});
 	}
 	
+function onLoad() {
+    gapi.load('auth2', function() {
+      gapi.auth2.init();
+    });
+  }
+
+function logOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
 function getAjax(url, success) {
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     xhr.open('GET', url);
@@ -38,7 +56,7 @@ function getAjax(url, success) {
     return xhr;
 }
 </script>
-<script src="https://apis.google.com/js/platform.js"><!-- required for FF3 and Opera --></script>
+<script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
 <meta name="google-signin-client_id" content="${google_client}" />
 
 

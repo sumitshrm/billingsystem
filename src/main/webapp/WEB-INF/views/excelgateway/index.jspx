@@ -3,15 +3,41 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8"/>
   <jsp:output omit-xml-declaration="yes"/>
   <script>
+  
   $( document ).ready(function() {
    document.title = "XLWINDOW";
-  }); 
    
+   var inFormOrLink;
+   var confirmClose = false;
+   $('a').on('click', function() { inFormOrLink = true; });
+   $('form').on('submit', function() { alert('sub');inFormOrLink = true; });
+   $(window).on('beforeunload', function(){
+	   //return inFormOrLink ? "Do you really want to close?" : null; 
+	   if($('#confirmclose').val()=="true"){
+		   return  "Do you really want to close?" ;
+	   }
+	   
+		   
+	});
+  }); 
+  
+  
+  /* var inFormOrLink;
+  $('a').on('click', function() { inFormOrLink = true; });
+  $('form').on('submit', function() { inFormOrLink = true; });
+
+  $(window).on("beforeunload", function() { 
+	  return "Bye now!";
+      //return inFormOrLink ? "Do you really want to close?" : null; 
+  }) */
+ 
+
   </script>
   <spring:message code="label_excelgateway_index" htmlEscape="false" var="title"/>
   <util:panel id="title" title="${title}">
     <spring:message code="application_name" htmlEscape="false" var="app_name"/>
     <h1>Login Successful! do not close this window. </h1>
+    <input type="hidden" id="confirmclose" value="true"></input>
     <div style="display:none">
     <form:form method="put" modelAttribute="command" action="./updateitems">
     <input type="hidden" name="excel_command" value="SUCCESS:"></input>
@@ -23,6 +49,10 @@
     <button type="submit">Save</button>
     </form:form>
     </div>
+    <spring:url
+						value="/resources/j_spring_security_logout" var="logout" />
+                   <a style="visibility: hidden;" href="${logout}" id="logOutButton" onclick="logOut();" class="btn btn-default btn-flat"><spring:message code="security_logout" /></a>
+                  
   </util:panel>
   
 </div>
