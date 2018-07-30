@@ -86,7 +86,7 @@
                 <div class="pull-right">
                   <spring:url
 						value="/resources/j_spring_security_logout" var="logout" />
-                   <a href="${logout}" class="btn btn-default btn-flat"><spring:message code="security_logout" /></a>
+                   <a href="${logout}" onclick="doLogout();" class="btn btn-default btn-flat"><spring:message code="security_logout" /></a>
                   
                 </div>
               </li>

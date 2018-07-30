@@ -5,9 +5,11 @@
 	
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />  
 	<jsp:directive.page pageEncoding="UTF-8" /> 
+	<spring:message code="google.client" var="google_client" htmlEscape="false"/>
 			
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="google-signin-client_id" content="${google_client}" />
 		
 		
 		<util:load-scripts />
@@ -22,8 +24,22 @@
 			// Animate loader off screen
 			$(".loading").fadeOut( 200);
 			});
-			
+		
+			function doLogout() {
+			      var auth2 = gapi.auth2.getAuthInstance();
+			      auth2.signOut().then(function () {
+			        console.log('User signed out.');
+			      });
+			    }
+
+			    function onLoad() {
+			      gapi.load('auth2', function() {
+			        gapi.auth2.init();
+			      });
+			    }
 		</script>
+		
+		<script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
 	</head>
 	
   	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui">

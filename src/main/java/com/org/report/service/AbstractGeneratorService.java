@@ -488,7 +488,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		 System.out.println("description cell: "+ExcelUtill.getCellReference(c_description));
 		 System.out.println("source :"+source+", target : "+ExcelUtill.getCellReference(target));
 		 System.out.println("set hyperlink in measurement sheet for cell : "+ref_source.getRow() +":"+ref_source.getCol()+", "+ExcelUtill.getCellReference(target));
-		c_description.setCellFormula("HYPERLINK(CELL(\"address\","+Worksheets.ABSTRACTSHEET+"!"+ExcelUtill.getCellReference(target)+"), T_PAGE_NUMBER & "+MeasurementSheetConstants.MEASUREMENT_PAGE_NUMBER+")");
+		c_description.setCellFormula("HYPERLINK(CELL(\"address\","+Worksheets.ABSTRACTSHEET+"!"+ExcelUtill.getCellReference(target)+"), T_PAGE_NUMBER_MSHEET & "+MeasurementSheetConstants.MEASUREMENT_PAGE_NUMBER+")");
 		
 	}
 	

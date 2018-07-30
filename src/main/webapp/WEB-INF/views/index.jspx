@@ -1,4 +1,4 @@
-<div xmlns:spring="http://www.springframework.org/tags"  xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:spring="http://www.springframework.org/tags"  xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message var="app_name" code="application_name" htmlEscape="false" />
@@ -13,6 +13,7 @@
   </util:panel> -->
   <util:panel id="title" title="${title}">
   <notification:popup object="${message}"/>
+  <sec:authorize ifAllGranted="USER_ROLE">
   <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
@@ -20,13 +21,14 @@
             <div class="inner">
               <h3 style="font-size: 26px">New Aggreement</h3>
 
-              <p>Create new aggreement</p>
+              <p>Create new aggreements</p>
             </div>
             <div class="icon">
               <m:icon styleclass="ion ion-bag"></m:icon>
             </div>
             <a href="./aggreements?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
+          
         </div>
         
         <div class="col-lg-3 col-xs-6">
@@ -73,7 +75,70 @@
             <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
+        </sec:authorize>
+        <sec:authorize ifAllGranted="ADMIN_ROLE">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3 style="font-size: 26px">New User</h3>
+
+              <p>Create new user</p>
+            </div>
+            <div class="icon">
+              <m:icon styleclass="ion ion-bag"></m:icon>
+            </div>
+            <a href="./logusers?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+          
+        </div>
         
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3 style="font-size: 26px">List Users<sup style="font-size: 10px"></sup></h3>
+
+              <p>List all users</p>
+            </div>
+            <div class="icon">
+              <m:icon styleclass="ion ion-stats-bars"></m:icon>
+            </div>
+            <a href="./logusers" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3 style="font-size: 26px">Create new role<sup style="font-size: 10px"></sup></h3>
+
+              <p>Create new role</p>
+            </div>
+            <div class="icon">
+              <m:icon styleclass="ion ion-stats-bars"></m:icon>
+            </div>
+            <a href="./loguserroles?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+         <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3 style="font-size: 26px">List all roles<sup style="font-size: 10px"></sup></h3>
+
+              <p>list all roles</p>
+            </div>
+            <div class="icon">
+              <m:icon styleclass="ion ion-stats-bars"></m:icon>
+            </div>
+            <a href="./loguserroles" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        </sec:authorize>
         
         
         <!-- <div class="col-lg-3 col-xs-6">

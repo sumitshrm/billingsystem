@@ -9,10 +9,56 @@
 
 <jsp:directive.page contentType="text/html;charset=UTF-8" />
 <jsp:directive.page pageEncoding="UTF-8" />
-
+<spring:message code="google.client" var="google_client" htmlEscape="false" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<script type="text/javascript">
+function onSignIn(googleUser) {
+	var id_token = googleUser.getAuthResponse().id_token;
+	getAjax('/sociallogin/google?token='+id_token, function(data){ 
+		console.log(data);
+		if(data=="success"){
+			if(document.title=='XLWINDOW'){
+				window.location = "/excelgateway?measurementSheet=0";
+			}else{
+				window.location = "/";
+			}
+			
+		}else{
+			//window.location = "/login?login_error=t";
+			alert(data);
+		}
+		//window.location = "/";
+	});
+	}
+	
+function onLoad() {
+    gapi.load('auth2', function() {
+      gapi.auth2.init();
+    });
+  }
+
+function logOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
+function getAjax(url, success) {
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState>3 &amp;&amp; xhr.status==200) success(xhr.responseText);
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.send();
+    return xhr;
+}
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
+<meta name="google-signin-client_id" content="${google_client}" />
+
 
 <util:load-scripts />
 

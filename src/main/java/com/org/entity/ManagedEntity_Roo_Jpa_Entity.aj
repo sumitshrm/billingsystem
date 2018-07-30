@@ -5,22 +5,22 @@ package com.org.entity;
 
 import com.org.entity.ManagedEntity;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 privileged aspect ManagedEntity_Roo_Jpa_Entity {
     
-    declare @type: ManagedEntity: @Entity;
+    declare @type: ManagedEntity: @MappedSuperclass;
     
     declare @type: ManagedEntity: @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS);
     
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long ManagedEntity.id;
     
