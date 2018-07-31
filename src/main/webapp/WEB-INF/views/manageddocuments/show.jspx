@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/manageddocuments/download?file=${manageddocument.url}" var="download_url"/>
+    <page:show id="ps_com_org_entity_ManagedDocument" object="${manageddocument}" path="/manageddocuments" z="BIVprDLmbzURuH+61KW9Ki9Shqg=">
+        <field:display field="aggreement" id="s_com_org_entity_ManagedDocument_aggreement" object="${manageddocument}" render="false" z="user-managed"/>
+        <field:display field="aggreementNum" id="s_com_org_entity_ManagedDocument_aggreement" object="${manageddocument.aggreement}" z="user-managed"/>
+        <field:display field="description" id="s_com_org_entity_ManagedDocument_description" object="${manageddocument}" z="slZd7JizL8fRq9wWI+89pI936E8="/>
+        <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
+        <field:display field="fileSize" id="s_com_org_entity_ManagedDocument_fileSize" object="${manageddocument}" render="false" z="user-managed"/>
+        <field:display field="url" id="s_com_org_entity_ManagedDocument_url" object="${manageddocument}" render="false" z="user-managed"/>
+        <field:display field="content" id="s_com_org_entity_ManagedDocument_content" object="${manageddocument}" render="false" z="user-managed"/>
+        <field:display field="logUser" id="s_com_org_entity_ManagedDocument_logUser" object="${manageddocument}" render="false" z="user-managed"/>
+    </page:show>
+</div>

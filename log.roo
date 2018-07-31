@@ -472,3 +472,19 @@ hint
 focus --class ~.domain.LogUserRole
 finder list
 finder add --finderName findLogUserRolesByRoleNameEquals
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-07-29 23:12:22
+help
+web mvc all --package ~.web
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-07-31 00:09:11
+hint
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2018-07-31 00:12:54
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-07-31 00:13:22
+hint
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-07-31 21:50:53
+hint
+focus --class ~.entity.ManagedDocument
+finder list 
+finder add --finderName findManagedDocumentsByLogUser
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2018-07-31 23:47:18

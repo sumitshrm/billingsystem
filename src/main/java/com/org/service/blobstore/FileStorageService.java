@@ -107,6 +107,28 @@ public InputStream doGet(String fileName) throws IOException {
 	    }
 	  }
 
+public void doGet( HttpServletResponse resp, String fileName) throws IOException {
+	GcsFilename gcsFileName = getFileName(fileName);
+    if (SERVE_USING_BLOBSTORE_API) {
+      BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+      BlobKey blobKey = blobstoreService.createGsBlobKey(
+          "/gs/" + gcsFileName.getBucketName() + "/" + gcsFileName.getObjectName());
+      blobstoreService.serve(blobKey, resp);
+    } else {
+      GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFileName, 0, BUFFER_SIZE);
+      copy(Channels.newInputStream(readChannel), resp.getOutputStream());
+    }
+  }
+
+private GcsFilename getFileName(HttpServletRequest req) {
+    String[] splits = req.getRequestURI().split("/", 4);
+    if (!splits[0].equals("") || !splits[1].equals("gcs")) {
+      throw new IllegalArgumentException("The URL is not formed as expected. " +
+          "Expecting /gcs/<bucket>/<object>");
+    }
+    return new GcsFilename(splits[2], splits[3]);
+  }
+
 public boolean delete(String filename) {
 	try {
 		return gcsService.delete(getFileName(filename));
