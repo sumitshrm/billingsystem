@@ -15,12 +15,6 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect ManagedDocumentController_Roo_Controller {
     
-    @RequestMapping(params = "form", produces = "text/html")
-    public String ManagedDocumentController.createForm(Model uiModel) {
-        populateEditForm(uiModel, new ManagedDocument());
-        return "manageddocuments/create";
-    }
-    
     @RequestMapping(value = "/{id}", produces = "text/html")
     public String ManagedDocumentController.show(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("manageddocument", ManagedDocument.findManagedDocument(id));

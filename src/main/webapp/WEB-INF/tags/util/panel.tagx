@@ -24,6 +24,10 @@
       <spring:escapeBody javaScriptEscape="true" >${title}</spring:escapeBody>
     </c:set>
     
+    <c:if test="${empty openPane or openPane}">
+      <c:set var="collapse" value="in" />
+    </c:if>
+    
     <script type="text/javascript">dojo.require('dijit.TitlePane');</script>
     
     <div class="row">
@@ -37,10 +41,10 @@
                <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">${title}</a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_${id}">${title}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                    <div id="collapseOne_${id}" class="panel-collapse collapse ${collapse}">
                                         <div class="panel-body">
 <jsp:doBody />
                                         </div>

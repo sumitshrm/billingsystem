@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Item;
+import com.org.entity.ManagedDocument;
 import com.org.entity.MeasurementSheet;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.QueryUtil;
@@ -52,7 +53,9 @@ public class AggreementController {
     @RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
         addDateTimeFormatPatterns(uiModel);
-        uiModel.addAttribute("aggreement", QueryUtil.getUniqueResult(Aggreement.findAggreementsByIdAndLogUser(id, getCurrentUser())));
+        Aggreement aggreement = QueryUtil.getUniqueResult(Aggreement.findAggreementsByIdAndLogUser(id, getCurrentUser()));
+        uiModel.addAttribute("aggreement", aggreement);
+        uiModel.addAttribute("manageddocuments",ManagedDocument.findManagedDocumentsByAggreement(aggreement).getResultList());
         uiModel.addAttribute("itemId", id);
         return "aggreements/show";
     }

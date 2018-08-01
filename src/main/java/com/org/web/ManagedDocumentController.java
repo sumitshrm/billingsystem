@@ -34,6 +34,16 @@ public class ManagedDocumentController {
 	@Autowired
 	private FileStorageService fileStorageService;
 	
+	@RequestMapping(params = "form", produces = "text/html")
+    public String createForm(Model uiModel, @RequestParam(value="aggreement", required=false) Long aggreementId) {
+		ManagedDocument managedDocument = new ManagedDocument();
+		if(aggreementId!=null) {
+			managedDocument.setAggreement(Aggreement.findAggreement(aggreementId));
+		}
+        populateEditForm(uiModel, managedDocument);
+        return "manageddocuments/create";
+    }
+	
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         managedDocument.setFileSize(managedDocument.getContent().getSize());

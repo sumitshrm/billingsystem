@@ -22,7 +22,7 @@ import com.org.domain.LogUser;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser" })
+@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement" })
 public class ManagedDocument {
 
     @Size(max = 500)
