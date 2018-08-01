@@ -8,8 +8,8 @@
             <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
             <table:column id="c_com_org_entity_ManagedDocument_url" property="url" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_ManagedDocument_aggreement" property="aggreement" z="MPj+90zulP+99nkTkW1+8hERL9g="/>
-            <table:column render="false" id="c_com_org_entity_ManagedDocument_content" property="content" z="ZRrfA3PPCYcKWo46RrP+JMF718I="/>
-            <table:column render="false" id="c_com_org_entity_ManagedDocument_logUser" property="logUser" z="BEur1r/VI7FdVrh0nc9kkw+m0+k="/>
+            <table:column id="c_com_org_entity_ManagedDocument_content" property="content" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" render="false" z="user-managed"/>
         </table:table>
     </page:list>
 </div>
