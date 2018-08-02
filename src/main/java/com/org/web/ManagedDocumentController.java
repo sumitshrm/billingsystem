@@ -53,6 +53,8 @@ public class ManagedDocumentController {
             return "manageddocuments/create";
         }
         uiModel.asMap().clear();
+        Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
+        managedDocument.setAggreement(aggreement);
         managedDocument.persist();
         managedDocument.setUrl(managedDocument.getStorageUrl());
         managedDocument.merge();
@@ -75,7 +77,8 @@ public class ManagedDocumentController {
             //populateEditForm(uiModel, managedDocument);
             //return "manageddocuments/update";
         }
-        
+        Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
+        managedDocument.setAggreement(aggreement);
         uiModel.asMap().clear();
         managedDocument.merge();
         return "redirect:/manageddocuments/" + managedDocument.getId();
