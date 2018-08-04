@@ -47,6 +47,10 @@ public class ManagedDocument {
     public String getStorageUrl() {
         return "MANAGED_DOCUMENTS_" + aggreement.getId() + "_" + getId() + "_" + content.getOriginalFilename();
     }
+    
+    public String getDownloadLink() {
+    	return "/manageddocuments/download?file="+url;
+    }
 
     @PrePersist
     public void prePersist() {

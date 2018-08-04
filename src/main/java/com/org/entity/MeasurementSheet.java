@@ -233,5 +233,9 @@ public class MeasurementSheet {
 	public void setCopyPreviousMeasurement(boolean copyPreviousMeasurement) {
 		this.copyPreviousMeasurement = copyPreviousMeasurement;
 	}
+	
+	public String getDownloadLink() {
+		return "/documents/showdoc/"+getId();
+	}
 
 }

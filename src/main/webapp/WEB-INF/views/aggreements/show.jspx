@@ -42,7 +42,7 @@
     </div>
     <page:list id="pl_com_org_entity_MeasurementSheet" items="${aggreement.measurementSheets}" openPane="true" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
         <table:table create="false" data="${aggreement.measurementSheets}" id="l_com_org_entity_MeasurementSheet" path="/measurementsheets" responsive="false" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=">
-            <table:column id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
+            <table:column document="true" id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
         </table:table>
     </page:list>
     
@@ -54,7 +54,7 @@
     
     <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" openPane="true" z="user-managed">
         <table:table create="false" data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" responsive="false" z="user-managed">
-            <table:column id="c_com_org_entity_ManagedDocument_description" property="description" z="user-managed"/>
+            <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="description" z="user-managed"/>
         </table:table>
     </page:list>
     <br/>

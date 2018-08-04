@@ -12,7 +12,9 @@
     </c:if>
     <form:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments" render="${empty dependencies}" z="user-managed">
         <field:select render="${empty managedDocument.aggreement}" field="aggreement" id="c_com_org_entity_ManagedDocument_aggreement" itemValue="id" items="${aggreements}" path="/aggreements" z="eNHbNwf9MI9/G6MFuEx3keR7v9M="/>
+    	<div  style="${style}">
     	<field:input render="${not empty managedDocument.aggreement}" field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" z="user-managed"/>
+        </div>		
         <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
         <field:file field="content" id="c_com_org_entity_ManagedDocument_content" required="true" z="user-managed"/>
         <field:input field="fileSize" id="c_com_org_entity_ManagedDocument_fileSize" render="false" z="user-managed"/>

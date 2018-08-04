@@ -7,8 +7,8 @@
         <nav:item active="true" label="list documents" url="/manageddocuments"/>
     </nav:nav>
     <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
-        <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
-            <table:column id="c_com_org_entity_ManagedDocument_description" property="description" z="1CSNlCsmiO4iiNbCRb5kqhxlV9Y="/>
+        <table:table  data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
+            <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="description" z="1CSNlCsmiO4iiNbCRb5kqhxlV9Y="/>
             <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
             <table:column id="c_com_org_entity_ManagedDocument_url" property="url" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_ManagedDocument_aggreement" property="aggreement" z="MPj+90zulP+99nkTkW1+8hERL9g="/>

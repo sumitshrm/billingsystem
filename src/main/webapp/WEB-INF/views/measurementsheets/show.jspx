@@ -111,6 +111,8 @@ function shortDescription(d_item, d_subitem){
     <page:show create="false" delete="true" id="ps_com_org_entity_MeasurementSheet" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
         <field:display field="title" id="s_com_org_entity_MeasurementSheet_title" object="${measurementsheet}" z="J7JMK2STvGP/E15VHkXhTgxQZMs="/>
         <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
+    <page:show openPane="false" create="false" label="Detail" delete="true" id="ps_com_org_entity_Item" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
+        
         <field:display date="true" dateTimePattern="${measurementSheet_createdate_date_format}" field="createDate" id="s_com_org_entity_MeasurementSheet_createDate" object="${measurementsheet}" z="D5WW8sAGU9BC2TTk1bKQGZJke9w="/>
         <field:display date="true" dateTimePattern="${measurementSheet_lastupdateddate_date_format}" field="lastUpdatedDate" id="s_com_org_entity_MeasurementSheet_lastUpdatedDate" object="${measurementsheet}" z="mDBgJkyfxq98nd8XSj8JCBE46NM="/>
         <field:display field="aggreementNum" id="s_com_org_entity_MeasurementSheet_aggreement" object="${measurementsheet.aggreement}" z="user-managed"/>
@@ -126,6 +128,9 @@ function shortDescription(d_item, d_subitem){
         <field:display field="copyPreviousMeasurement" id="s_com_org_entity_MeasurementSheet_copyPreviousMeasurement" object="${measurementsheet}" render="false" z="user-managed"/>
         <field:display field="templateVersion" id="s_com_org_entity_MeasurementSheet_templateVersion" object="${measurementsheet}" z="user-managed"/>
     </page:show>
+    
+    </page:show>
+    
     <div class="row">
         <c:if test="${not measurementsheet.userManaged}">
             <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
