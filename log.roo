@@ -488,3 +488,15 @@ finder list
 finder add --finderName findManagedDocumentsByLogUser
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2018-07-31 23:47:18
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-08-01 00:04:47
+hint
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-08-01 21:12:38
+hint
+focus --class ~.entity.ManagedDocument
+finder list
+finder add --finderName findManagedDocumentsByAggreement
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-08-05 12:10:10
+help
+web mvc controller --class ~web.DsrController --preferredMapping /books/dsr
+web mvc controller --class ~web.DarController --preferredMapping /books/dar
+web mvc controller --class ~web.MaterialRatesController --preferredMapping /books/materialrates
