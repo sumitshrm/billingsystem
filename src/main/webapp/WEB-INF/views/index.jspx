@@ -56,6 +56,26 @@
             <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-blue">
+            <div class="inner"><a href="./books/dsr" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>DSR</h3>
+            </a></div>
+            <a href="./books/dsr" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-orange">
+            <div class="inner"><a href="./books/materialrates" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>Material Rates</h3>
+            </a></div>
+            <a href="./books/materialrates" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
         </sec:authorize>
         <sec:authorize ifAllGranted="ADMIN_ROLE">
         <div class="col-lg-3 col-xs-6">
