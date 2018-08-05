@@ -3,13 +3,13 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments" versionField="Version" z="9R5uI3yAiATyyYBOQl2sT85XYeU=">
-        <field:input field="description" id="c_com_org_entity_ManagedDocument_description" z="QP4sabaY4PHafduDX+WKugKJJ1I="/>
+        <field:input field="description" id="c_com_org_entity_ManagedDocument_description" z="user-managed"/>
         <field:input field="content" id="c_com_org_entity_ManagedDocument_content" render="false" required="true" z="user-managed"/>
         <div style="display:none">
-	    	<field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" z="user-managed"/>
+            <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" z="user-managed"/>
             <field:input field="fileSize" id="c_com_org_entity_ManagedDocument_fileSize" render="true" required="true" type="hidden" z="user-managed"/>
             <field:input field="url" id="c_com_org_entity_ManagedDocument_url" render="true" type="hidden" z="user-managed"/>
-        <field:select field="logUser" id="c_com_org_entity_ManagedDocument_logUser" itemValue="id" items="${logusers}" path="/logusers" z="TqctFOwKs1vSae3KNi8gooRKikM="/>
+            <field:select field="logUser" id="c_com_org_entity_ManagedDocument_logUser" itemValue="id" items="${logusers}" path="/logusers" z="TqctFOwKs1vSae3KNi8gooRKikM="/>
         </div>
     </form:update>
 </div>
