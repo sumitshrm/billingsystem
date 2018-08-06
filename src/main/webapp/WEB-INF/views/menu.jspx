@@ -48,7 +48,7 @@
                             <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
                             <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
                             <menu:item id="i_controller__books_dsrindex_id" messageCode="global_generic" url="/books/dsr" z="user-managed"/>
-                            <menu:item id="i_controller__books_darindex_id" messageCode="global_generic" render="false" url="/books/dar" z="user-managed"/>
+                            <menu:item id="i_controller__books_darindex_id" messageCode="global_generic" url="/books/dar" z="user-managed"/>
                             <menu:item id="i_controller__books_materialratesindex_id" messageCode="global_generic" url="/books/materialrates" z="/V45W8fJXyVsaeTnElgs+vUGe34="/>
                         </menu:category>
                     </sec:authorize>

@@ -6,66 +6,245 @@
   <spring:message code="dar_file" htmlEscape="false" var="dar_file"/>
     <spring:url value="/books/dar/download?file=" var="csv_url" />
   <spring:message code="label_books_dsr_index" htmlEscape="false" var="title"/>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdatatable.js"><!-- required for FF3 and Opera --></script>
+  
+    
+    
+    <script type="text/javascript" src="${jqwidgets_url}/jqxcore.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxdata.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxbuttons.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxmenu.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.selection.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.filter.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxlistbox.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
-	<script type="text/javascript">
+    <script type="text/javascript" src="${jqwidgets_url}/jqxcheckbox.js"><!-- required for FF3 and Opera --></script>
+    	    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.pager.js"><!-- required for FF3 and Opera --></script> 
+    	
+
+  <util:panel id="title" title="${title}">
+  
+  <script type="text/javascript">
         $(document).ready(function () {
-            var url = '${csv_url}${dar_file}';
-            console.log(url+'---------');
+        	var selectedDataIndexes = [];
+        	$("input:text").focus(function() { $(this).select(); } );
+        	
+            var getAdapter = function () {
+                // prepare the data
+            var url_data = '${csv_url}${dar_file}';
             var source =
             {
                 dataType: "tab",
                 dataFields: [
                     { name: 'Code', type: 'string' },
-                    { name: 'Description of Items', type: 'string' },
+                    { name: 'Desc', type: 'string' },
                     { name: 'Unit', type: 'string' },
-                    { name: 'Rate (Rs)', type: 'string' }
+                    { name: 'Rate', type: 'string' }
                 ],
-                url: url
+                url: url_data
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#table").jqxDataTable(
+                return dataAdapter;
+            }
+
+            // initialize jqxGrid
+            $("#grid").jqxGrid(
             {
-                filterable: true,
-            	width: "100%",	
+                source: getAdapter(),
+                width: '100%',
+                showtoolbar: false,
                 pageable: true,
-                pagerMode: 'advanced',
-                pagerButtonsCount: 20,
-                source: dataAdapter,
-                columnsResize: true,
+                autorowheight: true,
+                autoheight: true,
+                selectionmode: 'checkbox',
                 columns: [
                   { text: 'Code', dataField: 'Code'},
-                  { text: 'Description of Items', dataField: 'Description of Items' },
+                  { text: 'Description of Items', dataField: 'Desc' },
                   { text: 'Unit', dataField: 'Unit'},
-                  { text: 'Rate (Rs)', dataField: 'Rate (Rs)'}
+                  { text: 'Rate (Rs)', dataField: 'Rate'}
                 ]
             });
+
+            // create jqxWindow.
             
-            //$("#excelExport").jqxButton();
-            //$("#pdfExport").jqxButton();
-            $("#excelExport").click(function () {
-                $("#dataTable").jqxDataTable('exportData', 'xls');
+            $("#inputField").on('change keyup paste', function() {
+                console.log('I am pretty sure the text box changed');
+                $("#grid").jqxGrid('clearfilters');
+                var datafield = "Code";
+                var searchText = $("#inputField").val();
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = searchText;
+                var filtercondition = 'starts_with';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                $("#grid").jqxGrid('addfilter', datafield, filtergroup);
+                // apply the filters.
+                $("#grid").jqxGrid('applyfilters');
             });
-            $("#pdfExport").click(function () {
-                $("#table").jqxDataTable('exportData', 'pdf');
+            
+            $("#descField").on('change keyup paste', function() {
+                console.log('I am pretty sure the text box changed');
+                $("#grid").jqxGrid('clearfilters');
+                var datafield = "Desc";
+                var searchText = $("#descField").val();
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = searchText;
+                var filtercondition = 'contains';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                $("#grid").jqxGrid('addfilter', datafield, filtergroup);
+                // apply the filters.
+                $("#grid").jqxGrid('applyfilters');
             });
+            
+            
+            var selectedSource =
+            {
+                datatype: "json",
+                datafields: [
+                	{ name: 'Code', type: 'string' },
+                    { name: 'Desc', type: 'string' },
+                    { name: 'Unit', type: 'string' },
+                    { name: 'Rate', type: 'string' }
+                ],
+                id: 'id',
+                url: ''
+            };
+            var dataAdapter = new $.jqx.dataAdapter(selectedSource);
+            $("#selectedGrid").jqxGrid(
+            {
+                source: dataAdapter,
+                width: '100%',
+                showtoolbar: false,
+                autorowheight: true,
+                autoheight: true,
+                columns: [
+                	{ text: 'Code', dataField: 'Code'},
+                    { text: 'Description of Items', dataField: 'Desc' },
+                    { text: 'Unit', dataField: 'Unit'},
+                    { text: 'Rate (Rs)', dataField: 'Rate'}
+              ]
+            });
+            
+            
+            /* var test = function(){
+
+            	console.log('inig');
+            	var selectedrowindexes = $('#grid').jqxGrid('selectedrowindexes');
+            	for(var index in selectedrowindexes ){
+            		var i = (index*1)+1;
+            		console.log(i);
+            		var data = $('#grid').jqxGrid('getrowdata', (i));
+            		console.log(data);
+            		
+            		
+            	}
+            
+            } */
+
+            
         });
+        
+        function save(){
+        	$('#selectedGrid').jqxGrid('clear');
+        	var selectedrowindexes = $('#grid').jqxGrid('selectedrowindexes');
+        	selectedrowindexes=selectedrowindexes.sort((a, b) => a - b);
+        	selectedDataIndexes = [];
+        	for(var index in selectedrowindexes ){
+        		var i = selectedrowindexes[index];
+        		var data = $('#grid').jqxGrid('getrowdata', (i));
+        		var code = data.Code;
+        		if(code!=''){
+        			console.log(code+'--code');
+            		addParentItems('grid','Code',code);
+            		selectedDataIndexes = selectedDataIndexes.sort((a, b) => a - b);
+            		console.log(selectedDataIndexes);
+        		}
+        		
+        	}
+        	for(var index in selectedDataIndexes ){
+        		var i = selectedDataIndexes[index];
+        		var data = $('#grid').jqxGrid('getrowdata', (i));
+        		$("#selectedGrid").jqxGrid('addrow', null, data);
+        	}
+        	
+
+        }
+        
+        function addParentItems(grid, field, value, selectField) {
+        	var code = value.substr(0, value.lastIndexOf('.'));
+        	if(code.split(".").length>1){
+        		addParentItems("#grid", field, code, selectField);
+        	}
+            var rows = $("#grid").jqxGrid('getboundrows');
+            var output = [];
+            var i = 0;
+            rows.forEach(function(row) {
+                if(row[field] == value) {
+                    	//$("#selectedGrid").jqxGrid('addrow', null, row);
+                	//selectedDataIndexes.push(i);
+                	if(selectedDataIndexes.indexOf(i) === -1) {
+                		selectedDataIndexes.push(i);
+				    }
+                }
+                i++;
+            });
+        }
+        
+        
+    
     </script>
-  <util:panel id="title" title="${title}">
+    
+    
     <div>
-        <div style='float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to Excel" id='excelExport' />
+          <!-- Custom Tabs -->
+          <div class="row">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Select Items</a></li>
+              <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Add Extra Items</a></li>
+              <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Review and Save</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <!-- TABLE RENDER START -->
+                <div class="col-lg-3 col-xs-6">
+      <div class="form-group">
+          <!-- <label for="exampleInputEmail1">Code</label> -->
+                  <input type="text" class="form-control" id="inputField" placeholder="Enter Code" />
+        
+        </div> </div>
+        
+        <!-- <div class="col-lg-3 col-xs-6">
+          <div class="form-group" style="display:none">
+                  <input  type="text" class="form-control" id="descField" placeholder="Enter Description" />
+                </div>
+        </div> -->
+        
+        <div class="col-lg-3 col-xs-6">
+         <div class="form-group">
+                         <input class="btn btn-primary" onclick="save()" type="button" value="save"/>
+		</div>
         </div>
-        <div style='margin-left: 10px; float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to PDF" id='pdfExport' />
+    
+        <div id="grid"><!-- div can not be empty --></div>
+        <!-- TABLE RENDER FINISH -->
+              </div>
+              <div class="tab-pane" id="tab_2">
+                The European 
+              </div>
+              <div class="tab-pane" id="tab_3" >
+                <div id="selectedGrid"><!-- div can not be empty --></div>
+              </div>
+            </div>
+          </div>
+          </div>
         </div>
-    </div>
-    <br></br><br></br>
-    <div id="table"></div>
+    
+    
     
   </util:panel>
 </div>
