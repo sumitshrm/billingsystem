@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8"/>
   <jsp:output omit-xml-declaration="yes"/>
   <spring:message code="label_books_dar_index" htmlEscape="false" var="title"/>
   <spring:message code="dar_file" htmlEscape="false" var="dar_file"/>
-    <spring:url value="/books/dar/download?file=" var="csv_url" />
+  <spring:url value="/books/dar/download?file=" var="csv_url" />
+  <spring:url value="/books/dar/save" var="saveUrl" />
   <spring:message code="label_books_dsr_index" htmlEscape="false" var="title"/>
   
     
@@ -21,6 +22,8 @@
     <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxcheckbox.js"><!-- required for FF3 and Opera --></script>
     	    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.pager.js"><!-- required for FF3 and Opera --></script> 
+    	    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.edit.js"><!-- required for FF3 and Opera --></script> 
+    	    <script type="text/javascript" src="${jqwidgets_url}/jqxgrid.columnsresize.js"><!-- required for FF3 and Opera --></script> 
     	
 
   <util:panel id="title" title="${title}">
@@ -37,10 +40,11 @@
             {
                 dataType: "tab",
                 dataFields: [
-                    { name: 'Code', type: 'string' },
-                    { name: 'Desc', type: 'string' },
-                    { name: 'Unit', type: 'string' },
-                    { name: 'Rate', type: 'string' }
+                    { name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
                 ],
                 url: url_data
             };
@@ -58,11 +62,14 @@
                 autorowheight: true,
                 autoheight: true,
                 selectionmode: 'checkbox',
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
                 columns: [
-                  { text: 'Code', dataField: 'Code'},
-                  { text: 'Description of Items', dataField: 'Desc' },
-                  { text: 'Unit', dataField: 'Unit'},
-                  { text: 'Rate (Rs)', dataField: 'Rate'}
+                	{ text: 'Code', dataField: 'code', editable: false },
+                    { text: 'Description of Items', dataField: 'desc' , editable: false },
+                    { text: 'Unit', dataField: 'unit' , editable: false },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: true },
                 ]
             });
 
@@ -105,10 +112,11 @@
             {
                 datatype: "json",
                 datafields: [
-                	{ name: 'Code', type: 'string' },
-                    { name: 'Desc', type: 'string' },
-                    { name: 'Unit', type: 'string' },
-                    { name: 'Rate', type: 'string' }
+                	{ name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
                 ],
                 id: 'id',
                 url: ''
@@ -121,32 +129,94 @@
                 showtoolbar: false,
                 autorowheight: true,
                 autoheight: true,
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
                 columns: [
-                	{ text: 'Code', dataField: 'Code'},
-                    { text: 'Description of Items', dataField: 'Desc' },
-                    { text: 'Unit', dataField: 'Unit'},
-                    { text: 'Rate (Rs)', dataField: 'Rate'}
+                	{ text: 'Code', dataField: 'code', editable: false },
+                    { text: 'Description of Items', dataField: 'desc' , editable: false },
+                    { text: 'Unit', dataField: 'unit' , editable: false },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: false },
               ]
             });
             
             
-            /* var test = function(){
-
-            	console.log('inig');
-            	var selectedrowindexes = $('#grid').jqxGrid('selectedrowindexes');
-            	for(var index in selectedrowindexes ){
-            		var i = (index*1)+1;
-            		console.log(i);
-            		var data = $('#grid').jqxGrid('getrowdata', (i));
-            		console.log(data);
-            		
-            		
-            	}
             
-            } */
+            
+            var extraItemSource =
+            {
+                datatype: "json",
+                datafields: [
+                	{ name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
+                ],
+                deleterow: function (rowid, commit) {
+                	console.log('delete');
+                    commit(true);
+                },
+                id: 'id',
+                url: ''
+            };
+            var dataAdapter = new $.jqx.dataAdapter(extraItemSource);
+            
+            var deleteButton = function (row, columnfield, value, defaulthtml, columnproperties) {
+            	//var id = $("#extraItemGrid").jqxGrid('getrowid', row);
+            	//console.log(id);
+                //return '<button id='+id+' type="button" class="btn btn-primary btn-xs" onclick="buttonclick(event)"><span class="glyphicon glyphicon-trash"></span></button>';
+            };
+            $("#extraItemGrid").jqxGrid(
+            {
+                source: dataAdapter,
+                width: '100%',
+                showtoolbar: false,
+                autorowheight: true,
+                autoheight: true,
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
+                showeverpresentrow: true,
+                everpresentrowposition: "bottom",
+                everpresentrowactions: "addBottom",
+                everpresentrowactionsmode: "columns",
+                columnsresize: true,
+                ready: function(){
+                	console.log($("#extraItemGrid a").addClass("btn btn-primary btn-xs"));
+                	
+                },
+                columns: [
+                	{ text: 'Code', dataField: 'code', editable: true },
+                    { text: 'Description of Items', dataField: 'desc' , editable: true },
+                    { text: 'Unit', dataField: 'unit' , editable: true },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: true },
+                    {
+                    	text: '',
+                        datafield: 'addButtonColumn',
+                        width: 50 
+                    },
+                    {text: 'X', datafield: 'Delete', columntype: 'button', width: 75, cellsrenderer: function () {
+                    		return "Delete";
+                    	}, 
+                    	buttonclick: function (row) {
+                    	var item = $("#extraItemGrid").jqxGrid('getrowdata', row);
+                    	console.log(item);
+                    	var rec = $.param(id).split("&amp;");
+                    	var estimateitemid = rec[0].split("=");
+                    	var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
+                    	console.log(commit);
+                    	}
+                    }
+              ]
+            });
+            
+            
 
             
         });
+        
+        
         
         function save(){
         	$('#selectedGrid').jqxGrid('clear');
@@ -156,10 +226,10 @@
         	for(var index in selectedrowindexes ){
         		var i = selectedrowindexes[index];
         		var data = $('#grid').jqxGrid('getrowdata', (i));
-        		var code = data.Code;
+        		var code = data.code;
         		if(code!=''){
         			console.log(code+'--code');
-            		addParentItems('grid','Code',code);
+            		addParentItems('grid','code',code);
             		selectedDataIndexes = selectedDataIndexes.sort((a, b) => a - b);
             		console.log(selectedDataIndexes);
         		}
@@ -194,6 +264,72 @@
             });
         }
         
+        function saveExtraItems(){
+        	console.log('saving extra items');
+        	$('#selectedGrid').jqxGrid('clear');
+        	save();
+        	var exrows = $('#extraItemGrid').jqxGrid('getrows');
+        	for(var i in exrows ){
+        		$("#selectedGrid").jqxGrid('addrow', null, exrows[i]);
+        	}
+        	var fullData = $("#selectedGrid").jqxGrid('getrows');
+        	console.log(fullData);
+        	console.log('---'+JSON.stringify(fullData));
+        	$('#jsonData').val(JSON.stringify(fullData));
+        }
+        
+         /* function saveTransaction(){
+        	var jsonBody = {};
+        	jsonBody.nameOfWork = 'test';
+        	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
+        	console.log(jsonBody.items);
+        	 $.ajax({
+     	        url: '/books/dar/test',
+     	        type: 'POST',
+     	        dataType: 'json',
+     	        contentType: "application/json",
+     	        data: JSON.stringify(jsonBody),
+     	       beforeSend: function(xhr) {
+     	            xhr.setRequestHeader("Accept", "application/json");
+     	            xhr.setRequestHeader("Content-Type", "application/json");
+     	        },
+     	        success: function(data) {
+     	        	console.log('saved');
+     	        },
+     	        error: function(error){
+     	        	console.log(error);
+     	        }
+     	        
+     	    });
+        }  */
+        
+         function saveTransaction() {
+        	   var body = {
+        	      "nameOfWork" : "bhanu",
+        	      "test" : "gacc",
+        	      "items" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : 12}]
+        	      /* "items2" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"}] */
+        	   }
+        	  // body.items.push({"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"});
+        	   var jsonBody = {};
+           	jsonBody.nameOfWork = 'test';
+           	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
+        	   $.ajax({
+        	      type: "POST",
+        	      contentType : 'application/json; charset=utf-8',
+        	      dataType : 'json',
+        	      url: "${saveUrl}",
+        	      data: JSON.stringify(jsonBody), // Note it is important
+        	      success :function(result) {
+        	       // do what ever you want with data
+        	       console.log('success');
+        	     },error: function(e){
+        	    	 console.log(e);
+        	    	 }
+        	  });
+         } 
+        	   
+        
         
     
     </script>
@@ -206,7 +342,7 @@
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Select Items</a></li>
               <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Add Extra Items</a></li>
-              <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Review and Save</a></li>
+              <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false" onclick="saveExtraItems()">Review and Save</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -234,11 +370,21 @@
         <!-- TABLE RENDER FINISH -->
               </div>
               <div class="tab-pane" id="tab_2">
-                The European 
+              <div class="form-group">
+                         <input class="btn btn-primary" onclick="saveExtraItems()" type="button" value="save"/>
+		</div>
+                <div id="extraItemGrid"><!-- div can not be empty --></div>
               </div>
               <div class="tab-pane" id="tab_3" >
-                <div id="selectedGrid"><!-- div can not be empty --></div>
-              </div>
+							 <button type="button" onclick="saveTransaction()" id="submit_btn" class="btn-primary pull-right">Save
+                             </button>
+							<div id="selectedGrid">
+								<!-- div can not be empty -->
+								
+								
+							</div>
+							
+						</div>
             </div>
           </div>
           </div>

@@ -36,7 +36,7 @@ public class DocumentController {
 
     @Autowired
     ItemsGeneratorService itemService;
-    
+
     @Autowired
     private FileStorageService fileStorageService;
 
@@ -57,7 +57,7 @@ public class DocumentController {
         document.setUrl(request.getContextPath() + "/documents/showdoc/" + document.getId());
         document.persist();
         return "redirect:/documents?page=1&amp;size=10" + encodeUrlPathSegment(document.getId().toString(), request);
-    } 
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {

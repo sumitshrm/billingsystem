@@ -1,9 +1,7 @@
 package com.org.web;
 import java.io.File;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Document;
@@ -46,14 +43,13 @@ public class MeasurementSheetController {
     @Autowired
     @Qualifier("abstractGeneratorService")
     private AbstractGeneratorService abstractService;
-    
+
     @Autowired
     @Qualifier("abstractGeneratorServiceV2")
     private AbstractGeneratorServiceV2 abstractServiceV2;
-    
+
     @Autowired
     private FileStorageService fileStorageService;
-    
 
     @RequestMapping(params = { "form", "aggreement" }, produces = "text/html")
     public String createForm(Model uiModel, @RequestParam("aggreement") Long aggreementId) {
@@ -114,15 +110,14 @@ public class MeasurementSheetController {
     public String reloadAbstractDataFromMeasurementSheet(@PathVariable("id") Long msheetId, Model uiModel) {
         MeasurementSheet msheet = QueryUtil.getUniqueResult(MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetId, LogUser.getCurrentUser()));
         if (msheet != null) {
-            
             try {
-            	XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
-            	if(msheet.getTemplateVersion()==0){
-            		abstractService.reloadData(msheet, workbook);
-            	}else{
-            		abstractServiceV2.reloadData(msheet, workbook);
-            	}
-            	workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
+                XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
+                if (msheet.getTemplateVersion() == 0) {
+                    abstractService.reloadData(msheet, workbook);
+                } else {
+                    abstractServiceV2.reloadData(msheet, workbook);
+                }
+                workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -144,20 +139,20 @@ public class MeasurementSheetController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         MeasurementSheet measurementSheet = MeasurementSheet.findMeasurementSheet(id);
-       /* File excelFile = measurementSheet.getDocument() == null ? null : measurementSheet.getDocument().getExcelFile();
-        if (excelFile == null) {
-            System.out.println("WARNING:File not found for measuremnt sheet id : " + measurementSheet.getId());
-        }
-        boolean fileDeleted = excelFile == null ? false : excelFile.delete();
-        if (!fileDeleted) {
-            System.out.println("WARNING:File can not be deleted for measurement sheet id : " + measurementSheet.getId());
-        }*/
+        /* File excelFile = measurementSheet.getDocument() == null ? null : measurementSheet.getDocument().getExcelFile();
+         if (excelFile == null) {
+         System.out.println("WARNING:File not found for measuremnt sheet id : " + measurementSheet.getId());
+         }
+         boolean fileDeleted = excelFile == null ? false : excelFile.delete();
+         if (!fileDeleted) {
+         System.out.println("WARNING:File can not be deleted for measurement sheet id : " + measurementSheet.getId());
+         }*/
         try {
-			fileStorageService.delete(measurementSheet.getStorageFileName());
-		} catch (Exception e) {
-			System.out.println("FILE CAN NOT BE DELETED : " + measurementSheet.getStorageFileName());
-			e.printStackTrace();
-		}
+            fileStorageService.delete(measurementSheet.getStorageFileName());
+        } catch (Exception e) {
+            System.out.println("FILE CAN NOT BE DELETED : " + measurementSheet.getStorageFileName());
+            e.printStackTrace();
+        }
         measurementSheet.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
