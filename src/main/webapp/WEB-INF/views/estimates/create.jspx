@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:message code="dar_file" htmlEscape="false" var="dar_file"/>
+    <spring:url value="/books/dar/download?file=" var="csv_url"/>
+    <spring:url value="/estimates/save" var="saveUrl"/>
+    <spring:message code="label_books_dsr_index" htmlEscape="false" var="title"/>
+    <script src="${jqwidgets_url}/jqxcore.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxbuttons.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxscrollbar.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxmenu.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.selection.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.filter.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxlistbox.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdropdownlist.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxcheckbox.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.pager.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.edit.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.columnsresize.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <util:panel id="title" title="Create new estimate">
+        <script type="text/javascript">
+        $(document).ready(function () {
+        	var selectedDataIndexes = [];
+        	$("input:text").focus(function() { $(this).select(); } );
+        	
+            var getAdapter = function () {
+                // prepare the data
+            var url_data = '${csv_url}${dar_file}';
+            var source =
+            {
+                dataType: "tab",
+                dataFields: [
+                    { name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
+                ],
+                url: url_data
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+                return dataAdapter;
+            }
+
+            // initialize jqxGrid
+            $("#grid").jqxGrid(
+            {
+                source: getAdapter(),
+                width: '100%',
+                showtoolbar: false,
+                pageable: true,
+                autorowheight: true,
+                autoheight: true,
+                selectionmode: 'checkbox',
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
+                columns: [
+                	{ text: 'Code', dataField: 'code', editable: false },
+                    { text: 'Description of Items', dataField: 'desc' , editable: false },
+                    { text: 'Unit', dataField: 'unit' , editable: false },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: true },
+                ]
+            });
+
+            // create jqxWindow.
+            
+            $("#inputField").on('change keyup paste', function() {
+                console.log('I am pretty sure the text box changed');
+                $("#grid").jqxGrid('clearfilters');
+                var datafield = "Code";
+                var searchText = $("#inputField").val();
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = searchText;
+                var filtercondition = 'starts_with';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                $("#grid").jqxGrid('addfilter', datafield, filtergroup);
+                // apply the filters.
+                $("#grid").jqxGrid('applyfilters');
+            });
+            
+            $("#descField").on('change keyup paste', function() {
+                console.log('I am pretty sure the text box changed');
+                $("#grid").jqxGrid('clearfilters');
+                var datafield = "Desc";
+                var searchText = $("#descField").val();
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = searchText;
+                var filtercondition = 'contains';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                $("#grid").jqxGrid('addfilter', datafield, filtergroup);
+                // apply the filters.
+                $("#grid").jqxGrid('applyfilters');
+            });
+            
+            
+            var selectedSource =
+            {
+                datatype: "json",
+                datafields: [
+                	{ name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
+                ],
+                id: 'id',
+                url: ''
+            };
+            var dataAdapter = new $.jqx.dataAdapter(selectedSource);
+            $("#selectedGrid").jqxGrid(
+            {
+                source: dataAdapter,
+                width: '100%',
+                showtoolbar: false,
+                autorowheight: true,
+                autoheight: true,
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
+                columns: [
+                	{ text: 'Code', dataField: 'code', editable: false },
+                    { text: 'Description of Items', dataField: 'desc' , editable: false },
+                    { text: 'Unit', dataField: 'unit' , editable: false },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: false },
+              ]
+            });
+            
+            
+            
+            
+            var extraItemSource =
+            {
+                datatype: "json",
+                datafields: [
+                	{ name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'PartRate', type: 'string' }
+                ],
+                deleterow: function (rowid, commit) {
+                	console.log('delete');
+                    commit(true);
+                },
+                id: 'id',
+                url: ''
+            };
+            var dataAdapter = new $.jqx.dataAdapter(extraItemSource);
+            
+            var deleteButton = function (row, columnfield, value, defaulthtml, columnproperties) {
+            	//var id = $("#extraItemGrid").jqxGrid('getrowid', row);
+            	//console.log(id);
+                //return '<button class="btn btn-primary btn-xs" id="+id+" onclick="buttonclick(event)" type="button">
+                <span class="glyphicon glyphicon-trash"/>
+            </button>';
+            };
+            $("#extraItemGrid").jqxGrid(
+            {
+                source: dataAdapter,
+                width: '100%',
+                showtoolbar: false,
+                autorowheight: true,
+                autoheight: true,
+                editable: true,
+                editmode: 'click',
+                columnsresize: true,
+                showeverpresentrow: true,
+                everpresentrowposition: "bottom",
+                everpresentrowactions: "addBottom",
+                everpresentrowactionsmode: "columns",
+                columnsresize: true,
+                ready: function(){
+                	console.log($("#extraItemGrid a").addClass("btn btn-primary btn-xs"));
+                	
+                },
+                columns: [
+                	{ text: 'Code', dataField: 'code', editable: true },
+                    { text: 'Description of Items', dataField: 'desc' , editable: true },
+                    { text: 'Unit', dataField: 'unit' , editable: true },
+                    { text: 'Rate (Rs)', dataField: 'rate', editable: true },
+                    {
+                    	text: '',
+                        datafield: 'addButtonColumn',
+                        width: 50 
+                    },
+                    {text: 'X', datafield: 'Delete', columntype: 'button', width: 75, cellsrenderer: function () {
+                    		return "Delete";
+                    	}, 
+                    	buttonclick: function (row) {
+                    	var item = $("#extraItemGrid").jqxGrid('getrowdata', row);
+                    	console.log(item);
+                    	var rec = $.param(id).split("&amp;");
+                    	var estimateitemid = rec[0].split("=");
+                    	var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
+                    	console.log(commit);
+                    	}
+                    }
+              ]
+            });
+            
+            
+
+            
+        });
+        
+        
+        
+        function save(){
+        	$('#selectedGrid').jqxGrid('clear');
+        	var selectedrowindexes = $('#grid').jqxGrid('selectedrowindexes');
+        	selectedrowindexes=selectedrowindexes.sort((a, b) =&gt; a - b);
+        	selectedDataIndexes = [];
+        	for(var index in selectedrowindexes ){
+        		var i = selectedrowindexes[index];
+        		var data = $('#grid').jqxGrid('getrowdata', (i));
+        		var code = data.code;
+        		if(code!=''){
+        			console.log(code+'--code');
+            		addParentItems('grid','code',code);
+            		selectedDataIndexes = selectedDataIndexes.sort((a, b) =&gt; a - b);
+            		console.log(selectedDataIndexes);
+        		}
+        		
+        	}
+        	for(var index in selectedDataIndexes ){
+        		var i = selectedDataIndexes[index];
+        		var data = $('#grid').jqxGrid('getrowdata', (i));
+        		$("#selectedGrid").jqxGrid('addrow', null, data);
+        	}
+        	
+
+        }
+        
+        function addParentItems(grid, field, value, selectField) {
+        	var code = value.substr(0, value.lastIndexOf('.'));
+        	if(code.split(".").length&gt;1){
+        		addParentItems("#grid", field, code, selectField);
+        	}
+            var rows = $("#grid").jqxGrid('getboundrows');
+            var output = [];
+            var i = 0;
+            rows.forEach(function(row) {
+                if(row[field] == value) {
+                    	//$("#selectedGrid").jqxGrid('addrow', null, row);
+                	//selectedDataIndexes.push(i);
+                	if(selectedDataIndexes.indexOf(i) === -1) {
+                		selectedDataIndexes.push(i);
+				    }
+                }
+                i++;
+            });
+        }
+        
+        function saveExtraItems(){
+        	console.log('saving extra items');
+        	$('#selectedGrid').jqxGrid('clear');
+        	save();
+        	var exrows = $('#extraItemGrid').jqxGrid('getrows');
+        	for(var i in exrows ){
+        		$("#selectedGrid").jqxGrid('addrow', null, exrows[i]);
+        	}
+        	var fullData = $("#selectedGrid").jqxGrid('getrows');
+        	console.log(fullData);
+        	console.log('---'+JSON.stringify(fullData));
+        	$('#jsonData').val(JSON.stringify(fullData));
+        }
+        
+         /* function saveTransaction(){
+        	var jsonBody = {};
+        	jsonBody.nameOfWork = 'test';
+        	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
+        	console.log(jsonBody.items);
+        	 $.ajax({
+     	        url: '/books/dar/test',
+     	        type: 'POST',
+     	        dataType: 'json',
+     	        contentType: "application/json",
+     	        data: JSON.stringify(jsonBody),
+     	       beforeSend: function(xhr) {
+     	            xhr.setRequestHeader("Accept", "application/json");
+     	            xhr.setRequestHeader("Content-Type", "application/json");
+     	        },
+     	        success: function(data) {
+     	        	console.log('saved');
+     	        },
+     	        error: function(error){
+     	        	console.log(error);
+     	        }
+     	        
+     	    });
+        }  */
+        
+         function saveTransaction() {
+        	   var body = {
+        	      "nameOfWork" : "bhanu",
+        	      "test" : "gacc",
+        	      "items" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : 12}]
+        	      /* "items2" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"}] */
+        	   }
+        	  // body.items.push({"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"});
+        	   var jsonBody = {};
+           	jsonBody.nameOfWork = $("#nameOfWork_text").val();
+           	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
+        	   $.ajax({
+        	      type: "POST",
+        	      contentType : 'application/json; charset=utf-8',
+        	      dataType : 'json',
+        	      url: "${saveUrl}",
+        	      data: JSON.stringify(jsonBody), // Note it is important
+        	      success :function(result) {
+        	       // do what ever you want with data
+        	       console.log('success');
+        	     },error: function(e){
+        	    	 console.log(e);
+        	    	 }
+        	  });
+         } 
+        	   
+        
+        
+    
+    </script>
+        <div>
+            <!-- Custom Tabs -->
+            <div class="row">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a aria-expanded="true" data-toggle="tab" href="#tab_0">Create Estimate</a>
+                        </li>
+                        <li class="">
+                            <a aria-expanded="true" data-toggle="tab" href="#tab_1">Select Items</a>
+                        </li>
+                        <li class="">
+                            <a aria-expanded="false" data-toggle="tab" href="#tab_2">Add Extra Items</a>
+                        </li>
+                        <li class="">
+                            <a aria-expanded="false" data-toggle="tab" href="#tab_3" onclick="saveExtraItems()">Review and
+								Save</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_0">
+                            <form role="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Name of Work</label>
+                                            <textarea class="form-control" id="nameOfWork_text" placeholder="Enter ..." rows="3">
+                                                <!-- no empty block -->
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button class="btn btn-primary" type="button">Next</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab_1">
+                            <!-- TABLE RENDER START -->
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="form-group">
+                                    <!-- <label for="exampleInputEmail1">Code</label> -->
+                                    <input class="form-control" id="inputField" placeholder="Enter Code" type="text"/>
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-3 col-xs-6">
+          <div class="form-group" style="display:none">
+                  <input  type="text" class="form-control" id="descField" placeholder="Enter Description" />
+                </div>
+        </div> -->
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="form-group">
+                                    <input class="btn btn-primary" onclick="save()" type="button" value="next"/>
+                                </div>
+                            </div>
+                            <div id="grid">
+                                <!-- div can not be empty -->
+                            </div>
+                            <!-- TABLE RENDER FINISH -->
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <div class="form-group">
+                                <input class="btn btn-primary" onclick="saveExtraItems()" type="button" value="next"/>
+                            </div>
+                            <div id="extraItemGrid">
+                                <!-- div can not be empty -->
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                        <div class="">
+                            <button class="btn-primary pull-right" id="submit_btn" onclick="saveTransaction()" type="button">Save</button>
+                            </div>
+                            <div id="selectedGrid">
+                                <!-- div can not be empty -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </util:panel>
+    <form:create id="fc_com_org_entity_Estimate" modelAttribute="estimate" path="/estimates" render="false" z="user-managed">
+        <field:input field="nameOfWork" id="c_com_org_entity_Estimate_nameOfWork" z="AUg9u5IpqA3tz0RizZaDCk7q0Ho="/>
+        <field:input field="content" id="c_com_org_entity_Estimate_content" z="Qksx4GPy4+DYDtTeiPSUjr7/2y4="/>
+        <field:input field="url" id="c_com_org_entity_Estimate_url" z="pQIxfOOvLlAImC6vuZeDzGYVaic="/>
+        <field:input field="items" id="c_com_org_entity_Estimate_items" z="S7JELzxdyku0stPA3Cg0dIZR2TA="/>
+        <field:select field="logUser" id="c_com_org_entity_Estimate_logUser" itemValue="id" items="${logusers}" path="/logusers" z="25I7cnuGDZKUjT9ZYndPQcXsLQ4="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_org_entity_Estimate" render="${not empty dependencies}" z="6ytwPi93w71uv9p6aOtap8DHxNg="/>
+</div>

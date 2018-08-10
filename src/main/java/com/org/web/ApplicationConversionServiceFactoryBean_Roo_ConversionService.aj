@@ -9,6 +9,7 @@ import com.org.domain.LogUserRole;
 import com.org.entity.Aggreement;
 import com.org.entity.Company;
 import com.org.entity.Document;
+import com.org.entity.Estimate;
 import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
 import com.org.entity.ItemName;
@@ -153,6 +154,30 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Document>() {
             public com.org.entity.Document convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), Document.class);
+            }
+        };
+    }
+    
+    public Converter<Estimate, String> ApplicationConversionServiceFactoryBean.getEstimateToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.org.entity.Estimate, java.lang.String>() {
+            public String convert(Estimate estimate) {
+                return new StringBuilder().append(estimate.getNameOfWork()).append(' ').append(estimate.getContent()).append(' ').append(estimate.getUrl()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Estimate> ApplicationConversionServiceFactoryBean.getIdToEstimateConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Estimate>() {
+            public com.org.entity.Estimate convert(java.lang.Long id) {
+                return Estimate.findEstimate(id);
+            }
+        };
+    }
+    
+    public Converter<String, Estimate> ApplicationConversionServiceFactoryBean.getStringToEstimateConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Estimate>() {
+            public com.org.entity.Estimate convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Estimate.class);
             }
         };
     }
@@ -408,6 +433,9 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getDocumentToStringConverter());
         registry.addConverter(getIdToDocumentConverter());
         registry.addConverter(getStringToDocumentConverter());
+        registry.addConverter(getEstimateToStringConverter());
+        registry.addConverter(getIdToEstimateConverter());
+        registry.addConverter(getStringToEstimateConverter());
         registry.addConverter(getItemToStringConverter());
         registry.addConverter(getIdToItemConverter());
         registry.addConverter(getStringToItemConverter());

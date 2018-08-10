@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_org_entity_Estimate" object="${estimate}" path="/estimates" z="wcu20uiI3fwwIq9iuiH9uGr+QJk=">
+        <field:display field="nameOfWork" id="s_com_org_entity_Estimate_nameOfWork" object="${estimate}" z="tJgjrrnOoraPyTsAkTKHrF2ff4Y="/>
+        <field:display field="content" id="s_com_org_entity_Estimate_content" object="${estimate}" z="pk3G3ApLyJlJadoxAPu5wsuaKFc="/>
+        <field:display field="url" id="s_com_org_entity_Estimate_url" object="${estimate}" z="pgJ6R4ikL76vtm4V1i0zQ90EEww="/>
+        <field:display field="items" id="s_com_org_entity_Estimate_items" object="${estimate}" z="QD5AaqIFNTgJh3Hpq7xag421gPs="/>
+        <field:display field="logUser" id="s_com_org_entity_Estimate_logUser" object="${estimate}" z="58AEPRV8Z2wbb9gq1YFPPT+k5k8="/>
+    </page:show>
+</div>

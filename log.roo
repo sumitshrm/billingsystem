@@ -500,3 +500,15 @@ help
 web mvc controller --class ~web.DsrController --preferredMapping /books/dsr
 web mvc controller --class ~web.DarController --preferredMapping /books/dar
 web mvc controller --class ~web.MaterialRatesController --preferredMapping /books/materialrates
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-08-11 01:23:20
+hint
+entity jpa --class ~.entity.Estimate
+web mvc all --package ~.web
+finder list
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2018-08-11 02:49:59
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2018-08-11 02:50:14
+hint
+focus --class ~.entity.Estimate
+finder list
+finder add --finderName findEstimatesByLogUser
