@@ -5,49 +5,13 @@
   <spring:message code="app_dsr_file" htmlEscape="false" var="dsr_file"/>
     <spring:url value="/books/dsr/download?file=" var="csv_url" />
   <spring:message code="label_books_dsr_index" htmlEscape="false" var="title"/>
-	<script src="${jqwidgets_url}/jqxcore.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxbuttons.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxscrollbar.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxmenu.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.selection.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.filter.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxlistbox.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxdropdownlist.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxcheckbox.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.pager.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.edit.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxgrid.columnsresize.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-  	<script type="text/javascript">
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdatatable.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxlistbox.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
+	<script type="text/javascript">
         $(document).ready(function () {
             var url = '${csv_url}${dsr_file}';
             console.log(url+'---------');
@@ -65,7 +29,7 @@
                 url: url
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#table").jqxGrid(
+            $("#table").jqxDataTable(
             {
                 filterable: true,
             	width: "100%",	
@@ -74,10 +38,6 @@
                 pagerButtonsCount: 20,
                 source: dataAdapter,
                 columnsResize: true,
-                showeverpresentrow: true,
-                everpresentrowposition: "bottom",
-                everpresentrowactions: "addBottom reset",
-                editable: true,
                 columns: [
                   { text: 'Code', dataField: 'code'},
                   { text: 'Description of Items', dataField: 'desc' },
