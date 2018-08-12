@@ -10,15 +10,5 @@
         <field:display field="url" id="s_com_org_entity_Estimate_url" object="${estimate}" render="false" z="user-managed"/>
         <field:display field="items" id="s_com_org_entity_Estimate_items" object="${estimate}" render="false" z="user-managed"/>
         <field:display field="logUser" id="s_com_org_entity_Estimate_logUser" object="${estimate}" render="false" z="user-managed"/>
-        
-        <form:multi id="fu_com_org_entity_Estimate" label="test" modelAttribute="estimate" path="/estimates/update" render="${empty dependencies}" z="user-managed">
-	        <field:input field="nameOfWork" id="c_com_org_entity_Estimate_nameOfWork" z="user-managed"/>
-	        <field:file field="content" id="c_org_pragmatikroo_roodocman_domain_Document_content" required="false" z="user-managed"/>
-	        <div style="">
-	        <field:input field="url" id="c_com_org_entity_Estimate_url" z="pQIxfOOvLlAImC6vuZeDzGYVaic="/>
-	        <field:input field="items" id="c_com_org_entity_Estimate_items" z="S7JELzxdyku0stPA3Cg0dIZR2TA="/>
-	        <field:select field="logUser" id="c_com_org_entity_Estimate_logUser" itemValue="id" items="${logusers}" path="/logusers" z="25I7cnuGDZKUjT9ZYndPQcXsLQ4="/>
-        </div>
-    </form:multi>
     </page:show>
 </div>
