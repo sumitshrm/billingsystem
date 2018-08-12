@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dsr-data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<record>
+<code>1</code>
+<desc>test</desc>
+<unit>cum</unit>
+<rate>1</rate>
+</record>
+
+<record>
+<code>1.1.1</code>
+<desc>testing</desc>
+<unit>sqm</unit>
+<rate>100</rate>
+</record>
+</dsr-data>

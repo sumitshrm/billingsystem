@@ -59,7 +59,7 @@
             var url_data = '${csv_url}${dsr_file}';
             var source =
             {
-                dataType: "tab",
+                dataType: "xml",
                 dataFields: [
                     { name: 'code', type: 'string' },
                     { name: 'desc', type: 'string' },
@@ -67,6 +67,8 @@
                     { name: 'rate', type: 'string' },
                     { name: 'PartRate', type: 'string' }
                 ],
+                root: "dsr-data",
+                record: "record",
                 url: url_data
             };
             var dataAdapter = new $.jqx.dataAdapter(source);

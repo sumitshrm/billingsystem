@@ -17,13 +17,15 @@
             console.log(url+'---------');
             var source =
             {
-                dataType: "tab",
+                dataType: "xml",
                 dataFields: [
-                    { name: 'Code', type: 'string' },
-                    { name: 'DescItems', type: 'string' },
-                    { name: 'Unit', type: 'string' },
-                    { name: 'Rate', type: 'string' }
+                    { name: 'code', type: 'string' },
+                    { name: 'desc', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'rate', type: 'string' }
                 ],
+                root: "dsr-data",
+                record: "record",
                 url: url
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -37,10 +39,10 @@
                 source: dataAdapter,
                 columnsResize: true,
                 columns: [
-                  { text: 'Code', dataField: 'Code'},
-                  { text: 'Description of Items', dataField: 'DescItems' },
-                  { text: 'Unit', dataField: 'Unit'},
-                  { text: 'Rate (Rs)', dataField: 'Rate'}
+                  { text: 'Code', dataField: 'code'},
+                  { text: 'Description of Items', dataField: 'desc' },
+                  { text: 'Unit', dataField: 'unit'},
+                  { text: 'Rate (Rs)', dataField: 'rate'}
                 ]
             });
             
