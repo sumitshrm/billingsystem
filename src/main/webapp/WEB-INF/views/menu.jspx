@@ -39,12 +39,12 @@
                         <menu:item id="i_laboursupplier_new" messageCode="global_menu_new" url="/laboursuppliers?form" z="EcLr50HKS/AYYtcoCcXHOI6cKQQ="/>
                         <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
                     </menu:category>
-                    <menu:category id="c_manageddocument" z="0NNlMtzvw7CbsEgWRLiLYIVrnDo=">
+                    <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="0NNlMtzvw7CbsEgWRLiLYIVrnDo=">
                         <menu:item id="i_manageddocument_new" messageCode="global_menu_new" url="/manageddocuments?form" z="3ushNGT3WjkQfM7yR10af2xwN/I="/>
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments?page=1&amp;size=${empty param.size ? 10 : param.size}" z="a3ZQD/l6FECAXM+fysLHfkbAco4="/>
                     </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">
-                        <menu:category id="c_controller" render="true" z="user-managed">
+                        <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
                             <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
                             <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
                             <menu:item id="i_controller__books_dsrindex_id" messageCode="global_generic" url="/books/dsr" z="user-managed"/>
@@ -95,7 +95,7 @@
                 <menu:category id="c_supplier" render="false" z="user-managed"/>
                 <menu:category id="c_company" render="false" z="user-managed"/>
                 <menu:category id="c_laboursupplier" render="false" z="user-managed"/>
-                <menu:category id="c_estimate" z="6TsZy22LTyq0jzplK8i1WnEZX+Y=">
+                <menu:category id="c_estimate" icon="fa fa-inr" z="6TsZy22LTyq0jzplK8i1WnEZX+Y=">
                     <menu:item id="i_estimate_new" messageCode="global_menu_new" url="/estimates?form" z="DaGj+7EBMQrtUhajjwQLWDJzAkE="/>
                     <menu:item id="i_estimate_list" messageCode="global_menu_list" url="/estimates?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Skr7KovG46CJaBgBW3crGbksFzU="/>
                 </menu:category>

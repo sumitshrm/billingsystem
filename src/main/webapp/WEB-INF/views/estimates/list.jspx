@@ -4,12 +4,12 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_com_org_entity_Estimate" items="${estimates}" z="kmNVSBiJjs7AOFWHRlL00ls//fE=">
         <table:table data="${estimates}" id="l_com_org_entity_Estimate" path="/estimates" z="N5fy198/IPOnz6RGvhOAod8q74c=">
-            <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="nameOfWork" z="user-managed"/>
-            <table:column id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" z="FjWL8TqL0UuBxEetyf9tkgw58XE="/>
-            <table:column id="c_com_org_entity_Estimate_content" property="content" z="HNnrcC3sS+z2gZffvkXLccWtpvI="/>
-            <table:column id="c_com_org_entity_Estimate_url" property="url" z="OY3+duhJXI/U/V4LhUFhIR7ZQig="/>
-            <table:column id="c_com_org_entity_Estimate_items" property="items" z="DjiDiRKYbMNFPLZhzDblNFVQxN8="/>
-            <table:column id="c_com_org_entity_Estimate_logUser" property="logUser" z="jGLL5jtJ5AMBZka0BxLuQ9hFFWw="/>
+            <table:column maxLength="500" document="true" id="c_com_org_entity_ManagedDocument_description" property="nameOfWork" z="user-managed"/>
+            <!-- <table:column id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" z="FjWL8TqL0UuBxEetyf9tkgw58XE="/> -->
+            <table:column id="c_com_org_entity_Estimate_content" property="content" render="false" z="HNnrcC3sS+z2gZffvkXLccWtpvI="/>
+            <table:column id="c_com_org_entity_Estimate_url" property="url"  render="false" z="OY3+duhJXI/U/V4LhUFhIR7ZQig="/>
+            <table:column id="c_com_org_entity_Estimate_items" property="items" render="false"  z="DjiDiRKYbMNFPLZhzDblNFVQxN8="/>
+            <table:column id="c_com_org_entity_Estimate_logUser" property="logUser" render="false"  z="jGLL5jtJ5AMBZka0BxLuQ9hFFWw="/>
         </table:table>
     </page:list>
 </div>
