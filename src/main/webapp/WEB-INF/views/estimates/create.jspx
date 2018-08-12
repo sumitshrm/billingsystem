@@ -193,54 +193,54 @@
             </button>';
             };
             $("#extraItemGrid").jqxGrid(
-            {
-                source: dataAdapter,
-                width: '100%',
-                showtoolbar: false,
-                autorowheight: true,
-                autoheight: true,
-                editable: true,
-                editmode: 'click',
-                columnsresize: true,
-                showeverpresentrow: true,
-                everpresentrowposition: "bottom",
-                everpresentrowactions: "addBottom",
-                everpresentrowactionsmode: "columns",
-                columnsresize: true,
-                ready: function(){
-                	console.log($("#extraItemGrid a").addClass("btn btn-primary btn-xs"));
-                	
-                },
-                columns: [
-                	{ text: 'Code', dataField: 'code', editable: true },
-                    { text: 'Description of Items', dataField: 'desc' , editable: true },
-                    { text: 'Unit', dataField: 'unit' , editable: true },
-                    { text: 'Rate (Rs)', dataField: 'rate', editable: true },
                     {
-                    	text: '',
-                        datafield: 'addButtonColumn',
-                        width: 50 
-                    },
-                    {text: 'X', datafield: 'Delete', columntype: 'button', width: 75, cellsrenderer: function () {
-                    		return "Delete";
-                    	}, 
-                    	buttonclick: function (row) {
-                    	var item = $("#extraItemGrid").jqxGrid('getrowdata', row);
-                    	console.log(item);
-                    	var rec = $.param(id).split("&amp;");
-                    	var estimateitemid = rec[0].split("=");
-                    	var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
-                    	console.log(commit);
-                    	}
-                    }
-              ]
-            });
+                        filterable: true,
+                    	width: "100%",	
+                        pageable: true,
+                        pagerMode: 'advanced',
+                        pagerButtonsCount: 20,
+                        source: dataAdapter,
+                        columnsResize: true,
+                        showeverpresentrow: true,
+                        everpresentrowposition: "bottom",
+                        everpresentrowactions: "addBottom reset",
+                        editable: true,
+                        height: 200,
+                        /* autoheight:true, */
+                        columns: [
+                          { text: 'Code', dataField: 'code'},
+                          { text: 'Description of Items', dataField: 'desc' },
+                          { text: 'Unit', dataField: 'unit'},
+                          { text: 'Rate (Rs)', dataField: 'rate'},
+                          {text: 'X', datafield: 'Delete', editable:false , width: 25, cellsrenderer: function () {
+                      		return '<button type="button" onclick="deleteSelected()" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-trash"></span></button>';
+	                      	}, 
+	                      	buttonclick: function (row) {
+	                      	var item = $("#extraItemGrid").jqxGrid('getrowdata', row);
+	                      	console.log(item);
+	                      	var rec = $.param(id).split("&amp;");
+	                      	var estimateitemid = rec[0].split("=");
+	                      	var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
+	                      	console.log(commit);
+	                      	}
+                      }
+                        ]
+                    });
             
             
 
             
         });
         
+        
+        function deleteSelected(){
+        	 var getselectedrowindexes = $('#extraItemGrid').jqxGrid('getselectedrowindexes');
+             if (getselectedrowindexes.length > 0)
+             {
+                 var item = $('#extraItemGrid').jqxGrid('getrowdata', getselectedrowindexes[0]);
+                 var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
+             }
+        }
         
         
         function save(){
@@ -324,6 +324,12 @@
         	    }
         	  });
          } 
+         
+         function changeTab(){
+        	 alert(1);
+        	 $("#tab_1_li").addClass("active");$("#tab_0_li").removeClass("active");
+         }
+         
         	   
         
         
@@ -334,16 +340,16 @@
             <div class="row">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active">
+                        <li class="active" id="tab_0_li">
                             <a aria-expanded="true" data-toggle="tab" href="#tab_0">Create Estimate</a>
                         </li>
-                        <li class="">
+                        <li class="" id="tab_1_li">
                             <a aria-expanded="true" data-toggle="tab" href="#tab_1">Select Items</a>
                         </li>
-                        <li class="">
+                        <li class="" id="tab_2_li">
                             <a aria-expanded="false" data-toggle="tab" href="#tab_2">Add Extra Items</a>
                         </li>
-                        <li class="">
+                        <li class="" id="tab_3_li">
                             <a aria-expanded="false" data-toggle="tab" href="#tab_3" onclick="saveExtraItems()">Review and
 								Save</a>
                         </li>
@@ -363,7 +369,7 @@
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-                                    <button class="btn btn-primary" type="button">Next</button>
+                                <a class="btn btn-primary" onclick='$("#tab_1_li").addClass("active");$("#tab_0_li").removeClass("active");' aria-expanded="true" data-toggle="tab" href="#tab_1">next</a>
                                 </div>
                             </form>
                         </div>
@@ -382,7 +388,7 @@
         </div> -->
                             <div class="col-lg-3 col-xs-6">
                                 <div class="form-group">
-                                    <input class="btn btn-primary" onclick="save()" type="button" value="next"/>
+                                <a class="btn btn-primary" onclick='$("#tab_2_li").addClass("active");$("#tab_1_li").removeClass("active");' aria-expanded="true" data-toggle="tab" href="#tab_2">next</a>
                                 </div>
                             </div>
                             <div id="grid">
@@ -392,7 +398,7 @@
                         </div>
                         <div class="tab-pane" id="tab_2">
                             <div class="form-group">
-                                <input class="btn btn-primary" onclick="saveExtraItems()" type="button" value="next"/>
+                                <a class="btn btn-primary" onclick='$("#tab_3_li").addClass("active");$("#tab_2_li").removeClass("active");saveExtraItems();' aria-expanded="true" data-toggle="tab" href="#tab_3">next</a>
                             </div>
                             <div id="extraItemGrid">
                                 <!-- div can not be empty -->
