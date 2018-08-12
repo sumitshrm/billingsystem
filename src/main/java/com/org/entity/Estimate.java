@@ -28,7 +28,7 @@ public class Estimate {
 
     @ManyToOne
     private LogUser logUser;
-
+    
     @PrePersist
     public void prePersist() {
         setLogUser(LogUser.getCurrentUser());

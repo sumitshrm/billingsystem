@@ -301,40 +301,9 @@
         	$('#jsonData').val(JSON.stringify(fullData));
         }
         
-         /* function saveTransaction(){
-        	var jsonBody = {};
-        	jsonBody.nameOfWork = 'test';
-        	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
-        	console.log(jsonBody.items);
-        	 $.ajax({
-     	        url: '/books/dar/test',
-     	        type: 'POST',
-     	        dataType: 'json',
-     	        contentType: "application/json",
-     	        data: JSON.stringify(jsonBody),
-     	       beforeSend: function(xhr) {
-     	            xhr.setRequestHeader("Accept", "application/json");
-     	            xhr.setRequestHeader("Content-Type", "application/json");
-     	        },
-     	        success: function(data) {
-     	        	console.log('saved');
-     	        },
-     	        error: function(error){
-     	        	console.log(error);
-     	        }
-     	        
-     	    });
-        }  */
-        
          function saveTransaction() {
-        	   var body = {
-        	      "nameOfWork" : "bhanu",
-        	      "test" : "gacc",
-        	      "items" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : 12}]
-        	      /* "items2" : [{"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"}] */
-        	   }
-        	  // body.items.push({"code" : "01", "unit" : "", "desc" : "desc", "rate" : "rate"});
-        	   var jsonBody = {};
+        	$(".loading").show();
+        	var jsonBody = {};
            	jsonBody.nameOfWork = $("#nameOfWork_text").val();
            	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
         	   $.ajax({
@@ -344,11 +313,13 @@
         	      url: "${saveUrl}",
         	      data: JSON.stringify(jsonBody), // Note it is important
         	      success :function(result) {
-        	       // do what ever you want with data
-        	       console.log('success');
+        	    	  console.log(result);
+        	    	  window.location=result.url;
+        	    	  $(".loading").fadeOut( 200);
         	     },error: function(e){
-        	    	 console.log(e);
-        	    	 }
+        	    	  $(".loading").fadeOut( 200);
+        	    	  alert("some error occured");
+        	    }
         	  });
          } 
         	   
