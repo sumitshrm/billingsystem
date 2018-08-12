@@ -19,6 +19,7 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.web.multipart.MultipartFile;
 import com.org.domain.LogUser;
+import com.org.util.FileStorageProperties;
 
 @RooJavaBean
 @RooToString
@@ -45,7 +46,7 @@ public class ManagedDocument {
     private LogUser logUser;
 
     public String getStorageUrl() {
-        return "MANAGED_DOCUMENTS_" + aggreement.getId() + "_" + getId() + "_" + content.getOriginalFilename();
+        return FileStorageProperties.MANAGED_DOCUMENT_FOLDER+"MANAGED_DOCUMENTS_" + aggreement.getId() + "_" + getId() + "_" + content.getOriginalFilename();
     }
     
     public String getDownloadLink() {

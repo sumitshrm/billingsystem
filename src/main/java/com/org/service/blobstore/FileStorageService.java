@@ -24,6 +24,7 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
+import com.org.util.FileStorageProperties;
 import com.google.appengine.api.blobstore.*;
 
 import java.io.File;
@@ -49,7 +50,6 @@ public class FileStorageService {
 
   public static final boolean SERVE_USING_BLOBSTORE_API = false;
 
-  public static final String BUCKET_NAME = "billingsystem";
   /**
    * This is where backoff parameters are configured. Here it is aggressively retrying with
    * backoff, up to 10 times but taking no more that 15 seconds total to do so.
@@ -139,8 +139,8 @@ public boolean delete(String filename) {
 	return false;
 }
 
-private GcsFilename getFileName(String filename) {
-	  	return new GcsFilename(BUCKET_NAME, filename);
+	private GcsFilename getFileName(String filename) {
+	  	return new GcsFilename(FileStorageProperties.BUCKET_NAME, filename);
 	  }
 
 	  /**

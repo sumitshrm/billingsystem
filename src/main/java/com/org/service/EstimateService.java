@@ -28,6 +28,7 @@ import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.XLColumnRange;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.EstimateCounter;
+import com.org.util.FileStorageProperties;
 import com.org.web.EstimateController;
 import com.org.web.ExcelGatewayController;
 
@@ -37,14 +38,12 @@ public class EstimateService {
 	@Autowired
 	private FileStorageService fileStorageService;
 	
-	public static String TEMPLATE_FILE = "ESTIMATE_TEMPLATE.xlsx";
-	
 	@Transactional
 	public void createEstimate(Estimate estimate) throws Exception {
 		estimate.persist();
-	 	estimate.setUrl("ESTIMATES_"+estimate.getId()+".xlsx");
+	 	estimate.setUrl(FileStorageProperties.ESTIMATE_FOLDER+"ESTIMATES_"+estimate.getId()+".xlsx");
 	 	estimate.merge();
-		InputStream inputStream = fileStorageService.doGet(TEMPLATE_FILE);
+		InputStream inputStream = fileStorageService.doGet(FileStorageProperties.TEMPLATE_FILE);
 		XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 		XSSFSheet msheet = workbook.getSheet(Worksheets.MEASUREMENTSHEET);
 		XSSFSheet asheet = workbook.getSheet(Worksheets.ABSTRACTSHEET);

@@ -15,6 +15,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,6 +26,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +41,9 @@ public class EstimateController {
 	
 	@Autowired
 	private EstimateService estimateService;
+	
+	@Autowired
+	private FileStorageService fileStorageService;
 	
 	 @RequestMapping(value="/save", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	    public ResponseEntity<String> createStatement(@RequestBody Estimate estimate, HttpServletResponse httpServletResponse) throws Exception {
@@ -66,6 +72,31 @@ public class EstimateController {
 	        return "estimates/list";
 	    }
 	 
+	 @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+	    public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+	        Estimate estimate = Estimate.findEstimate(id);
+	        estimate.remove();
+	        fileStorageService.delete(estimate.getUrl());
+	        uiModel.asMap().clear();
+	        uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
+	        uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+	        return "redirect:/estimates";
+	    }
 	 
+	 @RequestMapping(value="/update", method = RequestMethod.POST, produces = "text/html")
+	    public String update(@Valid Estimate estimate, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+	        
+	        uiModel.asMap().clear();
+	        if(estimate.getContent().getSize()>0) {
+	        	try {
+					fileStorageService.doPost(estimate.getContent().getInputStream(), estimate.getUrl());
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
+	        estimate.merge();
+	        return "redirect:/estimates/" + encodeUrlPathSegment(estimate.getId().toString(), httpServletRequest);
+	    }
 	
 }

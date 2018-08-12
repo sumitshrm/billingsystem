@@ -41,6 +41,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.org.domain.LogUser;
 import com.org.excel.service.ExcelUtill;
 import com.org.excel.util.MeasurementComparatorBySerialNumber;
+import com.org.util.FileStorageProperties;
 import com.org.util.ItemAbstractComparator;
 
 @RooJavaBean
@@ -130,7 +131,7 @@ public class MeasurementSheet {
     }
     
     public String getStorageFileName() {
-    	return "MSHEET_"+getId()+"_"+getAggreement().getId()+".xlsm";
+    	return FileStorageProperties.MEASUREMENT_SHEET_FOLDER+"MSHEET_"+getId()+"_"+getAggreement().getId()+".xlsm";
     }
     
     public ItemAbstract getPreviousItemAbstract(Item item){

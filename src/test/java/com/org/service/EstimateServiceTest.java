@@ -26,6 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.org.entity.Estimate;
 import com.org.service.blobstore.FileStorageService;
+import com.org.util.FileStorageProperties;
 
 @Ignore
 @RunWith(MockitoJUnitRunner.class)
@@ -43,7 +44,7 @@ public class EstimateServiceTest {
 	public void testWriteExcelDocument() throws Exception {
 		Estimate estimate = getEstimate();
 		InputStream input = getExcelInputStream();
-		when(fileStorageService.doGet(estimateService.TEMPLATE_FILE)).thenReturn(input);
+		when(fileStorageService.doGet(FileStorageProperties.TEMPLATE_FILE)).thenReturn(input);
 		getExcelInputStream();
 		estimateService.createEstimate(estimate);
 

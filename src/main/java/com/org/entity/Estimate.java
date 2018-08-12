@@ -33,4 +33,8 @@ public class Estimate {
     public void prePersist() {
         setLogUser(LogUser.getCurrentUser());
     }
+    
+    public String getDownloadLink() {
+    	return "/manageddocuments/download?file="+url;
+    }
 }

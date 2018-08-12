@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -44,31 +43,10 @@ privileged aspect EstimateController_Roo_Controller {
         return "estimates/show";
     }
     
-    @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-    public String EstimateController.update(@Valid Estimate estimate, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, estimate);
-            return "estimates/update";
-        }
-        uiModel.asMap().clear();
-        estimate.merge();
-        return "redirect:/estimates/" + encodeUrlPathSegment(estimate.getId().toString(), httpServletRequest);
-    }
-    
     @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String EstimateController.updateForm(@PathVariable("id") Long id, Model uiModel) {
         populateEditForm(uiModel, Estimate.findEstimate(id));
         return "estimates/update";
-    }
-    
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-    public String EstimateController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Estimate estimate = Estimate.findEstimate(id);
-        estimate.remove();
-        uiModel.asMap().clear();
-        uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-        uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/estimates";
     }
     
     void EstimateController.populateEditForm(Model uiModel, Estimate estimate) {
