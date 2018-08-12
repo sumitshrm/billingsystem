@@ -28,7 +28,7 @@ import com.org.entity.Estimate;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
 
-@Ignore
+//@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class EstimateServiceTest {
 	
@@ -67,7 +67,7 @@ public class EstimateServiceTest {
 		/*FileInputStream excelFile = new FileInputStream(new File("/ESTIMATE.xlsx"));
 		return excelFile;*/
 		
-		return this.getClass().getResourceAsStream("/ESTIMATE.xlsx");
+		return this.getClass().getResourceAsStream("/"+FileStorageProperties.TEMPLATE_FILE);
 	}
 	
 	private void saveExcel(String filename, InputStream is) throws IOException {

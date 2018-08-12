@@ -87,13 +87,23 @@ public class EstimateService {
 			//row = msheet.createRow(counter.nextMsheetCounter());
 			//row = msheet.createRow(counter.nextMsheetCounter());
 			counter.nextMsheetCounter();
+			
+			row = msheet.createRow(counter.nextMsheetCounter());
+			cell = row.createCell(msheetTotalColNum-1);
+			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+			cell.setCellValue("Total");
+			cell = row.createCell(msheetTotalColNum);
+			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+			cell.setCellFormula(getTotalQuantityFormula(msheet, counter.getMsheetCounter(), msheetTotalColNum));
+			
 			row = msheet.createRow(counter.nextMsheetCounter());
 			cell = row.createCell(msheetTotalColNum-1);
 			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
 			cell.setCellValue("Say");
 			cell = row.createCell(msheetTotalColNum);
 			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
-			cell.setCellFormula(getTotalQuantityFormula(msheet, counter.getMsheetCounter(), msheetTotalColNum));
+			cell.setCellFormula(getSayFormula(CellReference.convertNumToColString(msheetTotalColNum)+(counter.getMsheetCounter())));
+			
 			cell = row.createCell(msheetTotalColNum+1);
 			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
 			cell.setCellValue(item.getUnit());
@@ -163,6 +173,10 @@ public class EstimateService {
 		String firstCell = CellReference.convertNumToColString(range.getQtyCol()) + (rownum+1);
 		String secondCell = CellReference.convertNumToColString(range.getFullRateCol()) + (rownum+1);
 		return "ROUND("+firstCell+"*"+secondCell+",0)";
+	}
+	
+	private String getSayFormula(String cellRef) {
+		return "MROUND("+cellRef+",1)";
 	}
 	
 }
