@@ -1,6 +1,6 @@
 {
-  "short_name": "Matcons",
-  "name": "Billing System 2",
+  "short_name": "matcons",
+  "name": "Billing System",
   "icons": [{
     "src": "/resources/images/icon/logo-128.png",
       "sizes": "128x128",
