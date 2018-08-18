@@ -83,5 +83,5 @@
 </div>
 <!-- ./wrapper -->
 	</body>
-	
+	<script src="/app.js"><!-- required for FF3 and Opera --></script>
 </html>

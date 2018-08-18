@@ -12,7 +12,7 @@
   
   <spring:url value="/resources/script/jqwidgets" var="jqwidgets_url" scope="request"/>
   <spring:url value="/resources/script/jquery" var="jquery_url" />
-  <spring:url value="/resources/script" var="js_url" />
+  <spring:url value="/resources/script" var="js_url"  scope="request"/>
   <spring:url value="/resources/styles" var="styles_url" />
   <spring:url value="/resources/assets/dist" var="dist_url" />
   <spring:url value="/resources/assets/adminlte" var="adminlte_url" />
@@ -77,4 +77,7 @@
     <link rel="stylesheet" type="text/css" href="${tundra_url}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
   <link rel="SHORTCUT ICON" href="${favicon}" />
+  <link rel="manifest" href="/manifest.json"></link>
+  
+  
 </jsp:root>

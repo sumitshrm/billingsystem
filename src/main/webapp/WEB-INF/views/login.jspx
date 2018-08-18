@@ -100,11 +100,19 @@
                             	<div class="submit">
         <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
         <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
-        <input id="proceed"  class="btn btn-lg btn-success btn-block" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
+        <input id="proceed"  class="btn btn-lg btn-primary btn-block" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
         <spring:message code="button_reset" var="reset_label" htmlEscape="false" />
-        <input id="reset" type="reset"  class="btn btn-lg btn-success btn-block" value="${fn:escapeXml(reset_label)}" />
+        <input id="reset" type="reset"  class="btn btn-lg btn-primary btn-block" value="${fn:escapeXml(reset_label)}" />
       <br></br>
-      <div class="g-signin2" data-onsuccess="onSignIn" data-prompt="select_account"></div>
+      <!-- <div class="g-signin2" data-onsuccess="onSignIn" data-prompt="select_account"></div> -->
+      <a href="#" style="display:none" id="install-app"  onclick="installapp()" class="btn btn-lg btn-primary btn-block">
+          <span class="glyphicon glyphicon-download-alt"></span>  Install on mobile
+        </a>
+      
+      <!-- <input id="install-app" style="display:block" onclick="installapp()"  class="btn btn-lg btn-primary btn-block" name="install-app" type="button" value="install app">
+                <span class="glyphicon glyphicon-download-alt"></span> Install app
+      
+      </input> -->
       </div>
                             </fieldset>
                         </form>
