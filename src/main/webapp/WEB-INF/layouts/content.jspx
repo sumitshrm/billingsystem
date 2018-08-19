@@ -100,7 +100,7 @@ window.addEventListener('beforeinstallprompt', function(event){
 <title><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 </head>
 
-<body class="tundra spring">
+<body class="hold-transition login-page tundra spring">
 	<div>
 		<tiles:insertAttribute name="body" />
 	</div>

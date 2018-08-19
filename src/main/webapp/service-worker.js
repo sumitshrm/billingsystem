@@ -15,7 +15,6 @@
 var dataCacheName = 'matcons-v1';
 var cacheName = 'matconsPWA';
 var filesToCache = [
-  '/login',
   '/resources/dojo/dojo.js',
   '/resources/spring/Spring.js',
   '/resources/spring/Spring-Dojo.js',

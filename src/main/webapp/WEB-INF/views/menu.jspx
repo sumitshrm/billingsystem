@@ -41,7 +41,7 @@
                     </menu:category>
                     <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="0NNlMtzvw7CbsEgWRLiLYIVrnDo=">
                         <menu:item id="i_manageddocument_new" messageCode="global_menu_new" url="/manageddocuments?form" z="3ushNGT3WjkQfM7yR10af2xwN/I="/>
-                        <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments?page=1&amp;size=${empty param.size ? 10 : param.size}" z="a3ZQD/l6FECAXM+fysLHfkbAco4="/>
+                        <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
                     </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">
                         <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
@@ -97,7 +97,7 @@
                 <menu:category id="c_laboursupplier" render="false" z="user-managed"/>
                 <menu:category id="c_estimate" icon="fa fa-inr" z="6TsZy22LTyq0jzplK8i1WnEZX+Y=">
                     <menu:item id="i_estimate_new" messageCode="global_menu_new" url="/estimates?form" z="DaGj+7EBMQrtUhajjwQLWDJzAkE="/>
-                    <menu:item id="i_estimate_list" messageCode="global_menu_list" url="/estimates?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Skr7KovG46CJaBgBW3crGbksFzU="/>
+                    <menu:item id="i_estimate_list" messageCode="global_menu_list" url="/estimates" z="user-managed"/>
                 </menu:category>
             </menu:menu>
             <script>
