@@ -67,7 +67,7 @@ public class EstimateController {
 	            float nrOfPages = (float) Estimate.countEstimates() / sizeNo;
 	            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
 	        } else {
-	            uiModel.addAttribute("estimates", Estimate.findEstimatesByLogUser(LogUser.getCurrentUser()));
+	            uiModel.addAttribute("estimates", Estimate.findEstimatesByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
 	        }
 	        return "estimates/list";
 	    }
