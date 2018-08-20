@@ -1,12 +1,97 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:formd="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons"  xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+    
+
+<SCRIPT type="text/javascript">
+
+var CLIPBOARD;
+
+function deleteFile(id){
+	var id = id.split("_")[1];
+	console.log('delete : '+id);
+	$('#delete_form').attr('action', '/manageddocuments/'+id);
+	$('#delete_form').submit();
+}
+function updateFile(id, description){
+	var id = id.split("_")[1];
+	$('#update_id').val(id);
+	$('#update_desc').val(description);
+	$('#update_form').submit();
+}
+
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    autoFocus: true,
+    preventContextMenuForPopup: true,
+    preventSelect: true,
+    taphold: true,
+    menu: [{
+        title: "Rename",
+        cmd: "rename",
+        uiIcon: "ui-icon-scissors"
+    }, {
+        title: "Delete",
+        cmd: "delete",
+        uiIcon: "ui-icon-copy"
+    }],
+    // Handle menu selection to implement a fake-clipboard
+    select: function (event, ui) {
+    	 var $target = ui.target;
+    	 console.log($target.context.id);
+    	switch (ui.cmd) {
+        case "rename":
+        	bootbox.prompt("Enter description", function(result){ 
+        		if(result){
+        			updateFile($target.context.id, result);
+        		}
+        		
+        	});
+        	break;
+        case "delete":
+        	bootbox.confirm({
+        	    message: "are you sure you want to delete selected file",
+        	    buttons: {
+        	        confirm: {
+        	            label: 'Yes',
+        	            className: 'btn-success'
+        	        },
+        	        cancel: {
+        	            label: 'No',
+        	            className: 'btn-danger'
+        	        }
+        	    },
+        	    callback: function (result) {
+        	        console.log('This was logged in the callback: ' + result);
+        	        if(result){
+        	        	 deleteFile($target.context.id);
+        	        }
+        	       
+        	    }
+        	});
+        	break;
+            
+    }
+       
+        
+        //alert("select " + ui.cmd + " on " + $target.text());
+        
+        // Optionally return false, to prevent closing the menu now
+    }
+    // Implement the beforeOpen callback to dynamically change the entries
+   
+});
+
+
+
+</SCRIPT>
     <nav:nav>
         <nav:item label="home" url="/"/>
         <nav:item active="true" label="list documents" url="/manageddocuments"/>
     </nav:nav>
-    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
+   
+    <!-- <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
         <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
             <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="description" z="user-managed"/>
             <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
@@ -15,5 +100,26 @@
             <table:column id="c_com_org_entity_ManagedDocument_content" property="content" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" render="false" z="user-managed"/>
         </table:table>
-    </page:list>
+    </page:list> -->
+    
+
+  <util:panel id="title" title="${title}">
+  <c:forEach items="${manageddocuments}" var="item">
+  <div class="col-lg-2 col-xs-4"><m:icon-link  id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o" href="${item.downloadLink}"/></div>
+  
+  </c:forEach>
+  </util:panel>
+  
+  <form:form id="delete_form" action="/manageddocuments/44" method="DELETE" name="delete_${itemId}">
+  </form:form>
+  
+  <form:form id="update_form" style="display:none" action="/manageddocuments/update/description" method="POST" name="delete_">
+  		<input id="update_id" name="id" type="text"></input>
+  		<input id="update_desc" name="description" type="text" ></input>
+        <input value="Save" type="submit" id="proceed" class="btn btn-primary"/>
+  </form:form>
+  
+  
+  
+
 </div>

@@ -77,6 +77,16 @@ public class ManagedDocumentController {
         managedDocument.merge();
         return "redirect:/manageddocuments/" + managedDocument.getId();
     }
+    
+    @RequestMapping(value="/update/description", method = RequestMethod.POST, produces = "text/html")
+    public String updateDescription(@RequestParam("id") String id,@RequestParam("description") String description,HttpServletRequest httpServletRequest) {
+        System.out.println("update called" + id + description);
+        ManagedDocument document = ManagedDocument.findManagedDocument(Long.parseLong(id));
+        document.setDescription(description);
+        document.merge();
+        return "redirect:/manageddocuments";
+
+    }
 
     @RequestMapping("/download")
     public String download(@RequestParam(value = "file", required = false) String file, HttpServletResponse response, Model model) {
