@@ -1,0 +1,23 @@
+@charset "ISO-8859-1";
+.hasmenu, .hasmenu2 {
+	border: 1px solid #008;
+	margin: 3px;
+	padding: 5px;
+	width: 30px;
+}
+
+/* Optionally define a fixed width for menus */
+.ui-menu {
+	width: 220px;
+}
+/* Allow to use <kbd> elements inside the title to define shortcut hints. */
+.ui-menu kbd {
+	padding-left: 1em;
+	float: right;
+}
+
+/* Define a custom icon */
+.ui-icon.custom-icon-firefox {
+	background-image: url(application_firefox.gif);
+	background-position: 0 0;
+}
