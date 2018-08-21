@@ -2,6 +2,8 @@ package com.org.web;
 import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +35,9 @@ import com.org.view.MessageVo;
 @Controller
 @RooWebScaffold(path = "measurementsheets", formBackingObject = MeasurementSheet.class)
 public class MeasurementSheetController {
+	
+	final static Logger logger = Logger.getLogger(MeasurementSheetController.class);
+
 
     @Autowired
     private DocumentService documentService;
@@ -196,7 +201,7 @@ public class MeasurementSheetController {
                 uiModel.addAttribute("message", new MessageVo("measurement_sheet_report_user_managed", MessageType.ERROR));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             uiModel.addAttribute("message", new MessageVo("notification_message_error", MessageType.ERROR).addParam(e.getMessage()));
         } finally {
             //measurementSheet.getDocument().close();
