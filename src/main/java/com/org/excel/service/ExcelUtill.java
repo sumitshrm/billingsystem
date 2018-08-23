@@ -37,6 +37,7 @@ import com.org.entity.Document;
 import com.org.entity.IDocument;
 import com.org.entity.Template;
 import com.org.excel.util.XLColumnRange;
+import com.org.exception.ExcelParseException;
 
 public class ExcelUtill {
 
@@ -228,31 +229,36 @@ public class ExcelUtill {
 	}
 
 	public static void writeCellValue(Object o, Cell cell) throws Exception {
-		if(o==null){
-			//cell.setCellValue("");
-		} 
-		else if (o != null && o instanceof String) {
-			String val = (String) o;
-			if (val.startsWith("=")) {
-				cell.setCellFormula(val.substring(1));
-			} else {
-				cell.setCellValue(val);
+		try {
+			if(o==null){
+				//cell.setCellValue("");
+			} 
+			else if (o != null && o instanceof String) {
+				String val = (String) o;
+				if (val.startsWith("=")) {
+					cell.setCellFormula(val.substring(1));
+				} else {
+					cell.setCellValue(val);
+				}
+			} else if (o != null && o instanceof Double) {
+				cell.setCellValue((Double) o);
+				CellStyle cs = cell.getCellStyle();
+				cs.setDataFormat(cell.getSheet().getWorkbook().createDataFormat().getFormat("0.00"));
+				cell.setCellStyle(cs);
+			} else if (o != null && o instanceof Integer) {
+				cell.setCellValue((Integer) o);
+			} else if (o != null && o instanceof Date){
+				setDateValue((Date)o, cell);
+			} else if (o != null && o instanceof Long){
+				cell.setCellValue((Long) o);
 			}
-		} else if (o != null && o instanceof Double) {
-			cell.setCellValue((Double) o);
-			CellStyle cs = cell.getCellStyle();
-			cs.setDataFormat(cell.getSheet().getWorkbook().createDataFormat().getFormat("0.00"));
-			cell.setCellStyle(cs);
-		} else if (o != null && o instanceof Integer) {
-			cell.setCellValue((Integer) o);
-		} else if (o != null && o instanceof Date){
-			setDateValue((Date)o, cell);
-		} else if (o != null && o instanceof Long){
-			cell.setCellValue((Long) o);
+			else {
+				cell.setCellValue(o.toString());
+			}
+		} catch (Exception e) {
+			throw new ExcelParseException(cell);
 		}
-		else {
-			cell.setCellValue(o.toString());
-		}
+		
 	}
 
 	public static void writeCellValue(Object o, Cell cell, XSSFCellStyle style)
