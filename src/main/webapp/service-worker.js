@@ -82,11 +82,12 @@ var filesToCache = [
   '/resources/script/jqwidgets/jqxcheckbox.js',
   '/resources/script/jqwidgets/jqxgrid.pager.js',
   '/resources/script/jqwidgets/jqxgrid.edit.js',
-  '/resources/script/jqwidgets/jqxgrid.columnsresize.js'
-  
-  
-  
-  
+  '/resources/script/jqwidgets/jqxgrid.columnsresize.js',
+  '/resources/script/jqwidgets/jqxwindow.js',
+  '/resources/script/jquery/jquery-ui.min.js',
+  '/resources/script/jquery.ui-contextmenu.min.js',
+  '/resources/styles/jquery-ui.css',
+  '/resources/assets/vendor/bootbox/bootbox.min.js'
 ];
 
 self.addEventListener('install', function(e) {

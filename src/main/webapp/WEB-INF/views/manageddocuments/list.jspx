@@ -3,7 +3,6 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-
 <SCRIPT type="text/javascript">
 
 var CLIPBOARD;
@@ -42,12 +41,13 @@ $(document).contextmenu({
     	 console.log($target.context.id);
     	switch (ui.cmd) {
         case "rename":
-        	bootbox.prompt("Enter description", function(result){ 
+        	 bootbox.prompt("Enter description", function(result){ 
         		if(result){
         			updateFile($target.context.id, result);
         		}
         		
-        	});
+        	}); 
+        	
         	break;
         case "delete":
         	bootbox.confirm({
@@ -84,12 +84,52 @@ $(document).contextmenu({
 });
 
 
+$(document).ready(function () {
+    // Create a jqxMenu
+    $("#jqxMenu").jqxMenu({ 
+    	height: '30px',
+    	autoOpen: false
+    });
+    $("#jqxMenu").css('visibility', 'visible');
+    
+    $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
+    $(".jqx-window").css("z-index", "3000");
 
+});
+
+
+	function createFile(type) {
+		if (type == 'oth') {
+			uploadFile();
+		} else {
+			bootbox.prompt("Enter description", function(result) {
+				if (result) {
+					$('#_description_id').val(result);
+					if (type === 'xls') {
+						$('#managedDocument').attr('action',
+								'/manageddocuments/template/xls');
+					} else if (type === 'doc') {
+						$('#managedDocument').attr('action',
+								'/manageddocuments/template/doc');
+					} else {
+						uploadFile();
+						//$('#managedDocument').attr('action', '/manageddocuments/template/oth');
+					}
+					$('#managedDocument').submit();
+				}
+
+			});
+		}
+	}
+
+	function uploadFile() {
+		$('#managedDocument').attr('action','/manageddocuments/template/oth');
+		//$("#createDivForm").show(200);
+		$("#createDivForm").jqxWindow('open');
+		
+	}
 </SCRIPT>
-    <nav:nav>
-        <nav:item label="home" url="/"/>
-        <nav:item active="true" label="list documents" url="/manageddocuments"/>
-    </nav:nav>
+    
    
     <!-- <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
         <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
@@ -101,9 +141,21 @@ $(document).contextmenu({
             <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" render="false" z="user-managed"/>
         </table:table>
     </page:list> -->
-    
+<div style="margin-top:10px">
+<div id='jqxMenu' style='visibility: hidden'>
+		<ul>
+			<li><a href="#Home"><i class="glyphicon glyphicon-plus"><!-- empty not allowed	 --></i> Create New</a>
+				<ul style=''>
+                <li><a href="#Education" onclick="createFile('xls');">MS Excel File</a></li>
+                <li><a href="#Education" onclick="createFile('doc');">MS Word File</a></li>
+                <li><a href="#Education" onclick="createFile('oth');">Upload Other File</a></li>
+                </ul>
+			</li>
+		</ul>
+	</div>                  
+ </div>
 
-  <util:panel id="title" title="${title}">
+	<util:panel id="title" title="Managed Documents">
   <c:forEach items="${manageddocuments}" var="item">
   <div class="col-lg-2 col-xs-4"><m:icon-link  id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o" href="${item.downloadLink}"/></div>
   
@@ -119,7 +171,42 @@ $(document).contextmenu({
         <input value="Save" type="submit" id="proceed" class="btn btn-primary"/>
   </form:form>
   
+  <div id="createDivForm" >
+	<formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
+            <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="false" z="user-managed"/>
+        <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
+        <field:file field="content" id="c_com_org_entity_ManagedDocument_content" required="false" z="user-managed"/>
+</formd:multi>
+</div>
   
+  <!-- <div data-role="popup" id="basicpopup">
+  <p>heleloo</p>
+  </div>
+  <a href="#basicpopup" data-rel="popup" data-transition="pop">hello</a>
+   -->
   
+  <!-- <div data-role="popup" id="basicpopup">
+     <div data-role="header">
+        <h1>My page</h1> 
+    </div> 	
+    <div role="main" >
+
+        <button id="btnpopup">Show Dynamic Popup</button>
+
+    </div> 
+    
+    
+    <div data-role="popup" id="p" data-position-to="window" data-transition="turn"><p>This is a completely basic popup, no options set.</p></div>
+</div>  
+  <SCRIPT type="text/javascript">
+  $(document).on("pagecreate","#page1", function(){ 
+
+	    $("#btnpopup").on("click", function(){
+	        $("#p").popup("open"); 
+	        setTimeout(function(){  $("#p").popup("close"); }, 5000);
+	    });
+	});
+  </SCRIPT> 
+   -->
 
 </div>

@@ -40,7 +40,7 @@
                         <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
                     </menu:category>
                     <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="0NNlMtzvw7CbsEgWRLiLYIVrnDo=">
-                        <menu:item id="i_manageddocument_new" messageCode="global_menu_new" url="/manageddocuments?form" z="3ushNGT3WjkQfM7yR10af2xwN/I="/>
+                        <!-- <menu:item id="i_manageddocument_new" messageCode="global_menu_new" url="/manageddocuments?form" z="3ushNGT3WjkQfM7yR10af2xwN/I="/> -->
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
                     </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">

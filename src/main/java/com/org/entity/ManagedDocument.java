@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
@@ -39,14 +40,16 @@ public class ManagedDocument {
     @Size(max = 200)
     private String url;
 
-    @ManyToOne
+    @ManyToOne(optional=true)
     private Aggreement aggreement;
 
     @ManyToOne
     private LogUser logUser;
 
     public String getStorageUrl() {
-        return FileStorageProperties.MANAGED_DOCUMENT_FOLDER+"MANAGED_DOCUMENTS_" + aggreement.getId() + "_" + getId() + "_" + content.getOriginalFilename();
+    	String agg_num = aggreement==null?"NA":aggreement.getId().toString();
+    	String fileName = content.getSize()==0?description:content.getOriginalFilename();
+        return FileStorageProperties.MANAGED_DOCUMENT_FOLDER+"MANAGED_DOCUMENTS_" + agg_num + "_" + getId() + "_" + fileName;
     }
     
     public String getDownloadLink() {

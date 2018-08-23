@@ -11,5 +11,10 @@ public class FileStorageProperties {
 	  public static final String ESTIMATE_FOLDER = "Estimates/";
 	  
 	  public static final String TEMPLATE_FILE = "Documents/ESTIMATE_TEMPLATE.xlsx";
+	  
+	  public static final String EXCEL_TEMPLATE_FILE = "Documents/EXCEL_TEMPLATE.xlsm";
+	  
+	  public static final String WORD_TEMPLATE_FILE = "Documents/DOC_TEMPLATE.docm";
 
+	  
 }

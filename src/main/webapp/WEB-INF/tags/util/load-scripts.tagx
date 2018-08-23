@@ -44,6 +44,8 @@
     <script type="text/javascript" src="${jqwidgets_url}/jqxbuttons.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxinput.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxnotification.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxmenu.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxwindow.js"><!-- required for FF3 and Opera --></script>
 	
 	<!-- BOOTSTRAP ADMIN LAYOUT SETTINGS -->
 	    <!-- Bootstrap Core CSS -->
@@ -80,7 +82,7 @@
   <link rel="manifest" href="/manifest.json"></link>
   
   <!-- context menu start -->
-      <script src="${js_url}/jquery/jquery-ui.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+    <script src="${js_url}/jquery/jquery-ui.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
     	<script src="${js_url}/jquery.ui-contextmenu.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
        <link rel="stylesheet" href="${styles_url}/jquery-ui.css" type="text/css" />
     <script src="${vendor_url}/bootbox/bootbox.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
