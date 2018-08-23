@@ -1,21 +1,29 @@
 package com.org.web;
+import com.org.constants.MeasurementSheetConstants;
+import com.org.domain.Config;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.ManagedDocument;
 import com.org.entity.MaterialEntry;
 import com.org.excel.gateway.ExcelGatewayTo;
+import com.org.excel.gateway.ResponseStatus;
 import com.org.excel.service.ExcelUtill;
+import com.org.excel.util.XLColumnRange;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.QueryParam;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
@@ -74,7 +82,7 @@ public class ManagedDocumentController {
     }
     
     @RequestMapping(value="/template/{type}",method = RequestMethod.POST, produces = "text/html")
-    public String createFromTemplate(@PathVariable("type") String type, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws IOException {
+    public String createFromTemplate(@PathVariable("type") String type, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws Exception {
         managedDocument.setFileSize(managedDocument.getContent().getSize());
         if(managedDocument.getAggreement()!=null) {
         	Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
@@ -86,25 +94,55 @@ public class ManagedDocumentController {
         String fileName = null;
         if(type.equals("xls")) {
         	iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
-        	fileName = managedDocument.getStorageUrl()+".xlsm";
+        	XSSFWorkbook workbook = new XSSFWorkbook(iostream);
+    		fileName = managedDocument.getStorageUrl()+".xlsm";
+    		try {
+        		XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
+				ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
+				List<Config> configs = Config.findAllConfigs();
+				for(Config config : configs){
+					try {
+						ExcelUtill.writeCellValue(config.getValue(), (new XLColumnRange(workbook, config.getCellName())).fetchSingleCell());
+					} catch (Exception e) {
+						System.out.println("WARNING : "+e.getMessage());
+					}
+				}
+				workbook.write(fileStorageService.getOutputStream(fileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+    		
         }else if(type.equals("doc")) {
         	iostream = fileStorageService.doGet(FileStorageProperties.WORD_TEMPLATE_FILE);
         	fileName = managedDocument.getStorageUrl()+".docm";
+        	fileStorageService.doPost(iostream, fileName);
         }else {
         	iostream = managedDocument.getContent().getInputStream();
         	fileName = managedDocument.getStorageUrl();
+        	fileStorageService.doPost(iostream, fileName);
         }
         managedDocument.setUrl(fileName);
-        fileStorageService.doPost(iostream, fileName);
         managedDocument.merge();
         return "redirect:/manageddocuments/";
     }
     
     @RequestMapping(value = "/updatefile/{id}", method = RequestMethod.POST)
-	public String updateMeasurementSheetFromExcel(@Valid ExcelGatewayTo command, Model uiModel,
+	public String updateFromGateway(ExcelGatewayTo command, Model uiModel,
 			@PathVariable("id") Long id,
 			@RequestParam("FileField") MultipartFile content) {
+    	ManagedDocument doc = ManagedDocument.findManagedDocument(id);
+    	try {
+			fileStorageService.doPost(content.getInputStream(), doc.getUrl());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	command.setMessage("file saved successfully");
+		command.setStatus(ResponseStatus.SUCCESS);
+		uiModel.addAttribute("command", command);
     	return "excelgateway/index";
+    	
     }
     
 
