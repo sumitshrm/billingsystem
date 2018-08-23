@@ -146,9 +146,9 @@ $(document).ready(function () {
 		<ul>
 			<li><a href="#Home"><i class="glyphicon glyphicon-plus"><!-- empty not allowed	 --></i> Create New</a>
 				<ul style=''>
-                <li><a href="#Education" onclick="createFile('xls');">MS Excel File</a></li>
-                <li><a href="#Education" onclick="createFile('doc');">MS Word File</a></li>
-                <li><a href="#Education" onclick="createFile('oth');">Upload Other File</a></li>
+                <li onclick="createFile('xls');"><a href="#Education" >MS Excel File</a></li>
+                <li onclick="createFile('doc');"><a href="#Education">MS Word File</a></li>
+                <li onclick="createFile('oth');"><a href="#Education">Upload Other File</a></li>
                 </ul>
 			</li>
 		</ul>
