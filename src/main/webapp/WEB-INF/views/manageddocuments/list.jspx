@@ -94,7 +94,7 @@ $(document).ready(function () {
     	height: '30px',
     	autoOpen: false
     });
-    $("#jqxMenu").css('visibility', 'visible');
+    $("#jqxMenu").css('display', 'block');
     
     $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
     $(".jqx-window").css("z-index", "3000");
@@ -139,7 +139,7 @@ $(document).ready(function () {
 </SCRIPT>
     
     <div style="margin-top:10px">
-        <div id="jqxMenu" style="visibility: hidden">
+        <div id="jqxMenu" style="display : none">
             <ul>
                 <li>
                     <a href="#Home">
