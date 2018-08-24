@@ -4,8 +4,8 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_com_org_entity_Estimate" items="${estimates}" z="kmNVSBiJjs7AOFWHRlL00ls//fE=">
         <table:table data="${estimates}" id="l_com_org_entity_Estimate" path="/estimates" z="N5fy198/IPOnz6RGvhOAod8q74c=">
-            <table:column maxLength="500" document="true" id="c_com_org_entity_ManagedDocument_description" property="nameOfWork" z="user-managed"/>
-            <!-- <table:column id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" z="FjWL8TqL0UuBxEetyf9tkgw58XE="/> -->
+            <table:column document="true" id="c_com_org_entity_ManagedDocument_description" maxLength="500" property="nameOfWork" z="user-managed"/>
+            <table render="false" :column id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" z="user-managed"/>
             <table:column id="c_com_org_entity_Estimate_content" property="content" render="false" z="HNnrcC3sS+z2gZffvkXLccWtpvI="/>
             <table:column id="c_com_org_entity_Estimate_url" property="url"  render="false" z="OY3+duhJXI/U/V4LhUFhIR7ZQig="/>
             <table:column id="c_com_org_entity_Estimate_items" property="items" render="false"  z="DjiDiRKYbMNFPLZhzDblNFVQxN8="/>

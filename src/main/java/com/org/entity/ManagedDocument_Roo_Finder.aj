@@ -19,6 +19,16 @@ privileged aspect ManagedDocument_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
+    public static Long ManagedDocument.countFindManagedDocumentsByAggreementAndLogUser(Aggreement aggreement, LogUser logUser) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocument AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser", Long.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static Long ManagedDocument.countFindManagedDocumentsByLogUser(LogUser logUser) {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = ManagedDocument.entityManager();
@@ -47,6 +57,33 @@ privileged aspect ManagedDocument_Roo_Finder {
         }
         TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
         q.setParameter("aggreement", aggreement);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByAggreementAndLogUser(Aggreement aggreement, LogUser logUser) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery<ManagedDocument> q = em.createQuery("SELECT o FROM ManagedDocument AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser", ManagedDocument.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByAggreementAndLogUser(Aggreement aggreement, LogUser logUser, String sortFieldName, String sortOrder) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocument AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
         return q;
     }
     

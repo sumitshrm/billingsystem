@@ -23,8 +23,12 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.QueryParam;
 
+import org.apache.poi.POIXMLProperties;
+import org.apache.poi.POIXMLProperties.CustomProperties;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.openxmlformats.schemas.officeDocument.x2006.customProperties.CTProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -84,7 +88,9 @@ public class ManagedDocumentController {
     @RequestMapping(value="/template/{type}",method = RequestMethod.POST, produces = "text/html")
     public String createFromTemplate(@PathVariable("type") String type, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws Exception {
         managedDocument.setFileSize(managedDocument.getContent().getSize());
+        String queryParam= "";
         if(managedDocument.getAggreement()!=null) {
+        	queryParam="?agg="+managedDocument.getAggreement().getId();
         	Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
             managedDocument.setAggreement(aggreement);
         }
@@ -93,30 +99,10 @@ public class ManagedDocumentController {
         InputStream iostream = null;
         String fileName = null;
         if(type.equals("xls")) {
-        	iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
-        	XSSFWorkbook workbook = new XSSFWorkbook(iostream);
-    		fileName = managedDocument.getStorageUrl()+".xlsm";
-    		try {
-        		XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
-				ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
-				List<Config> configs = Config.findAllConfigs();
-				for(Config config : configs){
-					try {
-						ExcelUtill.writeCellValue(config.getValue(), (new XLColumnRange(workbook, config.getCellName())).fetchSingleCell());
-					} catch (Exception e) {
-						System.out.println("WARNING : "+e.getMessage());
-					}
-				}
-				workbook.write(fileStorageService.getOutputStream(fileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw e;
-			}
+        	fileName = createExcelFileFromTemplate(managedDocument);
     		
         }else if(type.equals("doc")) {
-        	iostream = fileStorageService.doGet(FileStorageProperties.WORD_TEMPLATE_FILE);
-        	fileName = managedDocument.getStorageUrl()+".docm";
-        	fileStorageService.doPost(iostream, fileName);
+        	fileName = createWordFileFromTemplate(managedDocument);
         }else {
         	iostream = managedDocument.getContent().getInputStream();
         	fileName = managedDocument.getStorageUrl();
@@ -124,8 +110,46 @@ public class ManagedDocumentController {
         }
         managedDocument.setUrl(fileName);
         managedDocument.merge();
-        return "redirect:/manageddocuments/";
+        return "redirect:/manageddocuments" +queryParam ;
     }
+
+
+
+	private String createWordFileFromTemplate(ManagedDocument managedDocument) throws IOException {
+		InputStream iostream;
+		String fileName;
+		iostream = fileStorageService.doGet(FileStorageProperties.WORD_TEMPLATE_FILE);
+		fileName = managedDocument.getStorageUrl()+".docm";
+		fileStorageService.doPost(iostream, fileName);
+		return fileName;
+	}
+
+
+
+	private String createExcelFileFromTemplate(ManagedDocument managedDocument) throws IOException, Exception {
+		InputStream iostream;
+		String fileName;
+		iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
+		XSSFWorkbook workbook = new XSSFWorkbook(iostream);
+		fileName = managedDocument.getStorageUrl()+".xlsm";
+		try {
+			XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
+			ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
+			List<Config> configs = Config.findAllConfigs();
+			for(Config config : configs){
+				try {
+					ExcelUtill.writeCellValue(config.getValue(), (new XLColumnRange(workbook, config.getCellName())).fetchSingleCell());
+				} catch (Exception e) {
+					System.out.println("WARNING : "+e.getMessage());
+				}
+			}
+			workbook.write(fileStorageService.getOutputStream(fileName));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return fileName;
+	}
     
     @RequestMapping(value = "/updatefile/{id}", method = RequestMethod.POST)
 	public String updateFromGateway(ExcelGatewayTo command, Model uiModel,
@@ -159,11 +183,14 @@ public class ManagedDocumentController {
     }
     
     @RequestMapping(value="/update/description", method = RequestMethod.POST, produces = "text/html")
-    public String updateDescription(@RequestParam("id") String id,@RequestParam("description") String description,HttpServletRequest httpServletRequest) {
+    public String updateDescription(@RequestParam("id") String id, @RequestParam(value = "agg", required = false) Integer agg,@RequestParam("description") String description,HttpServletRequest httpServletRequest) {
         System.out.println("update called" + id + description);
         ManagedDocument document = ManagedDocument.findManagedDocument(Long.parseLong(id));
         document.setDescription(description);
         document.merge();
+        if(agg!=null) {
+        	return "redirect:/manageddocuments?agg="+agg;
+        }
         return "redirect:/manageddocuments";
 
     }
@@ -182,29 +209,45 @@ public class ManagedDocumentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-    public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    public String delete(@PathVariable("id") Long id, @RequestParam(value = "agg", required = false) Integer agg, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         ManagedDocument managedDocument = ManagedDocument.findManagedDocument(id);
         managedDocument.remove();
         fileStorageService.delete(managedDocument.getUrl());
         uiModel.asMap().clear();
         //uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         //uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+        if(agg!=null) {
+        	return "redirect:/manageddocuments?agg="+agg;
+        }
         return "redirect:/manageddocuments";
     }
 
     @RequestMapping(produces = "text/html")
-    public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
-        if (page != null || size != null) {
+    public String list(@RequestParam(value = "agg", required = false) Long aggId,@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        /*if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            
             uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
             float nrOfPages = (float) ManagedDocument.countManagedDocuments() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
             uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
-        }
+        }*/
+    	LogUser user = LogUser.getCurrentUser();
+    	
+    	if(aggId!=null) {
+    		Aggreement agg = Aggreement.findAggreement(aggId);
+    		if(agg!=null) {
+                uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByAggreementAndLogUser(agg, user).getResultList());
+                uiModel.addAttribute("aggreement",aggId);
+    		}
+    	}else {
+            uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
+            uiModel.addAttribute("aggreements", Aggreement.findAggreementsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
+    	}
         uiModel.addAttribute("managedDocument", new ManagedDocument());
-        return "manageddocuments/list";
+       return "manageddocuments/list";
     }
 
     void populateEditForm(Model uiModel, ManagedDocument managedDocument) {

@@ -24,7 +24,7 @@ import com.org.util.FileStorageProperties;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement" })
+@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser" })
 public class ManagedDocument {
 
     @Size(max = 500)
@@ -40,20 +40,20 @@ public class ManagedDocument {
     @Size(max = 200)
     private String url;
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional = true)
     private Aggreement aggreement;
 
     @ManyToOne
     private LogUser logUser;
 
     public String getStorageUrl() {
-    	String agg_num = aggreement==null?"NA":aggreement.getId().toString();
-    	String fileName = content.getSize()==0?description:content.getOriginalFilename();
-        return FileStorageProperties.MANAGED_DOCUMENT_FOLDER+"MANAGED_DOCUMENTS_" + agg_num + "_" + getId() + "_" + fileName;
+        String agg_num = aggreement == null ? "NA" : aggreement.getId().toString();
+        String fileName = content.getSize() == 0 ? description : content.getOriginalFilename();
+        return FileStorageProperties.MANAGED_DOCUMENT_FOLDER + "MANAGED_DOCUMENTS_" + agg_num + "_" + getId() + "_" + fileName;
     }
-    
+
     public String getDownloadLink() {
-    	return "/manageddocuments/download?file="+url;
+        return "/manageddocuments/download?file=" + url;
     }
 
     @PrePersist
