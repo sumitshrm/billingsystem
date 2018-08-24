@@ -109,6 +109,9 @@ $(document).ready(function () {
 			bootbox.prompt("Enter description", function(result) {
 				if (result) {
 					$('#_description_id').val(result);
+					if(aggreement!=''){
+						$('#_aggreement\\.id_id').val(aggreement);
+					}
 					if (type === 'xls') {
 						$('#managedDocument').attr('action',
 								'/manageddocuments/template/xls');
