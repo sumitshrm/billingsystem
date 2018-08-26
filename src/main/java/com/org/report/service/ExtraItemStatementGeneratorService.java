@@ -2,6 +2,7 @@ package com.org.report.service;
 
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -198,7 +199,7 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 		ExcelUtill.setPercentFormat(wb, leftAlignedBold);
 		XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
 		centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
-		centerAlignedBottomLine.setBorderBottom(CellStyle.BORDER_THIN);
+		centerAlignedBottomLine.setBorderBottom(BorderStyle.THIN);
 
 		row = xsheet.createRow(devPercentRow1);
 		ExcelUtill.writeCellValue("Percentage of EIS = ",

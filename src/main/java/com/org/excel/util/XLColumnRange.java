@@ -1,5 +1,6 @@
 package com.org.excel.util;
 
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,7 +30,7 @@ public class XLColumnRange {
 		if(this.areaReference==null){
 			int namedCellIdx = workbook.getNameIndex(name);
 			Name aNamedCell = workbook.getNameAt(namedCellIdx);
-			this.areaReference = new AreaReference(aNamedCell.getRefersToFormula());
+			this.areaReference = new AreaReference(aNamedCell.getRefersToFormula(), SpreadsheetVersion.EXCEL2007);
 		}
 		return this.areaReference;
 	}

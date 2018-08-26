@@ -12,6 +12,7 @@ import java.util.Date;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -74,10 +75,10 @@ public class ExcelUtill {
 
 	public static XSSFCellStyle getBoxStyle(XSSFWorkbook wb) {
 		XSSFCellStyle style = wb.createCellStyle();
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderLeft(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
-		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderLeft(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
+		style.setBorderBottom(BorderStyle.THIN);
 		return style;
 	}
 	
@@ -91,18 +92,18 @@ public class ExcelUtill {
 	
 	public static XSSFCellStyle getBorderTopRight(XSSFWorkbook wb) {
 		XSSFCellStyle style = getBoxStyle(wb);
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
 		style.setVerticalAlignment(VerticalAlignment.TOP);
 		return style;
 	}
 	
 	public static XSSFCellStyle getAbstractDescriptionStyle(XSSFWorkbook wb) {
 		XSSFCellStyle style = getBoxStyle(wb);
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderLeft(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
-		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderLeft(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
+		style.setBorderBottom(BorderStyle.THIN);
 		style.setWrapText(true);
 		style.setAlignment(HorizontalAlignment.JUSTIFY);
 		style.setVerticalAlignment(VerticalAlignment.TOP);
@@ -111,7 +112,7 @@ public class ExcelUtill {
 	
 	public static XSSFCellStyle getBorderTop(XSSFWorkbook wb) {
 		XSSFCellStyle style = wb.createCellStyle();
-		style.setBorderTop(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
 		return style;
 	}
 	

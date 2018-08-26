@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -470,7 +471,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		int namedCellIdx = workbook
 				.getNameIndex(MeasurementSheetConstants.MEASUREMENT_ABSTRACT_REF);
 		Name aNamedCell = workbook.getNameAt(namedCellIdx);
-		int abstract_ref_colnum = new AreaReference(aNamedCell.getRefersToFormula()).getFirstCell().getCol();
+		int abstract_ref_colnum = new AreaReference(aNamedCell.getRefersToFormula(), SpreadsheetVersion.EXCEL2007).getFirstCell().getCol();
 		int abstract_ref_rownum = ref_source.getRow();
 		String ref_cell = Worksheets.ABSTRACTSHEET + "!$"+CellReference.convertNumToColString(target.getColumnIndex())+"$"+(target.getRow().getRowNum()+1);
 		System.out.println(abstract_ref_rownum+"-abstract_ref_rownum,"+abstract_ref_colnum+"-abstract_ref_rownum, "+ref_cell+"formula");
@@ -544,7 +545,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		Name aNamedCell = wb.getNameAt(namedCellIdx);
 
 		// retrieve the cell at the named range and test its contents
-		AreaReference aref = new AreaReference(aNamedCell.getRefersToFormula());
+		AreaReference aref = new AreaReference(aNamedCell.getRefersToFormula(), SpreadsheetVersion.EXCEL2007);
 		CellReference[] crefs = aref.getAllReferencedCells();
 		System.out.println("namedcell index :" + crefs);
 		for (int i = 0; i < crefs.length; i++) {
