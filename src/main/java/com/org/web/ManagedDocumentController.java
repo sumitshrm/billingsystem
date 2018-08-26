@@ -139,12 +139,12 @@ public class ManagedDocumentController {
 	private String createExcelFileFromTemplate(ManagedDocument managedDocument) throws IOException, Exception {
 		InputStream iostream;
 		String fileName;
-		//iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
-		XSSFWorkbook workbook = new XSSFWorkbook();
+		iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
+		XSSFWorkbook workbook = new XSSFWorkbook(iostream);
 		fileName = managedDocument.getStorageUrl()+".xlsm";
 		try {
-			//XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
-			//ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
+			XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
+			ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
 			List<Config> configs = Config.findAllConfigs();
 			for(Config config : configs){
 				try {
