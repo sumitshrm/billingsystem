@@ -119,8 +119,18 @@ public class ManagedDocumentController {
 		InputStream iostream;
 		String fileName;
 		iostream = fileStorageService.doGet(FileStorageProperties.WORD_TEMPLATE_FILE);
+		XWPFDocument document = new XWPFDocument(iostream);
+		List<Config> configs = Config.findAllConfigs();
+		for(Config config : configs){
+			try {
+			      document.getProperties().getCustomProperties().getProperty(config.getCellName()).setLpwstr(config.getValue());
+			} catch (Exception e) {
+				System.out.println("WARNING : "+e.getMessage());
+			}
+		}
+	    document.getProperties().getCustomProperties().getProperty("T_DOC_ID").setLpwstr(managedDocument.getId().toString());
 		fileName = managedDocument.getStorageUrl()+".docm";
-		fileStorageService.doPost(iostream, fileName);
+		document.write(fileStorageService.getOutputStream(fileName));
 		return fileName;
 	}
 
@@ -129,12 +139,12 @@ public class ManagedDocumentController {
 	private String createExcelFileFromTemplate(ManagedDocument managedDocument) throws IOException, Exception {
 		InputStream iostream;
 		String fileName;
-		iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
-		XSSFWorkbook workbook = new XSSFWorkbook(iostream);
+		//iostream = fileStorageService.doGet(FileStorageProperties.EXCEL_TEMPLATE_FILE);
+		XSSFWorkbook workbook = new XSSFWorkbook();
 		fileName = managedDocument.getStorageUrl()+".xlsm";
 		try {
-			XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
-			ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
+			//XSSFCell documentIdCell = new XLColumnRange(workbook, MeasurementSheetConstants.TEMPLATE_MEASUREMENT_SHEET_ID).fetchSingleCell();
+			//ExcelUtill.writeCellValue(managedDocument.getId(), documentIdCell);
 			List<Config> configs = Config.findAllConfigs();
 			for(Config config : configs){
 				try {
