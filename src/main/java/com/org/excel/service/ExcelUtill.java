@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -39,10 +40,14 @@ import com.org.entity.IDocument;
 import com.org.entity.Template;
 import com.org.excel.util.XLColumnRange;
 import com.org.exception.ExcelParseException;
+import com.org.web.MeasurementSheetController;
 
 public class ExcelUtill {
 
 	private static DataFormatter formatter = new DataFormatter();
+	
+	final static Logger logger = Logger.getLogger(ExcelUtill.class);
+
 	
 	public static void setDateValue(Date date, Cell cell) {
 		if (date == null) {
@@ -257,7 +262,8 @@ public class ExcelUtill {
 				cell.setCellValue(o.toString());
 			}
 		} catch (Exception e) {
-			throw new ExcelParseException(cell);
+			logger.error("Error writing value "+o.toString()+" into cell:"+cell.getSheet().getSheetName()+"!"+cell.getAddress(), e);
+			throw new Exception("Error writing value "+o.toString()+" into cell:"+cell.getSheet().getSheetName()+"!"+cell.getAddress(), e);
 		}
 		
 	}

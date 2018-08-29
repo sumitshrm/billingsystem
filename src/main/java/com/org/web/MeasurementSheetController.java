@@ -201,7 +201,7 @@ public class MeasurementSheetController {
                 uiModel.addAttribute("message", new MessageVo("measurement_sheet_report_user_managed", MessageType.ERROR));
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             uiModel.addAttribute("message", new MessageVo("notification_message_error", MessageType.ERROR).addParam(e.getMessage()));
         } finally {
             //measurementSheet.getDocument().close();

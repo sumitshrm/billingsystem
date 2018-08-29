@@ -1,5 +1,6 @@
 package com.org.report.service;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -19,6 +20,8 @@ import com.org.excel.util.XLColumnRange;
 
 @Service
 public class PartRateStatementGeneratorService implements IExcelReportService{
+
+	final static Logger logger = Logger.getLogger(PartRateStatementGeneratorService.class);
 
 	@Override
 	public void generateMasterData(MeasurementSheet msheet, XSSFWorkbook wb)
@@ -43,36 +46,43 @@ public class PartRateStatementGeneratorService implements IExcelReportService{
 	@Override
 	public void generateReport(MeasurementSheet msheet, XSSFWorkbook workbook)
 			throws Exception {
-		removeReportData(msheet, workbook);
-		PartRateStatementRanges ranges = new PartRateStatementRanges(workbook);
-		XSSFSheet xsheet = workbook.getSheet(Worksheets.PART_RATE_STATEMENT_SHEET);
-		int slno = ranges.getrSlno().getFirstColNum();
-		int descriptionOfItem = ranges.getrDescriptionOfItem().getFirstColNum();
-		int fullRate = ranges.getrFullRate().getFirstColNum();
-		int partRate = ranges.getrPartRate().getFirstColNum();
-		int remarksCol = ranges.getrRemarks().getFirstColNum();
-		XSSFRow row  = null;
-		int currRow = ranges.getrSlno().getLastRowNum()+2;
-		XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(workbook);
-		descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
-		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(workbook);
-		for(Item item : msheet.getAggreement().getItems()){
-			
-			
-			if(!isItemWritable(item)){continue;}
-			if(item.isValidItem()){
-				row = xsheet.createRow(currRow++);
-				writeEntryForItem(slno, descriptionOfItem, fullRate, partRate,
-						remarksCol, row, descriptionStyle, boxStyle, item);
-			}else{
-				row = xsheet.createRow(currRow++);
-				writeDescriptionForParentItem(slno, descriptionOfItem, fullRate, partRate,
-						remarksCol, row, descriptionStyle, boxStyle, item);
+		try {
+			removeReportData(msheet, workbook);
+			PartRateStatementRanges ranges = new PartRateStatementRanges(workbook);
+			XSSFSheet xsheet = workbook.getSheet(Worksheets.PART_RATE_STATEMENT_SHEET);
+			int slno = ranges.getrSlno().getFirstColNum();
+			int descriptionOfItem = ranges.getrDescriptionOfItem().getFirstColNum();
+			int fullRate = ranges.getrFullRate().getFirstColNum();
+			int partRate = ranges.getrPartRate().getFirstColNum();
+			int remarksCol = ranges.getrRemarks().getFirstColNum();
+			XSSFRow row  = null;
+			int currRow = ranges.getrSlno().getLastRowNum()+2;
+			XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(workbook);
+			descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
+			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(workbook);
+			for(Item item : msheet.getAggreement().getItems()){
+				try {
+
+					if(!isItemWritable(item)){continue;}
+					if(item.isValidItem()){
+						row = xsheet.createRow(currRow++);
+						writeEntryForItem(slno, descriptionOfItem, fullRate, partRate,
+								remarksCol, row, descriptionStyle, boxStyle, item);
+					}else{
+						row = xsheet.createRow(currRow++);
+						writeDescriptionForParentItem(slno, descriptionOfItem, fullRate, partRate,
+								remarksCol, row, descriptionStyle, boxStyle, item);
+					}
+				
+				} catch (Exception e) {
+					logger.error("error writing part rate statement for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
+					throw new Exception("error writing part rate statement for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
+				}
 			}
-			
-			
+		} catch (Exception e) {
+			logger.error("error writing part rate statement : \r\n"+e.getMessage(), e);
+			throw new Exception("error writing part rate statement : \r\n"+e.getMessage(), e);
 		}
-		
 	}
 	
 	private boolean isItemWritable(Item item){

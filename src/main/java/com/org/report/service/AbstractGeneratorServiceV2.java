@@ -30,12 +30,26 @@ public class AbstractGeneratorServiceV2 extends AbstractGeneratorService{
 	@Override
 	public void generateReport(MeasurementSheet msheet, XSSFWorkbook workbook) throws Exception{
 		// create the map of items and extra items
-		removeReportData(msheet, workbook);
-		prepareItemAbstractData(msheet);
-		loadItemAbstractDataFromWorkbook(workbook, msheet);
-		writeAbstractToWorkbook(msheet, workbook);
-		updateConfigData(msheet, workbook);
-		msheet.persist();
+		try {
+			logger.info("writing abstract report start");
+			removeReportData(msheet, workbook);
+			logger.info("removeReportData done");
+			prepareItemAbstractData(msheet);
+			logger.info("prepareItemAbstractData done");
+			loadItemAbstractDataFromWorkbook(workbook, msheet);
+			logger.info("loadItemAbstractDataFromWorkbook done");
+			writeAbstractToWorkbook(msheet, workbook);
+			logger.info("writeAbstractToWorkbook done");
+			updateConfigData(msheet, workbook);
+			logger.info("updateConfigData done");
+			msheet.persist();
+			logger.info("msheet.persist() done");
+
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception("error writing abstract data \n\r"+e.getMessage(), e);
+		}
+		
 
 	}
 	
