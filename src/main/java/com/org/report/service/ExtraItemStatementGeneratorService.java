@@ -101,7 +101,7 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 			alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
 			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
 			int slno = 1;
-			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
+			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
 			for (Item item : msheet.getAggreement().getItems()) {
 				try {
 
