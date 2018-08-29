@@ -165,16 +165,22 @@ public class ManagedDocumentController {
 	public String updateFromGateway(ExcelGatewayTo command, Model uiModel,
 			@PathVariable("id") Long id,
 			@RequestParam("FileField") MultipartFile content) {
-    	ManagedDocument doc = ManagedDocument.findManagedDocument(id);
-    	try {
-			fileStorageService.doPost(content.getInputStream(), doc.getUrl());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	command.setMessage("file saved successfully");
-		command.setStatus(ResponseStatus.SUCCESS);
-		uiModel.addAttribute("command", command);
+    	ManagedDocument doc = ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser()).getSingleResult();
+    	if(doc!=null) {
+    		try {
+    			fileStorageService.doPost(content.getInputStream(), doc.getUrl());
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	command.setMessage("file saved successfully");
+    		command.setStatus(ResponseStatus.SUCCESS);
+    		uiModel.addAttribute("command", command);
+    	}
+    	else {
+    		command.setMessage("document not found");
+    		command.setStatus(ResponseStatus.EXCEPTION);
+    	}
     	return "excelgateway/index";
     	
     }
