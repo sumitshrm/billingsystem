@@ -41,15 +41,17 @@
                     </menu:category>
                     <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="user-managed">
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
-                        <menu:item id="i_manageddocument_new" messageCode="global_menu_new" url="/manageddocuments?form" render="false" z="3ushNGT3WjkQfM7yR10af2xwN/I="/>
+                        <menu:item id="i_manageddocument_new" messageCode="global_menu_new" render="false" url="/manageddocuments?form" z="user-managed"/>
                     </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">
                         <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
                             <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
                             <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
                             <menu:item id="i_controller__books_dsrindex_id" messageCode="global_generic" url="/books/dsr" z="user-managed"/>
-                            <menu:item id="i_controller__books_darindex_id" messageCode="global_generic" url="/books/dar" z="user-managed" render="false"/>
+                            <menu:item id="i_controller__books_darindex_id" messageCode="global_generic" render="false" url="/books/dar" z="user-managed"/>
                             <menu:item id="i_controller__books_materialratesindex_id" messageCode="global_generic" url="/books/materialrates" z="user-managed"/>
+                            <menu:item id="i_controller__books_itemsmakeindex_id" messageCode="global_generic" url="/books/itemsmake/index" z="bJFXoVoI9i741fmriSv6/3ytgIM="/>
+                            <menu:item id="i_controller__books_theoreticalindex_id" messageCode="global_generic" url="/books/theoretical/index" z="aCsn2ysZN0Rkm8uW4odj68J67Mw="/>
                         </menu:category>
                     </sec:authorize>
                 </sec:authorize>

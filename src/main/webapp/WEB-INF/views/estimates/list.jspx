@@ -5,11 +5,11 @@
     <page:list id="pl_com_org_entity_Estimate" items="${estimates}" z="kmNVSBiJjs7AOFWHRlL00ls//fE=">
         <table:table data="${estimates}" id="l_com_org_entity_Estimate" path="/estimates" z="N5fy198/IPOnz6RGvhOAod8q74c=">
             <table:column document="true" id="c_com_org_entity_ManagedDocument_description" maxLength="500" property="nameOfWork" z="user-managed"/>
-            <table:column render="false" id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" z="user-managed"/>
-            <table:column id="c_com_org_entity_Estimate_content" property="content" render="false" z="HNnrcC3sS+z2gZffvkXLccWtpvI="/>
-            <table:column id="c_com_org_entity_Estimate_url" property="url"  render="false" z="OY3+duhJXI/U/V4LhUFhIR7ZQig="/>
-            <table:column id="c_com_org_entity_Estimate_items" property="items" render="false"  z="DjiDiRKYbMNFPLZhzDblNFVQxN8="/>
-            <table:column id="c_com_org_entity_Estimate_logUser" property="logUser" render="false"  z="jGLL5jtJ5AMBZka0BxLuQ9hFFWw="/>
+            <table:column id="c_com_org_entity_Estimate_nameOfWork" property="nameOfWork" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Estimate_content" property="content" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Estimate_url" property="url" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Estimate_items" property="items" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Estimate_logUser" property="logUser" render="false" z="user-managed"/>
         </table:table>
     </page:list>
 </div>

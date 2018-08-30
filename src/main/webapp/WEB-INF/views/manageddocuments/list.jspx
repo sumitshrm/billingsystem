@@ -137,7 +137,6 @@ $(document).ready(function () {
 		}
 	}
 </SCRIPT>
-    
     <div style="margin-top:10px">
         <div id="jqxMenu" style="display : none">
             <ul>
@@ -158,28 +157,28 @@ $(document).ready(function () {
                         </li>
                     </ul>
                 </li>
-                <c:if test = "${not empty aggreement}">
-                <li>
-                    <a href="/manageddocuments">
-                        <i class="fa fa-arrow-left">
-                            <!-- empty not allowed	 -->
-                        </i> Back</a>
-                </li>
-                </c:if>            
-                </ul>
+                <c:if test="${not empty aggreement}">
+                    <li>
+                        <a href="/manageddocuments">
+                            <i class="fa fa-arrow-left">
+                                <!-- empty not allowed	 -->
+                            </i> Back</a>
+                    </li>
+                </c:if>
+            </ul>
         </div>
     </div>
     <util:panel id="title" title="Managed Documents">
         <c:forEach items="${aggreements}" var="item">
             <div class="col-lg-2 col-xs-4">
-                <m:icon-link href="/manageddocuments?agg=${item.id}" id="${item.id}" label="${item.aggreementNum}" styleclass="fa fa-folder-o fa-3x" />
+                <m:icon-link href="/manageddocuments?agg=${item.id}" id="${item.id}" label="${item.aggreementNum}" styleclass="fa fa-folder-o fa-3x"/>
             </div>
         </c:forEach>
         <c:forEach items="${manageddocuments}" var="item">
-        <c:if test = "${empty item.aggreement or not empty aggreement}">
-            <div class="col-lg-2 col-xs-4">
-                <m:icon-link href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o" hasmenu="hasmenu"/>
-            </div>
+            <c:if test="${empty item.aggreement or not empty aggreement}">
+                <div class="col-lg-2 col-xs-4">
+                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o"/>
+                </div>
             </c:if>
         </c:forEach>
     </util:panel>
@@ -190,19 +189,19 @@ $(document).ready(function () {
         <input class="btn btn-primary" id="proceed" type="submit" value="Save"/>
     </form:form>
     <div style="display:none">
-    <div id="createDivForm">
-        <formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
-            <c:if test = "${not empty aggreement}">
-            <div style="display:none">
-            <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
-            </div>
-            </c:if>
-            <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
-            <field:file field="content" id="c_com_org_entity_ManagedDocument_content" required="false" z="user-managed"/>
-        </formd:multi>
+        <div id="createDivForm">
+            <formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
+                <c:if test="${not empty aggreement}">
+                    <div style="display:none">
+                        <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
+                    </div>
+                </c:if>
+                <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
+                <field:file field="content" id="c_com_org_entity_ManagedDocument_content" required="false" z="user-managed"/>
+            </formd:multi>
+        </div>
     </div>
-    </div>
-    <page:list render="false" id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
+    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" render="false" z="user-managed">
         <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
             <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
             <table:column id="c_com_org_entity_ManagedDocument_url" property="url" z="xWU7O99EP/kqlHk53tTbWWJNKFQ="/>
