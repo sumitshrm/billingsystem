@@ -95,6 +95,24 @@
                     { text: 'Rate (Rs)', dataField: 'rate', editable: true },
                 ]
             });
+            
+            $('#grid').on('rowselect', function (event) {
+                // event arguments.
+                console.log('select log');
+                var args = event.args;
+                // row's bound index.
+                var rowBoundIndex = args.rowindex;
+                // row's data. The row's data object or null(when all rows are being selected or unselected with a single action). If you have a datafield called "firstName", to access the row's firstName, use var firstName = rowData.firstName;
+                var rowData = args.row;
+
+                if (typeof rowBoundIndex === 'number') {
+                    if (rowData.rate === '') {
+                        $('#grid').jqxGrid('unselectrow', rowBoundIndex);
+                    }
+                } else if (typeof rowBoundIndex === 'object') {
+                    
+                }
+            });
 
             // create jqxWindow.
             
