@@ -56,7 +56,7 @@
         	
             var getAdapter = function () {
                 // prepare the data
-            var url_data = '${csv_url}${dsr_file}';
+            var url_data = '${csv_url}ManagedDocuments/MANAGED_DOCUMENTS_NA_130_DSR_2016.xml';
             var source =
             {
                 dataType: "xml",
@@ -98,7 +98,6 @@
             
             $('#grid').on('rowselect', function (event) {
                 // event arguments.
-                console.log('select log');
                 var args = event.args;
                 // row's bound index.
                 var rowBoundIndex = args.rowindex;
@@ -117,7 +116,6 @@
             // create jqxWindow.
             
             $("#inputField").on('change keyup paste', function() {
-                console.log('I am pretty sure the text box changed');
                 $("#grid").jqxGrid('clearfilters');
                 var datafield = "code";
                 var searchText = $("#inputField").val();
@@ -133,7 +131,6 @@
             });
             
             $("#descField").on('change keyup paste', function() {
-                console.log('I am pretty sure the text box changed');
                 $("#grid").jqxGrid('clearfilters');
                 var datafield = "Desc";
                 var searchText = $("#descField").val();
@@ -157,7 +154,7 @@
                     { name: 'desc', type: 'string' },
                     { name: 'unit', type: 'string' },
                     { name: 'rate', type: 'string' },
-                    { name: 'PartRate', type: 'string' }
+                    { name: 'slno', type: 'string' }
                 ],
                 id: 'id',
                 url: ''
@@ -174,10 +171,11 @@
                 editmode: 'click',
                 columnsresize: true,
                 columns: [
-                	{ text: 'Code', dataField: 'code', editable: false },
+                	{ text: 'Slno', dataField: 'slno', editable: false },
                     { text: 'Description of Items', dataField: 'desc' , editable: false },
                     { text: 'Unit', dataField: 'unit' , editable: false },
                     { text: 'Rate (Rs)', dataField: 'rate', editable: false },
+                    { text: 'code', dataField: 'code', editable: false }
               ]
             });
             
@@ -195,7 +193,6 @@
                     { name: 'PartRate', type: 'string' }
                 ],
                 deleterow: function (rowid, commit) {
-                	console.log('delete');
                     commit(true);
                 },
                 id: 'id',
@@ -235,11 +232,10 @@
 	                      	}, 
 	                      	buttonclick: function (row) {
 	                      	var item = $("#extraItemGrid").jqxGrid('getrowdata', row);
-	                      	console.log(item);
 	                      	var rec = $.param(id).split("&amp;");
 	                      	var estimateitemid = rec[0].split("=");
 	                      	var commit = $("#extraItemGrid").jqxGrid('deleterow', item.id);
-	                      	console.log(commit);
+	                      	//console.log(commit);
 	                      	}
                       }
                         ]
@@ -260,31 +256,49 @@
              }
         }
         
-        
+        var slno_list = [0];
         function save(){
         	$('#selectedGrid').jqxGrid('clear');
         	var selectedrowindexes = $('#grid').jqxGrid('selectedrowindexes');
         	selectedrowindexes=selectedrowindexes.sort((a, b) =&gt; a - b);
         	selectedDataIndexes = [];
         	for(var index in selectedrowindexes ){
+        		
         		var i = selectedrowindexes[index];
         		var data = $('#grid').jqxGrid('getrowdata', (i));
         		var code = data.code;
         		if(code!=''){
-        			console.log(code+'--code');
             		addParentItems('grid','code',code);
             		selectedDataIndexes = selectedDataIndexes.sort((a, b) =&gt; a - b);
-            		console.log(selectedDataIndexes);
+            		//console.log(selectedDataIndexes);
         		}
         		
         	}
+        	slno_list.length=0;
         	for(var index in selectedDataIndexes ){
         		var i = selectedDataIndexes[index];
         		var data = $('#grid').jqxGrid('getrowdata', (i));
+        		var slno = getSerialNumber(data.code);
+        		console.log(slno);
+        		data.slno = slno;
         		$("#selectedGrid").jqxGrid('addrow', null, data);
         	}
         	
 
+        }
+        
+        function getSerialNumber(code){
+        	console.log('code----' + code)
+        	var i = code.split(".").length - 2;
+        	console.log('index to updated '+ i);
+        	if(i>slno_list.length-1){
+        		slno_list.push(0);
+        	}
+        	slno_list[i] = slno_list[i]+1;
+        	slno_list.length=i+1;
+        	var slno = slno_list.toString().replace(/,/g, ".");
+        	console.log(slno_list.toString().replace(/,/g, "."));
+        	return slno;
         }
         
         function addParentItems(grid, field, value, selectField) {
@@ -316,8 +330,8 @@
         		$("#selectedGrid").jqxGrid('addrow', null, exrows[i]);
         	}
         	var fullData = $("#selectedGrid").jqxGrid('getrows');
-        	console.log(fullData);
-        	console.log('---'+JSON.stringify(fullData));
+        	//console.log(fullData);
+        	//console.log('---'+JSON.stringify(fullData));
         	$('#jsonData').val(JSON.stringify(fullData));
         }
         
@@ -333,7 +347,7 @@
         	      url: "${saveUrl}",
         	      data: JSON.stringify(jsonBody), // Note it is important
         	      success :function(result) {
-        	    	  console.log(result);
+        	    	  //console.log(result);
         	    	  window.location=result.url;
         	    	  $(".loading").fadeOut( 200);
         	     },error: function(e){

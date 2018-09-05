@@ -60,6 +60,24 @@ public class EstimateService {
 		for(EstimateItem item : estimate.getItems()) {
 			writeItemData(msheet, asheet ,item, msheetDescColNum, msheetTotalColNum, abstractRanges, counter);
 		}
+		//Write total detail in Abstract Sheet
+		XSSFRow row = asheet.createRow(counter.nextAbstractCounter());
+		XSSFCell cell = row.createCell(abstractRanges.getDescCol());
+		cell.setCellStyle(abstractRanges.getBoldStyle());
+		cell.setCellValue("Total");
+		cell = row.createCell(abstractRanges.getAmountCol());
+		cell.setCellStyle(abstractRanges.getBoldStyle());
+		cell.setCellFormula(getTotalFormulaAbstract(a_currentrow+2, counter.getAbstractCounter(), abstractRanges.getAmountCol()));
+		
+		row = asheet.createRow(counter.nextAbstractCounter());
+		cell = row.createCell(abstractRanges.getDescCol());
+		cell.setCellStyle(abstractRanges.getBoldStyle());
+		cell.setCellValue("Say");
+		cell = row.createCell(abstractRanges.getAmountCol());
+		cell.setCellStyle(abstractRanges.getBoldStyle());
+		cell.setCellFormula(getSayFormulaAbstract(counter.getAbstractCounter(), abstractRanges.getAmountCol()));
+		
+		
 		
 		workbook.write(fileStorageService.getOutputStream(estimate.getUrl()));
 		workbook.close();
@@ -81,7 +99,7 @@ public class EstimateService {
 		cell.setCellValue(item.getDesc());
 		
 		cell = row.createCell(msheetDescColNum-1);
-		cell.setCellValue(item.getCode());
+		cell.setCellValue(item.getSlno());
 		
 		if(item.getUnit()!=null && !item.getUnit().equals("")) {
 			//row = msheet.createRow(counter.nextMsheetCounter());
@@ -118,7 +136,7 @@ public class EstimateService {
 	private void writeAbstractData(XSSFSheet msheet, EstimateCounter counter, EstimateItem item, String msheetRefCell, AbstractRanges abstractRanges) {
 		XSSFRow row = msheet.createRow(counter.nextAbstractCounter());
 		XSSFCell cell = row.createCell(abstractRanges.getItemNumCol());
-		cell.setCellValue(item.getCode());
+		cell.setCellValue(item.getSlno());
 			
 		cell = row.createCell(abstractRanges.getDescCol());
 		cell.setCellStyle(abstractRanges.getDescriptionCellStyle());
@@ -177,6 +195,17 @@ public class EstimateService {
 	
 	private String getSayFormula(String cellRef) {
 		return "MROUND("+cellRef+",1)";
+	}
+	
+	private String getTotalFormulaAbstract(int firstRow, int lastRow, int totalCol) {
+		String firstCell = CellReference.convertNumToColString(totalCol) + firstRow;
+		String secondCell = CellReference.convertNumToColString(totalCol) + lastRow;
+		return "SUM("+firstCell+":"+secondCell+")";
+	}
+	
+	private String getSayFormulaAbstract(int firstRow, int totalCol) {
+		String firstCell = CellReference.convertNumToColString(totalCol) + firstRow;
+		return "MROUND("+firstCell+",100)";
 	}
 	
 }

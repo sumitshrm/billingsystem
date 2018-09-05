@@ -6,6 +6,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EstimateItem {
+	
+	private String slno;
 
 	private String code;
 	
@@ -45,6 +47,16 @@ public class EstimateItem {
 
 	public void setRate(String rate) {
 		this.rate = rate;
+	}
+	
+	
+
+	public String getSlno() {
+		return slno;
+	}
+
+	public void setSlno(String slno) {
+		this.slno = slno;
 	}
 
 	@Override
