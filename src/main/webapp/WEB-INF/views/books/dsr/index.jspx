@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
 	<script type="text/javascript">
         $(document).ready(function () {
-            var url = '${csv_url}${dsr_file}';
+            var url = '${csv_url}/ManagedDocuments/MANAGED_DOCUMENTS_NA_126_DSR_2016.xml';
             console.log(url+'---------');
             var source =
             {

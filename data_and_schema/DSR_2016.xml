@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dsr-data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<record>
-		<desc>Sub-Head : Earth Work</desc>
-	</record>
-	<record>
 		<code>2.1</code>
 		<desc>Earth work in surface excavation not exceeding 30 cm in depth but exceeding 1.5 m in width as well as 10 sqm on plan including getting out and disposal of excavated earth upto 50 m and lift up to 1.5 m, as directed by Engineer-in-Charge: </desc>
 	</record>
@@ -571,9 +568,6 @@
 		<desc>Sub-Head : Cement Mortar</desc>
 	</record>
 	<record>
-		<desc>Note : These rates are exclusive of water charges, overheads and contractor’s profit.</desc>
-	</record>
-	<record>
 		<code>3.1</code>
 		<desc>Cement mortar 1:1 (1 cement : 1 fine sand)</desc>
 		<unit>Cum</unit>
@@ -628,7 +622,7 @@
 		<rate>3970.5</rate>
 	</record>
 	<record>
-		<code>3.1</code>
+		<code>3.10</code>
 		<desc>Cement mortar 1:5 (1 cement : 5 coarse sand)</desc>
 		<unit>Cum</unit>
 		<rate>3565.05</rate>
@@ -953,7 +947,7 @@ Note: (1) Excess/less cement used than specified in this item is payble/recovera
 		<rate>6498.8</rate>
 	</record>
 	<record>
-		<code>4.2</code>
+		<code>4.20</code>
 		<desc>Providing and laying in position ready mixed plain cement concrete, with cement content as per approved design mix and manufactured in fully automatic batching plant and transported to site of work in transit mixer for all leads, having continuous agitated mixer, manufactured as per mix design of specified grade for plain cement concrete work, including pumping of R.M.C. from transit mixer to site of laying and curing, excluding the cost of centering, shuttering and finishing, including cost of curing, admixtures in recommended proportions as per IS : 9103 to accelerate/ retard setting of concrete, improve workability without impairing strength and durability as per direction of the Engineer - in - charge. 
 Note : 1) Excess/ less cement used than specified in this item is payable/ recoverable separately. </desc>
 	</record>
@@ -1403,19 +1397,19 @@ Note : 1) Excess/ less cement used than specified in this item is payable/ recov
 	<record>
 		<code>5.26</code>
 		<desc>Providing and filling in position, blown bitumen in expansion joints. </desc>
-		<unit>Metre</unit>
+		<unit>cum</unit>
 		<rate>50192.7</rate>
 	</record>
 	<record>
 		<code>5.27</code>
 		<desc>Providing and filling in position bitumen mix filler of Proportion 80 kg. of hot bitumen, 1 kg. of cement and 0.25 cubic metre of coarse sand for depth per expansion joints. </desc>
-		<unit>Metre</unit>
+		<unit>cum</unit>
 		<rate>16494.35</rate>
 	</record>
 	<record>
 		<code>5.28</code>
 		<desc>Providing and fixing in position 12mm thick bitumen impregnated fiber board conforming to IS: 1838, including cost of primer, sealing compound Grade-A in expansion joints. </desc>
-		<unit>Metre</unit>
+		<unit>per cm depth per 100 mtr</unit>
 		<rate>449.1</rate>
 	</record>
 	<record>
@@ -11255,7 +11249,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>3464.05</rate>
 	</record>
 	<record>
-		<code>16.6</code>
+		<code>16.60</code>
 		<desc>Manufacturing, supplying and fixing retro reflective overhead signage boards made up of 2 mm thick aluminium sheet, face to be fully covered with high intensity and encapsulated lens type heat activatedretro reflective sheeting conforming to type - III of ASTM-D-4956-01 as approved by Engineer-in-charge, letters, borders etc. as per IRC : 67-2001 in silver white with blue colour back ground and with high intensity grade, pasted on substrate by pressure sensitive adhesive backing which shall be activated by applying pressure conforming to class II of ASTM-D-4956-01 and fixing the same to the plate of structural frame work by means of suitable sized aluminium alloys, rivets or bolts &amp; nuts @ 300 mm centre to centre all along the periphery as well as in two vertical rows along with theft resistant measures, including the cost of painting with two or more coats of epoxy paint in grey colour on the back side of aluminium sheet including appropriate priming coat. The rate includes the cost of rounding off the corners, lowering down the structural frame work from the gantry, fixing and erecting the same in position all complete as per drawings, specification and direction of the engineer-in charge.(Structural frame work including M.S. plate to be provided separately. Rectangular area of the sheet only shall be measured for payment). </desc>
 	</record>
 	<record>
@@ -11779,7 +11773,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>2433.25</rate>
 	</record>
 	<record>
-		<code>17.1</code>
+		<code>17.10</code>
 		<desc>Providing and fixing Stainless Steel A Isis 304 (18/8) kitchen sink as per IS: 13983 with C.I. brackets and stainless steel plug 40 mm, including painting of fittings and brackets, cutting and making good the walls wherever required : </desc>
 	</record>
 	<record>
@@ -12337,7 +12331,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>212.2</rate>
 	</record>
 	<record>
-		<code>17.4</code>
+		<code>17.40</code>
 		<desc>Providing and fixing heel rest sanitary bend</desc>
 	</record>
 	<record>
@@ -12675,7 +12669,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>515.35</rate>
 	</record>
 	<record>
-		<code>17.5</code>
+		<code>17.50</code>
 		<desc>Providing and fixing single equal plain invert branch of required degree :</desc>
 	</record>
 	<record>
@@ -13073,7 +13067,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>51.6</rate>
 	</record>
 	<record>
-		<code>17.6</code>
+		<code>17.60</code>
 		<desc>Providing and fixing trap of self cleansing design with screwed down or hinged grating with or without vent arm complete, including cost of cutting and making good the walls and floors :</desc>
 	</record>
 	<record>
@@ -13225,7 +13219,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>98.8</rate>
 	</record>
 	<record>
-		<code>17.7</code>
+		<code>17.70</code>
 		<desc>Providing and fixing PTMT Bottle Trap for Wash basin and sink.</desc>
 	</record>
 	<record>
@@ -13325,7 +13319,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>15040.75</rate>
 	</record>
 	<record>
-		<code>17.8</code>
+		<code>17.80</code>
 		<desc>Providing and fixing white vitreous china battery based infrared sensor operated urinal of approx. size 610 x 390 x 370 mm having pre &amp; post flushing with water (250 ml &amp; 500 ml consumption), having water inlet from back side, including fixing to wall with suitable brackets all as per manufacturers specification and direction of Engineer-in-charge.</desc>
 		<unit>Each</unit>
 		<rate>5162.2</rate>
@@ -17389,7 +17383,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>8743.7</rate>
 	</record>
 	<record>
-		<code>19.1</code>
+		<code>19.10</code>
 		<desc>Extra depth for circular type manhole 0.91 m internal dia (at bottom) beyond 0.91 m to 1.67 m </desc>
 	</record>
 	<record>
@@ -17773,7 +17767,7 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 		<rate>7522.15</rate>
 	</record>
 	<record>
-		<code>19.3</code>
+		<code>19.30</code>
 		<desc>Constructing brick masonry chamber for underground C.I. inspection chamber and bends with bricks in cement mortar 1:4 (1 cement : 4 coarse sand) C.I. cover with frame (light duty) 455x610 mm internal dimensions, total weight of cover with frame to be not less than 38 kg (weight of cover 23 kg and weight of frame 15 kg), R.C.C. top slab with 1:2:4 mix (1 cement : 2 coarse sand : 4 graded stone aggregate 20 mm nominal size) foundation concrete 1:5:10 (1 cement : 5 coarse sand (Zone III) : 10 graded stone aggregate 40 mm nominal size), inside plastering 12 mm thick with cement mortar 1:3 (1 cement : 3 coarse sand), finished smooth with a floating coat of neat cement on walls and bed concrete etc. complete as per standard design : </desc>
 	</record>
 	<record>
