@@ -28,7 +28,7 @@ import com.org.entity.Estimate;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
 
-@Ignore
+//@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class EstimateServiceTest {
 	
