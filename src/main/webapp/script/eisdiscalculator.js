@@ -40,17 +40,20 @@
 		var dis_amount = $('#dis_amount').val();
 		var eis_amount = $('#eis_amount').val();
 		if(estimated_cost==""){
-			//alert("estimated cost is required");
-			//return;
+			alert("estimated cost is required");
+			showresult=false;
+			return;
 		}
 		if(tender_cost==""){
-			//alert("tender cost is required");
-			//return;
+			alert("tender cost is required");
+			showresult=false;
+			return;
 		}
 		var validval = dis_amount+eis_amount+"";
 		if(validval==""){
-			//alert("eis amount or dis amount is required");
-			//return;
+			alert("eis amount or dis amount is required");
+			showresult=false;
+			return;
 		}
 		if(eis_amount>0){
 			calculateEIS();
@@ -58,6 +61,7 @@
 		if(dis_amount>0){
 			calculateDIS();
 		}
+		showresult=true;
 		
 	}
 	
@@ -200,13 +204,17 @@
 
 		      // Using jQuery's animate() method to add smooth page scroll
 		      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-		      $('html, body').animate({
-		        scrollTop: $(hash).offset().top
-		      }, 800, function(){
-		   
-		        // Add hash (#) to URL when done scrolling (default click behavior)
-		        window.location.hash = hash;
-		      });
+		      if(showresult){
+		    	  $('html, body').animate({
+				        scrollTop: $(hash).offset().top
+				      }, 800, function(){
+				    	  
+				        // Add hash (#) to URL when done scrolling (default click behavior)
+				        window.location.hash = hash;
+				      });
+		      }
+		      
+		      
 		    } // End if
 		  });
 		});

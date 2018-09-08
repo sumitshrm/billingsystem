@@ -18,6 +18,7 @@
 	<script type="text/javascript">
 	  var aggreements = {};
 	  var dis_master_range=[];
+	  var showresult = false;
 		var eis_master_range=[];
 	  	<c:forEach items="${aggreements}" var="item">
 	  	aggreements._${item.id} = {
