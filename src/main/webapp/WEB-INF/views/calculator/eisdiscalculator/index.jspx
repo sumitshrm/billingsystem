@@ -92,7 +92,7 @@
 							<label for="estimated_cost">Estimated Cost</label>
 
 							<div>
-								<input type="text" class="form-control" id="estimated_cost"
+								<input type="number" class="form-control" id="estimated_cost"
 									placeholder="Enter estimated cost" />
 							</div>
 						</div>
@@ -100,7 +100,7 @@
 							<label for="tender_cost">Tender Cost</label>
 
 							<div>
-								<input type="text" class="form-control" id="tender_cost"
+								<input type="number" class="form-control" id="tender_cost"
 									placeholder="Enter tener cost" />
 							</div>
 						</div>
@@ -108,7 +108,7 @@
 							<label for="dis_amount">Deviation Amount</label>
 
 							<div>
-								<input type="text" class="form-control" id="dis_amount"
+								<input type="number" class="form-control" id="dis_amount"
 									placeholder="Enter total deviation amount" />
 							</div>
 						</div>
@@ -117,7 +117,7 @@
 							<label for="eis_amount">EIS Amount</label>
 
 							<div>
-								<input type="text" class="form-control" id="eis_amount"
+								<input type="number" class="form-control" id="eis_amount"
 									placeholder="Enter EIS amount" />
 							</div>
 						</div>
