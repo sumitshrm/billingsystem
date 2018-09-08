@@ -97,9 +97,9 @@
 		$('#eis_ee_max_power').html("");
 		$('#eis_se_max_power').html("");
 		
-		$('#eis_ae_max_power').html(filter_range.AE.maxpower);
-		$('#eis_ee_max_power').html(filter_range.EE.maxpower);
-		$('#eis_se_max_power').html(filter_range.SE.maxpower);
+		$('#eis_ae_max_power').html(filter_range.AE.power);
+		$('#eis_ee_max_power').html(filter_range.EE.power);
+		$('#eis_se_max_power').html(filter_range.SE.power);
 		// id="ies_ae_max_power" 
 		
 		//distribute EIS amount
@@ -158,9 +158,9 @@
 		//set max_poweers
 		
 		
-		$('#dis_ae_max_power').html(filter_range.AE.maxpower);
-		$('#dis_ee_max_power').html(filter_range.EE.maxpower);
-		$('#dis_se_max_power').html(filter_range.SE.maxpower);
+		$('#dis_ae_max_power').html(filter_range.AE.power);
+		$('#dis_ee_max_power').html(filter_range.EE.power);
+		$('#dis_se_max_power').html(filter_range.SE.power);
 		// id="ies_ae_max_power" 
 		
 		//distribute EIS amount
