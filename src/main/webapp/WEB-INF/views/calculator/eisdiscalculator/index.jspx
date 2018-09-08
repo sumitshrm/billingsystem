@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message code="label_calculator_eisdiscalculator_index"
+		htmlEscape="false" var="title" />
+	<script type="text/javascript" src="${js_url}/jquery.parser/papaparse.min.js"><!-- required for FF3 and Opera --></script>
+	<!-- http://localhost:8080/manageddocuments/download?file=ManagedDocuments/MANAGED_DOCUMENTS_NA_132_POWER_SHARE_2016.csv -->
+	<spring:message code="app_eis_master_data_url" htmlEscape="false" var="eis_master_data_url"/>
+	<spring:message code="app_dis_master_data_url" htmlEscape="false" var="dis_master_data_url"/>
+    <spring:url value="/manageddocuments/download?file=" var="csv_url" />
+	<script type="text/javascript">
+	  var aggreements = {};
+	  var dis_master_range=[];
+		var eis_master_range=[];
+	  	<c:forEach items="${aggreements}" var="item">
+	  	aggreements._${item.id} = {
+	  		"id":"${item.id}",
+	  		"aggreementNum" : "${item.aggreementNum}",
+	  		"nameOfWork":"${item.nameOfWork}",
+	  		"estimatedCost":"${item.estimatedCost}",
+	  		"tenderCost":"${item.tenderCost}",
+	  		};
+		</c:forEach>
+		
+		  Papa.parse("${dis_master_data_url}", {
+				download: true,
+				dynamicTyping: true,
+				complete: function(results) {
+					console.log("load data",results);
+					dis_master_range = results;
+				}
+			});
+		  Papa.parse("${eis_master_data_url}", {
+				download: true,
+				dynamicTyping: true,
+				complete: function(results) {
+					console.log("load data",results);
+					eis_master_range = results;
+				}
+			});
+		  
+
+			console.log(aggreements);
+  </script>
+  <script type="text/javascript" src="${js_url}/eisdiscalculator.js"><!-- required for FF3 and Opera --></script>
+
+	<spring:message code="application_name" htmlEscape="false"
+		var="app_name" />
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h3 class="box-title">Calculate EIS and DIS</h3>
+				</div>
+				<!-- /.box-header -->
+				<!-- form start -->
+				<form role="form">
+
+					<div class="">
+						<div class="form-group">
+							<label for="inputEmail3">Aggreement</label>
+							<c:if test="${empty disabled}">
+						      <c:set value="false" var="disabled" />
+						    </c:if>
+							<div>
+								<select id="select_agg" class="form-control" onchange="selectAggreement()">
+								<option value="">none</option>
+								<c:forEach items="${aggreements}" var="item">
+									<option value="_${item.id}">${item.aggreementNum}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Name of work</label>
+							<div>
+								<p id="agg_description"></p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="estimated_cost">Estimated Cost</label>
+
+							<div>
+								<input type="text" class="form-control" id="estimated_cost"
+									placeholder="Enter estimated cost" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="tender_cost">Tender Cost</label>
+
+							<div>
+								<input type="text" class="form-control" id="tender_cost"
+									placeholder="Enter tener cost" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="dis_amount">Deviation Amount</label>
+
+							<div>
+								<input type="text" class="form-control" id="dis_amount"
+									placeholder="Enter total deviation amount" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="eis_amount">EIS Amount</label>
+
+							<div>
+								<input type="text" class="form-control" id="eis_amount"
+									placeholder="Enter EIS amount" />
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<a id="a_calculate" href="#result" class="btn btn-primary" onClick="calculate()">Calculate</a>
+					</div>
+					<!-- /.box-footer -->
+				</form>
+
+
+			</div>
+
+		</div>
+		<div class="col-md-6">
+		<div class="box">
+            <div class="box-header">
+              <h3 id="result" class="box-title">DIS Power Distribution</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-condensed">
+                <tbody><tr>
+                  <th style="width: 10px">#</th>
+                  <th>Task</th>
+                  <th>Actual Distribution</th>
+                  <th>Power Distribution</th>
+                </tr>
+                <tr>
+                  <td>1.</td>
+                  <td>AE</td>
+                  <td><span id="dis_ae_actual_power" class="badge bg-red"></span></td>
+                  <td><span id="dis_ae_max_power" class="badge bg-red"></span></td>
+                </tr>
+                <tr>
+                  <td>2.</td>
+                  <td>EE</td>
+                  <td><span id="dis_ee_actual_power" class="badge bg-yellow"></span></td>
+                  <td><span  id="dis_ee_max_power"  class="badge bg-yellow"></span></td>
+                </tr>
+                <tr>
+                  <td>3.</td>
+                  <td>SE</td>
+                  <td><span id="dis_se_actual_power" class="badge bg-light-blue"></span></td>
+                  <td><span  id="dis_se_max_power" class="badge bg-light-blue"></span></td>
+                </tr>
+                <tr>
+                  <td>4.</td>
+                  <td>CE</td>
+                  <td><span id="dis_ce_actual_power"  class="badge bg-green"></span></td>
+                  <td><span class="badge bg-green"></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          
+          
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">EIS Power Distribution</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-condensed">
+                <tbody><tr>
+                  <th style="width: 10px">#</th>
+                  <th>Task</th>
+                  <th>Actual Distribution</th>
+                  <th>Power Distribution</th>
+                </tr>
+                <tr>
+                  <td>1.</td>
+                  <td>AE</td>
+                  <td><span id="eis_ae_actual_power" class="badge bg-red"></span></td>
+                  <td><span id="eis_ae_max_power" class="badge bg-red"></span></td>
+                </tr>
+                <tr>
+                  <td>2.</td>
+                  <td>EE</td>
+                  <td><span id="eis_ee_actual_power" class="badge bg-yellow"></span></td>
+                  <td><span  id="eis_ee_max_power"  class="badge bg-yellow"></span></td>
+                </tr>
+                <tr>
+                  <td>3.</td>
+                  <td>SE</td>
+                  <td><span id="eis_se_actual_power" class="badge bg-light-blue"></span></td>
+                  <td><span  id="eis_se_max_power" class="badge bg-light-blue"></span></td>
+                </tr>
+                <tr>
+                  <td>4.</td>
+                  <td>CE</td>
+                  <td><span id="eis_ce_actual_power"  class="badge bg-green"></span></td>
+                  <td><span class="badge bg-green"></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+		</div>
+	</div>
+
+</div>

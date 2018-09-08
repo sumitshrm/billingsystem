@@ -11,7 +11,7 @@
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
   
   <spring:url value="/resources/script/jqwidgets" var="jqwidgets_url" scope="request"/>
-  <spring:url value="/resources/script/jquery" var="jquery_url" />
+  <spring:url value="/resources/script/jquery" var="jquery_url" scope="request"/>
   <spring:url value="/resources/script" var="js_url"  scope="request"/>
   <spring:url value="/resources/styles" var="styles_url" scope="request"/>
   <spring:url value="/resources/assets/dist" var="dist_url" />
@@ -26,6 +26,7 @@
     <c:set var="plocale">${pageContext.response.locale}</c:set>
     <c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
   </c:set>
+  
 
   <script type="text/javascript">var djConfig = {parseOnLoad: false, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
 

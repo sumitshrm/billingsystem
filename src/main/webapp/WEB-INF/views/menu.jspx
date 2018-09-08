@@ -53,6 +53,9 @@
                             <menu:item id="i_controller__books_itemsmakeindex_id" messageCode="global_generic" url="/books/itemsmake/index" z="bJFXoVoI9i741fmriSv6/3ytgIM="/>
                             <menu:item id="i_controller__books_theoreticalindex_id" messageCode="global_generic" url="/books/theoretical/index" z="aCsn2ysZN0Rkm8uW4odj68J67Mw="/>
                         </menu:category>
+                        <menu:category icon="fa fa-book" id="c_calculator" render="true" z="user-managed">
+                            <menu:item id="i_controller__calculator_eisdiscalculatorindex_id" messageCode="global_generic" url="/calculator/eisdiscalculator" z="O0cyCer173KguvEOxCOYNp0wSM4="/>
+                        </menu:category>
                     </sec:authorize>
                 </sec:authorize>
                 <menu:category id="c_item" render="false" z="user-managed">
