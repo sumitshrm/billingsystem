@@ -96,10 +96,10 @@
 		$('#eis_ae_max_power').html("");
 		$('#eis_ee_max_power').html("");
 		$('#eis_se_max_power').html("");
-		
-		$('#eis_ae_max_power').html(filter_range.AE.power);
-		$('#eis_ee_max_power').html(filter_range.EE.power);
-		$('#eis_se_max_power').html(filter_range.SE.power);
+		//Round to 2 decimal places
+		$('#eis_ae_max_power').html(Math.round(filter_range.AE.power * 100) / 100);
+		$('#eis_ee_max_power').html(Math.round(filter_range.EE.power * 100) / 100);
+		$('#eis_se_max_power').html(Math.round(filter_range.SE.power * 100) / 100);
 		// id="ies_ae_max_power" 
 		
 		//distribute EIS amount
@@ -123,10 +123,10 @@
 		$('#eis_ee_actual_power').html("");
 		$('#eis_se_actual_power').html("");
 		$('#eis_ce_actual_power').html("");
-		$('#eis_ae_actual_power').html(filter_range.AE.actual);
-		$('#eis_ee_actual_power').html(filter_range.EE.actual);
-		$('#eis_se_actual_power').html(filter_range.SE.actual);
-		$('#eis_ce_actual_power').html(filter_range.CE.actual);
+		$('#eis_ae_actual_power').html(Math.round(filter_range.AE.actual * 100) / 100);
+		$('#eis_ee_actual_power').html(Math.round(filter_range.EE.actual * 100) / 100);
+		$('#eis_se_actual_power').html(Math.round(filter_range.SE.actual * 100) / 100);
+		$('#eis_ce_actual_power').html(Math.round(filter_range.CE.actual * 100) / 100);
 	}
 	
 	function calculateDIS(){
@@ -158,9 +158,9 @@
 		//set max_poweers
 		
 		
-		$('#dis_ae_max_power').html(filter_range.AE.power);
-		$('#dis_ee_max_power').html(filter_range.EE.power);
-		$('#dis_se_max_power').html(filter_range.SE.power);
+		$('#dis_ae_max_power').html(Math.round(filter_range.AE.power * 100) / 100);
+		$('#dis_ee_max_power').html(Math.round(filter_range.EE.power * 100) / 100);
+		$('#dis_se_max_power').html(Math.round(filter_range.SE.power * 100) / 100);
 		// id="ies_ae_max_power" 
 		
 		//distribute EIS amount
@@ -184,10 +184,10 @@
 		$('#dis_ee_actual_power').html("");
 		$('#dis_se_actual_power').html("");
 		$('#dis_ce_actual_power').html("");
-		$('#dis_ae_actual_power').html(filter_range.AE.actual);
-		$('#dis_ee_actual_power').html(filter_range.EE.actual);
-		$('#dis_se_actual_power').html(filter_range.SE.actual);
-		$('#dis_ce_actual_power').html(filter_range.CE.actual);
+		$('#dis_ae_actual_power').html(Math.round(filter_range.AE.actual * 100) / 100);
+		$('#dis_ee_actual_power').html(Math.round(filter_range.EE.actual * 100) / 100);
+		$('#dis_se_actual_power').html(Math.round(filter_range.SE.actual * 100) / 100);
+		$('#dis_ce_actual_power').html(Math.round(filter_range.CE.actual * 100) / 100);
 	}
 	
 	$(document).ready(function(){
