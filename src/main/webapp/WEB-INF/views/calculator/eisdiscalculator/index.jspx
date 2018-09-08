@@ -29,7 +29,7 @@
 	  		};
 		</c:forEach>
 		
-		  Papa.parse("${dis_master_data_url}", {
+		  Papa.parse("$csv_url}${dis_master_data_url}", {
 				download: true,
 				dynamicTyping: true,
 				complete: function(results) {
@@ -37,7 +37,7 @@
 					dis_master_range = results;
 				}
 			});
-		  Papa.parse("${eis_master_data_url}", {
+		  Papa.parse("$csv_url}${eis_master_data_url}", {
 				download: true,
 				dynamicTyping: true,
 				complete: function(results) {
