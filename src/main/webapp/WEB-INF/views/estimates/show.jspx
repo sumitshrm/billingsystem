@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/manageddocuments/download?file=${estimate.url}" var="download_url"/>
+    <page:show id="ps_com_org_entity_Estimate" object="${estimate}" path="/estimates" z="wcu20uiI3fwwIq9iuiH9uGr+QJk=">
+        <field:display field="nameOfWork" id="s_com_org_entity_Estimate_nameOfWork" object="${estimate}" z="tJgjrrnOoraPyTsAkTKHrF2ff4Y="/>
+        <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
+        <field:display field="content" id="s_com_org_entity_Estimate_content" object="${estimate}" render="false" z="user-managed"/>
+        <field:display field="url" id="s_com_org_entity_Estimate_url" object="${estimate}" render="false" z="user-managed"/>
+        <field:display field="items" id="s_com_org_entity_Estimate_items" object="${estimate}" render="false" z="user-managed"/>
+        <field:display field="logUser" id="s_com_org_entity_Estimate_logUser" object="${estimate}" render="false" z="user-managed"/>
+    </page:show>
+</div>

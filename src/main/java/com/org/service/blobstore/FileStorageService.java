@@ -24,6 +24,7 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
+import com.org.util.FileStorageProperties;
 import com.google.appengine.api.blobstore.*;
 
 import java.io.File;
@@ -49,7 +50,6 @@ public class FileStorageService {
 
   public static final boolean SERVE_USING_BLOBSTORE_API = false;
 
-  public static final String BUCKET_NAME = "billingsystem";
   /**
    * This is where backoff parameters are configured. Here it is aggressively retrying with
    * backoff, up to 10 times but taking no more that 15 seconds total to do so.
@@ -107,6 +107,28 @@ public InputStream doGet(String fileName) throws IOException {
 	    }
 	  }
 
+public void doGet( HttpServletResponse resp, String fileName) throws IOException {
+	GcsFilename gcsFileName = getFileName(fileName);
+    if (SERVE_USING_BLOBSTORE_API) {
+      BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+      BlobKey blobKey = blobstoreService.createGsBlobKey(
+          "/gs/" + gcsFileName.getBucketName() + "/" + gcsFileName.getObjectName());
+      blobstoreService.serve(blobKey, resp);
+    } else {
+      GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(gcsFileName, 0, BUFFER_SIZE);
+      copy(Channels.newInputStream(readChannel), resp.getOutputStream());
+    }
+  }
+
+private GcsFilename getFileName(HttpServletRequest req) {
+    String[] splits = req.getRequestURI().split("/", 4);
+    if (!splits[0].equals("") || !splits[1].equals("gcs")) {
+      throw new IllegalArgumentException("The URL is not formed as expected. " +
+          "Expecting /gcs/<bucket>/<object>");
+    }
+    return new GcsFilename(splits[2], splits[3]);
+  }
+
 public boolean delete(String filename) {
 	try {
 		return gcsService.delete(getFileName(filename));
@@ -117,8 +139,8 @@ public boolean delete(String filename) {
 	return false;
 }
 
-private GcsFilename getFileName(String filename) {
-	  	return new GcsFilename(BUCKET_NAME, filename);
+	private GcsFilename getFileName(String filename) {
+	  	return new GcsFilename(FileStorageProperties.BUCKET_NAME, filename);
 	  }
 
 	  /**

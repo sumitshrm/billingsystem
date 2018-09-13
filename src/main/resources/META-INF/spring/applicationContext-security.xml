@@ -12,11 +12,12 @@
         <!-- <intercept-url pattern="/aggreements/**" access="hasRole('AGGREEMENT_ROLE')" />
         <intercept-url pattern="/items/**" access="hasRole('ITEM_ROLE')" /> -->
         <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/resources/images/icon/**" access="permitAll" />
         <intercept-url pattern="/sociallogin/google/**" access="permitAll" />
         <intercept-url pattern="/resources/**"  access="permitAll" />
 		<intercept-url pattern="/loguserroles/**" access="hasRole('ADMIN_ROLE')" />
         <intercept-url pattern="/logusers/**" access="hasRole('ADMIN_ROLE')" />
-        <intercept-url pattern="/**"  access="isAuthenticated()" />
+        <intercept-url pattern="/**"  access="isAuthenticated()" /> 
     </http>
     <!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager">

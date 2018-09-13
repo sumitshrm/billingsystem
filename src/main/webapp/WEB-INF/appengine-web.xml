@@ -8,6 +8,7 @@
     <property name="local-database-driver" value="com.mysql.jdbc.Driver" />
     <property name="cloud-database-url" value="jdbc:google:mysql://billingsystem-201914:asia-south1:billingsystem-shared/billingsystem?user=admin&amp;password=admin" />
     <property name="local-database-url" value="jdbc:mysql://localhost:3306/billingsystem?user=root&amp;password=" />
+	<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
   </system-properties>
   <runtime>java8</runtime>
 </appengine-web-app>

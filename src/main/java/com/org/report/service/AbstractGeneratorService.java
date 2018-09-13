@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -98,12 +99,23 @@ public class AbstractGeneratorService implements IExcelReportService{
 	
 	public void generateReport(MeasurementSheet msheet, XSSFWorkbook workbook) throws Exception{
 		// create the map of items and extra items
-		removeReportData(msheet, workbook);
-		prepareItemAbstractData(msheet);
-		loadItemAbstractDataFromWorkbook(workbook, msheet);
-		writeAbstractToWorkbook(msheet, workbook);
-		//updateItemAbstractTotalAndReferences(msheet);
-		msheet.persist();
+		try {
+			logger.info("writing abstract report start");
+			removeReportData(msheet, workbook);
+			logger.info("removeReportData done");
+			prepareItemAbstractData(msheet);
+			logger.info("prepareItemAbstractData done");
+			loadItemAbstractDataFromWorkbook(workbook, msheet);
+			logger.info("loadItemAbstractDataFromWorkbook done");
+			writeAbstractToWorkbook(msheet, workbook);
+			logger.info("writeAbstractToWorkbook done");
+			//updateItemAbstractTotalAndReferences(msheet);
+			msheet.persist();
+			logger.info("msheet.persist() done");
+		} catch (Exception e) {
+			logger.error(e);
+			throw new Exception("error writing abstract data \n\r"+e.getMessage(), e);
+		}
 
 	}
 	
@@ -158,14 +170,13 @@ public class AbstractGeneratorService implements IExcelReportService{
 		boolean isSelectedCellItemNumber = true;
 		//int metadata_column = getMetaDataColumnNumber(workbook);
 		int metadata_column = ExcelUtill.getColumnNumberByRangeName(workbook, MeasurementSheetConstants.M_ITEM_NUM);
-		System.out.println("metadata column : " + metadata_column);
 		ItemAbstract itemAbs = null;
 		ItemAbstractDataTo absData = null;
 		while (rowIterator.hasNext()) {
 			
 			Row row = rowIterator.next();
 			String itemNum = ExcelUtill.getCellValueAsString(row.getCell(metadata_column));
-			System.out.println("item num -------------"+itemNum);
+			logger.info("reading item num -------------"+itemNum);
 			if (!itemNum.trim().equals("")
 					&& !itemNum
 							.equals(MeasurementSheetConstants.MEASUREMENT_TITLES_METADATA_NAME)) {
@@ -198,90 +209,100 @@ public class AbstractGeneratorService implements IExcelReportService{
 		int firstRow = currentRow;
 		List<Item> extraItems = new ArrayList<Item>();
 		for (Item item : msheet.getAggreement().getItems()) {
-			
-			if(item.isIsExtraItem()){
-				extraItems.add(item);
-			}else{
-				if (item.isValidItem()) {
-					try {
-						currentRow = writeAbstractData(
-								msheet.getItemAbstractByItemNum(item
-										.getItemNumber()), abstractSheet,
-								currentRow, item, abstractRange);
-					}catch(Exception e){
-						e.printStackTrace();
-						throw new Exception("Exception occured while writing item:"+item
-								.getItemNumber());
+			try {
+
+				if (item.isIsExtraItem()) {
+					extraItems.add(item);
+				} else {
+					if (item.isValidItem()) {
+						currentRow = writeAbstractData(msheet.getItemAbstractByItemNum(item.getItemNumber()),
+								abstractSheet, currentRow, item, abstractRange);
+					} else {
+						// If this is not a leaf item in items hirarchy then write itemnumber and
+						// description only
+						XSSFCellStyle boxStyle = abstractRange.getBoxStyle();
+						XSSFCellStyle borderTopRightStyle = abstractRange.getBorderTopRightStyle();
+						XSSFCellStyle descriptionCellStyle = abstractRange.getDescriptionCellStyle();
+						XSSFRow row = abstractSheet.createRow(currentRow++);
+						ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(abstractRange.getItemNumCol()),
+								borderTopRightStyle);
+						ExcelUtill.writeCellValue(item.getDescription(), row.createCell(abstractRange.getDescCol()),
+								descriptionCellStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(abstractRange.getQtyCol()),
+								descriptionCellStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(abstractRange.getUnitCol()),
+								descriptionCellStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(abstractRange.getFullRateCol()),
+								descriptionCellStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(abstractRange.getPartRateCol()),
+								descriptionCellStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(abstractRange.getAmountCol()),
+								descriptionCellStyle);
 					}
-				}else{
-					//If this is not a leaf item in items hirarchy then write itemnumber and description only
+				}
+			} catch (Exception e) {
+				logger.error("error writing abstract data for item : " + item.getItemNumber() + "\\r\\n-" + e.getMessage(),
+						e);
+				throw new Exception(
+						"error writing abstract data for item : " + item.getItemNumber() + "\\r\\n-" + e.getMessage(), e);
+			}
+		}
+		// write total data.
+		currentRow = writeTotalDataBeforeExtraItem(currentRow, abstractSheet, abstractRange, firstRow, msheet);
+		int itemsTotalRow = currentRow;
+		// write extra items now
+		for (Item item : extraItems) {
+			try {
+
+				if (item.isValidItem()) {
+					currentRow = writeAbstractData(msheet.getItemAbstractByItemNum(item.getItemNumber()), abstractSheet,
+							currentRow, item, abstractRange);
+				} else {
+					// If this is not a leaf item in items hirarchy then write itemnumber and
+					// description only
 					XSSFCellStyle boxStyle = abstractRange.getBoxStyle();
 					XSSFCellStyle borderTopRightStyle = abstractRange.getBorderTopRightStyle();
 					XSSFCellStyle descriptionCellStyle = abstractRange.getDescriptionCellStyle();
 					XSSFRow row = abstractSheet.createRow(currentRow++);
-					ExcelUtill.writeCellValue(item.getItemNumber(),
-							row.createCell(abstractRange.getItemNumCol()),borderTopRightStyle);
-					ExcelUtill.writeCellValue(item.getDescription(),
-							row.createCell(abstractRange.getDescCol()),descriptionCellStyle);
-					ExcelUtill.writeCellValue(null,
-							row.createCell(abstractRange.getQtyCol()),descriptionCellStyle);
-					ExcelUtill.writeCellValue(null,
-							row.createCell(abstractRange.getUnitCol()),descriptionCellStyle);
-					ExcelUtill.writeCellValue(null,
-							row.createCell(abstractRange.getFullRateCol()),descriptionCellStyle);
-					ExcelUtill.writeCellValue(null,
-							row.createCell(abstractRange.getPartRateCol()),descriptionCellStyle);
-					ExcelUtill.writeCellValue(null,
-							row.createCell(abstractRange.getAmountCol()),descriptionCellStyle);
+					ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(abstractRange.getItemNumCol()),
+							borderTopRightStyle);
+					ExcelUtill.writeCellValue(item.getDescription(), row.createCell(abstractRange.getDescCol()),
+							descriptionCellStyle);
+					row.createCell(abstractRange.getQtyCol()).setCellStyle(boxStyle);
+					row.createCell(abstractRange.getUnitCol()).setCellStyle(boxStyle);
+					row.createCell(abstractRange.getFullRateCol()).setCellStyle(boxStyle);
+					row.createCell(abstractRange.getPartRateCol()).setCellStyle(boxStyle);
+					row.createCell(abstractRange.getAmountCol()).setCellStyle(boxStyle);
 				}
+
+			
+			} catch (Exception e) {
+				logger.error("error writing abstract for extra item : " + item.getItemNumber()+"\\\\r\\\\n-"+e.getMessage(), e);
+				throw new Exception("error writing abstract for extra item : " + item.getItemNumber()+"\\\\r\\\\n-"+e.getMessage(), e);
 			}
-			
-			
 		}
-		//write total data.
-		currentRow = writeTotalDataBeforeExtraItem(currentRow, abstractSheet, abstractRange, firstRow, msheet);
-		int itemsTotalRow = currentRow;
-		//write extra items now
-		for(Item item : extraItems){
-			if(item.isValidItem()){
-				currentRow = writeAbstractData(msheet.getItemAbstractByItemNum(item.getItemNumber()), abstractSheet, currentRow,
-						item, abstractRange);
-			}else{
-				//If this is not a leaf item in items hirarchy then write itemnumber and description only
-				XSSFCellStyle boxStyle = abstractRange.getBoxStyle();
-				XSSFCellStyle borderTopRightStyle = abstractRange.getBorderTopRightStyle();
-				XSSFCellStyle descriptionCellStyle = abstractRange.getDescriptionCellStyle();
-				XSSFRow row = abstractSheet.createRow(currentRow++);
-				ExcelUtill.writeCellValue(item.getItemNumber(),
-						row.createCell(abstractRange.getItemNumCol()),borderTopRightStyle);
-				ExcelUtill.writeCellValue(item.getDescription(),
-						row.createCell(abstractRange.getDescCol()),descriptionCellStyle);
-				row.createCell(abstractRange.getQtyCol()).setCellStyle(boxStyle);
-				row.createCell(abstractRange.getUnitCol()).setCellStyle(boxStyle);
-				row.createCell(abstractRange.getFullRateCol()).setCellStyle(boxStyle);
-				row.createCell(abstractRange.getPartRateCol()).setCellStyle(boxStyle);
-				row.createCell(abstractRange.getAmountCol()).setCellStyle(boxStyle);
-			}
-			
-		}
-		//write total after extra items
-		if(extraItems.size()>0){
+		// write total after extra items
+		if (extraItems.size() > 0) {
 			XSSFRow totalRow = abstractSheet.createRow(currentRow++);
 			XSSFCell labelCell = totalRow.createCell(abstractRange.getDescCol());
 			XSSFCell valueCell = totalRow.createCell(abstractRange.getAmountCol());
-			//Add border top.
-			totalRow.createCell(abstractRange.getItemNumCol()).setCellStyle(ExcelUtill.getBorderTop(abstractSheet.getWorkbook()));
+			// Add border top.
+			totalRow.createCell(abstractRange.getItemNumCol())
+					.setCellStyle(ExcelUtill.getBorderTop(abstractSheet.getWorkbook()));
 			ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_LABEL, labelCell, boldStyle);
-			ExcelUtill.writeCellValue("=SUM("
-					+ ExcelUtill.intToChar(abstractRange.getAmountCol()) + itemsTotalRow + ":"
-					+ ExcelUtill.intToChar(abstractRange.getAmountCol()) + (currentRow-1)+ ")", valueCell, boldStyle);
-			//Write SayRs and round the final value by 0
+			ExcelUtill.writeCellValue(
+					"=SUM(" + ExcelUtill.intToChar(abstractRange.getAmountCol()) + itemsTotalRow + ":"
+							+ ExcelUtill.intToChar(abstractRange.getAmountCol()) + (currentRow - 1) + ")",
+					valueCell, boldStyle);
+			// Write SayRs and round the final value by 0
 			totalRow = abstractSheet.createRow(currentRow++);
 			labelCell = totalRow.createCell(abstractRange.getDescCol());
 			valueCell = totalRow.createCell(abstractRange.getAmountCol());
 			ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_ROUND_FIGURE_LABLE, labelCell, boldStyle);
-			ExcelUtill.writeCellValue("=ROUND("+ExcelUtill.intToChar(abstractRange.getAmountCol()) + (currentRow-1)+", 0)", valueCell, boldStyle);
-			
+			ExcelUtill.writeCellValue(
+					"=ROUND(" + ExcelUtill.intToChar(abstractRange.getAmountCol()) + (currentRow - 1) + ", 0)",
+					valueCell, boldStyle);
+
 		}
 	}
 	
@@ -470,7 +491,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		int namedCellIdx = workbook
 				.getNameIndex(MeasurementSheetConstants.MEASUREMENT_ABSTRACT_REF);
 		Name aNamedCell = workbook.getNameAt(namedCellIdx);
-		int abstract_ref_colnum = new AreaReference(aNamedCell.getRefersToFormula()).getFirstCell().getCol();
+		int abstract_ref_colnum = new AreaReference(aNamedCell.getRefersToFormula(), SpreadsheetVersion.EXCEL2007).getFirstCell().getCol();
 		int abstract_ref_rownum = ref_source.getRow();
 		String ref_cell = Worksheets.ABSTRACTSHEET + "!$"+CellReference.convertNumToColString(target.getColumnIndex())+"$"+(target.getRow().getRowNum()+1);
 		System.out.println(abstract_ref_rownum+"-abstract_ref_rownum,"+abstract_ref_colnum+"-abstract_ref_rownum, "+ref_cell+"formula");
@@ -544,7 +565,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		Name aNamedCell = wb.getNameAt(namedCellIdx);
 
 		// retrieve the cell at the named range and test its contents
-		AreaReference aref = new AreaReference(aNamedCell.getRefersToFormula());
+		AreaReference aref = new AreaReference(aNamedCell.getRefersToFormula(), SpreadsheetVersion.EXCEL2007);
 		CellReference[] crefs = aref.getAllReferencedCells();
 		System.out.println("namedcell index :" + crefs);
 		for (int i = 0; i < crefs.length; i++) {

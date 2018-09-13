@@ -2,6 +2,8 @@ package com.org.report.service;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -10,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.bytecode.buildtime.ExecutionException;
 import org.springframework.stereotype.Service;
 
 import com.org.constants.Worksheets;
@@ -21,9 +24,13 @@ import com.org.excel.util.ExtraItemStatementRanges;
 import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.XLColumnRange;
 import com.org.util.Clause;
+import com.org.web.MeasurementSheetController;
 
 @Service
 public class ExtraItemStatementGeneratorService implements IExcelReportService {
+	
+	final static Logger logger = Logger.getLogger(ExtraItemStatementGeneratorService.class);
+
 
 	public void generateMasterData(MeasurementSheet msheet, XSSFWorkbook wb)
 			throws Exception {
@@ -66,160 +73,138 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 				.getFirstRowNum() + 2, xsheet.getLastRowNum());
 	}
 
-	public void generateReport(MeasurementSheet msheet, XSSFWorkbook wb)
-			throws Exception {
-		System.out.println("writing extra item statement report");
-		XSSFSheet xsheet = wb.getSheet(Worksheets.EXTRA_ITEM_STATEMENT_SHEET);
-		// delete existing data first
-		ExtraItemStatementRanges extraItemRange = new ExtraItemStatementRanges(
-				wb);
-		removeReportData(msheet, wb, extraItemRange);
-		int currRow = extraItemRange.getrItemNum().getLastRowNum() + 2;
-		int startRow = currRow + 1;
-		int slNoCol = extraItemRange.getrSlno().getFirstColNum();
-		int itemNumCol = extraItemRange.getrItemNum().getFirstColNum();
-		int dsrRateCol = extraItemRange.getrDsrCode().getFirstColNum();
-		int descCol = extraItemRange.getrDescription().getFirstColNum();
-		int unitCol = extraItemRange.getrUnit().getFirstColNum();
-		int qtyExecUptoDateCol = extraItemRange.getrQtyEud().getFirstColNum();
-		int rateCol = extraItemRange.getrRate().getFirstColNum();
-		int lessCaCol = extraItemRange.getrLessCa().getFirstColNum();
-		int rateProposedCol = extraItemRange.getrRateProposed()
-				.getFirstColNum();
-		int totalAmountCol = extraItemRange.getrTotalAmount().getFirstColNum();
-		int remarksCol = extraItemRange.getrRemarks().getFirstColNum();
-		XSSFRow row = null;
-		XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
-		descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
-		XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
-		alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
-		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
-		int slno = 1;
-		Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
-		for (Item item : msheet.getAggreement().getItems()) {
-			/*
-			 * if(itemAbstract.getItem().isIsExtraItem() ||
-			 * itemAbstract.getTotalDeviation()==0){ // do not write deviation
-			 * report for extra items. continue; }
-			 */
-			if (!item.isIsExtraItem()) {
-				// write statement for extra items only
-				continue;
+	public void generateReport(MeasurementSheet msheet, XSSFWorkbook wb) throws Exception {
+		try {
+
+			System.out.println("writing extra item statement report");
+			XSSFSheet xsheet = wb.getSheet(Worksheets.EXTRA_ITEM_STATEMENT_SHEET);
+			// delete existing data first
+			ExtraItemStatementRanges extraItemRange = new ExtraItemStatementRanges(wb);
+			removeReportData(msheet, wb, extraItemRange);
+			int currRow = extraItemRange.getrItemNum().getLastRowNum() + 2;
+			int startRow = currRow + 1;
+			int slNoCol = extraItemRange.getrSlno().getFirstColNum();
+			int itemNumCol = extraItemRange.getrItemNum().getFirstColNum();
+			int dsrRateCol = extraItemRange.getrDsrCode().getFirstColNum();
+			int descCol = extraItemRange.getrDescription().getFirstColNum();
+			int unitCol = extraItemRange.getrUnit().getFirstColNum();
+			int qtyExecUptoDateCol = extraItemRange.getrQtyEud().getFirstColNum();
+			int rateCol = extraItemRange.getrRate().getFirstColNum();
+			int lessCaCol = extraItemRange.getrLessCa().getFirstColNum();
+			int rateProposedCol = extraItemRange.getrRateProposed().getFirstColNum();
+			int totalAmountCol = extraItemRange.getrTotalAmount().getFirstColNum();
+			int remarksCol = extraItemRange.getrRemarks().getFirstColNum();
+			XSSFRow row = null;
+			XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
+			descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
+			XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
+			alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
+			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
+			int slno = 1;
+			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
+			for (Item item : msheet.getAggreement().getItems()) {
+				try {
+
+					/*
+					 * if(itemAbstract.getItem().isIsExtraItem() ||
+					 * itemAbstract.getTotalDeviation()==0){ // do not write deviation report for
+					 * extra items. continue; }
+					 */
+					if (!item.isIsExtraItem()) {
+						// write statement for extra items only
+						continue;
+					}
+					row = xsheet.createRow(currRow++);
+					if (item.isValidItem()) {
+						ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDrsCode(), row.createCell(dsrRateCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
+						ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol), boxStyle);
+						ExcelUtill.writeCellValue("=" + itemAbstractMap.get(item.getItemNumber()).getAbsCellRef(),
+								row.createCell(qtyExecUptoDateCol), boxStyle);
+						ExcelUtill.writeCellValue(item.getDsrRate(), row.createCell(rateCol), boxStyle);
+						ExcelUtill.writeCellValue(
+								getCaFormula(currRow, rateCol, item.getAggreement().getClausePercentage()),
+								row.createCell(lessCaCol), boxStyle);
+						ExcelUtill.writeCellValue(
+								getRateProposedFormula(currRow, rateCol, lessCaCol, msheet.getAggreement().getClause()),
+								row.createCell(rateProposedCol), boxStyle);
+						ExcelUtill.writeCellValue(getTotalAmountFormula(currRow, qtyExecUptoDateCol, rateProposedCol),
+								row.createCell(totalAmountCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
+					} else {
+						ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDrsCode(), row.createCell(dsrRateCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(lessCaCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(totalAmountCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
+					}
+				} catch (Exception e) {
+					logger.error("Error writing extraitemstatement, item : " + item.getItemNumber() + "\r\n"+e.getMessage(), e);
+					throw new ExecutionException("Error writing extraitemstatement, item : " + item.getItemNumber() + "\r\n"+e.getMessage(), e);
+				}
+
+				row = xsheet.createRow(currRow++);
+				// write the last row Total.
+				boxStyle = ExcelUtill.getBoldBoxStyle(wb);
+				ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(dsrRateCol), boxStyle);
+				ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(lessCaCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
+				ExcelUtill.writeCellValue(getFinalTotalAmountFormula(startRow, currRow - 1, totalAmountCol),
+						row.createCell(totalAmountCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
+
+				// write percentage data.
+				int endRow = currRow;
+				int devPercentRow1 = endRow;
+				int devPercentRow2 = devPercentRow1 + 1;
+				XSSFCellStyle leftAligned = wb.createCellStyle();
+				leftAligned.setAlignment(HorizontalAlignment.LEFT);
+				XSSFCellStyle centerAligned = wb.createCellStyle();
+				centerAligned.setAlignment(HorizontalAlignment.CENTER);
+				XSSFCellStyle rightAligned = wb.createCellStyle();
+				rightAligned.setAlignment(HorizontalAlignment.RIGHT);
+				XSSFCellStyle leftAlignedBold = wb.createCellStyle();
+				leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
+				ExcelUtill.setBoldFont(wb, leftAlignedBold);
+				ExcelUtill.setPercentFormat(wb, leftAlignedBold);
+				XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
+				centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
+				centerAlignedBottomLine.setBorderBottom(BorderStyle.THIN);
+
+				row = xsheet.createRow(devPercentRow1);
+				ExcelUtill.writeCellValue("Percentage of EIS = ", row.createCell(descCol), rightAligned);
+				ExcelUtill.writeCellValue(getCellRefferenceFormula(totalAmountCol, endRow), row.createCell(unitCol),
+						centerAlignedBottomLine);
+				ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyExecUptoDateCol), centerAligned);
+
+				row = xsheet.createRow(devPercentRow2);
+				ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(), row.createCell(unitCol),
+						centerAligned);
+
+				row = xsheet.getRow(devPercentRow1);
+				// add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
+				ExcelUtill.writeCellValue(getTotalPercentageFormula(unitCol, devPercentRow1 + 1, devPercentRow2 + 1),
+						row.createCell(qtyExecUptoDateCol), leftAlignedBold);
+
 			}
-			row = xsheet.createRow(currRow++);
-			if(item.isValidItem()){
-				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol),
-						alignTopStyle);
-				ExcelUtill.writeCellValue(item.getItemNumber(),
-						row.createCell(itemNumCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDrsCode(),
-						row.createCell(dsrRateCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDescription(),
-						row.createCell(descCol), descriptionStyle);
-				ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol),
-						boxStyle);
-				ExcelUtill.writeCellValue("=" + itemAbstractMap.get(item.getItemNumber()).getAbsCellRef(),
-						row.createCell(qtyExecUptoDateCol), boxStyle);
-				ExcelUtill.writeCellValue(item.getDsrRate(),
-						row.createCell(rateCol), boxStyle);
-				ExcelUtill.writeCellValue(
-						getCaFormula(currRow, rateCol, item.getAggreement()
-								.getClausePercentage()), row.createCell(lessCaCol),
-						boxStyle);
-				ExcelUtill.writeCellValue(
-						getRateProposedFormula(currRow, rateCol, lessCaCol, msheet
-								.getAggreement().getClause()), row
-								.createCell(rateProposedCol), boxStyle);
-				ExcelUtill.writeCellValue(
-						getTotalAmountFormula(currRow, qtyExecUptoDateCol,
-								rateProposedCol), row.createCell(totalAmountCol),
-						boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(remarksCol),
-						boxStyle);
-			}else{
-				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol),
-						alignTopStyle);
-				ExcelUtill.writeCellValue(item.getItemNumber(),
-						row.createCell(itemNumCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDrsCode(),
-						row.createCell(dsrRateCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDescription(),
-						row.createCell(descCol), descriptionStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(unitCol),
-						boxStyle);
-				ExcelUtill.writeCellValue(null,
-						row.createCell(qtyExecUptoDateCol), boxStyle);
-				ExcelUtill.writeCellValue(null,
-						row.createCell(rateCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(lessCaCol),
-						boxStyle);
-				ExcelUtill.writeCellValue(null, row
-								.createCell(rateProposedCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(totalAmountCol),
-						boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(remarksCol),
-						boxStyle);
-			}
+		} catch (Exception e) {
+			logger.error("Error writing extraitemstatement \r\n"+e.getMessage(), e);
+			throw new Exception("Error writing extraitemstatement \r\n"+e.getMessage(), e);
 		}
-
-		row = xsheet.createRow(currRow++);
-		// write the last row Total.
-		boxStyle = ExcelUtill.getBoldBoxStyle(wb);
-		ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(dsrRateCol), boxStyle);
-		ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol),
-				boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(lessCaCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol),
-				boxStyle);
-		ExcelUtill.writeCellValue(
-				getFinalTotalAmountFormula(startRow, currRow - 1,
-						totalAmountCol), row.createCell(totalAmountCol),
-				boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
-
-		// write percentage data.
-		int endRow = currRow;
-		int devPercentRow1 = endRow;
-		int devPercentRow2 = devPercentRow1+1;
-		XSSFCellStyle leftAligned = wb.createCellStyle();
-		leftAligned.setAlignment(HorizontalAlignment.LEFT);
-		XSSFCellStyle centerAligned = wb.createCellStyle();
-		centerAligned.setAlignment(HorizontalAlignment.CENTER);
-		XSSFCellStyle rightAligned = wb.createCellStyle();
-		rightAligned.setAlignment(HorizontalAlignment.RIGHT);
-		XSSFCellStyle leftAlignedBold = wb.createCellStyle();
-		leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
-		ExcelUtill.setBoldFont(wb, leftAlignedBold);
-		ExcelUtill.setPercentFormat(wb, leftAlignedBold);
-		XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
-		centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
-		centerAlignedBottomLine.setBorderBottom(CellStyle.BORDER_THIN);
-
-		row = xsheet.createRow(devPercentRow1);
-		ExcelUtill.writeCellValue("Percentage of EIS = ",
-				row.createCell(descCol), rightAligned);
-		ExcelUtill.writeCellValue(
-				getCellRefferenceFormula(totalAmountCol, endRow),
-				row.createCell(unitCol), centerAlignedBottomLine);
-		ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyExecUptoDateCol),
-				centerAligned);
-
-		row = xsheet.createRow(devPercentRow2);
-		ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(),
-				row.createCell(unitCol), centerAligned);
-
-		row = xsheet.getRow(devPercentRow1);
-		// add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
-		ExcelUtill.writeCellValue(
-				getTotalPercentageFormula(unitCol, devPercentRow1 + 1,
-						devPercentRow2 + 1),
-				row.createCell(qtyExecUptoDateCol), leftAlignedBold);
-
 	}
 
 	private String getCaFormula(int row, int rateCol, float clausePercent) {

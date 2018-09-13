@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -37,10 +39,15 @@ import com.org.entity.Document;
 import com.org.entity.IDocument;
 import com.org.entity.Template;
 import com.org.excel.util.XLColumnRange;
+import com.org.exception.ExcelParseException;
+import com.org.web.MeasurementSheetController;
 
 public class ExcelUtill {
 
 	private static DataFormatter formatter = new DataFormatter();
+	
+	final static Logger logger = Logger.getLogger(ExcelUtill.class);
+
 	
 	public static void setDateValue(Date date, Cell cell) {
 		if (date == null) {
@@ -73,10 +80,10 @@ public class ExcelUtill {
 
 	public static XSSFCellStyle getBoxStyle(XSSFWorkbook wb) {
 		XSSFCellStyle style = wb.createCellStyle();
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderLeft(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
-		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderLeft(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
+		style.setBorderBottom(BorderStyle.THIN);
 		return style;
 	}
 	
@@ -90,18 +97,18 @@ public class ExcelUtill {
 	
 	public static XSSFCellStyle getBorderTopRight(XSSFWorkbook wb) {
 		XSSFCellStyle style = getBoxStyle(wb);
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
 		style.setVerticalAlignment(VerticalAlignment.TOP);
 		return style;
 	}
 	
 	public static XSSFCellStyle getAbstractDescriptionStyle(XSSFWorkbook wb) {
 		XSSFCellStyle style = getBoxStyle(wb);
-		style.setBorderTop(CellStyle.BORDER_THIN);
-		style.setBorderLeft(CellStyle.BORDER_THIN);
-		style.setBorderRight(CellStyle.BORDER_THIN);
-		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
+		style.setBorderLeft(BorderStyle.THIN);
+		style.setBorderRight(BorderStyle.THIN);
+		style.setBorderBottom(BorderStyle.THIN);
 		style.setWrapText(true);
 		style.setAlignment(HorizontalAlignment.JUSTIFY);
 		style.setVerticalAlignment(VerticalAlignment.TOP);
@@ -110,7 +117,7 @@ public class ExcelUtill {
 	
 	public static XSSFCellStyle getBorderTop(XSSFWorkbook wb) {
 		XSSFCellStyle style = wb.createCellStyle();
-		style.setBorderTop(CellStyle.BORDER_THIN);
+		style.setBorderTop(BorderStyle.THIN);
 		return style;
 	}
 	
@@ -228,31 +235,37 @@ public class ExcelUtill {
 	}
 
 	public static void writeCellValue(Object o, Cell cell) throws Exception {
-		if(o==null){
-			//cell.setCellValue("");
-		} 
-		else if (o != null && o instanceof String) {
-			String val = (String) o;
-			if (val.startsWith("=")) {
-				cell.setCellFormula(val.substring(1));
-			} else {
-				cell.setCellValue(val);
+		try {
+			if(o==null){
+				//cell.setCellValue("");
+			} 
+			else if (o != null && o instanceof String) {
+				String val = (String) o;
+				if (val.startsWith("=")) {
+					cell.setCellFormula(val.substring(1));
+				} else {
+					cell.setCellValue(val);
+				}
+			} else if (o != null && o instanceof Double) {
+				cell.setCellValue((Double) o);
+				CellStyle cs = cell.getCellStyle();
+				cs.setDataFormat(cell.getSheet().getWorkbook().createDataFormat().getFormat("0.00"));
+				cell.setCellStyle(cs);
+			} else if (o != null && o instanceof Integer) {
+				cell.setCellValue((Integer) o);
+			} else if (o != null && o instanceof Date){
+				setDateValue((Date)o, cell);
+			} else if (o != null && o instanceof Long){
+				cell.setCellValue((Long) o);
 			}
-		} else if (o != null && o instanceof Double) {
-			cell.setCellValue((Double) o);
-			CellStyle cs = cell.getCellStyle();
-			cs.setDataFormat(cell.getSheet().getWorkbook().createDataFormat().getFormat("0.00"));
-			cell.setCellStyle(cs);
-		} else if (o != null && o instanceof Integer) {
-			cell.setCellValue((Integer) o);
-		} else if (o != null && o instanceof Date){
-			setDateValue((Date)o, cell);
-		} else if (o != null && o instanceof Long){
-			cell.setCellValue((Long) o);
+			else {
+				cell.setCellValue(o.toString());
+			}
+		} catch (Exception e) {
+			logger.error("Error writing value "+o.toString()+" into cell:"+cell.getSheet().getSheetName()+"!"+cell.getAddress(), e);
+			throw new Exception("Error writing value "+o.toString()+" into cell:"+cell.getSheet().getSheetName()+"!"+cell.getAddress(), e);
 		}
-		else {
-			cell.setCellValue(o.toString());
-		}
+		
 	}
 
 	public static void writeCellValue(Object o, Cell cell, XSSFCellStyle style)

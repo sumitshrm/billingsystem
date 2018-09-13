@@ -18,14 +18,9 @@
           <!-- small box -->
           
           <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3 style="font-size: 26px">New Aggreement</h3>
-
-              <p>Create new aggreements</p>
-            </div>
-            <div class="icon">
-              <m:icon styleclass="ion ion-bag"></m:icon>
-            </div>
+            <div class="inner"><a href="./aggreements?form" style="color: inherit;">
+              <h3 style="font-size: 20px">New<br/>Aggreement</h3>
+            </a></div>
             <a href="./aggreements?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
           
@@ -34,29 +29,41 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
-            <div class="inner">
-              <h3 style="font-size: 26px">List Aggreement<sup style="font-size: 10px"></sup></h3>
-
-              <p>List all aggreements</p>
-            </div>
-            <div class="icon">
-              <m:icon styleclass="ion ion-stats-bars"></m:icon>
-            </div>
+            <div class="inner"><a href="./aggreements" style="color: inherit;">
+              <h3 style="font-size: 20px">List<br/>Aggreement</h3>
+            </a></div>
             <a href="./aggreements" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-blue">
+            <div class="inner"><a href="./books/dsr" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>DSR</h3>
+            </a></div>
+            <a href="./books/dsr" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-orange">
+            <div class="inner"><a href="./books/materialrates" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>Material Rates</h3>
+            </a></div>
+            <a href="./books/materialrates" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3 style="font-size: 26px">Material Entry<sup style="font-size: 10px"></sup></h3>
-
-              <p>Create new material entry</p>
-            </div>
-            <div class="icon">
-              <m:icon styleclass="ion ion-stats-bars"></m:icon>
-            </div>
+            <div class="inner"><a href="./materialentrys?form" style="color: inherit;">
+              <h3 style="font-size: 20px">Material<br/>Entry</h3>
+            </a></div>
+            
             <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
@@ -64,17 +71,37 @@
          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
-            <div class="inner">
-              <h3 style="font-size: 26px">Labour Entry<sup style="font-size: 10px"></sup></h3>
-
-              <p>Create new labour entry</p>
-            </div>
-            <div class="icon">
-              <m:icon styleclass="ion ion-stats-bars"></m:icon>
-            </div>
+            <div class="inner"><a href="./labourentrys?form" style="color: inherit;">
+              <h3 style="font-size: 20px">Labour<br/>Entry</h3>
+            </a></div>
             <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
+        
+        
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner"><a href="./estimates?form" style="color: inherit;">
+              <h3 style="font-size: 20px">Create<br/>Estimates</h3>
+            </a></div>
+            
+            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+         <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner"><a href="./estimates?page=1&amp;size=10" style="color: inherit;">
+              <h3 style="font-size: 20px">List<br/>Estimates</h3>
+            </a></div>
+            <a href="./labourentrys?form" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+        
+        
         </sec:authorize>
         <sec:authorize ifAllGranted="ADMIN_ROLE">
         <div class="col-lg-3 col-xs-6">
@@ -82,7 +109,7 @@
           
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3 style="font-size: 26px">New User</h3>
+              <h3 style="font-size: 20px">New User</h3>
 
               <p>Create new user</p>
             </div>
@@ -98,7 +125,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3 style="font-size: 26px">List Users<sup style="font-size: 10px"></sup></h3>
+              <h3 style="font-size: 20px">List Users<sup style="font-size: 10px"></sup></h3>
 
               <p>List all users</p>
             </div>
@@ -113,7 +140,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3 style="font-size: 26px">Create new role<sup style="font-size: 10px"></sup></h3>
+              <h3 style="font-size: 20px">Create new role<sup style="font-size: 10px"></sup></h3>
 
               <p>Create new role</p>
             </div>
@@ -128,7 +155,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3 style="font-size: 26px">List all roles<sup style="font-size: 10px"></sup></h3>
+              <h3 style="font-size: 20px">List all roles<sup style="font-size: 10px"></sup></h3>
 
               <p>list all roles</p>
             </div>

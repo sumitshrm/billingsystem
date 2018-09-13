@@ -3,115 +3,87 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
-  <!--
-  <util:panel id="title" title="${title}">
-    <c:if test="${not empty param.login_error}">
+
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>SUMI</b>nfo<b>T</b>ech</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+     
+    
+    	<c:if test="${not empty param.login_error}">
       <div class="errors">
-        <p>
-          <spring:message code="security_login_unsuccessful" />
-          <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+        <p  class="login-box-msg">
+          <spring:message code="security_login_unsuccessful" /><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
         </p>
       </div>
     </c:if>
-    <c:if test="${empty param.login_error}">
-      <p>
-        <spring:message code="security_login_message" />
-      </p>
-    </c:if> 
-    <spring:url value="/resources/j_spring_security_check" var="form_url" />
-    <form name="f" action="${fn:escapeXml(form_url)}" method="POST" id="login_form">
-    <input type="hidden" value="${SPRING_SECURITY_LAST_EXCEPTION.message}" name="j_error_message"></input>
+     <c:if test="${empty param.login_error}">
+      <div class="errors">
+          <p class="login-box-msg">Sign in to start your session</p>
+          
+      </div>
+    </c:if>
     
-      <div>
-        <label for="j_username">
-          <spring:message code="security_login_form_name" />
-        </label>
-        <input id="j_username" type='text' name='j_username' style="width:150px" value=""/>
-        <spring:message code="security_login_form_name_message" var="name_msg" htmlEscape="false" />
-        <script type="text/javascript">
-          <c:set var="sec_name_msg">
-            <spring:escapeBody javaScriptEscape="true">${name_msg}</spring:escapeBody>
-          </c:set>
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_username", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_name_msg}", required : true}})); 
-        </script>
+	 <spring:url value="/resources/j_spring_security_check" var="form_url" />
+     <form role="form" name="f" action="${fn:escapeXml(form_url)}" method="POST" id="login_form">
+      <input type="hidden" value="${SPRING_SECURITY_LAST_EXCEPTION.message}" name="j_error_message"></input>
+      <div class="form-group has-feedback">
+        <input id="j_username" name="j_username"  type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"  class="form-control" placeholder="user name" />
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
-      <br />
-      <div>
-        <label for="j_password">
-          <spring:message code="security_login_form_password" />
-        </label>
-        <input id="j_password" type='password' name='j_password' style="width:150px" value="" />
-        <spring:message code="security_login_form_password_message" var="pwd_msg" htmlEscape="false" />
-        <script type="text/javascript">
-          <c:set var="sec_pwd_msg">
-            <spring:escapeBody javaScriptEscape="true">${pwd_msg}</spring:escapeBody>
-          </c:set>
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_password", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_pwd_msg}", required : true}})); 
-        </script>
+      <div class="form-group has-feedback">
+        <input id="j_password" name="j_password" type="password" class="form-control" placeholder="Password" />
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <br />
-      <div class="submit">
-        <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
-        <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
-        <input id="proceed" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
-        <spring:message code="button_reset" var="reset_label" htmlEscape="false" />
-        <input id="reset" type="reset" value="${fn:escapeXml(reset_label)}" />
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox" /> Remember Me
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+        <!-- /.col -->
       </div>
     </form>
-  </util:panel>
-  -->
-  
-  
-  
-  <div class="container">
-  
-  
-    	
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Please Sign In</h3>
-                    </div>
-                    <div class="panel-body">
-                    <c:if test="${not empty param.login_error}">
-      <div class="errors">
-        <p>
-          <spring:message code="security_login_unsuccessful" />
-          <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-        </p>
-      </div>
-    </c:if>
-    <spring:url value="/resources/j_spring_security_check" var="form_url" />
-    
-                        <form role="form" name="f" action="${fn:escapeXml(form_url)}" method="POST" id="login_form">
-                                <input type="hidden" value="${SPRING_SECURITY_LAST_EXCEPTION.message}" name="j_error_message"></input>
-                        
-                            <fieldset>
-                                <div class="form-group">
-                                
-                                    <input id="j_username" class="form-control" placeholder="user name" name="j_username" type="text" autofocus="true"></input>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" id="j_password" type='password' name='j_password' value=""></input>
-                                </div>
-                                
-                                <!-- Change this to a button or input when using this as a form -->
-                            	<div class="submit">
-        <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
-        <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
-        <input id="proceed"  class="btn btn-lg btn-success btn-block" name="login" type="submit" value="${fn:escapeXml(submit_label)}" />
-        <spring:message code="button_reset" var="reset_label" htmlEscape="false" />
-        <input id="reset" type="reset"  class="btn btn-lg btn-success btn-block" value="${fn:escapeXml(reset_label)}" />
-      <br></br>
-      <div class="g-signin2" data-onsuccess="onSignIn" data-prompt="select_account"></div>
-      </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
+    <!-- <div class="social-auth-links text-center">
+      <p>- OR -</p>
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+        Facebook</a>
+      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+        Google+</a>
+    </div> -->
+    <!-- /.social-auth-links -->
+
+    <!-- <a href="#">I forgot my password</a><br />
+    <a href="register.html" class="text-center">Register a new membership</a> -->
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+<div class="row">
+<div class="col-xs-12">
+           <a href="#" style="display:none" id="install-app"  onclick="installapp()" class="btn btn-lg btn-primary">
+          install app on mobile
+        </a><br/>
         </div>
-    </div>
+</div>
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' /* optional */
+    });
+  });
+</script>
 </div>
 

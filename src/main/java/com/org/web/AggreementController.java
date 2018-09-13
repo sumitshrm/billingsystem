@@ -9,10 +9,10 @@ import javax.validation.Valid;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Item;
+import com.org.entity.ManagedDocument;
 import com.org.entity.MeasurementSheet;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.QueryUtil;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RooWebScaffold(path = "aggreements", formBackingObject = Aggreement.class)
 public class AggreementController {
-	
-	@Autowired
-	private FileStorageService fileStorageService;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
@@ -52,7 +52,9 @@ public class AggreementController {
     @RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
         addDateTimeFormatPatterns(uiModel);
-        uiModel.addAttribute("aggreement", QueryUtil.getUniqueResult(Aggreement.findAggreementsByIdAndLogUser(id, getCurrentUser())));
+        Aggreement aggreement = QueryUtil.getUniqueResult(Aggreement.findAggreementsByIdAndLogUser(id, getCurrentUser()));
+        uiModel.addAttribute("aggreement", aggreement);
+        uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByAggreement(aggreement).getResultList());
         uiModel.addAttribute("itemId", id);
         return "aggreements/show";
     }

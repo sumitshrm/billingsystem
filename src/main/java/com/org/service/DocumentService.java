@@ -16,6 +16,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,8 @@ import com.org.service.blobstore.FileStorageService;
 
 @Service
 public class DocumentService {
+	
+	final static Logger logger = Logger.getLogger(DocumentService.class);
 	
 	@Autowired 
 	private AbstractGeneratorService abstractGeneratorService;
@@ -226,23 +229,28 @@ public class DocumentService {
 	public void generateReport(MeasurementSheet msheet) throws Exception{
 		// create the map of items and extra items
 		//generateReportManualy(msheet);
-		if(msheet.getAggreement().getItems().size()>0){
-			XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
-			if(msheet.getTemplateVersion()==0){
-				abstractGeneratorService.generateReport(msheet, workbook);
-			}else{
-				abstractGeneratorServiceV2.generateReport(msheet, workbook);
-				partRateStatementGeneratorService.generateReport(msheet, workbook);
-				extraItemGeneratorService.generateReport(msheet, workbook);
+		try {
+			if(msheet.getAggreement().getItems().size()>0){
+				XSSFWorkbook workbook = new XSSFWorkbook(fileStorageService.doGet(msheet.getStorageFileName()));
+				if(msheet.getTemplateVersion()==0){
+					abstractGeneratorService.generateReport(msheet, workbook);
+				}else{
+					abstractGeneratorServiceV2.generateReport(msheet, workbook);
+					partRateStatementGeneratorService.generateReport(msheet, workbook);
+					extraItemGeneratorService.generateReport(msheet, workbook);
+				}
+				
+				scheduleService.generateReport(msheet, workbook);
+				deviationService.generateReport(msheet, workbook);
+				workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
+				workbook.close();
 			}
-			
-			scheduleService.generateReport(msheet, workbook);
-			deviationService.generateReport(msheet, workbook);
-			workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
-			workbook.close();
+			msheet.setLastReportDate(new Date());
+			msheet.persist();
+		} catch (IOException e) {
+			logger.error("error occured while saving excel file to server", e);
+			throw new Exception("error occured while saving excel file to server", e);
 		}
-		msheet.setLastReportDate(new Date());
-		msheet.persist();
 	}
 	
 	public void removeReportData(MeasurementSheet msheet) throws IOException{

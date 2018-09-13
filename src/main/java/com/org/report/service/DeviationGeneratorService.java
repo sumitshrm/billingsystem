@@ -3,6 +3,8 @@ package com.org.report.service;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -25,6 +27,9 @@ import com.org.util.Clause;
 
 @Service
 public class DeviationGeneratorService implements IExcelReportService{
+	
+	final static Logger logger = Logger.getLogger(DeviationGeneratorService.class);
+
 
 	public void generateMasterData(MeasurementSheet msheet, XSSFWorkbook wb) throws Exception {
 		System.out.println("writing deviation sheet master data");
@@ -51,130 +56,144 @@ public class DeviationGeneratorService implements IExcelReportService{
 	}
 	
 	public void generateReport(MeasurementSheet msheet, XSSFWorkbook wb) throws Exception{
-		XSSFSheet xsheet = wb.getSheet(Worksheets.DEVIATIONSHEET);
-		DeviationRanges deviationRange = new DeviationRanges(wb);
-		//delete existing data first 
-		removeReportData(msheet, wb);
-		int currRow = deviationRange.getrItemNum().getLastRowNum()+1;
-		int startRow = currRow+1;
-		int slNoCol = deviationRange.getrSlno().getFirstColNum();
-		int itemNumCol = deviationRange.getrItemNum().getFirstColNum();
-		int descCol = deviationRange.getrDescription().getFirstColNum();
-		int unitCol = deviationRange.getrUnit().getFirstColNum();
-		int qtyPerAgmtCol = deviationRange.getrQtyApAgmt().getFirstColNum();
-		int qtyExecUptoDateCol = deviationRange.getrQtyEud().getFirstColNum();
-		int devQtyCol = deviationRange.getrDevQty().getFirstColNum();
-		int rateCol = deviationRange.getrRate().getFirstColNum();
-		int rateLessCaCol = deviationRange.getrLessCa().getFirstColNum();
-		int rateProposedCol = deviationRange.getrRateProposed().getFirstColNum();
-		int devPercentCol = deviationRange.getrDevPercent().getFirstColNum();
-		int devPlusCol = deviationRange.getrDevPlus().getFirstColNum();
-		int devMinusCol = deviationRange.getrDevMinus().getFirstColNum();
-		int totalDevCol = deviationRange.getrTotalDev().getFirstColNum();
-		XSSFRow row  = null;
-		XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
-		descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
-		XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
-		alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
-		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
-		int slno = 1;
-		Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
-		Set<String> itemAbstractKeySet = itemAbstractMap.keySet();
-		for(Item item : msheet.getAggreement().getItems()){
-			if(item.isIsExtraItem() || !isItemWritable(itemAbstractKeySet, item.getItemNumber())){
-				// do not write deviation report for extra items.
-				continue; 
-			}
-			if(item.isValidItem()){
-				row = xsheet.createRow(currRow++);
-				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
-				ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol), boxStyle);
-				ExcelUtill.writeCellValue(item.getQuantity(), row.createCell(qtyPerAgmtCol), boxStyle);
-				ExcelUtill.writeCellValue("="+itemAbstractMap.get(item.getItemNumber()).getAbsCellRef(), row.createCell(qtyExecUptoDateCol), boxStyle);
-				ExcelUtill.writeCellValue(getDeviationQtyFormula(currRow, qtyExecUptoDateCol, qtyPerAgmtCol), row.createCell(devQtyCol), boxStyle);
-				ExcelUtill.writeCellValue(item.getFullRate(), row.createCell(rateCol), boxStyle);
-				ExcelUtill.writeCellValue(getCaFormula(currRow, rateCol, item.getAggreement().getClausePercentage()), row.createCell(rateLessCaCol), boxStyle);
-				ExcelUtill.writeCellValue(getRateProposedFormula(currRow, rateCol, rateLessCaCol, msheet.getAggreement().getClause()), row.createCell(rateProposedCol), boxStyle);
-				ExcelUtill.writeCellValue(getDeviationPercentFormula(currRow, devQtyCol, qtyPerAgmtCol), row.createCell(devPercentCol), boxStyle);
-				ExcelUtill.writeCellValue(getDeviationPlusFormula(currRow, devPercentCol, devQtyCol, rateProposedCol, item.getQuantityPerUnit()), row.createCell(devPlusCol), boxStyle);
-				ExcelUtill.writeCellValue(getDeviationMinusFormula(currRow, devPercentCol, devQtyCol, rateProposedCol, item.getQuantityPerUnit()), row.createCell(devMinusCol), boxStyle);
-				ExcelUtill.writeCellValue(getTotalDeviationFormula(currRow, devPlusCol, devMinusCol), row.createCell(totalDevCol), boxStyle);
-			}else if(isItemWritable(itemAbstractKeySet, item.getItemNumber())){
-				row = xsheet.createRow(currRow++);
-				ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(devQtyCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(rateLessCaCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(devPercentCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(devPlusCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(devMinusCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(totalDevCol), boxStyle);
+		try {
 
+			XSSFSheet xsheet = wb.getSheet(Worksheets.DEVIATIONSHEET);
+			DeviationRanges deviationRange = new DeviationRanges(wb);
+			//delete existing data first 
+			removeReportData(msheet, wb);
+			int currRow = deviationRange.getrItemNum().getLastRowNum()+1;
+			int startRow = currRow+1;
+			int slNoCol = deviationRange.getrSlno().getFirstColNum();
+			int itemNumCol = deviationRange.getrItemNum().getFirstColNum();
+			int descCol = deviationRange.getrDescription().getFirstColNum();
+			int unitCol = deviationRange.getrUnit().getFirstColNum();
+			int qtyPerAgmtCol = deviationRange.getrQtyApAgmt().getFirstColNum();
+			int qtyExecUptoDateCol = deviationRange.getrQtyEud().getFirstColNum();
+			int devQtyCol = deviationRange.getrDevQty().getFirstColNum();
+			int rateCol = deviationRange.getrRate().getFirstColNum();
+			int rateLessCaCol = deviationRange.getrLessCa().getFirstColNum();
+			int rateProposedCol = deviationRange.getrRateProposed().getFirstColNum();
+			int devPercentCol = deviationRange.getrDevPercent().getFirstColNum();
+			int devPlusCol = deviationRange.getrDevPlus().getFirstColNum();
+			int devMinusCol = deviationRange.getrDevMinus().getFirstColNum();
+			int totalDevCol = deviationRange.getrTotalDev().getFirstColNum();
+			XSSFRow row  = null;
+			XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
+			descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
+			XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
+			alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
+			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
+			int slno = 1;
+			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
+			Set<String> itemAbstractKeySet = itemAbstractMap.keySet();
+			for(Item item : msheet.getAggreement().getItems()){
+				try {
+
+					if(item.isIsExtraItem() || !isItemWritable(itemAbstractKeySet, item.getItemNumber())){
+						// do not write deviation report for extra items.
+						continue; 
+					}
+					if(item.isValidItem()){
+						row = xsheet.createRow(currRow++);
+						ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
+						ExcelUtill.writeCellValue(item.getUnit(), row.createCell(unitCol), boxStyle);
+						ExcelUtill.writeCellValue(item.getQuantity(), row.createCell(qtyPerAgmtCol), boxStyle);
+						ExcelUtill.writeCellValue("="+itemAbstractMap.get(item.getItemNumber()).getAbsCellRef(), row.createCell(qtyExecUptoDateCol), boxStyle);
+						ExcelUtill.writeCellValue(getDeviationQtyFormula(currRow, qtyExecUptoDateCol, qtyPerAgmtCol), row.createCell(devQtyCol), boxStyle);
+						ExcelUtill.writeCellValue(item.getFullRate(), row.createCell(rateCol), boxStyle);
+						ExcelUtill.writeCellValue(getCaFormula(currRow, rateCol, item.getAggreement().getClausePercentage()), row.createCell(rateLessCaCol), boxStyle);
+						ExcelUtill.writeCellValue(getRateProposedFormula(currRow, rateCol, rateLessCaCol, msheet.getAggreement().getClause()), row.createCell(rateProposedCol), boxStyle);
+						ExcelUtill.writeCellValue(getDeviationPercentFormula(currRow, devQtyCol, qtyPerAgmtCol), row.createCell(devPercentCol), boxStyle);
+						ExcelUtill.writeCellValue(getDeviationPlusFormula(currRow, devPercentCol, devQtyCol, rateProposedCol, item.getQuantityPerUnit()), row.createCell(devPlusCol), boxStyle);
+						ExcelUtill.writeCellValue(getDeviationMinusFormula(currRow, devPercentCol, devQtyCol, rateProposedCol, item.getQuantityPerUnit()), row.createCell(devMinusCol), boxStyle);
+						ExcelUtill.writeCellValue(getTotalDeviationFormula(currRow, devPlusCol, devMinusCol), row.createCell(totalDevCol), boxStyle);
+					}else if(isItemWritable(itemAbstractKeySet, item.getItemNumber())){
+						row = xsheet.createRow(currRow++);
+						ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getItemNumber(), row.createCell(itemNumCol), alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descCol), descriptionStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(devQtyCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(rateLessCaCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(devPercentCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(devPlusCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(devMinusCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(totalDevCol), boxStyle);
+
+					}
+				
+				} catch (Exception e) {
+					logger.error("error writing deviation data for item : " +item.getItemNumber()+"\r\n"+e.getMessage(), e);
+					throw new Exception("error writing deviation data for item : " +item.getItemNumber()+"\r\n"+e.getMessage(), e);
+				}
 			}
+			int endRow = currRow;
+			int devPercentRow1 = endRow+1;
+			int devPercentRow2 = devPercentRow1+1;
+			row = xsheet.createRow(currRow++); 
+			//write the last row Total.
+			boxStyle = ExcelUtill.getBoldBoxStyle(wb);
+			ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
+			ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(devQtyCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(rateLessCaCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
+			ExcelUtill.writeCellValue(null, row.createCell(devPercentCol), boxStyle);
+			ExcelUtill.writeCellValue(getDeviationPlusTotalFormula(startRow, endRow, devPlusCol),row.createCell(devPlusCol), boxStyle);
+			ExcelUtill.writeCellValue(getDeviationMinusTotalFormula(startRow, endRow, devMinusCol),row.createCell(devMinusCol), boxStyle);
+			ExcelUtill.writeCellValue(getTotalDeviationTotalFormula(startRow, endRow, totalDevCol),row.createCell(totalDevCol), boxStyle);
+			//write percentage data.
+			XSSFCellStyle leftAligned = wb.createCellStyle();
+			leftAligned.setAlignment(HorizontalAlignment.LEFT);
+			XSSFCellStyle centerAligned = wb.createCellStyle();
+			centerAligned.setAlignment(HorizontalAlignment.CENTER);
+			XSSFCellStyle rightAligned = wb.createCellStyle();
+			rightAligned.setAlignment(HorizontalAlignment.RIGHT);
+			XSSFCellStyle leftAlignedBold = wb.createCellStyle();
+			leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
+			ExcelUtill.setBoldFont(wb, leftAlignedBold);
+			ExcelUtill.setPercentFormat(wb, leftAlignedBold);
+			XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
+			centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
+			centerAlignedBottomLine.setBorderBottom(BorderStyle.THIN);
+			
+			row = xsheet.createRow(devPercentRow1);
+			ExcelUtill.writeCellValue("Percentage of deviation =", row.createCell(descCol), rightAligned);
+			ExcelUtill.writeCellValue(getCellRefferenceFormula(totalDevCol, endRow+1), row.createCell(unitCol), centerAlignedBottomLine);
+			ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyPerAgmtCol), centerAligned);
+			
+			row = xsheet.createRow(devPercentRow2);
+			ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(), row.createCell(unitCol), centerAligned);
+			
+			row = xsheet.getRow(devPercentRow1);
+			//add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
+			ExcelUtill.writeCellValue(getTotalDeviationPercentageFormula(unitCol, devPercentRow1+1, devPercentRow2+1), row.createCell(qtyExecUptoDateCol), leftAlignedBold);
+			
+			//Write deviation summary
+			ExcelUtill.writeCellValue(getCellRefferenceFormula(devPlusCol, endRow+1), deviationRange.getrSumaryDevPlus().fetchSingleCell());
+			ExcelUtill.writeCellValue(getCellRefferenceFormula(devMinusCol, endRow+1), deviationRange.getrSumaryDevMinus().fetchSingleCell());
+			ExcelUtill.writeCellValue(getCellRefferenceFormula(totalDevCol, endRow+1), deviationRange.getrSumaryTotalDev().fetchSingleCell());
+			ExcelUtill.writeCellValue(getCellRefferenceFormula(qtyExecUptoDateCol, devPercentRow1+1), deviationRange.getrSumaryDevPercent().fetchSingleCell());
+			boxStyle =  deviationRange.getrSumaryDevPercent().fetchSingleCell().getCellStyle();
+			ExcelUtill.setPercentFormat(wb, boxStyle);
+		
+		} catch (Exception e) {
+			logger.error("error writing deviation data \r\n"+e.getMessage(), e);
+			throw new Exception("error writing deviation data \r\n"+e.getMessage(), e);
 		}
-		int endRow = currRow;
-		int devPercentRow1 = endRow+1;
-		int devPercentRow2 = devPercentRow1+1;
-		row = xsheet.createRow(currRow++); 
-		//write the last row Total.
-		boxStyle = ExcelUtill.getBoldBoxStyle(wb);
-		ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
-		ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(qtyPerAgmtCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(devQtyCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(rateLessCaCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
-		ExcelUtill.writeCellValue(null, row.createCell(devPercentCol), boxStyle);
-		ExcelUtill.writeCellValue(getDeviationPlusTotalFormula(startRow, endRow, devPlusCol),row.createCell(devPlusCol), boxStyle);
-		ExcelUtill.writeCellValue(getDeviationMinusTotalFormula(startRow, endRow, devMinusCol),row.createCell(devMinusCol), boxStyle);
-		ExcelUtill.writeCellValue(getTotalDeviationTotalFormula(startRow, endRow, totalDevCol),row.createCell(totalDevCol), boxStyle);
-		//write percentage data.
-		XSSFCellStyle leftAligned = wb.createCellStyle();
-		leftAligned.setAlignment(HorizontalAlignment.LEFT);
-		XSSFCellStyle centerAligned = wb.createCellStyle();
-		centerAligned.setAlignment(HorizontalAlignment.CENTER);
-		XSSFCellStyle rightAligned = wb.createCellStyle();
-		rightAligned.setAlignment(HorizontalAlignment.RIGHT);
-		XSSFCellStyle leftAlignedBold = wb.createCellStyle();
-		leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
-		ExcelUtill.setBoldFont(wb, leftAlignedBold);
-		ExcelUtill.setPercentFormat(wb, leftAlignedBold);
-		XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
-		centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
-		centerAlignedBottomLine.setBorderBottom(CellStyle.BORDER_THIN);
-		
-		row = xsheet.createRow(devPercentRow1);
-		ExcelUtill.writeCellValue("Percentage of deviation =", row.createCell(descCol), rightAligned);
-		ExcelUtill.writeCellValue(getCellRefferenceFormula(totalDevCol, endRow+1), row.createCell(unitCol), centerAlignedBottomLine);
-		ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyPerAgmtCol), centerAligned);
-		
-		row = xsheet.createRow(devPercentRow2);
-		ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(), row.createCell(unitCol), centerAligned);
-		
-		row = xsheet.getRow(devPercentRow1);
-		//add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
-		ExcelUtill.writeCellValue(getTotalDeviationPercentageFormula(unitCol, devPercentRow1+1, devPercentRow2+1), row.createCell(qtyExecUptoDateCol), leftAlignedBold);
-		
-		//Write deviation summary
-		ExcelUtill.writeCellValue(getCellRefferenceFormula(devPlusCol, endRow+1), deviationRange.getrSumaryDevPlus().fetchSingleCell());
-		ExcelUtill.writeCellValue(getCellRefferenceFormula(devMinusCol, endRow+1), deviationRange.getrSumaryDevMinus().fetchSingleCell());
-		ExcelUtill.writeCellValue(getCellRefferenceFormula(totalDevCol, endRow+1), deviationRange.getrSumaryTotalDev().fetchSingleCell());
-		ExcelUtill.writeCellValue(getCellRefferenceFormula(qtyExecUptoDateCol, devPercentRow1+1), deviationRange.getrSumaryDevPercent().fetchSingleCell());
-		boxStyle =  deviationRange.getrSumaryDevPercent().fetchSingleCell().getCellStyle();
-		ExcelUtill.setPercentFormat(wb, boxStyle);
 	}
 	
 	/*

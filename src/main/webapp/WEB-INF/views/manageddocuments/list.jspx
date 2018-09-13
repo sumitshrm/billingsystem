@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:formd="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <SCRIPT type="text/javascript">
+
+var CLIPBOARD;
+
+var aggreement = '${aggreement}';
+
+function deleteFile(id){
+	var id = id.split("_")[1];
+	console.log('delete : '+id);
+	var requestparam = aggreement==''?'':'?agg='+aggreement;
+	$('#delete_form').attr('action', '/manageddocuments/'+id+requestparam);
+	$('#delete_form').submit();
+}
+function updateFile(id, description){
+	var id = id.split("_")[1];
+	var requestparam = aggreement==''?'':'?agg='+aggreement;
+	$('#update_id').val(id);
+	$('#update_desc').val(description);
+	$('#update_form').attr('action', '/manageddocuments/update/description'+requestparam);
+	$('#update_form').submit();
+}
+
+$(document).contextmenu({
+    delegate: ".hasmenu",
+    autoFocus: true,
+    preventContextMenuForPopup: true,
+    preventSelect: true,
+    taphold: true,
+    menu: [{
+        title: "Rename",
+        cmd: "rename",
+        uiIcon: "ui-icon-scissors"
+    }, {
+        title: "Delete",
+        cmd: "delete",
+        uiIcon: "ui-icon-copy"
+    }],
+    // Handle menu selection to implement a fake-clipboard
+    select: function (event, ui) {
+    	 var $target = ui.target;
+    	 console.log($target.context.id);
+    	switch (ui.cmd) {
+        case "rename":
+        	 bootbox.prompt("Enter description", function(result){ 
+        		if(result){
+        			updateFile($target.context.id, result);
+        		}
+        		
+        	}); 
+        	
+        	break;
+        case "delete":
+        	bootbox.confirm({
+        	    message: "are you sure you want to delete selected file",
+        	    buttons: {
+        	        confirm: {
+        	            label: 'Yes',
+        	            className: 'btn-success'
+        	        },
+        	        cancel: {
+        	            label: 'No',
+        	            className: 'btn-danger'
+        	        }
+        	    },
+        	    callback: function (result) {
+        	        console.log('This was logged in the callback: ' + result);
+        	        if(result){
+        	        	 deleteFile($target.context.id);
+        	        }
+        	       
+        	    }
+        	});
+        	break;
+            
+    }
+       
+        
+        //alert("select " + ui.cmd + " on " + $target.text());
+        
+        // Optionally return false, to prevent closing the menu now
+    }
+    // Implement the beforeOpen callback to dynamically change the entries
+   
+});
+
+
+$(document).ready(function () {
+    // Create a jqxMenu
+    $("#jqxMenu").jqxMenu({ 
+    	height: '30px',
+    	autoOpen: false
+    });
+    $("#jqxMenu").css('display', 'block');
+    
+    $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
+    $(".jqx-window").css("z-index", "3000");
+
+});
+
+
+	function createFile(type) {
+		if (type == 'oth') {
+			uploadFile();
+		} else {
+			bootbox.prompt("Enter description", function(result) {
+				if (result) {
+					$('#_description_id').val(result);
+					if(aggreement!=''){
+						$('#_aggreement\\.id_id').val(aggreement);
+					}
+					if (type === 'xls') {
+						$('#managedDocument').attr('action',
+								'/manageddocuments/template/xls');
+					} else if (type === 'doc') {
+						$('#managedDocument').attr('action',
+								'/manageddocuments/template/doc');
+					} else {
+						uploadFile();
+						//$('#managedDocument').attr('action', '/manageddocuments/template/oth');
+					}
+					$('#managedDocument').submit();
+				}
+
+			});
+		}
+	}
+
+	function uploadFile() {
+		$('#managedDocument').attr('action','/manageddocuments/template/oth');
+		$("#createDivForm").jqxWindow('open');
+		if(aggreement!=''){
+			$('#_aggreement\\.id_id').val(aggreement);
+		}
+	}
+</SCRIPT>
+    <div style="margin-top:10px">
+        <div id="jqxMenu" style="display : none">
+            <ul>
+                <li>
+                    <a href="#Home">
+                        <i class="glyphicon glyphicon-plus">
+                            <!-- empty not allowed	 -->
+                        </i> Create New</a>
+                    <ul style="">
+                        <li onclick="createFile('xls');">
+                            <a href="#">MS Excel File</a>
+                        </li>
+                        <li onclick="createFile('doc');">
+                            <a href="#">MS Word File</a>
+                        </li>
+                        <li onclick="createFile('oth');">
+                            <a href="#">Upload Other File</a>
+                        </li>
+                    </ul>
+                </li>
+                <c:if test="${not empty aggreement}">
+                    <li>
+                        <a href="/manageddocuments">
+                            <i class="fa fa-arrow-left">
+                                <!-- empty not allowed	 -->
+                            </i> Back</a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+    </div>
+    <util:panel id="title" title="Managed Documents">
+        <c:forEach items="${aggreements}" var="item">
+            <div class="col-lg-2 col-xs-4">
+                <m:icon-link href="/manageddocuments?agg=${item.id}" id="${item.id}" label="${item.aggreementNum}" styleclass="fa fa-folder-o fa-3x"/>
+            </div>
+        </c:forEach>
+        <c:forEach items="${manageddocuments}" var="item">
+            <c:if test="${empty item.aggreement or not empty aggreement}">
+                <div class="col-lg-2 col-xs-4">
+                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o"/>
+                </div>
+            </c:if>
+        </c:forEach>
+    </util:panel>
+    <form:form action="/manageddocuments/44" id="delete_form" method="DELETE" name="delete_${itemId}"/>
+    <form:form action="/manageddocuments/update/description" id="update_form" method="POST" name="delete_" style="display:none">
+        <input id="update_id" name="id" type="text"/>
+        <input id="update_desc" name="description" type="text"/>
+        <input class="btn btn-primary" id="proceed" type="submit" value="Save"/>
+    </form:form>
+    <div style="display:none">
+        <div id="createDivForm">
+            <formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
+                <c:if test="${not empty aggreement}">
+                    <div style="display:none">
+                        <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
+                    </div>
+                </c:if>
+                <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
+                <field:file field="content" id="c_com_org_entity_ManagedDocument_content" required="false" z="user-managed"/>
+            </formd:multi>
+        </div>
+    </div>
+    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" render="false" z="user-managed">
+        <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
+            <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
+            <table:column id="c_com_org_entity_ManagedDocument_url" property="url" z="xWU7O99EP/kqlHk53tTbWWJNKFQ="/>
+            <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" z="BEur1r/VI7FdVrh0nc9kkw+m0+k="/>
+        </table:table>
+    </page:list>
+</div>

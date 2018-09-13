@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.AreaReference;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -46,8 +47,8 @@ public class ItemsGeneratorService {
 		XSSFCellStyle boxstyle =  ExcelUtill.getBoxStyle(wb);
 		XSSFCellStyle style_align_justify =  ExcelUtill.getBoxStyle(wb);
 		XSSFCellStyle style_align_top =  ExcelUtill.getBoxStyle(wb); 
-		style_align_justify.setAlignment(XSSFCellStyle.ALIGN_JUSTIFY);
-		style_align_top.setVerticalAlignment(XSSFCellStyle.VERTICAL_TOP);
+		style_align_justify.setAlignment(HorizontalAlignment.JUSTIFY);
+		style_align_top.setVerticalAlignment(VerticalAlignment.TOP);
 		boolean existingExtraItemsDeleted = false;
 		for (Item item : items) {
 			if(item.isIsExtraItem()){

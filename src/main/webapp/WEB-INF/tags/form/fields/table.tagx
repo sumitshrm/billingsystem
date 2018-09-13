@@ -95,10 +95,10 @@
                 </c:when>
                 <c:when test="${columnType eq 'link'}">
                   <c:set var="colTxt">
-                    <spring:eval expression="item[column].filename" htmlEscape="false" />
+                    <spring:eval expression="item[column]" htmlEscape="false" />
                   </c:set>
                   <c:set var="colUrl">
-                    <spring:eval expression="item[column].id" htmlEscape="false" />
+                    <spring:eval expression="item.downloadLink" htmlEscape="false" />
                   </c:set>
                 </c:when>
                 <c:otherwise>
@@ -112,7 +112,8 @@
               </c:if>
               <c:choose>
 			    <c:when test="${columnType eq 'link'}">
-			        <a href="${rooturl}${columnLink}${item.id}"><c:out value="${colTxt}" /></a>
+			        <a href="${colUrl}" class="btn btn-primary btn-xs"><span class="fa fa-download"></span></a>
+         		 <c:out value=" ${colTxt}" />
 			    </c:when>    
 			    <c:otherwise>
 			        <c:out value="${colTxt}" />

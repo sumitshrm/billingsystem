@@ -39,10 +39,24 @@
                         <menu:item id="i_laboursupplier_new" messageCode="global_menu_new" url="/laboursuppliers?form" z="EcLr50HKS/AYYtcoCcXHOI6cKQQ="/>
                         <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
                     </menu:category>
-                    <menu:category id="c_controller" render="true" z="user-managed">
-                        <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
-                        <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
+                    <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="user-managed">
+                        <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
+                        <menu:item id="i_manageddocument_new" messageCode="global_menu_new" render="false" url="/manageddocuments?form" z="user-managed"/>
                     </menu:category>
+                    <sec:authorize ifAllGranted="USER_ROLE">
+                        <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
+                            <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
+                            <menu:item id="i_controller__billformsindex_id" messageCode="global_generic" url="/billforms/index" z="Zrdg43H/9kBzuYRC82jNaBJqP8M="/>
+                            <menu:item id="i_controller__books_dsrindex_id" messageCode="global_generic" url="/books/dsr" z="user-managed"/>
+                            <menu:item id="i_controller__books_darindex_id" messageCode="global_generic" render="false" url="/books/dar" z="user-managed"/>
+                            <menu:item id="i_controller__books_materialratesindex_id" messageCode="global_generic" url="/books/materialrates" z="user-managed"/>
+                            <menu:item id="i_controller__books_itemsmakeindex_id" messageCode="global_generic" url="/books/itemsmake/index" z="bJFXoVoI9i741fmriSv6/3ytgIM="/>
+                            <menu:item id="i_controller__books_theoreticalindex_id" messageCode="global_generic" url="/books/theoretical/index" z="aCsn2ysZN0Rkm8uW4odj68J67Mw="/>
+                        </menu:category>
+                        <menu:category icon="fa fa-calculator" id="c_calculator" render="true" z="user-managed">
+                            <menu:item id="i_controller__calculator_eisdiscalculatorindex_id" messageCode="global_generic" url="/calculator/eisdiscalculator" z="O0cyCer173KguvEOxCOYNp0wSM4="/>
+                        </menu:category>
+                    </sec:authorize>
                 </sec:authorize>
                 <menu:category id="c_item" render="false" z="user-managed">
                     <menu:item id="i_item_new" messageCode="global_menu_new" url="/items?form" z="I+/MpOYxZ47XKvsQW1PUi6uC060="/>
@@ -86,6 +100,10 @@
                 <menu:category id="c_supplier" render="false" z="user-managed"/>
                 <menu:category id="c_company" render="false" z="user-managed"/>
                 <menu:category id="c_laboursupplier" render="false" z="user-managed"/>
+                <menu:category icon="fa fa-inr" id="c_estimate" z="user-managed">
+                    <menu:item id="i_estimate_new" messageCode="global_menu_new" url="/estimates?form" z="DaGj+7EBMQrtUhajjwQLWDJzAkE="/>
+                    <menu:item id="i_estimate_list" messageCode="global_menu_list" url="/estimates" z="user-managed"/>
+                </menu:category>
             </menu:menu>
             <script>
     /*menu handler to set the active menu*/

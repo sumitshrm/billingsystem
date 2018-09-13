@@ -1,0 +1,4 @@
+{
+"nameOfWork" : "test",
+"items" : [{"code":"2.1","desc":"\"Earth work in surface excavation not exceeding 30 cm in depth but exceeding 1.5 m in width as well as 10 sqm on plan including getting out and disposal of excavated earth upto 50 m and lift up to 1.5 m, as directed by Engineer-in-Charge: \"","unit":"","rate":"\r","uid":0},{"code":"2.1.1","desc":"All kinds of soil ","unit":"Sqm","rate":"53.00\r","uid":1},{"code":"2.8","desc":"\"Earth work in excavation by mechanical means (Hydraulic excavator) / manual means in foundation trenches or drains (not exceeding 1.5 m in width or 10 sqm on plan) including dressing of sides and ramming of bottoms, lift up to 1.5 m, including getting out the excavated soil and disposal of surplus excavated soil as directed, within a lead of 50 m. \"","unit":"","rate":"\r","uid":2},{"code":"2.8.1","desc":"All kinds of soil. ","unit":"Cum","rate":"166.40","uid":3}]
+}

@@ -9,12 +9,14 @@ import com.org.domain.LogUserRole;
 import com.org.entity.Aggreement;
 import com.org.entity.Company;
 import com.org.entity.Document;
+import com.org.entity.Estimate;
 import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
 import com.org.entity.ItemName;
 import com.org.entity.Labour;
 import com.org.entity.LabourEntry;
 import com.org.entity.LabourSupplier;
+import com.org.entity.ManagedDocument;
 import com.org.entity.MaterialEntry;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.Supplier;
@@ -156,6 +158,30 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
+    public Converter<Estimate, String> ApplicationConversionServiceFactoryBean.getEstimateToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.org.entity.Estimate, java.lang.String>() {
+            public String convert(Estimate estimate) {
+                return new StringBuilder().append(estimate.getNameOfWork()).append(' ').append(estimate.getContent()).append(' ').append(estimate.getUrl()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Estimate> ApplicationConversionServiceFactoryBean.getIdToEstimateConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Estimate>() {
+            public com.org.entity.Estimate convert(java.lang.Long id) {
+                return Estimate.findEstimate(id);
+            }
+        };
+    }
+    
+    public Converter<String, Estimate> ApplicationConversionServiceFactoryBean.getStringToEstimateConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Estimate>() {
+            public com.org.entity.Estimate convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Estimate.class);
+            }
+        };
+    }
+    
     public Converter<Item, String> ApplicationConversionServiceFactoryBean.getItemToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.Item, java.lang.String>() {
             public String convert(Item item) {
@@ -276,6 +302,30 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
+    public Converter<ManagedDocument, String> ApplicationConversionServiceFactoryBean.getManagedDocumentToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.org.entity.ManagedDocument, java.lang.String>() {
+            public String convert(ManagedDocument managedDocument) {
+                return new StringBuilder().append(managedDocument.getDescription()).append(' ').append(managedDocument.getContent()).append(' ').append(managedDocument.getFileSize()).append(' ').append(managedDocument.getUrl()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, ManagedDocument> ApplicationConversionServiceFactoryBean.getIdToManagedDocumentConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.ManagedDocument>() {
+            public com.org.entity.ManagedDocument convert(java.lang.Long id) {
+                return ManagedDocument.findManagedDocument(id);
+            }
+        };
+    }
+    
+    public Converter<String, ManagedDocument> ApplicationConversionServiceFactoryBean.getStringToManagedDocumentConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.ManagedDocument>() {
+            public com.org.entity.ManagedDocument convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), ManagedDocument.class);
+            }
+        };
+    }
+    
     public Converter<MaterialEntry, String> ApplicationConversionServiceFactoryBean.getMaterialEntryToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.entity.MaterialEntry, java.lang.String>() {
             public String convert(MaterialEntry materialEntry) {
@@ -383,6 +433,9 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getDocumentToStringConverter());
         registry.addConverter(getIdToDocumentConverter());
         registry.addConverter(getStringToDocumentConverter());
+        registry.addConverter(getEstimateToStringConverter());
+        registry.addConverter(getIdToEstimateConverter());
+        registry.addConverter(getStringToEstimateConverter());
         registry.addConverter(getItemToStringConverter());
         registry.addConverter(getIdToItemConverter());
         registry.addConverter(getStringToItemConverter());
@@ -401,6 +454,9 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getLabourSupplierToStringConverter());
         registry.addConverter(getIdToLabourSupplierConverter());
         registry.addConverter(getStringToLabourSupplierConverter());
+        registry.addConverter(getManagedDocumentToStringConverter());
+        registry.addConverter(getIdToManagedDocumentConverter());
+        registry.addConverter(getStringToManagedDocumentConverter());
         registry.addConverter(getMaterialEntryToStringConverter());
         registry.addConverter(getIdToMaterialEntryConverter());
         registry.addConverter(getStringToMaterialEntryConverter());

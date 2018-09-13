@@ -12,6 +12,7 @@
 <spring:message code="google.client" var="google_client" htmlEscape="false" />
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
 <script type="text/javascript">
 function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
@@ -55,6 +56,38 @@ function getAjax(url, success) {
     xhr.send();
     return xhr;
 }
+
+
+var installPromptEvent;
+window.addEventListener('beforeinstallprompt', function(event){
+	  // Prevent Chrome greater= 67 from automatically showing the prompt
+	  event.preventDefault();
+	  // Stash the event so it can be triggered later.
+	  installPromptEvent = event;
+	  // Update the install UI to notify the user app can be installed
+	  //document.querySelector('#install-button').disabled = false;
+	  $("#install-app").css("display", "block");
+	});
+	
+	
+	function installapp() {
+	  // Update the install UI to remove the install button
+	  document.querySelector('#install-app').disabled = true;
+	  // Show the modal add to home screen dialog
+	  installPromptEvent.prompt();
+	  // Wait for the user to respond to the prompt
+	  installPromptEvent.userChoice.then((choice) => {
+	    if (choice.outcome === 'accepted') {
+	      console.log('User accepted the A2HS prompt');
+	    } else {
+	      console.log('User dismissed the A2HS prompt');
+	    }
+	    // Clear the saved prompt since it can't be used again
+	    installPromptEvent = null;
+	  });
+	}
+
+
 </script>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
 <meta name="google-signin-client_id" content="${google_client}" />
@@ -67,9 +100,12 @@ function getAjax(url, success) {
 <title><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 </head>
 
-<body class="tundra spring">
+<body class="hold-transition login-page tundra spring">
 	<div>
 		<tiles:insertAttribute name="body" />
 	</div>
 </body>
+
+    <script src="/app.js"><!-- required for FF3 and Opera --></script>
+
 </html>

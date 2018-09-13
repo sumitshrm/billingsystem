@@ -10,10 +10,10 @@
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
   
-  <spring:url value="/resources/script/jqwidgets" var="jqwidgets_url" />
-  <spring:url value="/resources/script/jquery" var="jquery_url" />
-  <spring:url value="/resources/script" var="js_url" />
-  <spring:url value="/resources/styles" var="styles_url" />
+  <spring:url value="/resources/script/jqwidgets" var="jqwidgets_url" scope="request"/>
+  <spring:url value="/resources/script/jquery" var="jquery_url" scope="request"/>
+  <spring:url value="/resources/script" var="js_url"  scope="request"/>
+  <spring:url value="/resources/styles" var="styles_url" scope="request"/>
   <spring:url value="/resources/assets/dist" var="dist_url" />
   <spring:url value="/resources/assets/adminlte" var="adminlte_url" />
   <spring:url value="/resources/assets/vendor" var="vendor_url" />
@@ -26,6 +26,7 @@
     <c:set var="plocale">${pageContext.response.locale}</c:set>
     <c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
   </c:set>
+  
 
   <script type="text/javascript">var djConfig = {parseOnLoad: false, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
 
@@ -44,6 +45,8 @@
     <script type="text/javascript" src="${jqwidgets_url}/jqxbuttons.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxinput.js"><!-- required for FF3 and Opera --></script>
     <script type="text/javascript" src="${jqwidgets_url}/jqxnotification.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxmenu.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxwindow.js"><!-- required for FF3 and Opera --></script>
 	
 	<!-- BOOTSTRAP ADMIN LAYOUT SETTINGS -->
 	    <!-- Bootstrap Core CSS -->
@@ -77,4 +80,15 @@
     <link rel="stylesheet" type="text/css" href="${tundra_url}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
   <link rel="SHORTCUT ICON" href="${favicon}" />
+  <link rel="manifest" href="/manifest.json"></link>
+  
+  <!-- context menu start -->
+    <script src="${js_url}/jquery/jquery-ui.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+    	<script src="${js_url}/jquery.ui-contextmenu.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+       <link rel="stylesheet" href="${styles_url}/jquery-ui.css" type="text/css" />
+    <script src="${vendor_url}/bootbox/bootbox.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  
+  <!-- context menu end -->
+  
+  
 </jsp:root>

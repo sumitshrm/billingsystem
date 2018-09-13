@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<theoretical-data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<record>
+		<sno>1</sno>
+		<desc>Satna Lime Wash on walls one coat </desc>
+		<theo>0.01</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>2</sno>
+		<desc>Lettering with black Japan paint </desc>
+		<theo>0.56</theo>
+		<perunit>Litre per 100 letters 15 cm height </perunit>
+	</record>
+	<record>
+		<sno>3</sno>
+		<desc>Re-letting with black Japan paint </desc>
+		<theo>0.37</theo>
+		<perunit>Litre per 100 letters 15 cm height </perunit>
+	</record>
+	<record>
+		<sno>4</sno>
+		<desc>Painting flushing cistern, flush pipe and fittings with white synthetic enamel paint on external surface </desc>
+		<theo>0.2</theo>
+		<perunit>Litre per each </perunit>
+	</record>
+	<record>
+		<sno>5</sno>
+		<desc>White washing with lime to give and even shade </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (One or more coats) </desc>
+		<theo>0.01</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Old work (Two or more coats) </desc>
+		<theo>0.02</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(c ) New work (Three or more coats) </desc>
+		<theo>0.03</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>6</sno>
+		<desc>Colour washing such as green, blue or buff to give an even shade: </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (One or more coats) </desc>
+		<theo>0.01</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Old work (Two or more coats) </desc>
+		<theo>0.02</theo>
+		<perunit>Quintal per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>7</sno>
+		<desc>Finishing walls with water proofing cement paint </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (Two or more coats) </desc>
+		<theo>2.2</theo>
+		<perunit>Kilogram per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) New work (Two or more coats) </desc>
+		<theo>3.84</theo>
+		<perunit>Kilogram per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>8</sno>
+		<desc>Painting with ready mixed paint </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (Two or more coats) </desc>
+		<theo>0.75</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) New work (Two or more coats) </desc>
+		<theo>1.25</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>9</sno>
+		<desc>Painting with synthetic enamel paint </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (Two or more coats) </desc>
+		<theo>0.7</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) New work (Two or more coats) </desc>
+		<theo>1.16</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>10</sno>
+		<desc>Wall painting with plastic emulsion paint </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (Two or more coats) </desc>
+		<theo>0.73</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) New work (Two or more coats) </desc>
+		<theo>1.21</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>11</sno>
+		<desc>Applying priming coat with </desc>
+	</record>
+	<record>
+		<desc>(a) Ready mixed pink or grey primer on wood work (hard and soft wood) </desc>
+		<theo>0.75</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Ready mixed aluminium primer on resinous wood and ply wood. </desc>
+		<theo>0.75</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(c )Ready mixed Zinc chromate yellow primer on steel galvanized iron/steel works. </desc>
+		<theo>0.54</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>12</sno>
+		<desc>Repainting sand cast iron/centrifugally cast (spun) iron, soil, waste, vent pipes and fittings with paint of any colour such as chocolate, grey of buff etc. </desc>
+	</record>
+	<record>
+		<desc>(a) 50mm diameter pipe </desc>
+		<theo>1.2</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(b) 75mm diameter pipe </desc>
+		<theo>1.8</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(c ) 100 mm diameter pipe </desc>
+		<theo>2.4</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<sno>13</sno>
+		<desc>Painting with black anti-corrosive bitumastic paint. </desc>
+	</record>
+	<record>
+		<desc>(a) Old work (Two or more coats) </desc>
+		<theo>0.57</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) New work (Two or more coats) </desc>
+		<theo>0.95</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>14</sno>
+		<desc>Painting (One or more coats) (on old work) on rain water, soil waste, vent pipes and fittings with black anti-corrosive bitumen. </desc>
+	</record>
+	<record>
+		<desc>(a) 50mm diameter pipe </desc>
+		<theo>1.011</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(b) 75mm diameter pipe </desc>
+		<theo>1.457</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(c ) 100 mm diameter pipe </desc>
+		<theo>1.906</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(d) 150mm diameter pipe </desc>
+		<theo>2.816</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<sno>15</sno>
+		<desc>Painting GI pipes and fittings with white paint of approved quality </desc>
+	</record>
+	<record>
+		<desc>(a) 15mm diameter pipe </desc>
+		<theo>0.68</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(b) 20mm diameter pipe </desc>
+		<theo>0.85</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(c ) 25mm diameter pipe </desc>
+		<theo>1.07</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(d) 32mm diameter pipe </desc>
+		<theo>1.35</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(e) 40mm diameter pipe </desc>
+		<theo>1.53</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(f) 50mm diameter pipe </desc>
+		<theo>1.92</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(g) 80mm diameter pipe </desc>
+		<theo>2.81</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<sno>16</sno>
+		<desc>Repainting GI pipes and fittings with white paint of approved quality </desc>
+	</record>
+	<record>
+		<desc>(a) 15mm diameter pipe </desc>
+		<theo>0.3533</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(b) 20mm diameter pipe </desc>
+		<theo>0.471</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(c ) 25mm diameter pipe </desc>
+		<theo>0.5888</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(d) 32mm diameter pipe </desc>
+		<theo>0.7538</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(e) 40mm diameter pipe </desc>
+		<theo>0.9428</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<desc>(f) 50mm diameter pipe </desc>
+		<theo>1.1775</theo>
+		<perunit>Litre per 100 metre </perunit>
+	</record>
+	<record>
+		<sno>17</sno>
+		<desc>Finishing walls with acrylic smooth exterior paint </desc>
+	</record>
+	<record>
+		<desc>(a) New work(Two or more coats) </desc>
+		<theo>1.67</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Old work (Two or more coats) </desc>
+		<theo>1.67</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(c ) Old work (One or more coats) </desc>
+		<theo>0.9</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>18</sno>
+		<desc>Finishing walls with Premium Acrylic smooth exterior paint </desc>
+	</record>
+	<record>
+		<desc>(a) New work(Two or more coats) </desc>
+		<theo>1.43</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Old work (Two or more coats) </desc>
+		<theo>1.43</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(c ) Old work (One or more coats) </desc>
+		<theo>0.83</theo>
+		<perunit>Litre per 10 sqm </perunit>
+	</record>
+	<record>
+		<sno>19</sno>
+		<desc>Distempering with oil bound washable distemper </desc>
+	</record>
+	<record>
+		<desc>(a) New work(Two or more coats) </desc>
+		<theo>1.5</theo>
+		<perunit>kg. per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(b) Old work (Two or more coats) </desc>
+		<theo>1.5</theo>
+		<perunit>kg. per 10 sqm </perunit>
+	</record>
+	<record>
+		<desc>(c ) Old work (One or more coats) </desc>
+		<theo>1</theo>
+		<perunit>kg. per 10 sqm </perunit>
+	</record>
+</theoretical-data>

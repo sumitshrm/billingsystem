@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -22,10 +23,14 @@ import com.org.excel.service.ExcelUtill;
 import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.RunningBillScheduleRange;
 import com.org.excel.util.ScheduleRange;
+import com.org.exception.ExcelParseException;
 import com.org.util.Clause;
 
 @Service
 public class ScheduleGeneratorService implements IExcelReportService{
+	
+	final static Logger logger = Logger.getLogger(ScheduleGeneratorService.class);
+
 	
 	public void generateMasterData(MeasurementSheet msheet, XSSFWorkbook wb) throws Exception{
 		XSSFSheet xsheet = prepareScheduleSheet(msheet, wb);
@@ -48,134 +53,155 @@ public class ScheduleGeneratorService implements IExcelReportService{
 	}
 	
 	public void generateReport(MeasurementSheet msheet, XSSFWorkbook wb) throws Exception{
-		XSSFSheet xsheet = getScheduleSheet(msheet, wb);
-		ScheduleRange scheduleRange = getScheduleRange(msheet, wb);
-		//delete existing data first 
-		removeReportData(msheet, wb);
-		int currentRow = scheduleRange.getrItemNum().getFirstRowNum()+1;
-		int firstRow = currentRow;
-		int itemNumCol = scheduleRange.getrItemNum().getFirstColNum();
-		int itemDescCol = scheduleRange.getrDescriptionOfItem().getFirstColNum();
-		int quantityCol = scheduleRange.getrQuantExecUptoDate().getFirstColNum();
-		int unitCol = scheduleRange.getrUnit().getFirstColNum();
-		int amountCol = scheduleRange.getrTotalAmount().getFirstColNum();
-		XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
-		descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
-		XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
-		alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
-		XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
-		XSSFCellStyle boldStyle = ExcelUtill.getBoldFont(wb);
-		List<Item> extraItems = new ArrayList<Item>();
-		List<ItemAbstract> extraItemAbstract = new ArrayList<ItemAbstract>();
-		Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
-		//Write itemabstract data only for items (exclude extra items)
-		for(Item item : msheet.getAggreement().getItems()){
-			if(!item.isIsExtraItem()){
-				if(item.isValidItem()){
-					currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
-							currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
-							descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
-				}else{
-					//if this is not a leaf item in hyrarchy then write only item number and description.
-					XSSFRow row = xsheet.createRow(currentRow++);
-					ExcelUtill.writeCellValue(item.getItemNumber(),
-							row.createCell(scheduleRange.getrItemNum().getFirstColNum()),boxStyle);
-					ExcelUtill.writeCellValue(item.getDescription(),
-							row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),descriptionStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
-					if(!msheet.isFirstAndFinalBill()){
-						RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
-						if(!msheet.isIsFinalBill()){
-							ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
-						} 
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
+		try {
+
+			XSSFSheet xsheet = getScheduleSheet(msheet, wb);
+			ScheduleRange scheduleRange = getScheduleRange(msheet, wb);
+			//delete existing data first 
+			removeReportData(msheet, wb);
+			int currentRow = scheduleRange.getrItemNum().getFirstRowNum()+1;
+			int firstRow = currentRow;
+			int itemNumCol = scheduleRange.getrItemNum().getFirstColNum();
+			int itemDescCol = scheduleRange.getrDescriptionOfItem().getFirstColNum();
+			int quantityCol = scheduleRange.getrQuantExecUptoDate().getFirstColNum();
+			int unitCol = scheduleRange.getrUnit().getFirstColNum();
+			int amountCol = scheduleRange.getrTotalAmount().getFirstColNum();
+			XSSFCellStyle descriptionStyle = ExcelUtill.getBoxStyle(wb);
+			descriptionStyle.setAlignment(HorizontalAlignment.JUSTIFY);
+			XSSFCellStyle alignTopStyle = ExcelUtill.getBoxStyle(wb);
+			alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
+			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
+			XSSFCellStyle boldStyle = ExcelUtill.getBoldFont(wb);
+			List<Item> extraItems = new ArrayList<Item>();
+			List<ItemAbstract> extraItemAbstract = new ArrayList<ItemAbstract>();
+			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
+			//Write itemabstract data only for items (exclude extra items)
+			for(Item item : msheet.getAggreement().getItems()){
+				try {
+
+					if(!item.isIsExtraItem()){
+						if(item.isValidItem()){
+							currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
+									currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
+									descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
+						}else{
+							//if this is not a leaf item in hyrarchy then write only item number and description.
+							XSSFRow row = xsheet.createRow(currentRow++);
+							ExcelUtill.writeCellValue(item.getItemNumber(),
+									row.createCell(scheduleRange.getrItemNum().getFirstColNum()),boxStyle);
+							ExcelUtill.writeCellValue(item.getDescription(),
+									row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),descriptionStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+							if(!msheet.isFirstAndFinalBill()){
+								RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
+								if(!msheet.isIsFinalBill()){
+									ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
+								} 
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
+							}else{
+								ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
+								ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+							}
+						}
 					}else{
-						ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
-						ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+						extraItemAbstract.add(itemAbstractMap.get(item.getItemNumber()));
+						extraItems.add(item);
 					}
+				
+				} catch (Exception e) {
+					logger.error("error writing schedule data for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
+					throw new Exception("error writing schedule data for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
 				}
-			}else{
-				extraItemAbstract.add(itemAbstractMap.get(item.getItemNumber()));
-				extraItems.add(item);
 			}
-		}
-		//Write totals before extra item entries for payment since previous bill
-		currentRow = writeTotalDataBeforeExtraItem(currentRow, xsheet, itemDescCol,
-				scheduleRange.getrTotalAmount().getFirstColNum(), firstRow,
-				msheet);
-		//Write itemabstract data for Extra items. 
-		int itemsTotalRow = currentRow;
-		for(Item item : extraItems){
-			if(item.isValidItem()){
-				currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
-						currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
-						descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
-			}else{//if this is not the leaf item then write item number and description only.
-				//if this is not a leaf item in hyrarchy then write only item number and description.
-				XSSFRow row = xsheet.createRow(currentRow++);
-				ExcelUtill.writeCellValue(item.getItemNumber(),
-						row.createCell(scheduleRange.getrItemNum().getFirstColNum()),alignTopStyle);
-				ExcelUtill.writeCellValue(item.getDescription(),
-						row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
-				ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+			//Write totals before extra item entries for payment since previous bill
+			currentRow = writeTotalDataBeforeExtraItem(currentRow, xsheet, itemDescCol,
+					scheduleRange.getrTotalAmount().getFirstColNum(), firstRow,
+					msheet);
+			//Write itemabstract data for Extra items. 
+			int itemsTotalRow = currentRow;
+			for(Item item : extraItems){
+				try {
+
+					if(item.isValidItem()){
+						currentRow = writeScheduleData(msheet, xsheet, scheduleRange,
+								currentRow, itemNumCol, itemDescCol, quantityCol, unitCol,
+								descriptionStyle, alignTopStyle, boxStyle, itemAbstractMap.get(item.getItemNumber()));
+					}else{//if this is not the leaf item then write item number and description only.
+						//if this is not a leaf item in hyrarchy then write only item number and description.
+						XSSFRow row = xsheet.createRow(currentRow++);
+						ExcelUtill.writeCellValue(item.getItemNumber(),
+								row.createCell(scheduleRange.getrItemNum().getFirstColNum()),alignTopStyle);
+						ExcelUtill.writeCellValue(item.getDescription(),
+								row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
+						ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+						if(!msheet.isFirstAndFinalBill()){
+							RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
+							if(!msheet.isIsFinalBill()){
+								ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
+							} 
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
+						}else{
+							ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
+							ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+						}
+					}
+				
+				} catch (Exception e) {
+					logger.error("error writing schedule data for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
+					throw new Exception("error writing schedule data for item: "+item.getItemNumber()+"\r\n"+e.getMessage(), e);
+				}
+			}
+			//Write total data after extra items.
+			if(extraItemAbstract.size()>0){
+				XSSFRow totalRow = xsheet.createRow(currentRow++);
+				XSSFCell labelCell = totalRow.createCell(itemDescCol);
+				
+				//Add border top.
+				totalRow.createCell(itemNumCol).setCellStyle(ExcelUtill.getBorderTop(xsheet.getWorkbook()));
+				ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_LABEL, labelCell, boldStyle);
+				XSSFCell valueCell;
+				writeTotalDataAfterExtraItems(currentRow, amountCol, boldStyle,
+						itemsTotalRow, totalRow);
 				if(!msheet.isFirstAndFinalBill()){
-					RunningBillScheduleRange range = (RunningBillScheduleRange)scheduleRange;
-					ExcelUtill.writeCellValue(null, row.createCell(range.getrFullRate().getFirstColNum()), boxStyle);
-					if(!msheet.isIsFinalBill()){
-						ExcelUtill.writeCellValue(null, row.createCell(range.getrPartRate().getFirstColNum()), boxStyle);
-					} 
-					ExcelUtill.writeCellValue(null, row.createCell(range.getrUpToDate().getFirstColNum()), boxStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(range.getrUptoPreviousBill().getFirstColNum()), boxStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(range.getrSincePreviousBill().getFirstColNum()), boxStyle);
-				}else{
-					ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrRate().getFirstColNum()), boxStyle);
-					ExcelUtill.writeCellValue(null, row.createCell(scheduleRange.getrPaymentOnActualMeas().getFirstColNum()), boxStyle);
+					writeTotalDataAfterExtraItems(currentRow, amountCol-1, boldStyle,
+							itemsTotalRow, totalRow);
+					writeTotalDataAfterExtraItems(currentRow, amountCol-2, boldStyle,
+							itemsTotalRow, totalRow);
 				}
-			}
-		}
-		//Write total data after extra items.
-		if(extraItemAbstract.size()>0){
-			XSSFRow totalRow = xsheet.createRow(currentRow++);
-			XSSFCell labelCell = totalRow.createCell(itemDescCol);
-			
-			//Add border top.
-			totalRow.createCell(itemNumCol).setCellStyle(ExcelUtill.getBorderTop(xsheet.getWorkbook()));
-			ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_LABEL, labelCell, boldStyle);
-			XSSFCell valueCell;
-			writeTotalDataAfterExtraItems(currentRow, amountCol, boldStyle,
-					itemsTotalRow, totalRow);
-			if(!msheet.isFirstAndFinalBill()){
-				writeTotalDataAfterExtraItems(currentRow, amountCol-1, boldStyle,
-						itemsTotalRow, totalRow);
-				writeTotalDataAfterExtraItems(currentRow, amountCol-2, boldStyle,
-						itemsTotalRow, totalRow);
-			}
-			//Write SayRs and round the final value by 0
-			totalRow = xsheet.createRow(currentRow++);
-			labelCell = totalRow.createCell(itemDescCol);
-			ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_ROUND_FIGURE_LABLE, labelCell, boldStyle);
-			
-			writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol,
-					boldStyle, totalRow);
-			if(!msheet.isFirstAndFinalBill()){
-				writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol-1,
+				//Write SayRs and round the final value by 0
+				totalRow = xsheet.createRow(currentRow++);
+				labelCell = totalRow.createCell(itemDescCol);
+				ExcelUtill.writeCellValue(AbstractSheetConstants.TOTAL_ROUND_FIGURE_LABLE, labelCell, boldStyle);
+				
+				writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol,
 						boldStyle, totalRow);
-				writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol-2,
-						boldStyle, totalRow);
+				if(!msheet.isFirstAndFinalBill()){
+					writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol-1,
+							boldStyle, totalRow);
+					writeRoudFigureAfterExtraItemsAndTotal(currentRow, amountCol-2,
+							boldStyle, totalRow);
+				}
+				
 			}
+			//TODO : 
+			/*currentRow = writePreviousBillData(currentRow, amountCol,
+					boldStyle, msheet, xsheet, itemDescCol);*/
 			
-		}
-		//TODO : 
-		/*currentRow = writePreviousBillData(currentRow, amountCol,
-				boldStyle, msheet, xsheet, itemDescCol);*/
 		
+		} catch (Exception e) {
+			logger.error("error writing schedule report \r\n"+e.getMessage(), e);
+			throw new Exception("error writing schedule report \r\n"+e.getMessage(), e);
+		}
 	}
 
 	

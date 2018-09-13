@@ -9,10 +9,15 @@
     </nav:nav>
     <page:show id="ps_com_org_entity_Aggreement" object="${aggreement}" path="/aggreements" z="xAIkXi+zxRWQm72SC7+ZrEMHU9s=">
         <field:display field="aggreementNum" id="s_com_org_entity_Aggreement_aggreementNum" object="${aggreement}" z="38NLbkslwm044J59ieH1/K8UhBQ="/>
-        <field:display field="division" id="s_com_org_entity_Aggreement_division" object="${aggreement}" z="kJp+84M+bcIUIstSS5odvRaZp/w="/>
-        <field:display field="subDivision" id="s_com_org_entity_Aggreement_subDivision" object="${aggreement}" z="KZPVAww1fU/EMSm/9CRtACkz8BQ="/>
         <field:display field="description" id="s_com_org_entity_Aggreement_description" object="${aggreement}" z="BaFwrlmzqAXPf4OchdDWHBic1hc="/>
         <field:display field="nameOfWork" id="s_com_org_entity_Aggreement_nameOfWork" object="${aggreement}" z="ypnLI5ayHex60TaaT3LLnTuyjS4="/>
+        <div style="display:none">
+            <field:display field="logUser" id="s_com_org_entity_Aggreement_logUser" object="${aggreement}" z="GrRXqtwNOgsrHPcke2CIshvw2XA="/>
+        </div>
+    
+    <page:show openPane="false" label="Detail" id="ps_com_org_entity_Item" object="${aggreement}" path="/aggreements" z="xAIkXi+zxRWQm72SC7+ZrEMHU9s=" create="false" update="false" list="false" delete="false">
+        <field:display field="division" id="s_com_org_entity_Aggreement_division" object="${aggreement}" z="kJp+84M+bcIUIstSS5odvRaZp/w="/>
+        <field:display field="subDivision" id="s_com_org_entity_Aggreement_subDivision" object="${aggreement}" z="KZPVAww1fU/EMSm/9CRtACkz8BQ="/>
         <field:display field="agency" id="s_com_org_entity_Aggreement_agency" object="${aggreement}" z="REi3vrN8gDyl3QF7Amwr2yDMaTw="/>
         <field:display date="true" dateTimePattern="${aggreement_dateofstart_date_format}" field="dateOfStart" id="s_com_org_entity_Aggreement_dateOfStart" object="${aggreement}" z="S5627We4nkdcMLxL7Bk+ISlvBgE="/>
         <field:display date="true" dateTimePattern="${aggreement_dateofcompletions_date_format}" field="dateOfCompletionS" id="s_com_org_entity_Aggreement_dateOfCompletionS" object="${aggreement}" z="iVipkyTUrOtPGZSbe+sE3zjsSTU="/>
@@ -27,6 +32,8 @@
         <field:display field="estimatedCost" id="s_com_org_entity_Aggreement_estimatedCost" object="${aggreement}" z="g90j7uZDUIUKqZUwY1qWAGVs1YU="/>
         <field:display field="costIndex" id="s_com_org_entity_Aggreement_costIndex" object="${aggreement}" z="HuCJW64Nwc4NJZSXrMc+DVXfAl8="/>
     </page:show>
+    
+    </page:show>
     <div class="row">
         <div class="btn-group">
             <input class="btn btn-primary" onclick="location.href='../measurementsheets?form&amp;aggreement=${aggreement.id}';" type="button" value="create new measurement"/>
@@ -35,7 +42,19 @@
     </div>
     <page:list id="pl_com_org_entity_MeasurementSheet" items="${aggreement.measurementSheets}" openPane="true" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
         <table:table create="false" data="${aggreement.measurementSheets}" id="l_com_org_entity_MeasurementSheet" path="/measurementsheets" responsive="false" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=">
-            <table:column id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
+            <table:column document="true" id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
+        </table:table>
+    </page:list>
+    
+    <div class="row">
+        <div class="btn-group">
+            <input class="btn btn-primary" onclick="location.href='../manageddocuments?form&amp;aggreement=${aggreement.id}';" type="button" value="add document"/>
+        </div>
+    </div>
+    
+    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" openPane="true" z="user-managed">
+        <table:table create="false" data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" responsive="false" z="user-managed">
+            <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="description" z="user-managed"/>
         </table:table>
     </page:list>
     <br/>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="manageddocuments/list">
+        <put-attribute name="body" value="/WEB-INF/views/manageddocuments/list.jspx"/>
+    </definition>
+<definition extends="default" name="manageddocuments/show">
+        <put-attribute name="body" value="/WEB-INF/views/manageddocuments/show.jspx"/>
+    </definition>
+<definition extends="default" name="manageddocuments/create">
+        <put-attribute name="body" value="/WEB-INF/views/manageddocuments/create.jspx"/>
+    </definition>
+<definition extends="default" name="manageddocuments/update">
+        <put-attribute name="body" value="/WEB-INF/views/manageddocuments/update.jspx"/>
+    </definition>
+</tiles-definitions>
