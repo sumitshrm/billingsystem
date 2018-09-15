@@ -22,7 +22,7 @@
 		// Wait for window load
 			$(window).load(function() {
 			// Animate loader off screen
-			$(".loading").fadeOut( 200);
+			$(".loading").fadeOut(1);
 			});
 		
 			function doLogout() {
@@ -60,7 +60,7 @@
     
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="padding-left: 5px; padding-right: 5px;">
       <!-- Small boxes (Stat box) -->
       
       <!-- /.row -->
