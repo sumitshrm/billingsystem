@@ -15,6 +15,8 @@ public class FileStorageProperties {
 	  public static final String EXCEL_TEMPLATE_FILE = "Documents/EXCEL_TEMPLATE.xlsm";
 	  
 	  public static final String WORD_TEMPLATE_FILE = "Documents/DOC_TEMPLATE.docm";
+	  
+	  public static final String BILLFORMS_TEMPLATE = "Documents/BILLFORMS_TEMPLATE.xlsx";
 
 	  
 }

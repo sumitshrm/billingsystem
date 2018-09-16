@@ -1,29 +1,49 @@
 package com.org.service;
 
+import java.io.InputStream;
+
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.org.constants.Worksheets;
 import com.org.entity.Aggreement;
+import com.org.entity.BillformsTo;
 import com.org.entity.Template;
 import com.org.excel.service.ExcelUtill;
 import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.TemplateType;
+import com.org.service.blobstore.FileStorageService;
+import com.org.util.FileStorageProperties;
 
 @Service
 public class BillformsService {
-
-	public Template createBillformsDocument(Aggreement aggreement) throws Exception{
+	
+	@Autowired
+	private FileStorageService fileStorageService;
+	
+	public Template createBillformsDocument(BillformsTo billformsTo) throws Exception{
 		Template billformsTemplate = Template.findTemplatesByType(TemplateType.BILLFORMS).getSingleResult();
-		this.writeBillformData(billformsTemplate, aggreement);
+		this.writeBillformData(billformsTemplate, billformsTo);
 		return billformsTemplate;
 	}
 	
-	private void writeBillformData(Template billformsTemplate, Aggreement aggreement) throws Exception{
-		XSSFWorkbook workbook = ExcelUtill.getWorkbookFromContent(billformsTemplate.getContent());
+	private void removeSheets(BillformsTo billformsTo, XSSFWorkbook workbook) {
+		for(String sheetName : billformsTo.getReports()) {
+			if(!billformsTo.getSelectedReports().contains(sheetName)) {
+				workbook.removeSheetAt(workbook.getSheetIndex(sheetName));
+			}
+		}
+	}
+	
+	private void writeBillformData(Template billformsTemplate, BillformsTo billformsTo) throws Exception{
+		InputStream is = fileStorageService.doGet(FileStorageProperties.BILLFORMS_TEMPLATE);
+		XSSFWorkbook workbook = new XSSFWorkbook(is);
+		removeSheets(billformsTo, workbook);
 		XSSFSheet xsheet = workbook.getSheet(Worksheets.BILLFORMS_MAIN_SHEET);
+		Aggreement aggreement = billformsTo.getAggreement();
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.AGGREEMENT_NO, aggreement.getAggreementNum());
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.NAME_OF_WORK, aggreement.getNameOfWork());
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.AGENCY, aggreement.getAgency());
