@@ -90,7 +90,7 @@ public class BillformsService {
 			System.out.println(NumberToWordConverter.convert(amount));
 		}
 		
-		//XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
+		XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
 		ExcelUtill.saveChangesToDocument(billformsTemplate, workbook);
 	}
 }
