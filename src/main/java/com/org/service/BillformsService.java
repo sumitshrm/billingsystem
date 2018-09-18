@@ -2,6 +2,7 @@ package com.org.service;
 
 import java.io.InputStream;
 
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,8 +16,10 @@ import com.org.entity.Template;
 import com.org.excel.service.ExcelUtill;
 import com.org.excel.util.MasterDataCellName;
 import com.org.excel.util.TemplateType;
+import com.org.excel.util.XLColumnRange;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
+import com.org.util.NumberToWordConverter;
 
 @Service
 public class BillformsService {
@@ -55,8 +58,39 @@ public class BillformsService {
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.TENDER_COST, aggreement.getTenderCost());
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.ESTIMATED_COST, aggreement.getEstimatedCost()); 
 		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.DIVISION, aggreement.getDivision()); 
-		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.SUB_DIVISION, aggreement.getSubDivision()); 
-		XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
+		ExcelUtill.writeMasterData(xsheet, MasterDataCellName.SUB_DIVISION, aggreement.getSubDivision());
+		XLColumnRange range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SNO_OF_BILL);
+		ExcelUtill.writeCellValue(billformsTo.getSerialNumber(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SNO_OF_BILL);
+		ExcelUtill.writeCellValue(billformsTo.getSerialNumber(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_PREV_AMOUNT);
+		ExcelUtill.writeCellValue(billformsTo.getUptoPreviousBill(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_TOTAL_AMOUNT);
+		ExcelUtill.writeCellValue(billformsTo.getTotalAmount(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SIGN_1);
+		ExcelUtill.writeCellValue(billformsTo.getSignature1(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SIGN_2);
+		ExcelUtill.writeCellValue(billformsTo.getSignature2(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SIGN_3);
+		ExcelUtill.writeCellValue(billformsTo.getSignature3(), range.fetchSingleCell());
+		
+		range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_SIGN_4);
+		ExcelUtill.writeCellValue(billformsTo.getSignature4(), range.fetchSingleCell());
+		
+		if(billformsTo.getTotalAmount()!=null && billformsTo.getUptoPreviousBill()!=null) {
+			int amount = billformsTo.getTotalAmount() - billformsTo.getUptoPreviousBill();
+			range = new XLColumnRange(xsheet.getWorkbook(), BillformsTo.BF_AMOUNT_IN_WORDS);
+			ExcelUtill.writeCellValue(NumberToWordConverter.convert(amount), range.fetchSingleCell());
+			System.out.println(NumberToWordConverter.convert(amount));
+		}
+		
+		//XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
 		ExcelUtill.saveChangesToDocument(billformsTemplate, workbook);
 	}
 }

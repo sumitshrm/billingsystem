@@ -25,6 +25,7 @@ import com.org.entity.Template;
 import com.org.report.service.AbstractGeneratorServiceV2;
 import com.org.service.BillformsService;
 import com.org.service.DocumentService;
+import com.org.util.NumberToWordConverter;
 
 @RequestMapping("/billforms/**")
 @Controller
@@ -39,16 +40,12 @@ public class BillformsController {
     public void post(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
     }
 
-    /*@RequestMapping
-    public String index() {
-    	
-        return "billforms/index";
-    }*/
-    
     @RequestMapping(method = RequestMethod.GET)
     public String show(Model uiModel){
     	System.out.println("Billlform Controller");
-    	uiModel.addAttribute("billforms", new BillformsTo());
+    	BillformsTo billforms = new BillformsTo();
+    	billforms.setSignature1("Assitant Engineer");
+    	uiModel.addAttribute("billforms", billforms);
     	uiModel.addAttribute("aggreements",Aggreement.findAggreementsByLogUser(LogUser.getCurrentUser()).getResultList());
     	
     	return "billforms/index";
@@ -56,7 +53,7 @@ public class BillformsController {
     
     @RequestMapping(method = RequestMethod.POST)
     public String generateBillForm(@Valid BillformsTo billforms, BindingResult bindingResult, Model uiModel,  HttpServletResponse response){
-    	System.out.println("Billform generated for Aggreement : " + billforms.getAggreement().getAggreementNum());
+    	System.out.println("Billform generated for Aggreement : " + billforms);
     	System.out.println("Billform generated for REports : " + billforms.getSelectedReports());
     	logger.info(billforms.getSelectedReports());
     	 try {
