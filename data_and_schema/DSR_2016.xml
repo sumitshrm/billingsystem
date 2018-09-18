@@ -14746,17 +14746,15 @@ Note: Cement content considered in M-30 is @ 340Kg/Cum. Excess/Less cement used 
 	<record>
 		<code>18.48</code>
 		<desc>Providing and placing on terrace (at all floor levels) polyethylene water storage tank ISI : 12701 marked, with cover and suitable locking arrangement and making necessary holes for inlet, outlet and overflow pipes but without fittings and the base support for tank. </desc>
-		<unit>Litre</unit>
-		<rate>7.25</rate>
 	</record>
 	<record>
-		<code>18.48A</code>
+		<code>18.48.A</code>
 		<desc>Circular tank </desc>
 		<unit>Litre</unit>
 		<rate>7.25</rate>
 	</record>
 	<record>
-		<code>18.48B</code>
+		<code>18.48.B</code>
 		<desc>Rectangular tank </desc>
 		<unit>Litre</unit>
 		<rate>7.25</rate>
