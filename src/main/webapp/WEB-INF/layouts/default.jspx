@@ -28,9 +28,12 @@
 			$(window).on("beforeunload", function(e) {
 			    console.log("this will be triggered");
 			    $(".loading").show();
+			    setTimeout(function(){
+			    	$(".loading").hide();
+			    }, 3000);
+			    //$(".loading").hide();
 			});
 			
-		
 			function doLogout() {
 			      var auth2 = gapi.auth2.getAuthInstance();
 			      auth2.signOut().then(function () {
