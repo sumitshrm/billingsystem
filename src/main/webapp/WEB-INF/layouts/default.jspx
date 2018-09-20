@@ -22,9 +22,11 @@
 		// Wait for window load
 			$(window).load(function() {
 			// Animate loader off screen
-			$(".loading").fadeOut(1);
+			$(".loading").hide();
 			});
 		
+			
+			
 			function doLogout() {
 			      var auth2 = gapi.auth2.getAuthInstance();
 			      auth2.signOut().then(function () {
@@ -76,7 +78,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.3.5
     </div>
-    <strong>Copyright 2016-2017 <a href="http://sum-infotech.com">Sum InfoTech</a>.</strong> All rights
+    <strong>Copyright 2016-2017 <a href="www.suminfotech.com">SUM InfoTech</a>.</strong> All rights
     reserved.
   </footer>
 

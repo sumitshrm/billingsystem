@@ -7,7 +7,10 @@
         <nav:item label="list aggreements" url="/aggreements"/>
         <nav:item active="true" label="create aggreement" url="#"/>
     </nav:nav>
-    <form:create id="fc_com_org_entity_Aggreement" modelAttribute="aggreement" path="/aggreements" render="${empty dependencies}" z="qBFRe863bj0GnCC5N+GbywW9iHY=">
+    <c:if test="${not empty redirect}">
+      <c:set value="?redirect=${redirect}" var="redirect" />
+    </c:if>
+    <form:create id="fc_com_org_entity_Aggreement" modelAttribute="aggreement" path="/aggreements${redirect}" render="${empty dependencies}" z="qBFRe863bj0GnCC5N+GbywW9iHY=">
         <field:input field="aggreementNum" id="c_com_org_entity_Aggreement_aggreementNum" required="true" z="user-managed"/>
         <field:input field="division" id="c_com_org_entity_Aggreement_division" z="n1gXDsH3MQ1LvA5RkEGTEpoQiVw="/>
         <field:input field="subDivision" id="c_com_org_entity_Aggreement_subDivision" z="skcRdaoGv+7EfnBbRrXNKKazLgs="/>

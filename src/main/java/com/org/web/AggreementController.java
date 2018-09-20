@@ -31,6 +31,13 @@ public class AggreementController {
 
     @Autowired
     private FileStorageService fileStorageService;
+    
+    @RequestMapping(params = "redirect", produces = "text/html", method=RequestMethod.GET)
+    public String createFromBillform(@RequestParam(value = "redirect", required = true)String redirect,Model uiModel) {
+        populateEditForm(uiModel, new Aggreement());
+        uiModel.addAttribute("redirect",redirect);
+        return "aggreements/create";
+    }
 
     @RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
@@ -79,13 +86,17 @@ public class AggreementController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Aggreement aggreement, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
+    public String create(@RequestParam(value = "redirect", required = false) String redirect, @Valid Aggreement aggreement, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+        System.out.println("post called billformn"+redirect);
+    	if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, aggreement);
             return "aggreements/create";
         }
         uiModel.asMap().clear();
         aggreement.persist();
+        if(redirect!=null) {
+        	return "redirect:"+redirect;
+        }
         return "redirect:/items/aggreement/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest);
     }
 

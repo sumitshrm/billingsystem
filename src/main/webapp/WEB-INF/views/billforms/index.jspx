@@ -1,18 +1,129 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"  xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
-  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-  <jsp:output omit-xml-declaration="yes"/>
-  <spring:message code="label_billforms_index" htmlEscape="false" var="title"/>
-  <util:panel id="title" title="${title}">
-  	<spring:url value="/billforms" var="form_url"/>
-    <spring:message code="application_name" htmlEscape="false" var="app_name"/>
-    <form:form method="post" modelAttribute="billforms" action="${form_url}">
-    		
-	<field:select field="aggreement" id="c_com_org_entity_MaterialEntry_aggreement" itemLabel="aggreementNum" itemValue="id" items="${aggreements}" path="/aggreements" z="user-managed"/>
-	<div class="btn-toolbar">
-          <input class="btn btn-primary" id="proceed" type="submit" value="generate"/>
-          <input class="btn btn-primary" id="cancel" type="button" value="cancel" onclick="javascript:window.history.back();"/>
-        </div>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message code="label_billforms_index" htmlEscape="false"
+		var="title" />
+	<link rel="stylesheet" href="${adminlte_url}/plugins/iCheck/all.css" />
+	<script src="${adminlte_url}/plugins/iCheck/icheck.min.js">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url value="/billforms" var="form_url" />
+	<spring:message code="application_name" htmlEscape="false"
+		var="app_name" />
+	<form:form method="post" modelAttribute="billforms"
+		action="${form_url}">
+
+
+		<div class="box box-info">
+			<div class="box-header with-border">
+				<h3 class="box-title">Generate Billforms</h3>
+			</div>
+			<div class="box-body">
+			<field:select field="aggreement"
+					id="c_com_org_entity_MaterialEntry_aggreement"
+					itemLabel="aggreementNum" itemValue="id" items="${aggreements}"
+					path="/aggreements" z="user-managed" />
+			<div class="col-sm-2"><!-- blank div --></div>
+			<div class="col-sm-10">
+				<a href="/aggreements?redirect=/billforms/index" class="btn btn-primary">create aggreement</a>
+				<br/>
+				<br/>
+				</div>
+			<field:input type="number" id="c_com_org_entity_MeasurementSheet_serialNumber" field="serialNumber"></field:input>
+			<field:input type="number"  id="c_com_org_entity_MeasurementSheet_serialNumber" label="Total Amount" field="totalAmount"></field:input>
+			<field:input type="number"  id="c_com_org_entity_MeasurementSheet_serialNumber" label="Amount upto previous bill" field="uptoPreviousBill"></field:input>
+			
+			<field:input id="c_com_org_entity_MeasurementSheet_serialNumber" label="Signature" field="signature1"></field:input>
+			<field:input id="c_com_org_entity_MeasurementSheet_serialNumber" label=" " field="signature2"></field:input>
+			<field:input id="c_com_org_entity_MeasurementSheet_serialNumber" label=" " field="signature3"></field:input>
+			<field:input id="c_com_org_entity_MeasurementSheet_serialNumber" label=" " field="signature4"></field:input>
+			
+			
+			</div>
+			
+		</div>
+		
+		<div class="box">
+		<div class="box-header with-border">
+				<h3 class="box-title">Select report types</h3>
+			</div>
+				<div class="box-body">
+				<div class="col-lg-12">
+					<input type="checkbox" id="check-all" class="minimal" /> all <br />
+					<br />
+				</div>
+				<c:forEach var="entry" items="${billforms.reports}">
+					<div class="col-lg-3 col-xs-6">
+						<label> <form:checkbox path="selectedReports"
+								value="${entry}" class="minimal check" /> <c:out
+								value=" ${entry}" />
+						</label>
+					</div>
+				</c:forEach>
+				</div>
+				
+				<div class="box-footer btn-toolbar">
+				<input class="btn btn-primary" id="proceed" type="submit"
+					value="generate" /> 
+				<input class="btn btn-primary" id="cancel"
+					type="button" value="cancel"
+					onclick="javascript:window.history.back();" />
+			</div>
+		</div>
+
 	</form:form>
-  </util:panel>
+	<script language="javascript">
+		//iCheck for checkbox and radio inputs
+		$('input[type="checkbox"].minimal, input[type="radio"].minimal')
+				.iCheck({
+					checkboxClass : 'icheckbox_minimal-blue',
+					radioClass : 'iradio_minimal-blue'
+				});
+		
+		$('#billforms').on('submit', function (e) {
+			  if ($("input[type=checkbox]:checked").length === 0) {
+			      e.preventDefault();
+			      bootbox.alert("Select atleast one report type");
+			      return false;
+			  }
+			});
+		var triggeredByChild = false;
+
+
+		$('#check-all').on('ifChecked', function (event) {
+		    $('.check').iCheck('check');
+		    triggeredByChild = false;
+		});
+
+		$('#check-all').on('ifUnchecked', function (event) {
+		    if (!triggeredByChild) {
+		        $('.check').iCheck('uncheck');
+		    }
+		    triggeredByChild = false;
+		});
+		// Removed the checked state from "All" if any checkbox is unchecked
+		$('.check').on('ifUnchecked', function (event) {
+		    triggeredByChild = true;
+		    $('#check-all').iCheck('uncheck');
+		});
+
+		$('.check').on('ifChecked', function (event) {
+		    if ($('.check').filter(':checked').length == $('.check').length) {
+		        $('#check-all').iCheck('check');
+		    }
+		});
+	     var $sel = $('#_aggreement_id'),
+		    $o = $sel.children().toArray().reverse();
+		    $sel.append($o);
+
+		    $("#_aggreement_id").val($("#_aggreement_id option:first").val());
+		
+	</script>
 </div>

@@ -5,7 +5,7 @@
     <form:create id="fc_com_org_entity_LabourEntry" modelAttribute="labourEntry" path="/labourentrys" render="${empty dependencies}" z="uGXzAmThoey6iS71McXMK69RoFI=">
         <field:select field="createdBy" id="c_com_org_entity_LabourEntry_createdBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
         <field:select field="lastUpdatedBy" id="c_com_org_entity_LabourEntry_lastUpdatedBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
-        <field:select field="aggreement" id="c_com_org_entity_LabourEntry_aggreement" itemValue="id" items="${aggreements}" path="/aggreements" z="HtXp1HOZLPwcKiomzLOf0B/JucI="/>
+        <field:select field="aggreement" itemLabel="aggreementNum"  id="c_com_org_entity_LabourEntry_aggreement" itemValue="id" items="${aggreements}" path="/aggreements" z="HtXp1HOZLPwcKiomzLOf0B/JucI="/>
         <matcons:input-auto autoCompleteData="${laboursuppliers}" autoCompletefield="name" field="labourSupplier" id="c_com_org_entity_LabourEntry_labourSupplier" z="user-managed"/>
         <field:datetime dateTimePattern="${labourEntry_date_date_format}" field="date" id="c_com_org_entity_LabourEntry_date" z="uJ1fw8zlTBxo2UW2LJ9Gev2dzZc="/>
         <field:input field="location" id="c_com_org_entity_LabourEntry_location" z="GVDNYX9xnXX9k+uyNsXxC0NFgs8="/>
