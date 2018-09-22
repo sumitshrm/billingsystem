@@ -25,12 +25,28 @@ privileged aspect LogUser_Roo_JavaBean {
         this.username = username;
     }
     
+    public String LogUser.getFullName() {
+        return this.fullName;
+    }
+    
+    public void LogUser.setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
     public String LogUser.getPassword() {
         return this.password;
     }
     
     public void LogUser.setPassword(String password) {
         this.password = password;
+    }
+    
+    public String LogUser.getEmailAddress() {
+        return this.emailAddress;
+    }
+    
+    public void LogUser.setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
     
     public Set<LogUserRole> LogUser.getRoles() {

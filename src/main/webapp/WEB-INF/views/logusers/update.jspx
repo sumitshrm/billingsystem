@@ -8,5 +8,7 @@
         <field:textarea field="username" id="c_com_org_domain_LogUser_username" required="true" z="tzgLJpFNbH/AHs/pwy1FavIP7c4="/>
         <field:textarea field="password" id="c_com_org_domain_LogUser_password" required="true" z="OHN11SVeGsh22B1td1xP7LKZ0Q8="/>
         <field:select field="roles" id="c_com_org_domain_LogUser_roles" itemValue="id" items="${loguserroles}" multiple="true" path="/loguserroles" required="true" z="rIGlJN/R0NSoyailzHmeeDQmqOc="/>
+        <field:textarea field="emailAddress" id="c_com_org_domain_LogUser_emailAddress" required="true" validationMessageCode="field_invalid_email" z="KfHIQyI99JY+fBvgadMJWGQQo1s="/>
+        <field:textarea field="fullName" id="c_com_org_domain_LogUser_fullName" required="true" z="5bj4GkYjKANwsDoBl2HvNF+LMVs="/>
     </form:update>
 </div>

@@ -8,6 +8,8 @@
             <table:column id="c_com_org_domain_LogUser_username" property="username" z="d+0BV9pftZqkFJP0rxHFdcj8DfY="/>
             <table:column id="c_com_org_domain_LogUser_password" property="password" z="wGyMT2hO8U3oEmvlgpQI9th/m1U="/>
             <table:column id="c_com_org_domain_LogUser_roles" property="roles" z="Vfwcn28O3A2hdvVBEFDfMJUISUY="/>
+            <table:column id="c_com_org_domain_LogUser_emailAddress" property="emailAddress" z="AN7QxCFiShjtS4IMswStl38pjVA="/>
+            <table:column id="c_com_org_domain_LogUser_fullName" property="fullName" z="9AboKUYOuHU1Hx0PTz5Za9c0m0M="/>
         </table:table>
     </page:list>
 </div>

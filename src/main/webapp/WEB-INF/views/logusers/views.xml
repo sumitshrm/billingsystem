@@ -13,4 +13,7 @@
 <definition extends="default" name="logusers/update">
         <put-attribute name="body" value="/WEB-INF/views/logusers/update.jspx"/>
     </definition>
+    <definition extends="content" name="logusers/register">
+        <put-attribute name="body" value="/WEB-INF/views/logusers/register.jspx"/>
+    </definition>
 </tiles-definitions>

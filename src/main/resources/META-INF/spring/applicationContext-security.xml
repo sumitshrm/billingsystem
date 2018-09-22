@@ -16,6 +16,7 @@
         <intercept-url pattern="/sociallogin/google/**" access="permitAll" />
         <intercept-url pattern="/resources/**"  access="permitAll" />
 		<intercept-url pattern="/loguserroles/**" access="hasRole('ADMIN_ROLE')" />
+		<intercept-url pattern="/logusers/register/**" access="permitAll" />
         <intercept-url pattern="/logusers/**" access="hasRole('ADMIN_ROLE')" />
         <intercept-url pattern="/**"  access="isAuthenticated()" /> 
     </http>
