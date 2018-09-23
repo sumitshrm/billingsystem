@@ -1,4 +1,4 @@
-<div id="body" xmlns:spring="http://www.springframework.org/tags"  xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
+<div id="body"  xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"  xmlns:spring="http://www.springframework.org/tags"  xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:m="urn:jsptagdir:/WEB-INF/tags/matcons" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message var="app_name" code="application_name" htmlEscape="false" />
@@ -18,10 +18,10 @@
           <!-- small box -->
           
           <div class="small-box bg-aqua">
-            <div class="inner"><a href="./aggreements?form" style="color: inherit;">
+            <div class="inner"><form:link href="/aggreements?form" style="color: inherit;">
               <h3 style="font-size: 20px">New<br/>Aggreement</h3>
-            </a></div>
-            <a href="./aggreements?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/aggreements?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
           
         </div>
@@ -29,10 +29,10 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
-            <div class="inner"><a href="./aggreements" style="color: inherit;">
+            <div class="inner"><form:link href="/aggreements" clazz="" style="color: inherit;">
               <h3 style="font-size: 20px">List<br/>Aggreement</h3>
-            </a></div>
-            <a href="./aggreements" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/aggreements" clazz="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -40,41 +40,41 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-blue">
-            <div class="inner"><a href="./books/dsr" style="color: inherit;">
+            <div class="inner"><form:link href="/books/dsr" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>DSR</h3>
-            </a></div>
-            <a href="./books/dsr" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/books/dsr" clazz="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-orange">
-            <div class="inner"><a href="./books/materialrates" style="color: inherit;">
+            <div class="inner"><form:link href="/books/materialrates" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>Material Rates</h3>
-            </a></div>
-            <a href="./books/materialrates" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/books/materialrates" clazz="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
-            <div class="inner"><a href="./materialentrys?form" style="color: inherit;">
+            <div class="inner"><form:link href="/materialentrys?form" style="color: inherit;">
               <h3 style="font-size: 20px">Material<br/>Entry</h3>
-            </a></div>
+            </form:link></div>
             
-            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/materialentrys?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
-            <div class="inner"><a href="./labourentrys?form" style="color: inherit;">
+            <div class="inner"><form:link href="/labourentrys?form" style="color: inherit;">
               <h3 style="font-size: 20px">Labour<br/>Entry</h3>
-            </a></div>
-            <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/labourentrys?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -82,21 +82,21 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
-            <div class="inner"><a href="./estimates?form" style="color: inherit;">
+            <div class="inner"><form:link href="/estimates?form" style="color: inherit;">
               <h3 style="font-size: 20px">Create<br/>Estimates</h3>
-            </a></div>
+            </form:link></div>
             
-            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/materialentrys?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
-            <div class="inner"><a href="./estimates?page=1&amp;size=10" style="color: inherit;">
+            <div class="inner"><form:link href="/estimates?page=1&amp;size=10" style="color: inherit;">
               <h3 style="font-size: 20px">List<br/>Estimates</h3>
-            </a></div>
-            <a href="./labourentrys?form" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            </form:link></div>
+            <form:link href="/labourentrys?form" clazz="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -116,7 +116,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-bag"></m:icon>
             </div>
-            <a href="./logusers?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/logusers?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
           
         </div>
@@ -132,7 +132,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./logusers" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/logusers" clazz="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -147,7 +147,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./loguserroles?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/loguserroles?form" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -162,7 +162,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./loguserroles" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <form:link href="/loguserroles" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         </sec:authorize>
@@ -179,7 +179,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -194,7 +194,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -209,7 +209,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div>
         
@@ -224,7 +224,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" clazz="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></form:link>
           </div>
         </div> -->
   </util:panel>
