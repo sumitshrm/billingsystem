@@ -9,12 +9,43 @@ import javax.persistence.TypedQuery;
 
 privileged aspect LogUser_Roo_Finder {
     
+    public static Long LogUser.countFindLogUsersByEmailAddress(String emailAddress) {
+        if (emailAddress == null || emailAddress.length() == 0) throw new IllegalArgumentException("The emailAddress argument is required");
+        EntityManager em = LogUser.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM LogUser AS o WHERE o.emailAddress = :emailAddress", Long.class);
+        q.setParameter("emailAddress", emailAddress);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static Long LogUser.countFindLogUsersByUsernameEquals(String username) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
         EntityManager em = LogUser.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM LogUser AS o WHERE o.username = :username", Long.class);
         q.setParameter("username", username);
         return ((Long) q.getSingleResult());
+    }
+    
+    public static TypedQuery<LogUser> LogUser.findLogUsersByEmailAddress(String emailAddress) {
+        if (emailAddress == null || emailAddress.length() == 0) throw new IllegalArgumentException("The emailAddress argument is required");
+        EntityManager em = LogUser.entityManager();
+        TypedQuery<LogUser> q = em.createQuery("SELECT o FROM LogUser AS o WHERE o.emailAddress = :emailAddress", LogUser.class);
+        q.setParameter("emailAddress", emailAddress);
+        return q;
+    }
+    
+    public static TypedQuery<LogUser> LogUser.findLogUsersByEmailAddress(String emailAddress, String sortFieldName, String sortOrder) {
+        if (emailAddress == null || emailAddress.length() == 0) throw new IllegalArgumentException("The emailAddress argument is required");
+        EntityManager em = LogUser.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM LogUser AS o WHERE o.emailAddress = :emailAddress");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<LogUser> q = em.createQuery(queryBuilder.toString(), LogUser.class);
+        q.setParameter("emailAddress", emailAddress);
+        return q;
     }
     
     public static TypedQuery<LogUser> LogUser.findLogUsersByUsernameEquals(String username) {

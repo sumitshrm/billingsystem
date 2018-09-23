@@ -57,7 +57,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<LogUser, String> ApplicationConversionServiceFactoryBean.getLogUserToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.domain.LogUser, java.lang.String>() {
             public String convert(LogUser logUser) {
-                return new StringBuilder().append(logUser.getUsername()).append(' ').append(logUser.getPassword()).toString();
+                return new StringBuilder().append(logUser.getUsername()).append(' ').append(logUser.getFullName()).append(' ').append(logUser.getPassword()).append(' ').append(logUser.getEmailAddress()).toString();
             }
         };
     }

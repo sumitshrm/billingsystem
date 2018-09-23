@@ -3,8 +3,8 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:output omit-xml-declaration="yes" />
-	<jsp:directive.attribute name="object" type="java.lang.Object"
-		required="false" description="instance of com.org.view.MessageVo" />
+	<jsp:directive.attribute name="object" type="java.lang.Object" required="false" description="instance of com.org.view.MessageVo" />
+	<jsp:directive.attribute name="fixpos" type="java.lang.String" required="false" description="if position is fixed or center" />
 	<c:if test="${not empty object}">
 		<div class="notification"
 			id="notification_container_${object['code']}"
@@ -18,11 +18,14 @@
 		$( document ).ready(function() {
 		//bring container to the center
         var container = $("#notification_container_${object['code']}");
+        <c:if test="${empty fixpos}">
        	container.css("position","absolute");
     	container.css("top", Math.max(0, (($(window).height() - $(container).outerHeight()) / 2) + 
                                                 $(window).scrollTop()) + "px");
     	container.css("left", Math.max(0, (($(window).width() - $(container).outerWidth()) / 2) + 
-                                                $(window).scrollLeft()) + "px");
+                                             $(window).scrollLeft()) + "px");
+    	</c:if>
+    	
         $(".${object['code']}").jqxNotification({
                 width: 'auto', position: "top-right", opacity: 0.9,
                 autoOpen: ${object['autoopen']}, appendContainer: "#notification_container_${object['code']}", animationOpenDelay: 100, autoClose: ${object['autoclose']}, autoCloseDelay: 1000, template : "${fn:toLowerCase(object['type'])}"
