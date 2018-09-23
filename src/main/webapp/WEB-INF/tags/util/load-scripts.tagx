@@ -156,6 +156,7 @@
     <script src="${vendor_url}/datatables/js/jquery.dataTables.min.js"><!-- required for FF3 and Opera --></script>
     <script src="${vendor_url}/datatables-plugins/dataTables.bootstrap.min.js"><!-- required for FF3 and Opera --></script>
     <script src="${vendor_url}/datatables-responsive/dataTables.responsive.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${js_url}/eisdiscalculator.js"><!-- required for FF3 and Opera --></script>
 	
 	
 </jsp:root>

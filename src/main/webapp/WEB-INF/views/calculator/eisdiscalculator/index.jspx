@@ -49,7 +49,6 @@
 
 			console.log(aggreements);
   </script>
-  <script type="text/javascript" src="${js_url}/eisdiscalculator.js"><!-- required for FF3 and Opera --></script>
 
 	<spring:message code="application_name" htmlEscape="false"
 		var="app_name" />
