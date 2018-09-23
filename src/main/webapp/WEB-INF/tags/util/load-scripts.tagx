@@ -158,5 +158,14 @@
     <script src="${vendor_url}/datatables-responsive/dataTables.responsive.js"><!-- required for FF3 and Opera --></script>
 	<script type="text/javascript" src="${js_url}/eisdiscalculator.js"><!-- required for FF3 and Opera --></script>
 	
+	<script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxtabs.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdatatable.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
 	
 </jsp:root>

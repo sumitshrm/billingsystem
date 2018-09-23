@@ -5,15 +5,7 @@
     <spring:url value="/measurementsheets/reloadabstract/${measurementsheet.id}" var="reload_url"/>
     <spring:url value="/measurementsheets/updateabstract/${measurementsheet.id}" var="update_abstract_url"/>
     <spring:url value="/documents/showdoc/${measurementsheet.id}" var="download_url"/>
-    <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxtabs.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
-    <script src="${jqwidgets_url}/jqxdatatable.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
+    
     <script>
  
  var tender_cost = ${measurementsheet.aggreement.tenderCost};
