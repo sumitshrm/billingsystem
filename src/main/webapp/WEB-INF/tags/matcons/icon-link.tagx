@@ -45,7 +45,7 @@
 	</a:link>
 	</c:if>
 	<c:if test = "${not empty hasmenu}">
-	<a href="${href}" clazz="icon-link ${hasmenu}">
+	<a href="${href}" class="icon-link ${hasmenu}">
 	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
 	</a>
 	</c:if>
