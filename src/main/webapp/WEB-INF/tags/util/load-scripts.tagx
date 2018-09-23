@@ -146,5 +146,16 @@
     <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
 	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
 	<script type="text/javascript" src="${js_url}/jquery.parser/papaparse.min.js"><!-- required for FF3 and Opera --></script>
+	    <!-- DataTables CSS -->
+    <link href="${vendor_url}/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet"></link>
+
+    <!-- DataTables Responsive CSS -->
+    <link href="${vendor_url}/datatables-responsive/dataTables.responsive.css" rel="stylesheet"></link>
+	
+	    <!-- DataTables JavaScript -->
+    <script src="${vendor_url}/datatables/js/jquery.dataTables.min.js"><!-- required for FF3 and Opera --></script>
+    <script src="${vendor_url}/datatables-plugins/dataTables.bootstrap.min.js"><!-- required for FF3 and Opera --></script>
+    <script src="${vendor_url}/datatables-responsive/dataTables.responsive.js"><!-- required for FF3 and Opera --></script>
+	
 	
 </jsp:root>
