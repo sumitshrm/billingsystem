@@ -9,7 +9,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord(finders = { "findLogUserRolesByRoleNameEquals" })
 public class LogUserRole {
+	
+	public static String USER_ROLE = "USER_ROLE";
 
+	
     @NotNull
     @Size(max = 20)
     private String roleName;

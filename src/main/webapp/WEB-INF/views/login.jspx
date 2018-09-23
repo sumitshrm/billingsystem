@@ -52,6 +52,7 @@
         <!-- /.col -->
       </div>
     </form>
+    <a href="/logusers/register?form" class="text-center">Register a new membership</a>
 
     <!-- <div class="social-auth-links text-center">
       <p>- OR -</p>

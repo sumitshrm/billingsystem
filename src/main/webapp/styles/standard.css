@@ -125,3 +125,8 @@ COPIED FROM sb-admin-2
 }
 /*Override bootstrap css------finish------*/
 
+.input-error {
+  background: #ff9;
+  border: 1px solid red;
+}
+

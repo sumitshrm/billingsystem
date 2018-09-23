@@ -15,7 +15,7 @@ privileged aspect LogUser_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager LogUser.entityManager;
     
-    public static final List<String> LogUser.fieldNames4OrderClauseFilter = java.util.Arrays.asList("enabled", "username", "password", "roles");
+    public static final List<String> LogUser.fieldNames4OrderClauseFilter = java.util.Arrays.asList("enabled", "username", "fullName", "password", "emailAddress", "roles");
     
     public static final EntityManager LogUser.entityManager() {
         EntityManager em = new LogUser().entityManager;

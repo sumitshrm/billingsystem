@@ -7,5 +7,7 @@
         <field:display field="username" id="s_com_org_domain_LogUser_username" object="${loguser}" z="99hovJgb8pYgsI3WB+PsSvjbbxQ="/>
         <field:display field="password" id="s_com_org_domain_LogUser_password" object="${loguser}" z="FSbkHKR7ngtQcrcr+q4TUgbhlv8="/>
         <field:display field="roles" id="s_com_org_domain_LogUser_roles" object="${loguser}" z="pjhEKyzOPjTx4Pp48iRGyCwLamE="/>
+        <field:display field="emailAddress" id="s_com_org_domain_LogUser_emailAddress" object="${loguser}" z="uJ+nYY8qLKDlsGhENCr1tKAcFcs="/>
+        <field:display field="fullName" id="s_com_org_domain_LogUser_fullName" object="${loguser}" z="O1iW3onK/klog/BU9wPTj7qkBVw="/>
     </page:show>
 </div>
