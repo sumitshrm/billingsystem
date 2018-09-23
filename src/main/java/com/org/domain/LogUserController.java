@@ -43,6 +43,7 @@ public class LogUserController {
             return "logusers/create";
         }
         if (!validateUser(uiModel, logUser)) {
+        	populateEditForm(uiModel, logUser);
             return "logusers/create";
         }
         uiModel.asMap().clear();
@@ -51,14 +52,14 @@ public class LogUserController {
         } catch (ConstraintViolationException e) {
             populateEditForm(uiModel, logUser);
             uiModel.addAttribute("message", new MessageVo("log_user_duplicate_username", MessageType.ERROR));
-            return "logusers/update";
+            return "logusers/create";
         }
         return "redirect:/logusers/" + encodeUrlPathSegment(logUser.getId().toString(), httpServletRequest);
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
     public String update(@Valid LogUser logUser, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
+    	if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, logUser);
             return "logusers/update";
         }
