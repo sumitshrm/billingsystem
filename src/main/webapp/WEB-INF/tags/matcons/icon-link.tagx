@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"  xmlns:form="http://www.springframework.org/tags/form" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:a="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="http://www.springframework.org/tags/form" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
     <jsp:directive.attribute name="id" type="java.lang.String" required="false" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
     <jsp:directive.attribute name="href" type="java.lang.String" required="false" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
@@ -39,9 +39,16 @@
 	
 	
 	<div style="align-items:center;display:flex;flex-direction:column;justify-content:center;">
-	<a href="${href}" class="icon-link ${hasmenu}">
+	<c:if test = "${empty hasmenu}">
+	<a:link href="${href}" clazz="icon-link ${hasmenu}">
+	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
+	</a:link>
+	</c:if>
+	<c:if test = "${not empty hasmenu}">
+	<a href="${href}" clazz="icon-link ${hasmenu}">
 	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
 	</a>
+	</c:if>
 	<span style="word-wrap: break-word; max-width: 100px">${label }</span>
 	</div>
 	

@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:a="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.tag import="java.util.ArrayList" />
   <jsp:output omit-xml-declaration="yes" />
 
@@ -106,7 +106,7 @@
               </c:if>
               <c:choose>
 			    <c:when test="${columnType eq 'link'}">
-			        <a href="${colUrl}" class="btn btn-primary btn-xs"><span class="fa fa-download"></span></a>
+			        <a:link id="" href="${colUrl}" clazz="btn btn-primary btn-xs"><span class="fa fa-download"></span></a:link>
          		 <c:out value=" ${colTxt}" />
 			    </c:when>    
 			    <c:otherwise>
@@ -121,12 +121,12 @@
             <spring:url value="${path}/${itemId}" var="show_form_url" />
             <spring:url value="/resources/images/show.png" var="show_image_url" />
             <spring:message arguments="${typeName}" code="entity_show" var="show_label" htmlEscape="false" />
-            <!--<a href="${show_form_url}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
+            <!--<a:link id="" href="${show_form_url}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
               <img alt="${fn:escapeXml(show_label)}" class="image" src="${show_image_url}" title="${fn:escapeXml(show_label)}" />
-            </a>-->
-            <a href="${show_form_url}" title="${fn:escapeXml(show_label)}" class="btn btn-primary btn-xs">
+            </a:link>-->
+            <a:link id="" href="${show_form_url}" title="${fn:escapeXml(show_label)}" clazz="btn btn-primary btn-xs">
          		 <span class="fa fa-binoculars"></span>
-        	</a>
+        	</a:link>
           </td>
           <c:if test="${update}">
             <td class="utilbox">
@@ -135,12 +135,12 @@
               </spring:url>
               <spring:url value="/resources/images/update.png" var="update_image_url" />
               <spring:message arguments="${typeName}" code="entity_update" var="update_label" htmlEscape="false" />
-              <!--<a href="${update_form_url}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
+              <!--<a:link id="" href="${update_form_url}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
                 <img alt="${fn:escapeXml(update_label)}" class="image" src="${update_image_url}" title="${fn:escapeXml(update_label)}" />
-              </a>-->
-              <a href="${update_form_url}" title="${fn:escapeXml(update_label)}" class="btn btn-primary btn-xs">
+              </a:link>-->
+              <a:link id="" href="${update_form_url}" title="${fn:escapeXml(update_label)}" clazz="btn btn-primary btn-xs">
          		 <span class="glyphicon glyphicon-edit"></span>
-        	</a>
+        	</a:link>
             </td>
           </c:if>
           <c:if test="${delete}">

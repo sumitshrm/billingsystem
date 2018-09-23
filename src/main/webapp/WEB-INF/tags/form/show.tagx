@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:a="urn:jsptagdir:/WEB-INF/tags/form"  xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
@@ -54,7 +54,7 @@
                       <spring:message code="entity_delete_confirm" />
                     </spring:escapeBody>
                   </c:set>
-                  <!--<input alt="${fn:escapeXml(delete_label)}" class="btn btn-default btn-sm"  title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${fn:escapeXml(delete_confirm_msg)}');">
+                  <!--<input alt="${fn:escapeXml(delete_label)}" clazz="btn btn-default btn-sm"  title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${fn:escapeXml(delete_confirm_msg)}');">
                   </input>-->
                   <button type="button" class="btn btn-primary" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){document.delete_${itemId}.submit()}});">
           <span class="glyphicon glyphicon-trash"></span>
@@ -70,13 +70,13 @@
                 <spring:url value="/resources/images/update.png" var="update_image_url" />
                 <spring:message arguments="${typeName}" code="entity_update" var="update_label" htmlEscape="false" />
                 <!--
-                <a href="${update_form_url}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
+                <a:link id="" href="${update_form_url}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
                   <img alt="${fn:escapeXml(update_label)}" class="image" src="${update_image_url}" title="${fn:escapeXml(update_label)}" />
-                </a>
+                </a:link>
                 -->
-                <a href="${update_form_url}" title="${fn:escapeXml(update_label)}" class="btn btn-primary">
+                <a:link id="" href="${update_form_url}" title="${fn:escapeXml(update_label)}" clazz="btn btn-primary">
          		 <span class="glyphicon glyphicon-edit"></span>
-        		</a>
+        		</a:link>
               </c:if>
             </span>
             <span>
@@ -86,10 +86,10 @@
                 </spring:url>
                 <spring:url value="/resources/images/create.png" var="create_image_url" />
                 <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false" />
-                <a href="${create_form_url}" class="btn btn-primary" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
+                <a:link id="" href="${create_form_url}" clazz="btn btn-primary" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
                   <!--<img alt="${fn:escapeXml(create_label)}" class="image" src="${create_image_url}" title="${fn:escapeXml(create_label)}" />-->
                   <span class="glyphicon glyphicon-plus"></span>
-                </a>
+                </a:link>
               </c:if>
             </span>
             <span>
@@ -97,10 +97,10 @@
                 <spring:url value="${path}" var="list_form_url" />
                 <spring:url value="/resources/images/list.png" var="list_image_url" />
                 <spring:message arguments="${typeNamePlural}" code="entity_list_all" var="list_label" htmlEscape="false" />
-                <a href="${list_form_url}" class="btn btn-primary" alt="${fn:escapeXml(list_label)}" title="${fn:escapeXml(list_label)}">
+                <a:link id="" href="${list_form_url}" clazz="btn btn-primary" alt="${fn:escapeXml(list_label)}" title="${fn:escapeXml(list_label)}">
                 <!--  <img alt="${fn:escapeXml(list_label)}" class="image" src="${list_image_url}" title="${fn:escapeXml(list_label)}" />-->
                 <span class="glyphicon glyphicon-list"></span>
-                </a>
+                </a:link>
               </c:if>
             </span>
           </div>
