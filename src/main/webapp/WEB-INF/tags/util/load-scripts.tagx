@@ -91,4 +91,60 @@
   <!-- context menu end -->
   
   
+  <script src="${jqwidgets_url}/jqxcore.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxbuttons.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxscrollbar.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxmenu.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.selection.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.filter.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxlistbox.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxdropdownlist.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxcheckbox.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.pager.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.edit.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+    <script src="${jqwidgets_url}/jqxgrid.columnsresize.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
+  
+  <link rel="stylesheet" href="${adminlte_url}/plugins/iCheck/all.css" />
+	<script src="${adminlte_url}/plugins/iCheck/icheck.min.js">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdatatable.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxlistbox.js"><!-- required for FF3 and Opera --></script>
+    <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
+	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
+	<script type="text/javascript" src="${js_url}/jquery.parser/papaparse.min.js"><!-- required for FF3 and Opera --></script>
+	
 </jsp:root>

@@ -19,7 +19,7 @@
     </c:if>
 
    <spring:url value="${url}" var="menu_item_url"/>
-    <li><a id="a-menu-item-${id}" href="${menu_item_url}" onclick="javascript:$( '#body' ).trigger( 'click' );"><m:icon styleclass="fa fa-circle-o"></m:icon> <c:out value="${label}"/></a></li>
+    <li><a id="a-menu-item-${id}" href="${menu_item_url}" onclick="javascript:console.log('hehehe');$( '#body' ).trigger( 'click' );"><m:icon styleclass="fa fa-circle-o"></m:icon> <c:out value="${label}"/></a></li>
 	<script type="text/javascript">
 		Spring.addDecoration(new Spring.AjaxEventDecoration({
 		   elementId: "a-menu-item-${id}",
