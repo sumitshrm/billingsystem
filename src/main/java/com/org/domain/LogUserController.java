@@ -62,6 +62,11 @@ public class LogUserController {
             populateEditForm(uiModel, logUser);
             return "logusers/update";
         }
+        if (!validateUser(uiModel, logUser)) {
+        	System.out.println("invalid user");
+        	 populateEditForm(uiModel, logUser);
+            return "logusers/update";
+        }
         try {
             logUser.merge();
             uiModel.asMap().clear();
@@ -70,26 +75,36 @@ public class LogUserController {
             uiModel.addAttribute("message", new MessageVo("log_user_duplicate_username", MessageType.ERROR));
             return "logusers/update";
         }
+        System.out.println("success");
         return "redirect:/logusers/" + encodeUrlPathSegment(logUser.getId().toString(), httpServletRequest);
     }
 
     private boolean validateUser(Model uiModel, LogUser logUser) {
-    	if(LogUser.findLogUsersByEmailAddress(logUser.getEmailAddress()).getResultList().size()>=1) {
-    		populateEditForm(uiModel, logUser);
-            uiModel.addAttribute("message", new MessageVo("email_address_already_registered", MessageType.ERROR));
-            return false;
+    	List<LogUser> users=LogUser.findLogUsersByEmailAddress(logUser.getEmailAddress()).getResultList();
+    	if(users.size()>=1) {
+    		if(logUser.getId()==null) {
+    			populateEditForm(uiModel, logUser);
+                uiModel.addAttribute("message", new MessageVo("email_address_already_registered", MessageType.ERROR));
+                return false;
+    		}else if(users.get(0).getId().longValue()!=logUser.getId().longValue()){
+    			populateEditForm(uiModel, logUser);
+                uiModel.addAttribute("message", new MessageVo("email_address_already_registered", MessageType.ERROR));
+                return false;
+    		}
+    	}
+    	users=LogUser.findLogUsersByUsernameEquals(logUser.getUsername()).getResultList();
+    	if(users.size()>=1) {
+    		if(logUser.getId()==null) {
+    			populateEditForm(uiModel, logUser);
+                uiModel.addAttribute("message", new MessageVo("mobile_number_already_registered", MessageType.ERROR));
+                return false;
+    		}else if(users.get(0).getId().longValue()!=logUser.getId().longValue()){
+    			populateEditForm(uiModel, logUser);
+                uiModel.addAttribute("message", new MessageVo("mobile_number_already_registered", MessageType.ERROR));
+                return false;
+    		}
             
     	}
-    	if(LogUser.findLogUsersByUsernameEquals(logUser.getUsername()).getResultList().size()>=1) {
-    		populateEditForm(uiModel, logUser);
-            uiModel.addAttribute("message", new MessageVo("mobile_number_already_registered", MessageType.ERROR));
-            return false;
-    	}
-        /*if (LogUser.findLogUsersByUsernameEquals(logUser.getUsername()).getResultList().size() >= 1) {
-            populateEditForm(uiModel, logUser);
-            uiModel.addAttribute("message", new MessageVo("log_user_duplicate_username", MessageType.ERROR));
-            return false;
-        }*/
         if (logUser.getRoles() == null || logUser.getRoles().size() < 1) {
             populateEditForm(uiModel, logUser);
             uiModel.addAttribute("message", new MessageVo("log_user_roles_not_selected", MessageType.ERROR));
