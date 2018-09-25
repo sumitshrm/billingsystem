@@ -18,8 +18,8 @@
                         <li onclick="createFile('doc');">
                             <a href="#">MS Word File</a>
                         </li>
-                        <li onclick="">
-                            <a:link id="create_new_other_file"  href="/manageddocuments?form&amp;aggreement=${aggreement}">Upload Other File</a:link>
+                        <li>
+                            <a id="create_new_other_file"  href="/manageddocuments?form&amp;aggreement=${aggreement}">Upload Other File</a>
                         </li>
                     </ul>
                 </li>
@@ -100,8 +100,7 @@ function updateFile(id, description){
 
 $("#jqxMenu").jqxMenu({ 
 	height: '30px',
-	autoOpen: false,
-	autoCloseOnClick : true
+	autoOpen: false
 });
 $("#jqxMenu").css('display', 'block');
 
