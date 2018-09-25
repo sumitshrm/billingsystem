@@ -86,11 +86,11 @@ public class ManagedDocumentController {
     }
     
     @RequestMapping(value="/template/{type}",method = RequestMethod.POST, produces = "text/html")
-    public String createFromTemplate(@PathVariable("type") String type, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws Exception {
+    public String createFromTemplate(@PathVariable("type") String type,@RequestParam(value = "redirect", required = false) String redirectUrl, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws Exception {
         managedDocument.setFileSize(managedDocument.getContent().getSize());
         String queryParam= "";
         if(managedDocument.getAggreement()!=null) {
-        	queryParam="?agg="+managedDocument.getAggreement().getId();
+        	queryParam="?aggreement="+managedDocument.getAggreement().getId();
         	Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
             managedDocument.setAggreement(aggreement);
         }
@@ -110,6 +110,9 @@ public class ManagedDocumentController {
         }
         managedDocument.setUrl(fileName);
         managedDocument.merge();
+        if(redirectUrl!=null) {
+        	return "redirect:"+redirectUrl;
+        }
         return "redirect:/manageddocuments" +queryParam ;
     }
 
@@ -199,13 +202,13 @@ public class ManagedDocumentController {
     }
     
     @RequestMapping(value="/update/description", method = RequestMethod.POST, produces = "text/html")
-    public String updateDescription(@RequestParam("id") String id, @RequestParam(value = "agg", required = false) Integer agg,@RequestParam("description") String description,HttpServletRequest httpServletRequest) {
+    public String updateDescription(@RequestParam("id") String id, @RequestParam(value = "aggreement", required = false) Integer agg,@RequestParam("description") String description,HttpServletRequest httpServletRequest) {
         System.out.println("update called" + id + description);
         ManagedDocument document = ManagedDocument.findManagedDocument(Long.parseLong(id));
         document.setDescription(description);
         document.merge();
         if(agg!=null) {
-        	return "redirect:/manageddocuments?agg="+agg;
+        	return "redirect:/manageddocuments?aggreement="+agg;
         }
         return "redirect:/manageddocuments";
 
@@ -225,7 +228,7 @@ public class ManagedDocumentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-    public String delete(@PathVariable("id") Long id, @RequestParam(value = "agg", required = false) Integer agg, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    public String delete(@PathVariable("id") Long id, @RequestParam(value = "aggreement", required = false) Integer agg, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         ManagedDocument managedDocument = ManagedDocument.findManagedDocument(id);
         managedDocument.remove();
         fileStorageService.delete(managedDocument.getUrl());
@@ -233,13 +236,13 @@ public class ManagedDocumentController {
         //uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         //uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
         if(agg!=null) {
-        	return "redirect:/manageddocuments?agg="+agg;
+        	return "redirect:/manageddocuments?aggreement="+agg;
         }
         return "redirect:/manageddocuments";
     }
 
     @RequestMapping(produces = "text/html")
-    public String list(@RequestParam(value = "agg", required = false) Long aggId,@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+    public String list(@RequestParam(value = "aggreement", required = false) Long aggId,@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         /*if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
