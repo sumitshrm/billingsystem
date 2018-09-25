@@ -55,11 +55,11 @@
                   <li>
                   <spring:url
 						value="/settings/resetpassword" var="resetpassword" />
-                    <a href="${resetpassword}">
+                    <form:link id="reset_password" href="${resetpassword}">
                       <m:icon styleclass="fa fa-lock"></m:icon>
                       
                       Change Password
-                    </a>
+                    </form:link>
                   </li>
                 </ul>
               </li>

@@ -25,7 +25,7 @@
                 </li>
                 <c:if test="${not empty aggreement}">
                     <li>
-                        <a:link href="/manageddocuments">
+                        <a:link id="managed-document-back" href="/manageddocuments">
                             <i class="fa fa-arrow-left">
                                 <!-- empty not allowed	 -->
                             </i> Back</a:link>
