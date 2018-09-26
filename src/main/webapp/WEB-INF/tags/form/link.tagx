@@ -15,12 +15,13 @@
 </c:if>
 
    <spring:url value="${href}" var="menu_item_url"/>
-   <a id="link-${id}" href="${menu_item_url}" onclick="handle();${onclick}" class="${clazz}" style="${style}">
+   <a id="link-${id}" href="${menu_item_url}" onclick="handle(this);${onclick}" class="${clazz}" style="${style}">
    <jsp:doBody />
    </a>
 	<script type="text/javascript">
-		function handle(){
+		function handle(elem){
 			$( '#body' ).trigger( 'click' );
+			history.pushState(null, null, elem.href);
 		}
 		
 		Spring.addDecoration(new Spring.AjaxEventDecoration({

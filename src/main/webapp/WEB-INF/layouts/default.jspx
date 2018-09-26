@@ -25,7 +25,10 @@
 			$(".loading").hide();
 			});
 		
-			
+			/* to handle back button */
+			window.onpopstate = function (event) {  
+				  window.location=window.location;
+				}
 			
 			function doLogout() {
 			      var auth2 = gapi.auth2.getAuthInstance();
