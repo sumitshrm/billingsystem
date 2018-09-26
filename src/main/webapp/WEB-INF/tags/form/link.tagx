@@ -19,10 +19,6 @@
    <jsp:doBody />
    </a>
 	<script type="text/javascript">
-		function handle(elem){
-			$( '#body' ).trigger( 'click' );
-			history.pushState(null, null, elem.href);
-		}
 		
 		Spring.addDecoration(new Spring.AjaxEventDecoration({
 		   elementId: "link-${id}",

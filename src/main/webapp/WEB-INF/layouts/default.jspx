@@ -30,6 +30,13 @@
 				  window.location=window.location;
 				}
 			
+			/* this function handles single page applicatin feature */
+			function handle(elem){
+				$( '#body' ).trigger( 'click' );
+				history.pushState(null, null, elem.href);
+			}
+			
+			
 			function doLogout() {
 			      var auth2 = gapi.auth2.getAuthInstance();
 			      auth2.signOut().then(function () {
