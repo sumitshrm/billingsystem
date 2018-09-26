@@ -20,5 +20,7 @@
     </form:multi>
     <form:dependency dependencies="${dependencies}" id="d_com_org_entity_ManagedDocument" render="${not empty dependencies}" z="jWAmFHOP7ncKoauwIJjuEHfc56k="/>
 
-
+<script>
+	console.log($(".jqx-menu-popup").hide());
+</script>
 </div>

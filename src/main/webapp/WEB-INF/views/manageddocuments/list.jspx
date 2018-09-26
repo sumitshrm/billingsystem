@@ -19,7 +19,7 @@
                             <a href="#">MS Word File</a>
                         </li>
                         <li>
-                            <a id="create_new_other_file"  href="/manageddocuments?form&amp;aggreement=${aggreement}">Upload Other File</a>
+                            <a:link id="create_new_other_file"  href="/manageddocuments?form&amp;aggreement=${aggreement}">Upload Other File</a:link>
                         </li>
                     </ul>
                 </li>
