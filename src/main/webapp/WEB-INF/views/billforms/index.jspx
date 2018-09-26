@@ -124,6 +124,8 @@
 		    $sel.append($o);
 
 		    $("#_aggreement_id").val($("#_aggreement_id option:first").val());
+		    
+		    $(".loading").hide();
 		
 	</script>
 </div>

@@ -23,6 +23,7 @@
 			$(window).load(function() {
 			// Animate loader off screen
 			$(".loading").hide();
+			$("#loader").hide();
 			});
 		
 			/* to handle back button */
@@ -32,6 +33,8 @@
 			
 			/* this function handles single page applicatin feature */
 			function handle(elem){
+				$(".loading").show();
+				$("#loader").show();
 				$( '#body' ).trigger( 'click' );
 				history.pushState(null, null, elem.href);
 			}
@@ -55,7 +58,8 @@
 	</head>
 	
   	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui">
-  	<div class="loading">&amp;nbsp;</div>
+  	<div class="loading"><div id="loader"><!-- loader --></div></div>
+  	
   	<input type="hidden" name="urlcheck" id="urlcheck"></input>
    		
    		  		

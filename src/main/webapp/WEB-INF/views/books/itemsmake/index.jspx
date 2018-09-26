@@ -19,6 +19,7 @@
 		src="${jqwidgets_url}/jqxgrid.columnsresize.js"><!-- required for FF3 and Opera --></script>
 	<script type="text/javascript">
         $(document).ready(function () {
+        	$(".loading").hide();
             var url = '${csv_url}${items_make_file}';
             var source =
             {

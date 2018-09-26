@@ -18,6 +18,7 @@
 	
 	$(document).ready(function(){
 		  // Add smooth scrolling to all links
+		  $(".loading").hide();
 		  $("#a_calculate").on('click', function(event) {
 			  console.log("click");
 		    // Make sure this.hash has a value before overriding default behavior
