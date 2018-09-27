@@ -127,8 +127,8 @@ function shortDescription(d_item, d_subitem){
         <c:if test="${not measurementsheet.userManaged}">
             <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
                 <div class="btn-group" style="margin-bottom:15px">
-                    <input class="btn btn-primary" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
-                    <input class="btn btn-primary" type="submit" value="generate reports"/>
+                    <input class="btn btn-primary" onclick="submitForm();location.href='${reload_url}';" type="button" value="reload data from excel"/>
+                    <input class="btn btn-primary" onclick="submitForm()" type="submit" value="generate reports"/>
                 </div>
             </form:form>
         </c:if>

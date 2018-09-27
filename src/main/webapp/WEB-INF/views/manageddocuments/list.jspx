@@ -87,6 +87,7 @@ function deleteFile(id){
 	console.log('delete : '+id);
 	var requestparam = aggreement==''?'':'?aggreement='+aggreement;
 	$('#delete_form').attr('action', '/manageddocuments/'+id+requestparam);
+	submitForm();
 	$('#delete_form').submit();
 }
 function updateFile(id, description){

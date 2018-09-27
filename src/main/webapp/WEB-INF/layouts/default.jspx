@@ -39,6 +39,11 @@
 				history.pushState(null, null, elem.href);
 			}
 			
+			function submitForm(){
+				$(".loading").show();
+				$("#loader").show();
+			}
+			
 			
 			function doLogout() {
 			      var auth2 = gapi.auth2.getAuthInstance();

@@ -156,7 +156,7 @@
                   </c:set>
                   <!--<input alt="${fn:escapeXml(delete_label)}" class="btn btn-default btn-sm"  title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${fn:escapeXml(delete_confirm_msg)}');">
                   </input>-->
-                  <button type="button" class="btn btn-primary btn-xs" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){document.delete_${itemId}.submit()}});">
+                  <button type="button" class="btn btn-primary btn-xs" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){submitForm();document.delete_${itemId}.submit()}});">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
                 </form:form>
