@@ -12,7 +12,7 @@ import com.org.service.blobstore.FileStorageService;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 @RequestMapping("/estimates")
 @Controller
@@ -99,4 +101,50 @@ public class EstimateController {
 	        return "redirect:/estimates/" + encodeUrlPathSegment(estimate.getId().toString(), httpServletRequest);
 	    }
 	
+
+	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
+    public String create(@Valid Estimate estimate, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            populateEditForm(uiModel, estimate);
+            return "estimates/create";
+        }
+        uiModel.asMap().clear();
+        estimate.persist();
+        return "redirect:/estimates/" + encodeUrlPathSegment(estimate.getId().toString(), httpServletRequest);
+    }
+
+	@RequestMapping(params = "form", produces = "text/html")
+    public String createForm(Model uiModel) {
+        populateEditForm(uiModel, new Estimate());
+        return "estimates/create";
+    }
+
+	@RequestMapping(value = "/{id}", produces = "text/html")
+    public String show(@PathVariable("id") Long id, Model uiModel) {
+        uiModel.addAttribute("estimate", Estimate.findEstimate(id));
+        uiModel.addAttribute("itemId", id);
+        return "estimates/show";
+    }
+
+	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+    public String updateForm(@PathVariable("id") Long id, Model uiModel) {
+        populateEditForm(uiModel, Estimate.findEstimate(id));
+        return "estimates/update";
+    }
+
+	void populateEditForm(Model uiModel, Estimate estimate) {
+        uiModel.addAttribute("estimate", estimate);
+        uiModel.addAttribute("logusers", LogUser.findAllLogUsers());
+    }
+
+	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
+        }
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        } catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
+    }
 }

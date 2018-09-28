@@ -1,4 +1,6 @@
 package com.org.web;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.management.Query;
@@ -12,8 +14,11 @@ import com.org.entity.Item;
 import com.org.entity.ManagedDocument;
 import com.org.entity.MeasurementSheet;
 import com.org.service.blobstore.FileStorageService;
+import com.org.util.Clause;
 import com.org.util.QueryUtil;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +28,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 @RequestMapping("/aggreements")
 @Controller
@@ -105,5 +112,54 @@ public class AggreementController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         LogUser user = LogUser.findLogUsersByUsernameEquals(username).getSingleResult();
         return user;
+    }
+
+	@RequestMapping(params = "form", produces = "text/html")
+    public String createForm(Model uiModel) {
+        populateEditForm(uiModel, new Aggreement());
+        return "aggreements/create";
+    }
+
+	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+    public String update(@Valid Aggreement aggreement, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            populateEditForm(uiModel, aggreement);
+            return "aggreements/update";
+        }
+        uiModel.asMap().clear();
+        aggreement.merge();
+        return "redirect:/aggreements/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest);
+    }
+
+	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+    public String updateForm(@PathVariable("id") Long id, Model uiModel) {
+        populateEditForm(uiModel, Aggreement.findAggreement(id));
+        return "aggreements/update";
+    }
+
+	void addDateTimeFormatPatterns(Model uiModel) {
+        uiModel.addAttribute("aggreement_dateofstart_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+        uiModel.addAttribute("aggreement_dateofcompletions_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+        uiModel.addAttribute("aggreement_dateofabstract_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+    }
+
+	void populateEditForm(Model uiModel, Aggreement aggreement) {
+        uiModel.addAttribute("aggreement", aggreement);
+        addDateTimeFormatPatterns(uiModel);
+        uiModel.addAttribute("logusers", LogUser.findAllLogUsers());
+        uiModel.addAttribute("items", Item.findAllItems());
+        uiModel.addAttribute("measurementsheets", MeasurementSheet.findAllMeasurementSheets());
+        uiModel.addAttribute("clauses", Arrays.asList(Clause.values()));
+    }
+
+	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
+        }
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        } catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
 }

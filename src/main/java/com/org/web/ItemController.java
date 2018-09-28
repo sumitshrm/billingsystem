@@ -2,6 +2,7 @@ package com.org.web;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 @RequestMapping("/items")
 @Controller
@@ -126,5 +129,27 @@ public class ItemController {
 
     void populateEditForm(Model uiModel, Item item) {
         uiModel.addAttribute("item", item);
+    }
+
+	@RequestMapping(params = "form", produces = "text/html")
+    public String createForm(Model uiModel) {
+        populateEditForm(uiModel, new Item());
+        List<String[]> dependencies = new ArrayList<String[]>();
+        if (Aggreement.countAggreements() == 0) {
+            dependencies.add(new String[] { "aggreement", "aggreements" });
+        }
+        uiModel.addAttribute("dependencies", dependencies);
+        return "items/create";
+    }
+
+	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
+        }
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        } catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
 }
