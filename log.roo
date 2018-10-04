@@ -558,3 +558,5 @@ hint
 entity jpa --class ~.entity.MeasurementSheetShared
 finder list
 finder add findMeasurementSheetSharedsByMeasurementSheet
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2018-10-04 02:13:41

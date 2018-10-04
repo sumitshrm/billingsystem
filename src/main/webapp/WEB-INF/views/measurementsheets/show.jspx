@@ -66,17 +66,17 @@
  		         selectedIndex: 0,
  		         showArrow: false,
  		         displayMember: "fullName",
- 		         valueMember: "id",
+ 		         valueMember: "username",
  		         search: function (searchString) {
  		             dataAdapter.dataBind();
  		         }
  		            
  		    }); 
  		    
- 		   <c:forEach items="${sharedwith}" var="user">
- 		  	$("#jqxComboBox").jqxComboBox('addItem',{username: "${user.sharedWith.username}",fullName: "${user.sharedWith.fullName}",id: "${user.sharedWith.id}"});
-		    $("#jqxComboBox").jqxComboBox('selectItem', "${user.sharedWith.id}" );
-		    sharedMap[${user.sharedWith.id}] = ${user.id};
+ 		   <c:forEach items="${sharedwith}" var="msheetShared">
+ 		  	$("#jqxComboBox").jqxComboBox('addItem',{username: "${msheetShared.sharedWith.username}",fullName: "${msheetShared.sharedWith.fullName}",id: "${msheetShared.sharedWith.id}"});
+		    $("#jqxComboBox").jqxComboBox('selectItem', "${msheetShared.sharedWith.username}" );
+		    sharedMap[${msheetShared.sharedWith.username}] = ${msheetShared.id};
  		   </c:forEach>
  		    
  		    $('#jqxComboBox').on('select', function (event){
@@ -85,7 +85,7 @@
 	    			console.log(args);
 	    			$.ajax({
 	    				 type: "GET",
-	    				 url: "${share_url}&amp;userid="+args.item.value,
+	    				 url: "${share_url}&amp;userid="+args.item.originalItem.id,
 	    				 dataType: 'text',
 	    				 data: {},
 	    				 error: function(xhr, error){
@@ -102,9 +102,10 @@
  		    		{
  		    		    var args = event.args;
  		    		    if (args) {
+ 		    		    	//console.log("original",args.item.originalItem.id);
  		    		    	var sharedid = getSharedMap(args.item.value);
- 		    		    	console.log(sharedMap);
- 		    		    	console.log(args.item.value);
+ 		    		    	//console.log(sharedMap);
+ 		    		    	//console.log(args.item.value);
  		    		    	console.log(sharedid);
  		    		    	$.ajax({
  			    				 type: "DELETE",
@@ -113,7 +114,7 @@
  			    				 data: {},
  			    				 error: function(xhr, error){
  			    					alert("Some error occured :" + error);
- 			    					location.reload(); 
+ 			    					//location.reload(); 
  			    				 },
  			    				 success: function(result){
  			    					 //alert("success");
