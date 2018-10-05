@@ -24,7 +24,7 @@ import com.org.util.FileStorageProperties;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser" })
+@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser", "findManagedDocumentsByIdAndLogUser" })
 public class ManagedDocument {
 
     @Size(max = 500)

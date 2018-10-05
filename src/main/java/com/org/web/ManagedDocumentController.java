@@ -4,7 +4,10 @@ import com.org.domain.Config;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.ManagedDocument;
+import com.org.entity.ManagedDocumentShared;
 import com.org.entity.MaterialEntry;
+import com.org.entity.MeasurementSheet;
+import com.org.entity.MeasurementSheetShared;
 import com.org.excel.gateway.ExcelGatewayTo;
 import com.org.excel.gateway.ResponseStatus;
 import com.org.excel.service.ExcelUtill;
@@ -15,6 +18,8 @@ import com.org.util.FileStorageProperties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +28,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.QueryParam;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.POIXMLProperties;
 import org.apache.poi.POIXMLProperties.CustomProperties;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -30,6 +36,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.openxmlformats.schemas.officeDocument.x2006.customProperties.CTProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,12 +47,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 @RequestMapping("/manageddocuments")
 @Controller
 @RooWebScaffold(path = "manageddocuments", formBackingObject = ManagedDocument.class)
 public class ManagedDocumentController {
+
+	final static Logger logger = Logger.getLogger(ManagedDocumentController.class);
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -270,5 +284,70 @@ public class ManagedDocumentController {
         uiModel.addAttribute("managedDocument", managedDocument);
         uiModel.addAttribute("logusers", LogUser.findAllLogUsers());
         uiModel.addAttribute("aggreements", Aggreement.findAggreementsByLogUser(LogUser.getCurrentUser()).getResultList());
+    }
+
+	@RequestMapping(value = "/{id}", produces = "text/html")
+    public String show(@PathVariable("id") Long id, Model uiModel) {
+		ManagedDocument managedDocument = ManagedDocument.findManagedDocument(id);
+        uiModel.addAttribute("manageddocument", managedDocument);
+        uiModel.addAttribute("itemId", id);
+        List<ManagedDocumentShared> managedDocShared = ManagedDocumentShared.findManagedDocumentSharedsByManagedDocument(managedDocument).getResultList();
+        uiModel.addAttribute("managedDocShared", managedDocShared);
+        return "manageddocuments/show";
+    }
+
+	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+    public String updateForm(@PathVariable("id") Long id, Model uiModel) {
+        populateEditForm(uiModel, ManagedDocument.findManagedDocument(id));
+        return "manageddocuments/update";
+    }
+
+	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
+        }
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        } catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
+    }
+	
+	@RequestMapping(value="/share", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity shareMeasurementSheet(@RequestParam(value = "userid", required=true) Long userid, @RequestParam(value = "mdocid", required=true) Long mdocid){
+    	LogUser user = LogUser.findLogUser(userid);
+    	if(user==null) {
+    		logger.error("Invalid user id "+ userid);
+    		return new ResponseEntity<String>("Invalid user selected",HttpStatus.BAD_REQUEST);
+    	}
+    	try {
+    		LogUser currentuser = LogUser.getCurrentUser();
+        	ManagedDocument managedDoc = ManagedDocument.findManagedDocumentsByIdAndLogUser(mdocid, currentuser).getSingleResult();
+        	ManagedDocumentShared shared = new ManagedDocumentShared();
+        	shared.setManagedDocument(managedDoc);
+        	shared.setSharedWith(user);
+        	shared.setOpened(false);
+        	shared.setSharedDate(new Date());
+        	shared.persist();
+			return new ResponseEntity<String>(shared.getId().toString(), HttpStatus.OK);
+    	} catch (Exception e) {
+			return new ResponseEntity<String>("Error occurred while sharing document : "+e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    	
+    }
+    
+    @RequestMapping(value="/share", produces=MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<String> unShareMeasurementSheet(@RequestParam(value = "shareid", required=true) Long shareid, @RequestParam(value = "mdocid", required=false) Long mdocid){
+    	
+    	try {
+    		ManagedDocumentShared shared = ManagedDocumentShared.findManagedDocumentShared(shareid);
+    		shared.remove();
+			return new ResponseEntity<>("success",HttpStatus.OK);
+    	} catch (Exception e) {
+			return new ResponseEntity<String>("Error occurred while deleting document : "+e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    	
     }
 }
