@@ -36,13 +36,6 @@ privileged aspect EstimateController_Roo_Controller {
         return "estimates/create";
     }
     
-    @RequestMapping(value = "/{id}", produces = "text/html")
-    public String EstimateController.show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("estimate", Estimate.findEstimate(id));
-        uiModel.addAttribute("itemId", id);
-        return "estimates/show";
-    }
-    
     @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String EstimateController.updateForm(@PathVariable("id") Long id, Model uiModel) {
         populateEditForm(uiModel, Estimate.findEstimate(id));

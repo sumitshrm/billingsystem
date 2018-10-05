@@ -10,12 +10,49 @@ import javax.persistence.TypedQuery;
 
 privileged aspect Estimate_Roo_Finder {
     
+    public static Long Estimate.countFindEstimatesByIdAndLogUser(Long id, LogUser logUser) {
+        if (id == null) throw new IllegalArgumentException("The id argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Estimate.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Estimate AS o WHERE o.id = :id AND o.logUser = :logUser", Long.class);
+        q.setParameter("id", id);
+        q.setParameter("logUser", logUser);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static Long Estimate.countFindEstimatesByLogUser(LogUser logUser) {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Estimate.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Estimate AS o WHERE o.logUser = :logUser", Long.class);
         q.setParameter("logUser", logUser);
         return ((Long) q.getSingleResult());
+    }
+    
+    public static TypedQuery<Estimate> Estimate.findEstimatesByIdAndLogUser(Long id, LogUser logUser) {
+        if (id == null) throw new IllegalArgumentException("The id argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Estimate.entityManager();
+        TypedQuery<Estimate> q = em.createQuery("SELECT o FROM Estimate AS o WHERE o.id = :id AND o.logUser = :logUser", Estimate.class);
+        q.setParameter("id", id);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<Estimate> Estimate.findEstimatesByIdAndLogUser(Long id, LogUser logUser, String sortFieldName, String sortOrder) {
+        if (id == null) throw new IllegalArgumentException("The id argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Estimate.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Estimate AS o WHERE o.id = :id AND o.logUser = :logUser");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<Estimate> q = em.createQuery(queryBuilder.toString(), Estimate.class);
+        q.setParameter("id", id);
+        q.setParameter("logUser", logUser);
+        return q;
     }
     
     public static TypedQuery<Estimate> Estimate.findEstimatesByLogUser(LogUser logUser) {
