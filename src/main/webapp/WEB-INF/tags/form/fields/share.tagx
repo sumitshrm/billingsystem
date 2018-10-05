@@ -2,21 +2,21 @@
   <jsp:output omit-xml-declaration="yes" />
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="url" type="java.lang.String" required="true" rtexprvalue="true" description="Save and delete file sharing url" />
+  <jsp:directive.attribute name="data" type="java.util.Collection" required="false" rtexprvalue="true" description="Save and delete file sharing url" />
 
 
 	<div class="form-group row">
 			<label class="col-sm-2">Shared with: </label>
 			<div class="col-sm-10">
-         <div style="margin-top: 5px;" id='${id}'>
-         </div>
+         		<div  id='${id}'><!-- Div can not be empty --></div>
 			</div>
 		</div>
-<script>
-var sharedMap = new Object(); // or var map = {};
-    //sharedMap[myKey1] = myObj1;
+<script lang="javascript">
+var sharedMap${id} = new Object(); // or var map = {};
+    //sharedMap${id}[myKey1] = myObj1;
 
-    function getSharedMap(k) {
-        return sharedMap[k];
+    function getsharedMap${id}(k) {
+        return sharedMap${id}[k];
     }
     var source = {
     		datatype: "json",
@@ -55,11 +55,14 @@ var sharedMap = new Object(); // or var map = {};
  		            
  		    }); 
  		    
- 		   <c:forEach items="${sharedwith}" var="msheetShared">
+ 		   <c:if test="${not empty data}">
+ 		   <c:forEach items="${data}" var="msheetShared">
+ 		   console.log('----------------','${msheetShared.sharedWith.username}');
  		  	$("#${id}").jqxComboBox('addItem',{username: "${msheetShared.sharedWith.username}",fullName: "${msheetShared.sharedWith.fullName}",id: "${msheetShared.sharedWith.id}"});
 		    $("#${id}").jqxComboBox('selectItem', "${msheetShared.sharedWith.username}" );
-		    sharedMap[${msheetShared.sharedWith.username}] = ${msheetShared.id};
+		    sharedMap${id}[${msheetShared.sharedWith.username}] = ${msheetShared.id};
  		   </c:forEach>
+ 		  </c:if>
  		    
  		    $('#${id}').on('select', function (event){
 	    		var args = event.args;
@@ -75,7 +78,7 @@ var sharedMap = new Object(); // or var map = {};
 	    				        location.reload(); 
 	    				 },
 	    				 success: function(result){
-	    					 sharedMap[args.item.value] = result;
+	    					 sharedMap${id}[args.item.value] = result;
 	    				 }
 	    				});
  		    	}
@@ -85,8 +88,8 @@ var sharedMap = new Object(); // or var map = {};
  		    		    var args = event.args;
  		    		    if (args) {
  		    		    	//console.log("original",args.item.originalItem.id);
- 		    		    	var sharedid = getSharedMap(args.item.value);
- 		    		    	//console.log(sharedMap);
+ 		    		    	var sharedid = getsharedMap${id}(args.item.value);
+ 		    		    	//console.log(sharedMap${id});
  		    		    	//console.log(args.item.value);
  		    		    	console.log(sharedid);
  		    		    	$.ajax({

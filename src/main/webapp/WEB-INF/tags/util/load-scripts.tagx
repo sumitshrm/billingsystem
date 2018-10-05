@@ -92,7 +92,9 @@
     <script src="${vendor_url}/bootbox/bootbox.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
   
   <!-- context menu end -->
-  
+  <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
   
   
 </jsp:root>

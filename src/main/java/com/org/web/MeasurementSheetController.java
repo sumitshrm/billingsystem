@@ -199,7 +199,7 @@ public class MeasurementSheetController {
         List<MeasurementSheetShared> shared =  MeasurementSheetShared.findMeasurementSheetSharedsByMeasurementSheet(msheet).getResultList();
         uiModel.addAttribute("measurementsheet", msheet);
         uiModel.addAttribute("itemId", id);
-        uiModel.addAttribute("sharedwith", shared);
+        uiModel.addAttribute("msheetShared", shared);
         return "measurementsheets/show";
     }
 
