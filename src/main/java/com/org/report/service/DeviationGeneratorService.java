@@ -85,7 +85,7 @@ public class DeviationGeneratorService implements IExcelReportService{
 			alignTopStyle.setVerticalAlignment(VerticalAlignment.TOP);
 			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
 			int slno = 1;
-			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMapForDeviation();
+			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
 			Set<String> itemAbstractKeySet = itemAbstractMap.keySet();
 			for(Item item : msheet.getAggreement().getItems()){
 				try {
