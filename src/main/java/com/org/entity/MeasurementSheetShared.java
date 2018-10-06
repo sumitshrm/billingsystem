@@ -1,6 +1,7 @@
 package com.org.entity;
 import java.util.Date;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -13,13 +14,14 @@ import com.org.domain.LogUser;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findMeasurementSheetSharedsByMeasurementSheet" })
+@RooJpaActiveRecord(finders = { "findMeasurementSheetSharedsByMeasurementSheet", "findMeasurementSheetSharedsBySharedBy", "findMeasurementSheetSharedsBySharedWith" })
 public class MeasurementSheetShared {
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
     private Date sharedDate;
 
+    
     @ManyToOne
     private LogUser sharedWith;
 
@@ -27,4 +29,26 @@ public class MeasurementSheetShared {
     private MeasurementSheet measurementSheet;
 
     private boolean opened;
+
+    @ManyToOne
+    private LogUser sharedBy;
+
+    
+    @PrePersist
+    protected void onCreate() {
+        //this.setShare
+        this.setSharedBy(LogUser.getCurrentUser());
+    }
+    
+    public String getInboxTitle() {
+    	return this.getMeasurementSheet().getAggreement().getAggreementNum()+"-"+this.getMeasurementSheet().getSerialNumberDisplayFormat()+":"+this.getSharedBy().getFullName()+" shared a measurement sheet with you on "+this.getSharedDate();
+    }
+    
+    public String getOutboxTitle() {
+    	return "you shared a measurement sheet '"+this.getMeasurementSheet().getAggreement().getAggreementNum()+"-"+this.getMeasurementSheet().getSerialNumberDisplayFormat()+"' with "+this.getSharedWith().getFullName()+" on "+this.getSharedDate();
+    }
+    
+    public String getDownloadLink() {
+    	return this.getMeasurementSheet().getDownloadLink();
+    }
 }

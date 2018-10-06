@@ -42,4 +42,12 @@ privileged aspect MeasurementSheetShared_Roo_JavaBean {
         this.opened = opened;
     }
     
+    public LogUser MeasurementSheetShared.getSharedBy() {
+        return this.sharedBy;
+    }
+    
+    public void MeasurementSheetShared.setSharedBy(LogUser sharedBy) {
+        this.sharedBy = sharedBy;
+    }
+    
 }

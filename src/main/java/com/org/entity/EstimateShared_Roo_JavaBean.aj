@@ -42,4 +42,12 @@ privileged aspect EstimateShared_Roo_JavaBean {
         this.opened = opened;
     }
     
+    public LogUser EstimateShared.getSharedBy() {
+        return this.sharedBy;
+    }
+    
+    public void EstimateShared.setSharedBy(LogUser sharedBy) {
+        this.sharedBy = sharedBy;
+    }
+    
 }

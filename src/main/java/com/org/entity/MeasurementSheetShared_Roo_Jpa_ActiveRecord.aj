@@ -15,7 +15,7 @@ privileged aspect MeasurementSheetShared_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager MeasurementSheetShared.entityManager;
     
-    public static final List<String> MeasurementSheetShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "measurementSheet", "opened");
+    public static final List<String> MeasurementSheetShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "measurementSheet", "opened", "sharedBy");
     
     public static final EntityManager MeasurementSheetShared.entityManager() {
         EntityManager em = new MeasurementSheetShared().entityManager;

@@ -15,7 +15,7 @@ privileged aspect ManagedDocumentShared_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager ManagedDocumentShared.entityManager;
     
-    public static final List<String> ManagedDocumentShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "managedDocument", "opened");
+    public static final List<String> ManagedDocumentShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "managedDocument", "opened", "sharedBy");
     
     public static final EntityManager ManagedDocumentShared.entityManager() {
         EntityManager em = new ManagedDocumentShared().entityManager;

@@ -60,7 +60,7 @@ var sharedMap${id} = new Object(); // or var map = {};
  		   console.log('----------------','${msheetShared.sharedWith.username}');
  		  	$("#${id}").jqxComboBox('addItem',{username: "${msheetShared.sharedWith.username}",fullName: "${msheetShared.sharedWith.fullName}",id: "${msheetShared.sharedWith.id}"});
 		    $("#${id}").jqxComboBox('selectItem', "${msheetShared.sharedWith.username}" );
-		    sharedMap${id}[${msheetShared.sharedWith.username}] = ${msheetShared.id};
+		    sharedMap${id}['${msheetShared.sharedWith.username}'] = ${msheetShared.id};
  		   </c:forEach>
  		  </c:if>
  		    

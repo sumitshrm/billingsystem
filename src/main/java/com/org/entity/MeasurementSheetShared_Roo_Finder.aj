@@ -3,6 +3,7 @@
 
 package com.org.entity;
 
+import com.org.domain.LogUser;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.MeasurementSheetShared;
 import javax.persistence.EntityManager;
@@ -15,6 +16,22 @@ privileged aspect MeasurementSheetShared_Roo_Finder {
         EntityManager em = MeasurementSheetShared.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM MeasurementSheetShared AS o WHERE o.measurementSheet = :measurementSheet", Long.class);
         q.setParameter("measurementSheet", measurementSheet);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long MeasurementSheetShared.countFindMeasurementSheetSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM MeasurementSheetShared AS o WHERE o.sharedBy = :sharedBy", Long.class);
+        q.setParameter("sharedBy", sharedBy);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long MeasurementSheetShared.countFindMeasurementSheetSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM MeasurementSheetShared AS o WHERE o.sharedWith = :sharedWith", Long.class);
+        q.setParameter("sharedWith", sharedWith);
         return ((Long) q.getSingleResult());
     }
     
@@ -38,6 +55,52 @@ privileged aspect MeasurementSheetShared_Roo_Finder {
         }
         TypedQuery<MeasurementSheetShared> q = em.createQuery(queryBuilder.toString(), MeasurementSheetShared.class);
         q.setParameter("measurementSheet", measurementSheet);
+        return q;
+    }
+    
+    public static TypedQuery<MeasurementSheetShared> MeasurementSheetShared.findMeasurementSheetSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        TypedQuery<MeasurementSheetShared> q = em.createQuery("SELECT o FROM MeasurementSheetShared AS o WHERE o.sharedBy = :sharedBy", MeasurementSheetShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<MeasurementSheetShared> MeasurementSheetShared.findMeasurementSheetSharedsBySharedBy(LogUser sharedBy, String sortFieldName, String sortOrder) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM MeasurementSheetShared AS o WHERE o.sharedBy = :sharedBy");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<MeasurementSheetShared> q = em.createQuery(queryBuilder.toString(), MeasurementSheetShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<MeasurementSheetShared> MeasurementSheetShared.findMeasurementSheetSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        TypedQuery<MeasurementSheetShared> q = em.createQuery("SELECT o FROM MeasurementSheetShared AS o WHERE o.sharedWith = :sharedWith", MeasurementSheetShared.class);
+        q.setParameter("sharedWith", sharedWith);
+        return q;
+    }
+    
+    public static TypedQuery<MeasurementSheetShared> MeasurementSheetShared.findMeasurementSheetSharedsBySharedWith(LogUser sharedWith, String sortFieldName, String sortOrder) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = MeasurementSheetShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM MeasurementSheetShared AS o WHERE o.sharedWith = :sharedWith");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<MeasurementSheetShared> q = em.createQuery(queryBuilder.toString(), MeasurementSheetShared.class);
+        q.setParameter("sharedWith", sharedWith);
         return q;
     }
     

@@ -3,6 +3,7 @@
 
 package com.org.entity;
 
+import com.org.domain.LogUser;
 import com.org.entity.ManagedDocument;
 import com.org.entity.ManagedDocumentShared;
 import javax.persistence.EntityManager;
@@ -15,6 +16,22 @@ privileged aspect ManagedDocumentShared_Roo_Finder {
         EntityManager em = ManagedDocumentShared.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocumentShared AS o WHERE o.managedDocument = :managedDocument", Long.class);
         q.setParameter("managedDocument", managedDocument);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long ManagedDocumentShared.countFindManagedDocumentSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocumentShared AS o WHERE o.sharedBy = :sharedBy", Long.class);
+        q.setParameter("sharedBy", sharedBy);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long ManagedDocumentShared.countFindManagedDocumentSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocumentShared AS o WHERE o.sharedWith = :sharedWith", Long.class);
+        q.setParameter("sharedWith", sharedWith);
         return ((Long) q.getSingleResult());
     }
     
@@ -38,6 +55,52 @@ privileged aspect ManagedDocumentShared_Roo_Finder {
         }
         TypedQuery<ManagedDocumentShared> q = em.createQuery(queryBuilder.toString(), ManagedDocumentShared.class);
         q.setParameter("managedDocument", managedDocument);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocumentShared> ManagedDocumentShared.findManagedDocumentSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        TypedQuery<ManagedDocumentShared> q = em.createQuery("SELECT o FROM ManagedDocumentShared AS o WHERE o.sharedBy = :sharedBy", ManagedDocumentShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocumentShared> ManagedDocumentShared.findManagedDocumentSharedsBySharedBy(LogUser sharedBy, String sortFieldName, String sortOrder) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocumentShared AS o WHERE o.sharedBy = :sharedBy");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocumentShared> q = em.createQuery(queryBuilder.toString(), ManagedDocumentShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocumentShared> ManagedDocumentShared.findManagedDocumentSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        TypedQuery<ManagedDocumentShared> q = em.createQuery("SELECT o FROM ManagedDocumentShared AS o WHERE o.sharedWith = :sharedWith", ManagedDocumentShared.class);
+        q.setParameter("sharedWith", sharedWith);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocumentShared> ManagedDocumentShared.findManagedDocumentSharedsBySharedWith(LogUser sharedWith, String sortFieldName, String sortOrder) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = ManagedDocumentShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocumentShared AS o WHERE o.sharedWith = :sharedWith");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocumentShared> q = em.createQuery(queryBuilder.toString(), ManagedDocumentShared.class);
+        q.setParameter("sharedWith", sharedWith);
         return q;
     }
     

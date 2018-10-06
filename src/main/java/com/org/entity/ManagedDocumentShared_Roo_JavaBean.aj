@@ -42,4 +42,12 @@ privileged aspect ManagedDocumentShared_Roo_JavaBean {
         this.opened = opened;
     }
     
+    public LogUser ManagedDocumentShared.getSharedBy() {
+        return this.sharedBy;
+    }
+    
+    public void ManagedDocumentShared.setSharedBy(LogUser sharedBy) {
+        this.sharedBy = sharedBy;
+    }
+    
 }

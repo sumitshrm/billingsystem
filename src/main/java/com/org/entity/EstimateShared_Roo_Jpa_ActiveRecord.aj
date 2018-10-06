@@ -15,7 +15,7 @@ privileged aspect EstimateShared_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager EstimateShared.entityManager;
     
-    public static final List<String> EstimateShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "estimate", "opened");
+    public static final List<String> EstimateShared.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sharedDate", "sharedWith", "estimate", "opened", "sharedBy");
     
     public static final EntityManager EstimateShared.entityManager() {
         EntityManager em = new EstimateShared().entityManager;

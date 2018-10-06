@@ -3,6 +3,7 @@
 
 package com.org.entity;
 
+import com.org.domain.LogUser;
 import com.org.entity.Estimate;
 import com.org.entity.EstimateShared;
 import javax.persistence.EntityManager;
@@ -15,6 +16,22 @@ privileged aspect EstimateShared_Roo_Finder {
         EntityManager em = EstimateShared.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM EstimateShared AS o WHERE o.estimate = :estimate", Long.class);
         q.setParameter("estimate", estimate);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long EstimateShared.countFindEstimateSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM EstimateShared AS o WHERE o.sharedBy = :sharedBy", Long.class);
+        q.setParameter("sharedBy", sharedBy);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long EstimateShared.countFindEstimateSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM EstimateShared AS o WHERE o.sharedWith = :sharedWith", Long.class);
+        q.setParameter("sharedWith", sharedWith);
         return ((Long) q.getSingleResult());
     }
     
@@ -38,6 +55,52 @@ privileged aspect EstimateShared_Roo_Finder {
         }
         TypedQuery<EstimateShared> q = em.createQuery(queryBuilder.toString(), EstimateShared.class);
         q.setParameter("estimate", estimate);
+        return q;
+    }
+    
+    public static TypedQuery<EstimateShared> EstimateShared.findEstimateSharedsBySharedBy(LogUser sharedBy) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        TypedQuery<EstimateShared> q = em.createQuery("SELECT o FROM EstimateShared AS o WHERE o.sharedBy = :sharedBy", EstimateShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<EstimateShared> EstimateShared.findEstimateSharedsBySharedBy(LogUser sharedBy, String sortFieldName, String sortOrder) {
+        if (sharedBy == null) throw new IllegalArgumentException("The sharedBy argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM EstimateShared AS o WHERE o.sharedBy = :sharedBy");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<EstimateShared> q = em.createQuery(queryBuilder.toString(), EstimateShared.class);
+        q.setParameter("sharedBy", sharedBy);
+        return q;
+    }
+    
+    public static TypedQuery<EstimateShared> EstimateShared.findEstimateSharedsBySharedWith(LogUser sharedWith) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        TypedQuery<EstimateShared> q = em.createQuery("SELECT o FROM EstimateShared AS o WHERE o.sharedWith = :sharedWith", EstimateShared.class);
+        q.setParameter("sharedWith", sharedWith);
+        return q;
+    }
+    
+    public static TypedQuery<EstimateShared> EstimateShared.findEstimateSharedsBySharedWith(LogUser sharedWith, String sortFieldName, String sortOrder) {
+        if (sharedWith == null) throw new IllegalArgumentException("The sharedWith argument is required");
+        EntityManager em = EstimateShared.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM EstimateShared AS o WHERE o.sharedWith = :sharedWith");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<EstimateShared> q = em.createQuery(queryBuilder.toString(), EstimateShared.class);
+        q.setParameter("sharedWith", sharedWith);
         return q;
     }
     

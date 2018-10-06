@@ -43,6 +43,10 @@
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
                         <menu:item id="i_manageddocument_new" messageCode="global_menu_new" render="false" url="/manageddocuments?form" z="user-managed"/>
                     </menu:category>
+                    <menu:category icon="fa fa-folder-open" id="shared_document" label="Shared Documents" render="true" z="user-managed">
+                            <menu:item id="i_controller__shareddocuments_inboxindex_id" label="inbox" messageCode="global_generic" url="/sharedDocuments/inbox" z="user-managed"/>
+                            <menu:item id="i_controller__shareddocuments_inboxindex_id" label="outbox" messageCode="global_generic" url="/sharedDocuments/outbox" z="user-managed"/>
+                        </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">
                         <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
                             <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
