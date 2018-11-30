@@ -13,7 +13,8 @@
   </util:panel> -->
   <util:panel id="title" title="${title}">
   <notification:popup object="${message}"/>
-  <sec:authorize ifAllGranted="USER_ROLE">
+  
+  <sec:authorize ifAllGranted="AGG_ROLE">
   <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
@@ -35,7 +36,21 @@
             <a href="./aggreements" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
-        
+        </sec:authorize>
+  
+  <sec:authorize ifAllGranted="USER_ROLE">
+  
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          
+          <div class="small-box bg-aqua">
+            <div class="inner"><a href="/manageddocuments" style="color: inherit;">
+              <h3 style="font-size: 20px">Managed<br/>Documents</h3>
+            </a></div>
+            <a href="/manageddocuments" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+          
+        </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -57,27 +72,36 @@
           </div>
         </div>
         
+        
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner"><a href="./materialentrys?form" style="color: inherit;">
-              <h3 style="font-size: 20px">Material<br/>Entry</h3>
+          <div class="small-box bg-orange">
+            <div class="inner"><a href="/books/itemsmake/index" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>Items Make</h3>
             </a></div>
-            
-            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/books/itemsmake/index" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
-         <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner"><a href="./labourentrys?form" style="color: inherit;">
-              <h3 style="font-size: 20px">Labour<br/>Entry</h3>
+          <div class="small-box bg-orange">
+            <div class="inner"><a href="/books/theoretical/index" style="color: inherit;">
+              <h3 style="font-size: 20px">Show<br/>Theoretical</h3>
             </a></div>
-            <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/books/theoretical/index" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-orange">
+            <div class="inner"><a href="/calculator/eisdiscalculator" style="color: inherit;">
+              <h3 style="font-size: 20px">EIS &amp; DIS<br/>Calculator</h3>
+            </a></div>
+            <a href="/calculator/eisdiscalculator" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -96,7 +120,7 @@
             <div class="inner"><a href="./estimates?page=1&amp;size=10" style="color: inherit;">
               <h3 style="font-size: 20px">List<br/>Estimates</h3>
             </a></div>
-            <a href="./labourentrys?form" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./estimates?page=1&amp;size=10" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
@@ -166,6 +190,29 @@
           </div>
         </div>
         </sec:authorize>
+        
+        
+        <!-- 
+        Material entry and Labor entry disabled
+        
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner"><a href="./materialentrys?form" style="color: inherit;">
+              <h3 style="font-size: 20px">Material<br/>Entry</h3>
+            </a></div>
+            
+            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div>
+        
+         <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-red">
+            <div class="inner"><a href="./labourentrys?form" style="color: inherit;">
+              <h3 style="font-size: 20px">Labour<br/>Entry</h3>
+            </a></div>
+            <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+          </div>
+        </div> -->
         
         
         <!-- <div class="col-lg-3 col-xs-6">

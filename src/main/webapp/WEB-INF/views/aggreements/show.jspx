@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:sec="http://www.springframework.org/security/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:notification="urn:jsptagdir:/WEB-INF/tags/matcons/notification" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <nav:nav>
@@ -34,6 +34,8 @@
     </page:show>
     
     </page:show>
+    
+    <sec:authorize ifAllGranted="AGG_USER_ROLE">
     <div class="row">
         <div class="btn-group">
             <input class="btn btn-primary" onclick="location.href='../measurementsheets?form&amp;aggreement=${aggreement.id}';" type="button" value="create new measurement"/>
@@ -45,6 +47,7 @@
             <table:column document="true" id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
         </table:table>
     </page:list>
+    </sec:authorize>
     
     <div class="row">
         <div class="btn-group">
