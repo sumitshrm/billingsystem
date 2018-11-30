@@ -18,31 +18,24 @@
                 </div>
             </form>
             <menu:menu id="_menu" z="user-managed">
-                <sec:authorize ifAllGranted="USER_ROLE">
-                    <menu:category icon="fa fa-files-o" id="c_aggreement" z="user-managed">
-                        <menu:item id="i_aggreement_new" messageCode="global_menu_new" url="/aggreements?form" z="xVEekns/drw9RlW3Kwse27kfjl4="/>
-                        <menu:item id="i_aggreement_list" messageCode="global_menu_list" url="/aggreements" z="user-managed"/>
-                    </menu:category>
-                    <menu:category icon="fa fa-balance-scale" id="c_materialentry" z="user-managed">
-                        <menu:item id="i_materialentry_new" messageCode="global_menu_new" url="/materialentrys?form" z="2cRzbj1GsdKxJByX7LZzjBrsxH8="/>
-                        <menu:item id="i_materialentry_list" messageCode="global_menu_list" url="/materialentrys" z="user-managed"/>
-                        <menu:item id="i_company_new" messageCode="global_menu_new" url="/companys?form" z="SWjXbZ96+4L3yJZ+Q7yyqEFQPV4="/>
-                        <menu:item id="i_company_list" messageCode="global_menu_list" render="false" url="/companys" z="user-managed"/>
-                        <menu:item id="i_supplier_new" messageCode="global_menu_new" url="/suppliers?form" z="48D4zeaX6ENxXujfvnWrtY5odlQ="/>
-                        <menu:item id="i_supplier_list" messageCode="global_menu_list" render="false" url="/suppliers" z="user-managed"/>
-                        <menu:item id="i_itemname_new" messageCode="global_menu_new" url="/itemnames?form" z="KDnK7/hrg30+kBKfZYsuKOkAiQc="/>
-                        <menu:item id="i_itemname_list" messageCode="global_menu_list" render="false" url="/itemnames" z="user-managed"/>
-                    </menu:category>
-                    <menu:category icon="fa fa-user" id="c_labourentry" z="user-managed">
-                        <menu:item id="i_labourentry_new" messageCode="global_menu_new" url="/labourentrys?form" z="CFJKWmTpGklg41nRlHAU9i4GphE="/>
-                        <menu:item id="i_labourentry_list" messageCode="global_menu_list" url="/labourentrys" z="user-managed"/>
-                        <menu:item id="i_laboursupplier_new" messageCode="global_menu_new" url="/laboursuppliers?form" z="EcLr50HKS/AYYtcoCcXHOI6cKQQ="/>
-                        <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
-                    </menu:category>
+
+				<sec:authorize ifAllGranted="USER_ROLE">
+                    <menu:category icon="fa fa-files-o" id="c_aggreement"
+						z="user-managed">
+						<menu:item id="i_aggreement_new" messageCode="global_menu_new"
+							url="/aggreements?form" z="xVEekns/drw9RlW3Kwse27kfjl4=" />
+						<menu:item id="i_aggreement_list" messageCode="global_menu_list"
+							url="/aggreements" z="user-managed" />
+					</menu:category>
+                    
                     <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="user-managed">
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
                         <menu:item id="i_manageddocument_new" messageCode="global_menu_new" render="false" url="/manageddocuments?form" z="user-managed"/>
                     </menu:category>
+                    <menu:category icon="fa fa-folder-open" id="shared_document" label="Shared Documents" render="true" z="user-managed">
+                            <menu:item id="i_controller__shareddocuments_inboxindex_id" label="inbox" messageCode="global_generic" url="/sharedDocuments/inbox" z="user-managed"/>
+                            <menu:item id="i_controller__shareddocuments_inboxindex_id" label="outbox" messageCode="global_generic" url="/sharedDocuments/outbox" z="user-managed"/>
+                        </menu:category>
                     <sec:authorize ifAllGranted="USER_ROLE">
                         <menu:category icon="fa fa-book" id="c_controller" render="true" z="user-managed">
                             <menu:item id="i_controller__excelgatewayindex_id" messageCode="global_generic" render="false" url="/excelgateway/index" z="user-managed"/>
@@ -76,6 +69,8 @@
                         <menu:item id="i_document_new" messageCode="global_menu_new" url="/documents?form" z="bv1eg7qAwaBE1ATd78QiQm2M3ZE="/>
                     </menu:category>
                 </sec:authorize>
+                
+                <!--Below features Not REndering -->
                 <menu:category id="c_measurementsheet" render="false" z="user-managed">
                     <menu:item id="i_measurementsheet_new" messageCode="global_menu_new" url="/measurementsheets?form" z="V8sYyMt0fGUz9/ETgpBfyEzzIGE="/>
                     <menu:item id="i_measurementsheet_list" messageCode="global_menu_list" url="/measurementsheets" z="user-managed"/>
@@ -104,6 +99,22 @@
                     <menu:item id="i_estimate_new" messageCode="global_menu_new" url="/estimates?form" z="DaGj+7EBMQrtUhajjwQLWDJzAkE="/>
                     <menu:item id="i_estimate_list" messageCode="global_menu_list" url="/estimates" z="user-managed"/>
                 </menu:category>
+                <menu:category render="false" icon="fa fa-balance-scale" id="c_materialentry" z="user-managed">
+                        <menu:item id="i_materialentry_new" messageCode="global_menu_new" url="/materialentrys?form" z="2cRzbj1GsdKxJByX7LZzjBrsxH8="/>
+                        <menu:item id="i_materialentry_list" messageCode="global_menu_list" url="/materialentrys" z="user-managed"/>
+                        <menu:item id="i_company_new" messageCode="global_menu_new" url="/companys?form" z="SWjXbZ96+4L3yJZ+Q7yyqEFQPV4="/>
+                        <menu:item id="i_company_list" messageCode="global_menu_list" render="false" url="/companys" z="user-managed"/>
+                        <menu:item id="i_supplier_new" messageCode="global_menu_new" url="/suppliers?form" z="48D4zeaX6ENxXujfvnWrtY5odlQ="/>
+                        <menu:item id="i_supplier_list" messageCode="global_menu_list" render="false" url="/suppliers" z="user-managed"/>
+                        <menu:item id="i_itemname_new" messageCode="global_menu_new" url="/itemnames?form" z="KDnK7/hrg30+kBKfZYsuKOkAiQc="/>
+                        <menu:item id="i_itemname_list" messageCode="global_menu_list" render="false" url="/itemnames" z="user-managed"/>
+                    </menu:category>
+                    <menu:category render="false" icon="fa fa-user" id="c_labourentry" z="user-managed">
+                        <menu:item id="i_labourentry_new" messageCode="global_menu_new" url="/labourentrys?form" z="CFJKWmTpGklg41nRlHAU9i4GphE="/>
+                        <menu:item id="i_labourentry_list" messageCode="global_menu_list" url="/labourentrys" z="user-managed"/>
+                        <menu:item id="i_laboursupplier_new" messageCode="global_menu_new" url="/laboursuppliers?form" z="EcLr50HKS/AYYtcoCcXHOI6cKQQ="/>
+                        <menu:item id="i_laboursupplier_list" messageCode="global_menu_list" render="false" url="/laboursuppliers" z="user-managed"/>
+                    </menu:category>
             </menu:menu>
             <script>
     /*menu handler to set the active menu*/

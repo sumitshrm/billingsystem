@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"  xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields"  xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  <spring:message code="label_shareddocuments_inbox_index" htmlEscape="false" var="title"/>
+  <page:list label="Measurement sheets" id="pl_com_org_entity_MeasurementSheet" items="${measurementSheets}" z="user-managed" >
+        <table:table data="${measurementSheets}" show="true" update="false" delete="false" id="l_com_org_entity_MeasurementSheet" path="/sharedDocuments/measurementsheet" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=" >
+            <table:column document="true" label="From" id="c_com_org_entity_MeasurementSheet_aggreement" property="outboxTitle" z="user-managed"/>
+        </table:table>
+  </page:list>
+  <page:list label="Documents" id="pl_com_org_entity_ManagedDocument" items="${managedDocuments}" z="user-managed" >
+        <table:table data="${managedDocuments}" show="true" update="false" delete="false" id="l_com_org_entity_Aggreement" path="/sharedDocuments/manageddocuments" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=" >
+            <table:column document="true" label="From" id="c_com_org_entity_MeasurementSheet_logUser" property="outboxTitle" z="user-managed"/>
+        </table:table>
+  </page:list>
+  
+  <page:list label="Estimates" id="pl_com_org_entity_Estimate" items="${estimates}" z="user-managed" >
+        <table:table data="${estimates}" show="true" update="false" delete="false" id="l_com_org_entity_Company" path="/sharedDocuments/estimates" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=" >
+            <table:column document="true" label="From" id="c_com_org_entity_MeasurementSheet_id" property="outboxTitle" z="user-managed"/>
+        </table:table>
+  </page:list>
+    
+</div>

@@ -13,7 +13,7 @@ import com.org.domain.LogUser;
 @RooJavaBean
 @RooToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-@RooJpaActiveRecord(finders = { "findEstimatesByLogUser" })
+@RooJpaActiveRecord(finders = { "findEstimatesByLogUser", "findEstimatesByIdAndLogUser" })
 public class Estimate {
 
     private String nameOfWork;
@@ -28,13 +28,13 @@ public class Estimate {
 
     @ManyToOne
     private LogUser logUser;
-    
+
     @PrePersist
     public void prePersist() {
         setLogUser(LogUser.getCurrentUser());
     }
-    
+
     public String getDownloadLink() {
-    	return "/manageddocuments/download?file="+url;
+        return "/manageddocuments/download?file=" + url;
     }
 }

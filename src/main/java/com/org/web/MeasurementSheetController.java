@@ -1,5 +1,8 @@
 package com.org.web;
 import java.io.File;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -7,20 +10,28 @@ import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Document;
 import com.org.entity.ItemAbstract;
 import com.org.entity.MeasurementSheet;
+import com.org.entity.MeasurementSheetShared;
 import com.org.report.service.AbstractGeneratorService;
 import com.org.report.service.AbstractGeneratorServiceV2;
 import com.org.report.service.PartRateStatementGeneratorService;
@@ -185,8 +196,10 @@ public class MeasurementSheetController {
         addDateTimeFormatPatterns(uiModel);
         MeasurementSheet msheet = QueryUtil.getUniqueResult(MeasurementSheet.findMeasurementSheetsByIdAndLogUser(id, LogUser.getCurrentUser()));
         //Collections.sort(msheet.getItemAbstracts(), new ItemAbstractComparator());
+        List<MeasurementSheetShared> shared =  MeasurementSheetShared.findMeasurementSheetSharedsByMeasurementSheet(msheet).getResultList();
         uiModel.addAttribute("measurementsheet", msheet);
         uiModel.addAttribute("itemId", id);
+        uiModel.addAttribute("msheetShared", shared);
         return "measurementsheets/show";
     }
 
@@ -228,5 +241,43 @@ public class MeasurementSheetController {
             itemAbstract.persist();
         }
         return "redirect:/measurementsheets/" + measurementSheet.getId();
+    }
+    
+    @RequestMapping(value="/share", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity shareMeasurementSheet(@RequestParam(value = "userid", required=true) Long userid, @RequestParam(value = "msheetid", required=true) Long msheetid){
+    	LogUser user = LogUser.findLogUser(userid);
+    	if(user==null) {
+    		logger.error("Invalid user id "+ userid);
+    		return new ResponseEntity<String>("Invalid user selected",HttpStatus.BAD_REQUEST);
+    	}
+    	try {
+    		LogUser currentuser = LogUser.getCurrentUser();
+        	MeasurementSheet msheet = MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetid, currentuser).getSingleResult();
+        	MeasurementSheetShared shared = new MeasurementSheetShared();
+        	shared.setMeasurementSheet(msheet);
+        	shared.setSharedWith(user);
+        	shared.setOpened(false);
+        	shared.setSharedDate(new Date());
+        	shared.persist();
+			return new ResponseEntity<String>(shared.getId().toString(), HttpStatus.OK);
+    	} catch (Exception e) {
+			return new ResponseEntity<String>("Error occurred while sharing document : "+e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    	
+    }
+    
+    @RequestMapping(value="/share", produces=MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<String> unShareMeasurementSheet(@RequestParam(value = "shareid", required=true) Long shareid, @RequestParam(value = "msheetid", required=false) Long msheetid){
+    	
+    	try {
+    		MeasurementSheetShared shared = MeasurementSheetShared.findMeasurementSheetShared(shareid);
+    		shared.remove();
+			return new ResponseEntity<>("success",HttpStatus.OK);
+    	} catch (Exception e) {
+			return new ResponseEntity<String>("Error occurred while sharing document : "+e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+    	
     }
 }

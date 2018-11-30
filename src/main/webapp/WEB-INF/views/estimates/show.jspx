@@ -10,5 +10,6 @@
         <field:display field="url" id="s_com_org_entity_Estimate_url" object="${estimate}" render="false" z="user-managed"/>
         <field:display field="items" id="s_com_org_entity_Estimate_items" object="${estimate}" render="false" z="user-managed"/>
         <field:display field="logUser" id="s_com_org_entity_Estimate_logUser" object="${estimate}" render="false" z="user-managed"/>
+    	<field:share url="/estimates/share?estimataeid=${estimate.id}" id="estimatesShared" data="${estimateShared}"></field:share>
     </page:show>
 </div>

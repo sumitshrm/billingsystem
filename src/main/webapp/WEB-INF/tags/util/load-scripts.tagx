@@ -47,6 +47,9 @@
     <script type="text/javascript" src="${jqwidgets_url}/jqxnotification.js"><!-- required for FF3 and Opera --></script>
 		<script type="text/javascript" src="${jqwidgets_url}/jqxmenu.js"><!-- required for FF3 and Opera --></script>
 		<script type="text/javascript" src="${jqwidgets_url}/jqxwindow.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxcombobox.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxlistbox.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
 	
 	<!-- BOOTSTRAP ADMIN LAYOUT SETTINGS -->
 	    <!-- Bootstrap Core CSS -->
@@ -89,6 +92,9 @@
     <script src="${vendor_url}/bootbox/bootbox.min.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
   
   <!-- context menu end -->
+  <script src="${jqwidgets_url}/jqxdata.js" type="text/javascript">
+        <!-- required for FF3 and Opera -->
+    </script>
   
   
 </jsp:root>

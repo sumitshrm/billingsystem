@@ -23,6 +23,10 @@ function updateFile(id, description){
 	$('#update_form').attr('action', '/manageddocuments/update/description'+requestparam);
 	$('#update_form').submit();
 }
+function showFile(id){
+	var id = id.split("_")[1];
+	window.location.href = "/manageddocuments/"+id;
+}
 
 $(document).contextmenu({
     delegate: ".hasmenu",
@@ -37,6 +41,10 @@ $(document).contextmenu({
     }, {
         title: "Delete",
         cmd: "delete",
+        uiIcon: "ui-icon-copy"
+    },{
+        title: "Share",
+        cmd: "show",
         uiIcon: "ui-icon-copy"
     }],
     // Handle menu selection to implement a fake-clipboard
@@ -53,6 +61,11 @@ $(document).contextmenu({
         	}); 
         	
         	break;
+        	
+        case "show":
+       	 showFile($target.context.id);
+       	
+       	break;
         case "delete":
         	bootbox.confirm({
         	    message: "are you sure you want to delete selected file",

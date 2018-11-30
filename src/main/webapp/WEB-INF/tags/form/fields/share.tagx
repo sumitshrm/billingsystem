@@ -1,0 +1,116 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" rtexprvalue="true" description="Save and delete file sharing url" />
+  <jsp:directive.attribute name="data" type="java.util.Collection" required="false" rtexprvalue="true" description="Save and delete file sharing url" />
+
+
+	<div class="form-group row">
+			<label class="col-sm-2">Shared with: </label>
+			<div class="col-sm-10">
+         		<div  id='${id}'><!-- Div can not be empty --></div>
+			</div>
+		</div>
+<script lang="javascript">
+var sharedMap${id} = new Object(); // or var map = {};
+    //sharedMap${id}[myKey1] = myObj1;
+
+    function getsharedMap${id}(k) {
+        return sharedMap${id}[k];
+    }
+    var source = {
+    		datatype: "json",
+    		datafields: [{
+    		  name: 'username'
+    		}, {
+    		  name: 'fullName'
+    		},{
+    		  name: 'id'
+    		}],
+    		url: "/logusers/json",
+    		};
+ 		var dataAdapter = new $.jqx.dataAdapter(source, {
+ 		formatData: function (data) {
+ 		  if ($("#${id}").jqxComboBox('searchString') != undefined) {
+ 		      data.query = $("#${id}").jqxComboBox('searchString');
+ 		      return data;
+ 		  }
+ 		}
+ 		});
+    		    
+ 		    $("#${id}").jqxComboBox({
+ 		    	 width: '100%',
+ 		         multiSelect: true,
+ 		         source: dataAdapter,
+ 		         remoteAutoComplete: true,
+ 		         autoDropDownHeight: true,
+ 		         minLength: 10,
+ 		         selectedIndex: 0,
+ 		         showArrow: false,
+ 		         displayMember: "fullName",
+ 		         valueMember: "username",
+ 		         search: function (searchString) {
+ 		             dataAdapter.dataBind();
+ 		         }
+ 		            
+ 		    }); 
+ 		    
+ 		   <c:if test="${not empty data}">
+ 		   <c:forEach items="${data}" var="msheetShared">
+ 		   console.log('----------------','${msheetShared.sharedWith.username}');
+ 		  	$("#${id}").jqxComboBox('addItem',{username: "${msheetShared.sharedWith.username}",fullName: "${msheetShared.sharedWith.fullName}",id: "${msheetShared.sharedWith.id}"});
+		    $("#${id}").jqxComboBox('selectItem', "${msheetShared.sharedWith.username}" );
+		    sharedMap${id}['${msheetShared.sharedWith.username}'] = ${msheetShared.id};
+ 		   </c:forEach>
+ 		  </c:if>
+ 		    
+ 		    $('#${id}').on('select', function (event){
+	    		var args = event.args;
+	    		if (args) {
+	    			console.log(args);
+	    			$.ajax({
+	    				 type: "GET",
+	    				 url: "${url}&amp;userid="+args.item.originalItem.id,
+	    				 dataType: 'text',
+	    				 data: {},
+	    				 error: function(xhr, error){
+	    				        alert("Some error occured :" + error);
+	    				        location.reload(); 
+	    				 },
+	    				 success: function(result){
+	    					 sharedMap${id}[args.item.value] = result;
+	    				 }
+	    				});
+ 		    	}
+ 		    }); 
+ 		    $('#${id}').on('unselect', function (event) 
+ 		    		{
+ 		    		    var args = event.args;
+ 		    		    if (args) {
+ 		    		    	//console.log("original",args.item.originalItem.id);
+ 		    		    	var sharedid = getsharedMap${id}(args.item.value);
+ 		    		    	//console.log(sharedMap${id});
+ 		    		    	//console.log(args.item.value);
+ 		    		    	console.log(sharedid);
+ 		    		    	$.ajax({
+ 			    				 type: "DELETE",
+ 			    				 url: "${url}&amp;shareid="+sharedid,
+ 			    				 dataType: 'text',
+ 			    				 data: {},
+ 			    				 error: function(xhr, error){
+ 			    					alert("Some error occured :" + error);
+ 			    					//location.reload(); 
+ 			    				 },
+ 			    				 success: function(result){
+ 			    					 //alert("success");
+ 			    				 }
+ 			    				});
+ 		    		}
+ 		    		});
+ 		    $("#${id}").jqxComboBox({validateSelection: function(itemValue)
+ 		        {
+ 		           return true;
+ 		        }                             
+ 		     }); 
+ 		   </script>
+</jsp:root>
