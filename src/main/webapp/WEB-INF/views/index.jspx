@@ -14,7 +14,9 @@
   <util:panel id="title" title="${title}">
   <notification:popup object="${message}"/>
   
-  <sec:authorize ifAllGranted="AGG_ROLE">
+    
+  <sec:authorize ifAllGranted="USER_ROLE">
+  
   <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
@@ -36,9 +38,7 @@
             <a href="./aggreements" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
-        </sec:authorize>
   
-  <sec:authorize ifAllGranted="USER_ROLE">
   
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
