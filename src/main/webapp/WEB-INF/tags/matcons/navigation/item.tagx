@@ -15,7 +15,7 @@
     </c:if>
   
       <spring:url value="${url}" var="nav_item_url"/>
-      <a href="${nav_item_url}" class="btn ${styleclass}">
+      <a href="${nav_item_url}" class="btn ${styleclass} showloading">
       <c:out value="${label}"/>
       </a>
   </c:if>

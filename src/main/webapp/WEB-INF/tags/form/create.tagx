@@ -26,7 +26,7 @@
       <c:if test="${not empty compositePkField}">
       	<c:set var="jsCall" value="encodePk()" />
       </c:if>
-      <form:form action="${form_url}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="${jsCall}">
+      <form:form class="showloading-form" action="${form_url}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="${jsCall}">
         <form:errors cssClass="errors" delimiter="&lt;p/&gt;"/>
         <c:if test="${not empty compositePkField}">
           <form:hidden id="_${fn:escapeXml(compositePkField)}_id" path="${fn:escapeXml(compositePkField)}" />

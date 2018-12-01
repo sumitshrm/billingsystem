@@ -135,8 +135,8 @@ function shortDescription(d_item, d_subitem){
         <c:if test="${not measurementsheet.userManaged}">
             <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
                 <div class="btn-group" style="margin-bottom:15px">
-                    <input class="btn btn-primary" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
-                    <input class="btn btn-primary" type="submit" value="generate reports"/>
+                    <input class="btn btn-primary showloading" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
+                    <input class="btn btn-primary showloading" type="submit" value="generate reports"/>
                 </div>
             </form:form>
         </c:if>
@@ -151,7 +151,7 @@ function shortDescription(d_item, d_subitem){
             <div style="display:${not empty measurementsheet.itemAbstracts?'block':'none'}">
                 <form:form action="${update_abstract_url}" modelAttribute="measurementsheet">
                     <div class="btn-group" style="margin-bottom:15px; margin-top:15px; margin-left:5px">
-                        <input class="btn btn-primary" type="submit" value="Update Abstract"/>
+                        <input class="btn btn-primary showloading" type="submit" value="Update Abstract"/>
                         <input class="btn btn-primary" onclick="javascript:resetAbstractData()" type="button" value="Reset values"/>
                     </div>
                     <div style="clear:both;">
