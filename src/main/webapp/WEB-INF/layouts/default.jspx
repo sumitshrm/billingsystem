@@ -42,7 +42,7 @@
 			function showloading(){
 				$(".loading").show();
 				$("#loader").show();
-				$( '#body' ).trigger( 'click' );
+				$( '.content' ).trigger( 'click' );
 				//history.pushState(null, null, elem.href);
 			}
 			
@@ -69,7 +69,7 @@
 		<script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
 	</head>
 	
-  	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui">
+  	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui" id="body">
   	<div class="loading"><div id="loader"><!-- loader --></div></div>
   	<input type="hidden" name="urlcheck" id="urlcheck"></input>
    		
