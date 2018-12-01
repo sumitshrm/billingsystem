@@ -145,6 +145,21 @@
                 $("#grid").jqxGrid('applyfilters');
             });
             
+            $("#rateField").on('change keyup paste', function() {
+                $("#grid").jqxGrid('clearfilters');
+                var datafield = "rate";
+                var searchText = $("#rateField").val();
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = searchText;
+                var filtercondition = 'starts_with';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                $("#grid").jqxGrid('addfilter', datafield, filtergroup);
+                // apply the filters.
+                $("#grid").jqxGrid('applyfilters');
+            });
+            
             
             var selectedSource =
             {
@@ -416,6 +431,11 @@
                             <div class="col-lg-3 col-xs-6">
           <div class="form-group" style="">
                   <input  type="text" class="form-control" id="descField" placeholder="Enter Description" />
+                </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="form-group" style="">
+                  <input  type="text" class="form-control" id="rateField" placeholder="Enter Rate" />
                 </div>
         </div>
                             <div class="col-lg-3 col-xs-6">
