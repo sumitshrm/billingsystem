@@ -9,14 +9,18 @@
   <c:if test="${empty render or render}">
   
   <c:set value="btn-default" var="styleclass" />
-  
+   <spring:url value="${url}" var="nav_item_url"/>
   <c:if test="${not empty active}">
-      <c:set value="btn-primary" var="styleclass" />
+       <li><c:out value="${label}"/></li>
+    </c:if>
+    <c:if test="${empty active}">
+       <li><a href="${nav_item_url}" class="showloading"><c:out value="${label}"/></a></li>
     </c:if>
   
-      <spring:url value="${url}" var="nav_item_url"/>
-      <a href="${nav_item_url}" class="btn ${styleclass} showloading">
+     
+      <!-- <a href="${nav_item_url}" class="btn ${styleclass} showloading">
       <c:out value="${label}"/>
-      </a>
+      </a> -->
+       <!-- <li><a href="${nav_item_url}" class="showloading"><c:out value="${label}"/></a></li> -->
   </c:if>
 </jsp:root>
