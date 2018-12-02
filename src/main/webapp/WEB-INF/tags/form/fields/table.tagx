@@ -138,7 +138,7 @@
             <!--<a href="${show_form_url}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
               <img alt="${fn:escapeXml(show_label)}" class="image" src="${show_image_url}" title="${fn:escapeXml(show_label)}" />
             </a>-->
-            <a href="${show_form_url}" title="${fn:escapeXml(show_label)}" class="btn btn-primary btn-xs">
+            <a href="${show_form_url}" onclick="showloading()" title="${fn:escapeXml(show_label)}" class="btn btn-primary btn-xs">
          		 <span class="fa fa-binoculars"></span>
         	</a>
           </td>
@@ -153,7 +153,7 @@
               <!--<a href="${update_form_url}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
                 <img alt="${fn:escapeXml(update_label)}" class="image" src="${update_image_url}" title="${fn:escapeXml(update_label)}" />
               </a>-->
-              <a href="${update_form_url}" title="${fn:escapeXml(update_label)}" class="btn btn-primary btn-xs">
+              <a href="${update_form_url}" title="${fn:escapeXml(update_label)}" onclick="showloading()" class="btn btn-primary btn-xs">
          		 <span class="glyphicon glyphicon-edit"></span>
         	</a>
             </td>
@@ -171,7 +171,7 @@
                   </c:set>
                   <!--<input alt="${fn:escapeXml(delete_label)}" class="btn btn-default btn-sm"  title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${fn:escapeXml(delete_confirm_msg)}');">
                   </input>-->
-                  <button type="button" class="btn btn-primary btn-xs" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){document.delete_${itemId}.submit()}});">
+                  <button type="button" class="btn btn-primary btn-xs" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){showloading();document.delete_${itemId}.submit()}});">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
                 </form:form>

@@ -351,7 +351,7 @@
         }
         
          function saveTransaction() {
-        	$(".loading").show();
+        	showloading();
         	var jsonBody = {};
            	jsonBody.nameOfWork = $("#nameOfWork_text").val();
            	jsonBody.items = $("#selectedGrid").jqxGrid('getrows');
@@ -366,7 +366,8 @@
         	    	  window.location=result.url;
         	    	  $(".loading").fadeOut( 200);
         	     },error: function(e){
-        	    	  $(".loading").fadeOut( 200);
+        	    	 $(".loading").hide();
+     				$("#loader").hide();
         	    	  alert("some error occured");
         	    }
         	  });

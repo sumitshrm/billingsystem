@@ -38,7 +38,6 @@ var filesToCache = [
   '/resources/assets/adminlte/js/app.min.js',
   '/resources/assets/vendor/bootbox/bootbox.min.js',
   '/resources/dijit/themes/tundra/tundra.css',
-  '/resources/styles/standard.css',
   '/resources/images/favicon.ico',
   '/resources/dijit/form/ComboBox.js',
   '/resources/dijit/form/FilteringSelect.js',

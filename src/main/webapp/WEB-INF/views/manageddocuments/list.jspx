@@ -25,6 +25,7 @@ function updateFile(id, description){
 }
 function showFile(id){
 	var id = id.split("_")[1];
+	showloading();
 	window.location.href = "/manageddocuments/"+id;
 }
 
@@ -135,6 +136,7 @@ $(document).ready(function () {
 						uploadFile();
 						//$('#managedDocument').attr('action', '/manageddocuments/template/oth');
 					}
+					showloading();
 					$('#managedDocument').submit();
 				}
 
@@ -172,7 +174,7 @@ $(document).ready(function () {
                 </li>
                 <c:if test="${not empty aggreement}">
                     <li>
-                        <a href="/manageddocuments">
+                        <a href="/manageddocuments" class="showloading">
                             <i class="fa fa-arrow-left">
                                 <!-- empty not allowed	 -->
                             </i> Back</a>
@@ -195,8 +197,8 @@ $(document).ready(function () {
             </c:if>
         </c:forEach>
     </util:panel>
-    <form:form action="/manageddocuments/44" id="delete_form" method="DELETE" name="delete_${itemId}"/>
-    <form:form action="/manageddocuments/update/description" id="update_form" method="POST" name="delete_" style="display:none">
+    <form:form class="showloading-form" action="/manageddocuments/44" id="delete_form" method="DELETE" name="delete_${itemId}"/>
+    <form:form class="showloading-form" action="/manageddocuments/update/description" id="update_form" method="POST" name="delete_" style="display:none">
         <input id="update_id" name="id" type="text"/>
         <input id="update_desc" name="description" type="text"/>
         <input class="btn btn-primary" id="proceed" type="submit" value="Save"/>

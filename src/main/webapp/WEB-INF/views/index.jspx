@@ -20,22 +20,22 @@
   <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
-          <div class="small-box bg-aqua">
+          <div class="small-box showloading bg-aqua">
             <div class="inner"><a href="./aggreements?form" style="color: inherit;">
               <h3 style="font-size: 20px">New<br/>Aggreement</h3>
             </a></div>
-            <a href="./aggreements?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./aggreements?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
           
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box showloading bg-green">
             <div class="inner"><a href="./aggreements" style="color: inherit;">
               <h3 style="font-size: 20px">List<br/>Aggreement</h3>
             </a></div>
-            <a href="./aggreements" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./aggreements" class="small-box-footer showloading">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
   
@@ -43,84 +43,84 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
-          <div class="small-box bg-aqua">
+          <div class="small-box showloading bg-aqua">
             <div class="inner"><a href="/manageddocuments" style="color: inherit;">
               <h3 style="font-size: 20px">Managed<br/>Documents</h3>
             </a></div>
-            <a href="/manageddocuments" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/manageddocuments" class="small-box-footer showloading">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
           
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-blue">
+          <div class="small-box showloading bg-blue">
             <div class="inner"><a href="./books/dsr" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>DSR</h3>
             </a></div>
-            <a href="./books/dsr" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./books/dsr" class="small-box-footer showloading">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-orange">
+          <div class="small-box showloading bg-orange">
             <div class="inner"><a href="./books/materialrates" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>Material Rates</h3>
             </a></div>
-            <a href="./books/materialrates" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./books/materialrates" class="small-box-footer showloading">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-orange">
+          <div class="small-box showloading bg-orange">
             <div class="inner"><a href="/books/itemsmake/index" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>Items Make</h3>
             </a></div>
-            <a href="/books/itemsmake/index" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/books/itemsmake/index" class="small-box-footer showloading">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-orange">
+          <div class="small-box showloading bg-orange">
             <div class="inner"><a href="/books/theoretical/index" style="color: inherit;">
               <h3 style="font-size: 20px">Show<br/>Theoretical</h3>
             </a></div>
-            <a href="/books/theoretical/index" class="small-box-footer">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/books/theoretical/index" class="small-box-footer showloading">Show <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-orange">
+          <div class="small-box showloading bg-orange">
             <div class="inner"><a href="/calculator/eisdiscalculator" style="color: inherit;">
               <h3 style="font-size: 20px">EIS &amp; DIS<br/>Calculator</h3>
             </a></div>
-            <a href="/calculator/eisdiscalculator" class="small-box-footer">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/calculator/eisdiscalculator" class="small-box-footer showloading">Open <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box showloading bg-yellow">
             <div class="inner"><a href="./estimates?form" style="color: inherit;">
               <h3 style="font-size: 20px">Create<br/>Estimates</h3>
             </a></div>
             
-            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./materialentrys?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box showloading bg-red">
             <div class="inner"><a href="./estimates?page=1&amp;size=10" style="color: inherit;">
               <h3 style="font-size: 20px">List<br/>Estimates</h3>
             </a></div>
-            <a href="./estimates?page=1&amp;size=10" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./estimates?page=1&amp;size=10" class="small-box-footer showloading">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
@@ -131,7 +131,7 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           
-          <div class="small-box bg-aqua">
+          <div class="small-box showloading bg-aqua">
             <div class="inner">
               <h3 style="font-size: 20px">New User</h3>
 
@@ -140,14 +140,14 @@
             <div class="icon">
               <m:icon styleclass="ion ion-bag"></m:icon>
             </div>
-            <a href="./logusers?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./logusers?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
           
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box showloading bg-green">
             <div class="inner">
               <h3 style="font-size: 20px">List Users<sup style="font-size: 10px"></sup></h3>
 
@@ -156,13 +156,13 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./logusers" class="small-box-footer">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./logusers" class="small-box-footer showloading">List <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box showloading bg-yellow">
             <div class="inner">
               <h3 style="font-size: 20px">Create new role<sup style="font-size: 10px"></sup></h3>
 
@@ -171,13 +171,13 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./loguserroles?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./loguserroles?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box showloading bg-red">
             <div class="inner">
               <h3 style="font-size: 20px">List all roles<sup style="font-size: 10px"></sup></h3>
 
@@ -186,7 +186,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="./loguserroles" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./loguserroles" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         </sec:authorize>
@@ -196,28 +196,28 @@
         Material entry and Labor entry disabled
         
         <div class="col-lg-3 col-xs-6">
-          <div class="small-box bg-yellow">
+          <div class="small-box showloading bg-yellow">
             <div class="inner"><a href="./materialentrys?form" style="color: inherit;">
               <h3 style="font-size: 20px">Material<br/>Entry</h3>
             </a></div>
             
-            <a href="./materialentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./materialentrys?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
          <div class="col-lg-3 col-xs-6">
-          <div class="small-box bg-red">
+          <div class="small-box showloading bg-red">
             <div class="inner"><a href="./labourentrys?form" style="color: inherit;">
               <h3 style="font-size: 20px">Labour<br/>Entry</h3>
             </a></div>
-            <a href="./labourentrys?form" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="./labourentrys?form" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div> -->
         
         
         <!-- <div class="col-lg-3 col-xs-6">
           small box
-          <div class="small-box bg-red">
+          <div class="small-box showloading bg-red">
             <div class="inner">
               <h3 style="font-size: 26px">Company<sup style="font-size: 20px"></sup></h3>
 
@@ -226,13 +226,13 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           small box
-          <div class="small-box bg-purple">
+          <div class="small-box showloading bg-purple">
             <div class="inner">
               <h3 style="font-size: 26px;">Supplier<sup style="font-size: 20px"></sup></h3>
 
@@ -241,13 +241,13 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           small box
-          <div class="small-box bg-lime">
+          <div class="small-box showloading bg-lime">
             <div class="inner">
               <h3 style="font-size: 26px">Item Name<sup style="font-size: 20px"></sup></h3>
 
@@ -256,13 +256,13 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div>
         
         <div class="col-lg-3 col-xs-6">
           small box
-          <div class="small-box bg-maroon">
+          <div class="small-box showloading bg-maroon">
             <div class="inner">
               <h3 style="font-size: 26px">Labour Supplier<sup style="font-size: 20px"></sup></h3>
 
@@ -271,7 +271,7 @@
             <div class="icon">
               <m:icon styleclass="ion ion-stats-bars"></m:icon>
             </div>
-            <a href="/billingsystem/aggreements" class="small-box-footer">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
+            <a href="/billingsystem/aggreements" class="small-box-footer showloading">Create <m:icon styleclass="fa fa-arrow-circle-right"></m:icon></a>
           </div>
         </div> -->
   </util:panel>

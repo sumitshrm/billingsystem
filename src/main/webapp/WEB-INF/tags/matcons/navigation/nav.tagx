@@ -2,9 +2,9 @@
 	<jsp:output omit-xml-declaration="yes"/>
 	
 	<jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
-	<div class="row" style="margin-top:0px">
-        <div class="btn-group btn-breadcrumb" style="margin-top:10px">
+	<div class="row" style="margin-top:10px">
+        <ol class="breadcrumb" style="margin-bottom:0px">
             <jsp:doBody />
-        </div>
+        </ol>
 	</div>
 </jsp:root>

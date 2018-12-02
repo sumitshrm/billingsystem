@@ -39,9 +39,16 @@
 	
 	
 	<div style="align-items:center;display:flex;flex-direction:column;justify-content:center;">
+	<c:if test = "${empty hasmenu}">
+	<a href="${href}" class="icon-link ${hasmenu} showloading">
+	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
+	</a>
+	</c:if>
+	<c:if test = "${not empty hasmenu}">
 	<a href="${href}" class="icon-link ${hasmenu}">
 	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
 	</a>
+	</c:if>
 	<span style="word-wrap: break-word; max-width: 100px">${label }</span>
 	</div>
 	

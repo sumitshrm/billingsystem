@@ -35,7 +35,7 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown notifications-menu">
-            <a href="/" class="" data-toggle="">
+            <a href="/" class="showloading" data-toggle="">
               <m:icon styleclass="fa fa-home"></m:icon>
             </a>
             </li>
@@ -54,7 +54,7 @@
                   <li>
                   <spring:url
 						value="/settings/resetpassword" var="resetpassword" />
-                    <a href="${resetpassword}">
+                    <a href="${resetpassword}" class="showloading">
                       <m:icon styleclass="fa fa-lock"></m:icon>
                       
                       Change Password
