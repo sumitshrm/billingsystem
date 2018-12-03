@@ -10,6 +10,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -59,5 +60,13 @@ public class ManagedDocument {
     @PrePersist
     public void prePersist() {
         setLogUser(LogUser.getCurrentUser());
+    }
+    
+    public static Long getStorageByUser(long id) {
+        TypedQuery q = ManagedDocument.entityManager().createQuery("SELECT SUM(o.fileSize) FROM ManagedDocument AS o WHERE o.logUser.id = :id", Long.class);
+        q.setParameter("id", id);
+        System.out.println("getting storage DAO");
+        Long result = (Long) q.getSingleResult();
+        return result==null?0:((Long) q.getSingleResult());
     }
 }

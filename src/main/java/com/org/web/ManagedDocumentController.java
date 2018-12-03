@@ -350,4 +350,14 @@ public class ManagedDocumentController {
 		}
     	
     }
+    
+    @RequestMapping(value="/storage/{id}", produces=MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> fetchStorageUsed(@PathVariable("id") Long id){
+    	System.out.println("getting storage");
+    	long storage = ManagedDocument.getStorageByUser(id);
+    	storage = Math.round(storage/1048576);//Convert to MB
+    	System.out.println("storege"+storage);
+    	return new ResponseEntity<String>(Long.toString(storage), HttpStatus.OK);
+    }
 }

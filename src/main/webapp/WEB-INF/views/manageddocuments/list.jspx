@@ -104,19 +104,32 @@ $(document).contextmenu({
 
 $(document).ready(function () {
     // Create a jqxMenu
-    $("#jqxMenu").jqxMenu({ 
+    /* $("#jqxMenu").jqxMenu({ 
     	height: '30px',
     	autoOpen: false
     });
-    $("#jqxMenu").css('display', 'block');
+    $("#jqxMenu").css('display', 'block'); */
     
     $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
-    $(".jqx-window").css("z-index", "3000");
+    storage_used
+    
+    $.ajax({url: "/manageddocuments/storage/${user_id}", success: function(result){
+    	$("#storage_used").html(result);
+        console.log(result);
+        var s_percent = result/200*100;
+        if(s_percent>=90){
+        	$("#storage_used_percent").addClass('progress-bar-red');
+        }else{
+        	$("#storage_used_percent").addClass('progress-bar-aqua');
+        }
+        $("#storage_used_percent").css('width', s_percent+'%');
+    }});
 
 });
 
 
 	function createFile(type) {
+		console.log(type);
 		if (type == 'oth') {
 			uploadFile();
 		} else {
@@ -145,6 +158,7 @@ $(document).ready(function () {
 	}
 
 	function uploadFile() {
+		console.log('uploadFile');
 		$('#managedDocument').attr('action','/manageddocuments/template/oth');
 		$("#createDivForm").jqxWindow('open');
 		if(aggreement!=''){
@@ -152,37 +166,36 @@ $(document).ready(function () {
 		}
 	}
 </SCRIPT>
-    <div style="margin-top:10px">
-        <div id="jqxMenu" style="display : none">
-            <ul>
-                <li>
-                    <a href="#Home">
-                        <i class="glyphicon glyphicon-plus">
-                            <!-- empty not allowed	 -->
-                        </i> Create New</a>
-                    <ul style="">
-                        <li onclick="createFile('xls');">
-                            <a href="#">MS Excel File</a>
-                        </li>
-                        <li onclick="createFile('doc');">
-                            <a href="#">MS Word File</a>
-                        </li>
-                        <li onclick="createFile('oth');">
-                            <a href="#">Upload Other File</a>
-                        </li>
-                    </ul>
-                </li>
-                <c:if test="${not empty aggreement}">
-                    <li>
+    
+    <div style="margin-top: 10px" class="row">
+		<ol style="margin-bottom: 0px" class="breadcrumb">
+ 			<li><a  onclick="createFile('xls');" href="#">Add Excel</a></li>
+			<li><a  onclick="createFile('doc');" href="#">Add Word</a></li>
+			<li><a  onclick="createFile('oth');" href="#">Upload File</a></li>
+			<c:if test="${not empty aggreement}">
+			<li>
                         <a href="/manageddocuments" class="showloading">
                             <i class="fa fa-arrow-left">
                                 <!-- empty not allowed	 -->
-                            </i> Back</a>
+                            </i></a>
                     </li>
-                </c:if>
-            </ul>
-        </div>
+                    </c:if>
+		</ol>
+	</div>
+	<c:if test="${empty aggreement}">
+	<div class="col-lg-4 d-none d-sm-block" style="padding: 0px">
+	<util:panel id="test12" title="Storage">
+	<div class="progress-group">
+                    <span class="progress-text">You have used</span>
+                    <span class="progress-number"><b><span id="storage_used">160</span> MB</b> of 200 MB</span>
+
+                    <div class="progress sm" style="margin-bottom: 0px;">
+                      <div id="storage_used_percent" class="progress-bar" style="width: 0%"><!-- empty --></div>
+                    </div>
     </div>
+	</util:panel></div>
+	</c:if>
+	
     <util:panel id="title" title="Managed Documents">
         <c:forEach items="${aggreements}" var="item">
             <div class="col-lg-2 col-xs-4">
