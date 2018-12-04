@@ -18,13 +18,6 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect LogUserController_Roo_Controller {
     
-    @RequestMapping(value = "/{id}", produces = "text/html")
-    public String LogUserController.show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("loguser", LogUser.findLogUser(id));
-        uiModel.addAttribute("itemId", id);
-        return "logusers/show";
-    }
-    
     @RequestMapping(produces = "text/html")
     public String LogUserController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {

@@ -8,6 +8,7 @@ import com.org.entity.ManagedDocumentShared;
 import com.org.entity.MaterialEntry;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.MeasurementSheetShared;
+import com.org.entity.UserStorage;
 import com.org.excel.gateway.ExcelGatewayTo;
 import com.org.excel.gateway.ResponseStatus;
 import com.org.excel.service.ExcelUtill;
@@ -276,6 +277,8 @@ public class ManagedDocumentController {
             uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
             uiModel.addAttribute("aggreements", Aggreement.findAggreementsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
     	}
+    	uiModel.addAttribute("storageLimit", UserStorage.getStorageLimitByUser(user));
+    	
         uiModel.addAttribute("managedDocument", new ManagedDocument());
        return "manageddocuments/list";
     }

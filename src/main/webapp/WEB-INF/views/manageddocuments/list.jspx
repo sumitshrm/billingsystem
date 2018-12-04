@@ -116,7 +116,7 @@ $(document).ready(function () {
     $.ajax({url: "/manageddocuments/storage/${user_id}", success: function(result){
     	$("#storage_used").html(result);
         console.log(result);
-        var s_percent = result/200*100;
+        var s_percent = result/${storageLimit}*100;
         if(s_percent>=90){
         	$("#storage_used_percent").addClass('progress-bar-red');
         }else{
@@ -187,7 +187,7 @@ $(document).ready(function () {
 	<util:panel id="test12" title="Storage">
 	<div class="progress-group">
                     <span class="progress-text">You have used</span>
-                    <span class="progress-number"><b><span id="storage_used">160</span> MB</b> of 200 MB</span>
+                    <span class="progress-number"><b><span id="storage_used">160</span> MB</b> of ${storageLimit} MB</span>
 
                     <div class="progress sm" style="margin-bottom: 0px;">
                       <div id="storage_used_percent" class="progress-bar" style="width: 0%"><!-- empty --></div>
