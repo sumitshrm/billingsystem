@@ -180,7 +180,7 @@ public class ManagedDocumentController {
 	public String updateFromGateway(ExcelGatewayTo command, Model uiModel,
 			@PathVariable("id") Long id,
 			@RequestParam("FileField") MultipartFile content) {
-    	ManagedDocument doc = ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser()).getSingleResult();
+    	ManagedDocument doc = ManagedDocument.findManagedDocumentsByIdAndLogUser(id, LogUser.getCurrentUser()).getSingleResult();
     	if(doc!=null) {
     		try {
     			fileStorageService.doPost(content.getInputStream(), doc.getUrl());
