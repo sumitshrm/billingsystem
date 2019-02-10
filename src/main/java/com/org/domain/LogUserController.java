@@ -148,7 +148,7 @@ public class LogUserController {
          populateEditForm(uiModel, logUser);
          return "logusers/register";
          }*/
-        logUser.setEnabled(false);
+        logUser.setEnabled(true);
         LogUserRole role = LogUserRole.findLogUserRolesByRoleNameEquals(LogUserRole.USER_ROLE).getSingleResult();
         Set<LogUserRole> roles = new HashSet<LogUserRole>();
         roles.add(role);
