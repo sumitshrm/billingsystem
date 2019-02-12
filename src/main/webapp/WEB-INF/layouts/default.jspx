@@ -101,10 +101,13 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.5
-    </div>
-    <strong>Copyright 2016-2017 <a href="www.suminfotech.com">SUM InfoTech</a>.</strong> All rights
+    <strong>Copyright 2016-2017 <a href="http://www.suminfotech.com">SUMInfoTech</a></strong> All rights
     reserved.
+      
+    </div>
+    <div>
+    <strong>Contact support : </strong> 9971800615, 8587297147
+    </div>
   </footer>
 
 </div>

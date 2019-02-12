@@ -86,5 +86,29 @@
     });
   });
 </script>
+
+<!-- /.content-wrapper -->
+<style>
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+  margin: 0 0 0;
+  padding: 15px;
+   background-color: #fff;
+   color: #444;
+}
+</style>
+  <div class="footer">
+  <div class="pull-right hidden-xs">
+    <strong>Copyright 2016-2017 <a href="http://www.suminfotech.com">SUMInfoTech</a></strong> All rights
+    reserved.
+      
+    </div>
+    <div>
+    <strong>Contact support : </strong> 9971800615, 8587297147
+    </div>
+</div>
 </div>
 
