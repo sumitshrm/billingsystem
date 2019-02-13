@@ -8,6 +8,7 @@ import com.org.entity.ManagedDocumentShared;
 import com.org.entity.MaterialEntry;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.MeasurementSheetShared;
+import com.org.entity.UserStorage;
 import com.org.excel.gateway.ExcelGatewayTo;
 import com.org.excel.gateway.ResponseStatus;
 import com.org.excel.service.ExcelUtill;
@@ -179,7 +180,7 @@ public class ManagedDocumentController {
 	public String updateFromGateway(ExcelGatewayTo command, Model uiModel,
 			@PathVariable("id") Long id,
 			@RequestParam("FileField") MultipartFile content) {
-    	ManagedDocument doc = ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser()).getSingleResult();
+    	ManagedDocument doc = ManagedDocument.findManagedDocumentsByIdAndLogUser(id, LogUser.getCurrentUser()).getSingleResult();
     	if(doc!=null) {
     		try {
     			fileStorageService.doPost(content.getInputStream(), doc.getUrl());
@@ -276,6 +277,8 @@ public class ManagedDocumentController {
             uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
             uiModel.addAttribute("aggreements", Aggreement.findAggreementsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
     	}
+    	uiModel.addAttribute("storageLimit", UserStorage.getStorageLimitByUser(user));
+    	
         uiModel.addAttribute("managedDocument", new ManagedDocument());
        return "manageddocuments/list";
     }
@@ -349,5 +352,15 @@ public class ManagedDocumentController {
 			return new ResponseEntity<String>("Error occurred while deleting document : "+e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
     	
+    }
+    
+    @RequestMapping(value="/storage/{id}", produces=MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> fetchStorageUsed(@PathVariable("id") Long id){
+    	System.out.println("getting storage");
+    	long storage = ManagedDocument.getStorageByUser(id);
+    	storage = Math.round(storage/1048576);//Convert to MB
+    	System.out.println("storege"+storage);
+    	return new ResponseEntity<String>(Long.toString(storage), HttpStatus.OK);
     }
 }

@@ -15,6 +15,7 @@
 	
 	
 	<spring:eval expression="T(com.org.domain.LogUser).getCurrentUser().getFullName()" var="username" />
+	<spring:eval expression="T(com.org.domain.LogUser).getCurrentUser().getId()" var="user_id" scope="request"/>
 	
 	<header class="main-header">
     <!-- Logo -->

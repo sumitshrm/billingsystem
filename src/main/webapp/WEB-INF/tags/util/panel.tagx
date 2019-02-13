@@ -38,7 +38,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-               <div class="panel panel-default">
+               <div class="panel panel-default" style="margin-bottom: 5px;">
                                     <div class="panel-heading" style="padding-left: 5px;padding-right: 5px;">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_${id}">${title}</a>

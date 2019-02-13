@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"  xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+    
+    <SCRIPT type="text/javascript">
+   /*  $(document).ready(function () {
+    	$("#storage_limit").click(function(){
+    	    var limit=$("#storageLimitInput").val();
+    	    alert("update storage too "+limit);
+    	    $.ajax({url: "/logusers/${loguser.id}/updatestorage?limit="+limit, success: function(result){
+    	    	
+    	    });
+    	});
+    });
+    }); */
+    $(document).ready(function (){
+    	$("#storage_limit").click(function(){
+    		$("#storage_update_success").hide();
+    		$("#storage_update_failure").hide();
+    		var limit=$("#storageLimitInput").val();
+    		
+    		if(limit!=''){
+    			$.ajax({
+    				type: "POST",
+    				url: "/logusers/${loguser.id}/updatestorage?limit="+limit, 
+    				success: function(result){
+    					
+    					$("#storage_update_success").fadeIn(200);
+    					setTimeout(function() {
+    				        $("#storage_update_success").fadeOut(500);
+    				    }, 2000);
+    				}
+    			})
+    			
+    		}else{
+    			$("#fail_message").html(" storage is not a valid number");
+    			$("#storage_update_failure").fadeIn(200);
+    		}
+    	});
+    });
+    </SCRIPT>
+    
     <page:show id="ps_com_org_domain_LogUser" object="${loguser}" path="/logusers" z="8NSVilNtOD25L/JEhZ+J7HTIejU=">
         <field:display field="enabled" id="s_com_org_domain_LogUser_enabled" object="${loguser}" z="NjteUOgHbin36L9IP4dA2MugqyU="/>
         <field:display field="username" id="s_com_org_domain_LogUser_username" object="${loguser}" z="99hovJgb8pYgsI3WB+PsSvjbbxQ="/>
@@ -10,4 +49,26 @@
         <field:display field="emailAddress" id="s_com_org_domain_LogUser_emailAddress" object="${loguser}" z="uJ+nYY8qLKDlsGhENCr1tKAcFcs="/>
         <field:display field="fullName" id="s_com_org_domain_LogUser_fullName" object="${loguser}" z="O1iW3onK/klog/BU9wPTj7qkBVw="/>
     </page:show>
+    
+	<div class="row">
+    <div class="col-lg-4" style="padding: 0px">
+    <util:panel id="user_storage" title="Storage">
+	<div class="form-group">
+                  <label>Storage limit in MB</label>
+                  
+                   <div class="input-group input-group-sm">
+                <input id="storageLimitInput" type="number" class="form-control" value="${storageLimit}" />
+                    <span class="input-group-btn">
+                      <button id="storage_limit" type="button" class="btn btn-info btn-flat">Update</button>
+                    </span>
+              </div>
+                </div>
+                
+                <span id="storage_update_success" style="display:none" class="help-block"><i class="fa fa-check"><!-- empty --></i> storage updated</span>
+                <span id="storage_update_failure" style="display:none" class="help-block"><i class="fa fa-times"><!-- empty --></i><span id="fail_message"></span></span>
+
+                
+	</util:panel>
+    </div>
+    </div>
 </div>

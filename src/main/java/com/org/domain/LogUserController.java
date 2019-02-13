@@ -3,21 +3,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.org.entity.UserStorage;
 import com.org.report.service.AbstractGeneratorServiceV2;
 import com.org.view.MessageType;
 import com.org.view.MessageVo;
@@ -28,6 +34,15 @@ import com.org.view.MessageVo;
 public class LogUserController {
 
     static final Logger logger = Logger.getLogger(LogUserController.class);
+    
+    @RequestMapping(value = "/{id}", produces = "text/html")
+    public String show(@PathVariable("id") Long id, Model uiModel) {
+    	LogUser logUser =  LogUser.findLogUser(id);
+        uiModel.addAttribute("loguser",logUser);
+        uiModel.addAttribute("storageLimit", UserStorage.getStorageLimitByUser(logUser));
+        uiModel.addAttribute("itemId", id);
+        return "logusers/show";
+    }
 
     @RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
@@ -50,6 +65,10 @@ public class LogUserController {
         uiModel.asMap().clear();
         try {
             logUser.persist();
+            UserStorage userStorage = new UserStorage();
+            userStorage.setStorageLimit(UserStorage.DEFAULT_STORAGE_LIMIT);
+            userStorage.setLogUser(logUser);
+            userStorage.persist();
         } catch (ConstraintViolationException e) {
             populateEditForm(uiModel, logUser);
             uiModel.addAttribute("message", new MessageVo("log_user_duplicate_username", MessageType.ERROR));
@@ -129,7 +148,7 @@ public class LogUserController {
          populateEditForm(uiModel, logUser);
          return "logusers/register";
          }*/
-        logUser.setEnabled(false);
+        logUser.setEnabled(true);
         LogUserRole role = LogUserRole.findLogUserRolesByRoleNameEquals(LogUserRole.USER_ROLE).getSingleResult();
         Set<LogUserRole> roles = new HashSet<LogUserRole>();
         roles.add(role);
@@ -161,5 +180,20 @@ public class LogUserController {
     	}
     	List<LogUser>  user = LogUser.findLogUsersByUsernameEquals(username).getResultList();
     	return user;
+    }
+    
+    @RequestMapping(value="/{id}/updatestorage", method = RequestMethod.POST)
+    public ResponseEntity<String> updateUserStorageLimit(@RequestParam(value="limit", required=true) long limit, @PathVariable(value="id") long user) {
+    	LogUser logUser = LogUser.findLogUser(user);
+    	UserStorage userStorage = null;
+    	try {
+    		userStorage = UserStorage.findUserStoragesByLogUser(logUser).getSingleResult();
+		} catch (Exception e) {
+			userStorage = new UserStorage();
+			userStorage.setLogUser(logUser);
+		}
+    	userStorage.setStorageLimit(limit);
+    	userStorage.persist();
+    	return new ResponseEntity<String>("Storage limit updated", HttpStatus.OK);
     }
 }

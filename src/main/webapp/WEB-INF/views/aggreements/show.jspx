@@ -40,15 +40,15 @@
     </div>
     <div class="col-lg-6" style="padding-right: 5px;padding-left: 5px;">
     <sec:authorize ifAllGranted="AGG_USER_ROLE">
-    
-    <page:list id="pl_com_org_entity_MeasurementSheet" items="${aggreement.measurementSheets}" openPane="true" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
-        
-        <div class="row">
+    <div class="row">
         <div class="btn-group">
             <input class="btn btn-primary showloading" onclick="location.href='../measurementsheets?form&amp;aggreement=${aggreement.id}';" type="button" value="create new measurement"/>
             <input class="btn btn-primary showloading" onclick="location.href='../items/aggreement/${aggreement.id}'" type="button" value="manage items"/>
         </div>
     </div>
+    <page:list id="pl_com_org_entity_MeasurementSheet" items="${aggreement.measurementSheets}" openPane="true" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
+        
+        
         
         <table:table create="false" data="${aggreement.measurementSheets}" id="l_com_org_entity_MeasurementSheet" path="/measurementsheets" responsive="false" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=">
             <table:column document="true" id="c_com_org_entity_MeasurementSheet_serialNumber" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
@@ -58,14 +58,14 @@
     </div>
     <div class="col-lg-6" style="padding-right: 5px;padding-left: 5px;">
    
-    
-    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" openPane="true" z="user-managed">
-       
-        <div class="row">
+     <div class="row">
         <div class="btn-group">
             <input class="btn btn-primary showloading" onclick="location.href='../manageddocuments?form&amp;aggreement=${aggreement.id}';" type="button" value="add document"/>
         </div>
     </div>
+    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" openPane="true" z="user-managed">
+       
+       
         <table:table create="false" data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" responsive="false" z="user-managed">
             <table:column document="true" id="c_com_org_entity_ManagedDocument_description" property="description" z="user-managed"/>
         </table:table>
