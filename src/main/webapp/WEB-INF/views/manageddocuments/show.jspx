@@ -19,7 +19,7 @@
         <field:display field="content" id="s_com_org_entity_ManagedDocument_content" object="${manageddocument}" render="false" z="user-managed"/>
         <field:display field="logUser" id="s_com_org_entity_ManagedDocument_logUser" object="${manageddocument}" render="false" z="user-managed"/>
         <field:share data="${managedDocShared}" id="managedDocShared" url="/manageddocuments/share?mdocid=${manageddocument.id}"/>
-        <field:display field="parent" render="false" id="s_com_org_entity_ManagedDocument_parent" object="${manageddocument}" z="ERRVtQDws2lj9Z1SkRM0T6BMsvY="/>
-        <field:display field="type" render="false" id="s_com_org_entity_ManagedDocument_type" object="${manageddocument}" z="wKhhVIkxoJw3rdZ95pyYmNMjIdU="/>
+        <field:display field="parent" id="s_com_org_entity_ManagedDocument_parent" object="${manageddocument}" render="false" z="user-managed"/>
+        <field:display field="type" id="s_com_org_entity_ManagedDocument_type" object="${manageddocument}" render="false" z="user-managed"/>
     </page:show>
 </div>

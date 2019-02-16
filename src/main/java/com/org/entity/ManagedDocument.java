@@ -30,7 +30,7 @@ import com.org.util.FileStorageProperties;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser", "findManagedDocumentsByIdAndLogUser", "findManagedDocumentsByLogUserAndParent", "findManagedDocumentsByLogUserAndParentIsNull" })
+@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser", "findManagedDocumentsByIdAndLogUser", "findManagedDocumentsByLogUserAndParent", "findManagedDocumentsByLogUserAndParentIsNull", "findManagedDocumentsByLogUserAndType" })
 public class ManagedDocument {
 
     @Size(max = 500)
@@ -52,7 +52,7 @@ public class ManagedDocument {
     @ManyToOne(optional = true)
     private ManagedDocument parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade=CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ManagedDocument> children = new ArrayList<ManagedDocument>();
 
     private ManagedDocumentType type;

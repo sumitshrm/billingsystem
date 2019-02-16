@@ -79,13 +79,13 @@ public class LogUserController {
         
         //Create folders for user
         ManagedDocument aggreement = new ManagedDocument();
-        aggreement.setDescription("My Aggreement");
+        aggreement.setDescription("my aggreements");
         aggreement.setType(ManagedDocumentType.AGG_FOLDER);
         aggreement.persist();
         aggreement.setLogUser(logUser);
         aggreement.merge();
         ManagedDocument myDocument = new ManagedDocument();
-        myDocument.setDescription("My Document");
+        myDocument.setDescription("my documents");
         myDocument.setType(ManagedDocumentType.MY_DOC_FOLDER);
         myDocument.persist();
         myDocument.setLogUser(logUser);
