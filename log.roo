@@ -624,3 +624,8 @@ finder list
 finder add --finderName findManagedDocumentsByLogUserAndParent
 finder add --finderName findManagedDocumentByLogUserAndParentIsNull
 finder add --finderName findManagedDocumentsByLogUserAndParentIsNull
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-02-17 02:26:21
+hint
+focus --class ~.entity.ManagedDocument
+finder list 
+finder add --finderName findManagedDocumentsByLogUserAndType
