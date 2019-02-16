@@ -28,7 +28,7 @@
 							url="/aggreements" z="user-managed" />
 					</menu:category>
                     
-                    <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="user-managed">
+                    <menu:category icon="fa fa-folder-o" id="c_manageddocument" z="user-managed"> 
                         <menu:item id="i_manageddocument_list" messageCode="global_menu_list" url="/manageddocuments" z="user-managed"/>
                         <menu:item id="i_manageddocument_new" messageCode="global_menu_new" render="false" url="/manageddocuments?form" z="user-managed"/>
                     </menu:category>

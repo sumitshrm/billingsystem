@@ -11,16 +11,14 @@ var aggreement = '${aggreement}';
 function deleteFile(id){
 	var id = id.split("_")[1];
 	console.log('delete : '+id);
-	var requestparam = aggreement==''?'':'?agg='+aggreement;
-	$('#delete_form').attr('action', '/manageddocuments/'+id+requestparam);
+	$('#delete_form').attr('action', '/manageddocuments/'+id);
 	$('#delete_form').submit();
 }
 function updateFile(id, description){
 	var id = id.split("_")[1];
-	var requestparam = aggreement==''?'':'?agg='+aggreement;
 	$('#update_id').val(id);
 	$('#update_desc').val(description);
-	$('#update_form').attr('action', '/manageddocuments/update/description'+requestparam);
+	$('#update_form').attr('action', '/manageddocuments/update/description');
 	$('#update_form').submit();
 }
 function showFile(id){
@@ -145,6 +143,9 @@ $(document).ready(function () {
 					} else if (type === 'doc') {
 						$('#managedDocument').attr('action',
 								'/manageddocuments/template/doc');
+					} else if (type === 'folder') {
+						$('#managedDocument').attr('action',
+						'/manageddocuments/folder');
 					} else {
 						uploadFile();
 						//$('#managedDocument').attr('action', '/manageddocuments/template/oth');
@@ -169,17 +170,24 @@ $(document).ready(function () {
     
     <div style="margin-top: 10px" class="row">
 		<ol style="margin-bottom: 0px" class="breadcrumb">
+			<li><a  onclick="createFile('folder');" href="#">Add Folder</a></li>
  			<li><a  onclick="createFile('xls');" href="#">Add Excel</a></li>
 			<li><a  onclick="createFile('doc');" href="#">Add Word</a></li>
 			<li><a  onclick="createFile('oth');" href="#">Upload File</a></li>
-			<c:if test="${not empty aggreement}">
-			<li>
-                        <a href="/manageddocuments" class="showloading">
-                            <i class="fa fa-arrow-left">
-                                <!-- empty not allowed	 -->
-                            </i></a>
-                    </li>
-                    </c:if>
+			<c:if
+				test="${not empty currentFolder &amp;&amp; not empty currentFolder.parent}">
+				<li><a
+					href="/manageddocuments?currentFolder=${currentFolder.parent.id}"
+					class="showloading"> <i class="fa fa-arrow-left"> <!-- empty not allowed	 -->
+					</i></a></li>
+			</c:if>
+			<c:if
+				test="${not empty currentFolder &amp;&amp; empty currentFolder.parent}">
+				<li><a
+					href="/manageddocuments"
+					class="showloading"> <i class="fa fa-arrow-left"> <!-- empty not allowed	 -->
+					</i></a></li>
+			</c:if>
 		</ol>
 	</div>
 	<c:if test="${empty aggreement}">
@@ -197,18 +205,23 @@ $(document).ready(function () {
 	</c:if>
 	
     <util:panel id="title" title="Managed Documents">
-        <c:forEach items="${aggreements}" var="item">
-            <div class="col-lg-2 col-xs-4">
-                <m:icon-link href="/manageddocuments?agg=${item.id}" id="${item.id}" label="${item.aggreementNum}" styleclass="fa fa-folder-o fa-3x"/>
+        <c:forEach items="${fileFolders}" var="item">
+        <c:if test="${fn:contains(item.type, 'FOLDER')}">
+        <c:set var="hasmenu" value="hasmenu" />
+        <c:if test = "${fn:contains(item.type, 'AGG') || fn:contains(item.type, 'DOC')}">
+		<c:set var="hasmenu" value="" />
+		</c:if>
+        <div class="col-lg-2 col-xs-4">
+                <m:icon-link hasmenu="${hasmenu}" href="/manageddocuments?currentFolder=${item.id}" id="${item.id}" label="${item.description}" styleclass="fa fa-folder-o fa-3x"/>
             </div>
-        </c:forEach>
-        <c:forEach items="${manageddocuments}" var="item">
-            <c:if test="${empty item.aggreement or not empty aggreement}">
-                <div class="col-lg-2 col-xs-4">
+        </c:if>
+        <c:if test="${item.type == 'FILE'}">
+        <div class="col-lg-2 col-xs-4">
                     <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o"/>
-                </div>
-            </c:if>
+        </div>
+        </c:if>
         </c:forEach>
+        
     </util:panel>
     <form:form class="showloading-form" action="/manageddocuments/44" id="delete_form" method="DELETE" name="delete_${itemId}"/>
     <form:form class="showloading-form" action="/manageddocuments/update/description" id="update_form" method="POST" name="delete_" style="display:none">
@@ -219,9 +232,9 @@ $(document).ready(function () {
     <div style="display:none">
         <div id="createDivForm">
             <formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
-                <c:if test="${not empty aggreement}">
+                <c:if test="${not empty currentFolder}">
                     <div style="display:none">
-                        <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
+                        <field:input field="parent.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
                     </div>
                 </c:if>
                 <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
@@ -229,11 +242,4 @@ $(document).ready(function () {
             </formd:multi>
         </div>
     </div>
-    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" render="false" z="user-managed">
-        <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
-            <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
-            <table:column id="c_com_org_entity_ManagedDocument_url" property="url" z="xWU7O99EP/kqlHk53tTbWWJNKFQ="/>
-            <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" z="BEur1r/VI7FdVrh0nc9kkw+m0+k="/>
-        </table:table>
-    </page:list>
 </div>

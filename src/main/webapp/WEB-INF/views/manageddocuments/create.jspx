@@ -11,7 +11,7 @@
         <c:set value="display:none" var="style"/>
     </c:if>
     <form:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments" render="${empty dependencies}" z="user-managed">
-        <field:select field="aggreement" id="c_com_org_entity_ManagedDocument_aggreement" itemValue="id" itemLabel="aggreementNum" items="${aggreements}" path="/aggreements" render="${empty managedDocument.aggreement}" z="user-managed"/>
+        <field:select field="aggreement" id="c_com_org_entity_ManagedDocument_aggreement" itemLabel="aggreementNum" itemValue="id" items="${aggreements}" path="/aggreements" render="${empty managedDocument.aggreement}" z="user-managed"/>
         <div style="${style}">
             <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="${not empty managedDocument.aggreement}" z="user-managed"/>
         </div>
@@ -20,6 +20,9 @@
         <field:input field="fileSize" id="c_com_org_entity_ManagedDocument_fileSize" render="false" z="user-managed"/>
         <field:textarea field="url" id="c_com_org_entity_ManagedDocument_url" render="false" required="true" z="user-managed"/>
         <field:select field="logUser" id="c_com_org_entity_ManagedDocument_logUser" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
+        <field:select field="parent" id="c_com_org_entity_ManagedDocument_parent" itemValue="id" items="${manageddocuments}" path="/manageddocuments" z="yZ6+yYdWIOFS+EB3BpVqHP2bUms="/>
+        <field:simple field="children" id="c_com_org_entity_ManagedDocument_children" messageCode="entity_reference_not_managed" messageCodeAttribute="Managed Document" z="Vbi/KpI9t/G5ceLAiC9ZXtqMEAw="/>
+        <field:select field="type" id="c_com_org_entity_ManagedDocument_type" items="${manageddocumenttypes}" path="manageddocumenttypes" z="wipQ9PkGSuZXHE47/q2AZliDWyk="/>
     </form:multi>
     <form:dependency dependencies="${dependencies}" id="d_com_org_entity_ManagedDocument" render="${not empty dependencies}" z="jWAmFHOP7ncKoauwIJjuEHfc56k="/>
 </div>

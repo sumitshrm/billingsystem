@@ -6,6 +6,8 @@ import javax.naming.Context;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Item;
@@ -97,6 +99,13 @@ public class AggreementController {
         if(redirect!=null) {
         	return "redirect:"+redirect;
         }
+        
+        //Craete folder for aggreement
+        ManagedDocument myDoc = new ManagedDocument();
+        myDoc.setType(ManagedDocumentType.MY_DOC_FOLDER);
+        myDoc.setDescription(aggreement.getAggreementNum());
+        myDoc.merge();
+        
         return "redirect:/items/aggreement/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest);
     }
 
