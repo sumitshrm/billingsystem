@@ -72,7 +72,10 @@ public class ManagedDocument {
 
     @PrePersist
     public void prePersist() {
-        setLogUser(LogUser.getCurrentUser());
+    	if(this.getLogUser()==null) {
+    		setLogUser(LogUser.getCurrentUser());
+    	}
+        
     }
 
     public static Long getStorageByUser(long id) {

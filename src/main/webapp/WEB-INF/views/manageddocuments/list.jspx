@@ -182,18 +182,18 @@ $(document).ready(function () {
                 <a href="#" onclick="createFile('oth');">Upload File</a>
             </li>
             <c:if test="${not empty currentFolder &amp;&amp; not empty currentFolder.parent}">
-                <li>
+                <li class="pull-right">
                     <a class="showloading" href="/manageddocuments?currentFolder=${currentFolder.parent.id}">
-                        <i class="fa fa-arrow-left">
+                        <i class="fa  fa fa-arrow-left" style="font-size:22px;">
                             <!-- empty not allowed	 -->
                         </i>
                     </a>
                 </li>
             </c:if>
             <c:if test="${not empty currentFolder &amp;&amp; empty currentFolder.parent}">
-                <li>
+                <li class="pull-right">
                     <a class="showloading" href="/manageddocuments">
-                        <i class="fa fa-arrow-left">
+                        <i class="fa  fa fa-arrow-left" style="font-size:22px;">
                             <!-- empty not allowed	 -->
                         </i>
                     </a>
@@ -201,7 +201,6 @@ $(document).ready(function () {
             </c:if>
         </ol>
     </div>
-    <c:if test="${empty aggreement}">
         <div class="col-lg-4 d-none d-sm-block" style="padding: 0px">
             <util:panel id="test12" title="Storage">
                 <div class="progress-group">
@@ -217,7 +216,6 @@ $(document).ready(function () {
                 </div>
             </util:panel>
         </div>
-    </c:if>
     <util:panel id="title" title="Managed Documents">
         <c:forEach items="${fileFolders}" var="item">
             <c:if test="${fn:contains(item.type, 'FOLDER')}">

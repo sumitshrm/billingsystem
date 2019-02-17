@@ -177,18 +177,16 @@ public class LogUserController {
         }
         uiModel.asMap().clear();
         try {
-            logUser.persist();
+        	logUser.persist();
           //Create folders for user
             ManagedDocument aggreement = new ManagedDocument();
             aggreement.setDescription("my aggreements");
             aggreement.setType(ManagedDocumentType.AGG_FOLDER);
-            aggreement.persist();
             aggreement.setLogUser(logUser);
             aggreement.merge();
             ManagedDocument myDocument = new ManagedDocument();
             myDocument.setDescription("my documents");
             myDocument.setType(ManagedDocumentType.MY_DOC_FOLDER);
-            myDocument.persist();
             myDocument.setLogUser(logUser);
             myDocument.merge();
         } catch (ConstraintViolationException e) {
