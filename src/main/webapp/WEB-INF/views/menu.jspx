@@ -128,7 +128,8 @@ $(function(){
     return str;
   }
 
-  var url = (location.pathname+location.search);  
+  var url = (location.pathname+location.search);
+  url = url.split("?")[0];
   var activePage = stripTrailingSlash(url);
   $('.sidebar-menu li a').each(function(){ 
 	var currentPage = stripTrailingSlash($(this).attr('href'));
