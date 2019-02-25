@@ -9,20 +9,20 @@ var CLIPBOARD;
 var aggreement = '${aggreement}';
 
 function deleteFile(id){
-	var id = id.split("_")[1];
+	var id = id.split("~^")[2];
 	console.log('delete : '+id);
 	$('#delete_form').attr('action', '/manageddocuments/'+id);
 	$('#delete_form').submit();
 }
 function updateFile(id, description){
-	var id = id.split("_")[1];
+	var id = id.split("~^")[2];
 	$('#update_id').val(id);
 	$('#update_desc').val(description);
 	$('#update_form').attr('action', '/manageddocuments/update/description');
 	$('#update_form').submit();
 }
 function showFile(id){
-	var id = id.split("_")[1];
+	var id = id.split("~^")[2];
 	showloading();
 	window.location.href = "/manageddocuments/"+id;
 }
@@ -49,12 +49,12 @@ $(document).contextmenu({
     // Handle menu selection to implement a fake-clipboard
     select: function (event, ui) {
     	 var $target = ui.target;
-    	 console.log($target.context.label);
+    	 var filename = $target.context.id.split("~^")[1];
     	switch (ui.cmd) {
         case "rename":
         	bootbox.prompt({
 				  title: "Enter description",
-				  value: $target.context.title,
+				  value: filename,
 				  callback: function(result) {
 					  if(result){
 		        			updateFile($target.context.id, result);
@@ -241,12 +241,12 @@ $(document).ready(function () {
                     <c:set value="" var="hasmenu"/>
                 </c:if>
                 <div class="col-lg-2 col-xs-4">
-                    <m:icon-link hasmenu="${hasmenu}" href="/manageddocuments?currentFolder=${item.id}" id="${item.id}" label="${item.description}" styleclass="fa fa-folder-o fa-3x"/>
+                    <m:icon-link hasmenu="${hasmenu}" href="/manageddocuments?currentFolder=${item.id}" id="${item.id}" label="${item.description}" styleclass="fa fa-folder-o fa-3x "/>
                 </div>
             </c:if>
             <c:if test="${item.type == 'FILE'}">
                 <div class="col-lg-2 col-xs-4">
-                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o"/>
+                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-o fa-3x"/>
                 </div>
             </c:if>
         </c:forEach>
