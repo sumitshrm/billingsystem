@@ -49,16 +49,18 @@ $(document).contextmenu({
     // Handle menu selection to implement a fake-clipboard
     select: function (event, ui) {
     	 var $target = ui.target;
-    	 console.log($target.context.id);
+    	 console.log($target.context.label);
     	switch (ui.cmd) {
         case "rename":
-        	 bootbox.prompt("Enter description", function(result){ 
-        		if(result){
-        			updateFile($target.context.id, result);
-        		}
-        		
-        	}); 
-        	
+        	bootbox.prompt({
+				  title: "Enter description",
+				  value: $target.context.title,
+				  callback: function(result) {
+					  if(result){
+		        			updateFile($target.context.id, result);
+		        		}
+				  }
+				});
         	break;
         	
         case "show":
@@ -108,8 +110,8 @@ $(document).ready(function () {
     });
     $("#jqxMenu").css('display', 'block'); */
     
-    $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
-    storage_used
+    //$("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
+    //storage_used
     
     $.ajax({url: "/manageddocuments/storage/${user_id}", success: function(result){
     	$("#storage_used").html(result);
@@ -161,11 +163,26 @@ $(document).ready(function () {
 	function uploadFile() {
 		console.log('uploadFile');
 		$('#managedDocument').attr('action','/manageddocuments/template/oth');
-		$("#createDivForm").jqxWindow('open');
+		//$("#createDivForm").jqxWindow('open');
+		$('#_content_id').change(function (e) {
+			console.log(e.target.files[0].name);
+			bootbox.prompt({
+				  title: "Upload file",
+				  value: e.target.files[0].name,
+				  callback: function(result) {
+					  $('#_description_id').val(result);
+					  showloading();
+					  $('#managedDocument').submit();
+				  }
+				});
+		});
+		$("#_content_id").trigger('click');
 		if(aggreement!=''){
 			$('#_aggreement\\.id_id').val(aggreement);
 		}
 	}
+	
+	
 </SCRIPT>
     <div class="row" style="margin-top: 10px">
         <ol class="breadcrumb" style="margin-bottom: 0px">
