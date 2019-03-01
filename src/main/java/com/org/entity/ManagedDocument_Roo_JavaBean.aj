@@ -3,9 +3,11 @@
 
 package com.org.entity;
 
+import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.ManagedDocument;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 privileged aspect ManagedDocument_Roo_JavaBean {
@@ -48,6 +50,30 @@ privileged aspect ManagedDocument_Roo_JavaBean {
     
     public void ManagedDocument.setAggreement(Aggreement aggreement) {
         this.aggreement = aggreement;
+    }
+    
+    public ManagedDocument ManagedDocument.getParent() {
+        return this.parent;
+    }
+    
+    public void ManagedDocument.setParent(ManagedDocument parent) {
+        this.parent = parent;
+    }
+    
+    public List<ManagedDocument> ManagedDocument.getChildren() {
+        return this.children;
+    }
+    
+    public void ManagedDocument.setChildren(List<ManagedDocument> children) {
+        this.children = children;
+    }
+    
+    public ManagedDocumentType ManagedDocument.getType() {
+        return this.type;
+    }
+    
+    public void ManagedDocument.setType(ManagedDocumentType type) {
+        this.type = type;
     }
     
     public LogUser ManagedDocument.getLogUser() {

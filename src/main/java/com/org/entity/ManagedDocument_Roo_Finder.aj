@@ -3,6 +3,7 @@
 
 package com.org.entity;
 
+import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.ManagedDocument;
@@ -44,6 +45,34 @@ privileged aspect ManagedDocument_Roo_Finder {
         EntityManager em = ManagedDocument.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocument AS o WHERE o.logUser = :logUser", Long.class);
         q.setParameter("logUser", logUser);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long ManagedDocument.countFindManagedDocumentsByLogUserAndParent(LogUser logUser, ManagedDocument parent) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (parent == null) throw new IllegalArgumentException("The parent argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent = :parent", Long.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("parent", parent);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long ManagedDocument.countFindManagedDocumentsByLogUserAndParentIsNull(LogUser logUser) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent IS NULL", Long.class);
+        q.setParameter("logUser", logUser);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long ManagedDocument.countFindManagedDocumentsByLogUserAndType(LogUser logUser, ManagedDocumentType type) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (type == null) throw new IllegalArgumentException("The type argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.type = :type", Long.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("type", type);
         return ((Long) q.getSingleResult());
     }
     
@@ -144,6 +173,83 @@ privileged aspect ManagedDocument_Roo_Finder {
         }
         TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
         q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndParent(LogUser logUser, ManagedDocument parent) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (parent == null) throw new IllegalArgumentException("The parent argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery<ManagedDocument> q = em.createQuery("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent = :parent", ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("parent", parent);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndParent(LogUser logUser, ManagedDocument parent, String sortFieldName, String sortOrder) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (parent == null) throw new IllegalArgumentException("The parent argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent = :parent");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("parent", parent);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndParentIsNull(LogUser logUser) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery<ManagedDocument> q = em.createQuery("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent IS NULL", ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndParentIsNull(LogUser logUser, String sortFieldName, String sortOrder) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.parent IS NULL");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndType(LogUser logUser, ManagedDocumentType type) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (type == null) throw new IllegalArgumentException("The type argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        TypedQuery<ManagedDocument> q = em.createQuery("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.type = :type", ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("type", type);
+        return q;
+    }
+    
+    public static TypedQuery<ManagedDocument> ManagedDocument.findManagedDocumentsByLogUserAndType(LogUser logUser, ManagedDocumentType type, String sortFieldName, String sortOrder) {
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        if (type == null) throw new IllegalArgumentException("The type argument is required");
+        EntityManager em = ManagedDocument.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ManagedDocument AS o WHERE o.logUser = :logUser AND o.type = :type");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ManagedDocument> q = em.createQuery(queryBuilder.toString(), ManagedDocument.class);
+        q.setParameter("logUser", logUser);
+        q.setParameter("type", type);
         return q;
     }
     

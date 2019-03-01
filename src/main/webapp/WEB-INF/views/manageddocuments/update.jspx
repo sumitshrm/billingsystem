@@ -11,5 +11,8 @@
             <field:input field="url" id="c_com_org_entity_ManagedDocument_url" render="true" type="hidden" z="user-managed"/>
             <field:select field="logUser" id="c_com_org_entity_ManagedDocument_logUser" itemValue="id" items="${logusers}" path="/logusers" z="TqctFOwKs1vSae3KNi8gooRKikM="/>
         </div>
+        <field:select field="parent" id="c_com_org_entity_ManagedDocument_parent" itemValue="id" items="${manageddocuments}" path="/manageddocuments" z="yZ6+yYdWIOFS+EB3BpVqHP2bUms="/>
+        <field:simple field="children" id="c_com_org_entity_ManagedDocument_children" messageCode="entity_reference_not_managed" messageCodeAttribute="Managed Document" z="Vbi/KpI9t/G5ceLAiC9ZXtqMEAw="/>
+        <field:select field="type" id="c_com_org_entity_ManagedDocument_type" items="${manageddocumenttypes}" path="manageddocumenttypes" z="wipQ9PkGSuZXHE47/q2AZliDWyk="/>
     </form:update>
 </div>

@@ -8,7 +8,7 @@
 	<jsp:directive.attribute name="styleclass" type="java.lang.String" required="false" rtexprvalue="true" description="Style class of icon" />
 	
 	<c:if test = "${empty styleclass}">
-	<c:set var="styleclass" value="fa fa-file-image-o fa-3x" />
+	<c:set var="styleclass" value="fa fa-file-o fa-3x" />
 	</c:if>
 	
 	<c:if test = "${fn:endsWith(fn:toLowerCase(href), '.xlsm')}">
@@ -35,18 +35,21 @@
     <c:if test = "${fn:endsWith(fn:toLowerCase(href), '.txt')}">
           <c:set var="styleclass" value="fa fa-file-text-o fa-3x" />
     </c:if>
+     <c:if test = "${fn:endsWith(fn:toLowerCase(href), '.pdf')}">
+          <c:set var="styleclass" value="fa fa-file-pdf-o fa-3x" />
+    </c:if>
 	
 	
 	
 	<div style="align-items:center;display:flex;flex-direction:column;justify-content:center;">
 	<c:if test = "${empty hasmenu}">
 	<a href="${href}" class="icon-link ${hasmenu} showloading">
-	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
+	<i id="icon~^${label}~^${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
 	</a>
 	</c:if>
 	<c:if test = "${not empty hasmenu}">
 	<a href="${href}" class="icon-link ${hasmenu}">
-	<i id="icon_${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
+	<i id="icon~^${label}~^${id}" class="${styleclass}"><!-- required for FF3 and Opera --></i>
 	</a>
 	</c:if>
 	<span style="word-wrap: break-word; max-width: 100px">${label }</span>

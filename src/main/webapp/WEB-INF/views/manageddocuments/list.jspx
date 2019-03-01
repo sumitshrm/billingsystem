@@ -9,22 +9,20 @@ var CLIPBOARD;
 var aggreement = '${aggreement}';
 
 function deleteFile(id){
-	var id = id.split("_")[1];
+	var id = id.split("~^")[2];
 	console.log('delete : '+id);
-	var requestparam = aggreement==''?'':'?agg='+aggreement;
-	$('#delete_form').attr('action', '/manageddocuments/'+id+requestparam);
+	$('#delete_form').attr('action', '/manageddocuments/'+id);
 	$('#delete_form').submit();
 }
 function updateFile(id, description){
-	var id = id.split("_")[1];
-	var requestparam = aggreement==''?'':'?agg='+aggreement;
+	var id = id.split("~^")[2];
 	$('#update_id').val(id);
 	$('#update_desc').val(description);
-	$('#update_form').attr('action', '/manageddocuments/update/description'+requestparam);
+	$('#update_form').attr('action', '/manageddocuments/update/description');
 	$('#update_form').submit();
 }
 function showFile(id){
-	var id = id.split("_")[1];
+	var id = id.split("~^")[2];
 	showloading();
 	window.location.href = "/manageddocuments/"+id;
 }
@@ -51,16 +49,18 @@ $(document).contextmenu({
     // Handle menu selection to implement a fake-clipboard
     select: function (event, ui) {
     	 var $target = ui.target;
-    	 console.log($target.context.id);
+    	 var filename = $target.context.id.split("~^")[1];
     	switch (ui.cmd) {
         case "rename":
-        	 bootbox.prompt("Enter description", function(result){ 
-        		if(result){
-        			updateFile($target.context.id, result);
-        		}
-        		
-        	}); 
-        	
+        	bootbox.prompt({
+				  title: "Enter description",
+				  value: filename,
+				  callback: function(result) {
+					  if(result){
+		        			updateFile($target.context.id, result);
+		        		}
+				  }
+				});
         	break;
         	
         case "show":
@@ -110,14 +110,14 @@ $(document).ready(function () {
     });
     $("#jqxMenu").css('display', 'block'); */
     
-    $("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
-    storage_used
+    //$("#createDivForm").jqxWindow({ width: "100%", isModal: true, autoOpen: false });
+    //storage_used
     
     $.ajax({url: "/manageddocuments/storage/${user_id}", success: function(result){
     	$("#storage_used").html(result);
         console.log(result);
         var s_percent = result/${storageLimit}*100;
-        if(s_percent>=90){
+        if(s_percent&gt;=90){
         	$("#storage_used_percent").addClass('progress-bar-red');
         }else{
         	$("#storage_used_percent").addClass('progress-bar-aqua');
@@ -145,6 +145,9 @@ $(document).ready(function () {
 					} else if (type === 'doc') {
 						$('#managedDocument').attr('action',
 								'/manageddocuments/template/doc');
+					} else if (type === 'folder') {
+						$('#managedDocument').attr('action',
+						'/manageddocuments/folder');
 					} else {
 						uploadFile();
 						//$('#managedDocument').attr('action', '/manageddocuments/template/oth');
@@ -160,58 +163,96 @@ $(document).ready(function () {
 	function uploadFile() {
 		console.log('uploadFile');
 		$('#managedDocument').attr('action','/manageddocuments/template/oth');
-		$("#createDivForm").jqxWindow('open');
+		//$("#createDivForm").jqxWindow('open');
+		$('#_content_id').change(function (e) {
+			console.log(e.target.files[0].name);
+			bootbox.prompt({
+				  title: "Upload file",
+				  value: e.target.files[0].name,
+				  callback: function(result) {
+					  $('#_description_id').val(result);
+					  showloading();
+					  $('#managedDocument').submit();
+				  }
+				});
+		});
+		$("#_content_id").trigger('click');
 		if(aggreement!=''){
 			$('#_aggreement\\.id_id').val(aggreement);
 		}
 	}
-</SCRIPT>
-    
-    <div style="margin-top: 10px" class="row">
-		<ol style="margin-bottom: 0px" class="breadcrumb">
- 			<li><a  onclick="createFile('xls');" href="#">Add Excel</a></li>
-			<li><a  onclick="createFile('doc');" href="#">Add Word</a></li>
-			<li><a  onclick="createFile('oth');" href="#">Upload File</a></li>
-			<c:if test="${not empty aggreement}">
-			<li>
-                        <a href="/manageddocuments" class="showloading">
-                            <i class="fa fa-arrow-left">
-                                <!-- empty not allowed	 -->
-                            </i></a>
-                    </li>
-                    </c:if>
-		</ol>
-	</div>
-	<c:if test="${empty aggreement}">
-	<div class="col-lg-4 d-none d-sm-block" style="padding: 0px">
-	<util:panel id="test12" title="Storage">
-	<div class="progress-group">
-                    <span class="progress-text">You have used</span>
-                    <span class="progress-number"><b><span id="storage_used">160</span> MB</b> of ${storageLimit} MB</span>
-
-                    <div class="progress sm" style="margin-bottom: 0px;">
-                      <div id="storage_used_percent" class="progress-bar" style="width: 0%"><!-- empty --></div>
-                    </div>
-    </div>
-	</util:panel></div>
-	</c:if>
 	
+	
+</SCRIPT>
+    <div class="row" style="margin-top: 10px">
+        <ol class="breadcrumb" style="margin-bottom: 0px">
+            <li>
+                <a href="#" onclick="createFile('folder');">Add Folder</a>
+            </li>
+            <li>
+                <a href="#" onclick="createFile('xls');">Add Excel</a>
+            </li>
+            <li>
+                <a href="#" onclick="createFile('doc');">Add Word</a>
+            </li>
+            <li>
+                <a href="#" onclick="createFile('oth');">Upload File</a>
+            </li>
+            <c:if test="${not empty currentFolder &amp;&amp; not empty currentFolder.parent}">
+                <li class="pull-right">
+                    <a class="showloading" href="/manageddocuments?currentFolder=${currentFolder.parent.id}">
+                        <i class="fa  fa fa-arrow-left" style="font-size:22px;">
+                            <!-- empty not allowed	 -->
+                        </i>
+                    </a>
+                </li>
+            </c:if>
+            <c:if test="${not empty currentFolder &amp;&amp; empty currentFolder.parent}">
+                <li class="pull-right">
+                    <a class="showloading" href="/manageddocuments">
+                        <i class="fa  fa fa-arrow-left" style="font-size:22px;">
+                            <!-- empty not allowed	 -->
+                        </i>
+                    </a>
+                </li>
+            </c:if>
+        </ol>
+    </div>
+        <div class="col-lg-4 d-none d-sm-block" style="padding: 0px">
+            <util:panel id="test12" title="Storage">
+                <div class="progress-group">
+                    <span class="progress-text">You have used</span>
+                    <span class="progress-number">
+                        <b>
+                            <span id="storage_used">160</span> MB</b> of ${storageLimit} MB</span>
+                    <div class="progress sm" style="margin-bottom: 0px;">
+                        <div class="progress-bar" id="storage_used_percent" style="width: 0%">
+                            <!-- empty -->
+                        </div>
+                    </div>
+                </div>
+            </util:panel>
+        </div>
     <util:panel id="title" title="Managed Documents">
-        <c:forEach items="${aggreements}" var="item">
-            <div class="col-lg-2 col-xs-4">
-                <m:icon-link href="/manageddocuments?agg=${item.id}" id="${item.id}" label="${item.aggreementNum}" styleclass="fa fa-folder-o fa-3x"/>
-            </div>
-        </c:forEach>
-        <c:forEach items="${manageddocuments}" var="item">
-            <c:if test="${empty item.aggreement or not empty aggreement}">
+        <c:forEach items="${fileFolders}" var="item">
+            <c:if test="${fn:contains(item.type, 'FOLDER')}">
+                <c:set value="hasmenu" var="hasmenu"/>
+                <c:if test="${fn:contains(item.type, 'AGG') || fn:contains(item.type, 'DOC')}">
+                    <c:set value="" var="hasmenu"/>
+                </c:if>
                 <div class="col-lg-2 col-xs-4">
-                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-image-o"/>
+                    <m:icon-link hasmenu="${hasmenu}" href="/manageddocuments?currentFolder=${item.id}" id="${item.id}" label="${item.description}" styleclass="fa fa-folder-o fa-3x "/>
+                </div>
+            </c:if>
+            <c:if test="${item.type == 'FILE'}">
+                <div class="col-lg-2 col-xs-4">
+                    <m:icon-link hasmenu="hasmenu" href="${item.downloadLink}" id="${item.id}" label="${item.description}" styleclass="fa fa-file-o fa-3x"/>
                 </div>
             </c:if>
         </c:forEach>
     </util:panel>
-    <form:form class="showloading-form" action="/manageddocuments/44" id="delete_form" method="DELETE" name="delete_${itemId}"/>
-    <form:form class="showloading-form" action="/manageddocuments/update/description" id="update_form" method="POST" name="delete_" style="display:none">
+    <form:form action="/manageddocuments/44" class="showloading-form" id="delete_form" method="DELETE" name="delete_${itemId}"/>
+    <form:form action="/manageddocuments/update/description" class="showloading-form" id="update_form" method="POST" name="delete_" style="display:none">
         <input id="update_id" name="id" type="text"/>
         <input id="update_desc" name="description" type="text"/>
         <input class="btn btn-primary" id="proceed" type="submit" value="Save"/>
@@ -219,9 +260,9 @@ $(document).ready(function () {
     <div style="display:none">
         <div id="createDivForm">
             <formd:multi id="fc_com_org_entity_ManagedDocument" modelAttribute="managedDocument" path="/manageddocuments/template/xls" render="${empty dependencies}" z="user-managed">
-                <c:if test="${not empty aggreement}">
+                <c:if test="${not empty currentFolder}">
                     <div style="display:none">
-                        <field:input field="aggreement.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
+                        <field:input field="parent.id" id="c_com_org_entity_ManagedDocument_aggreement" render="true" z="user-managed"/>
                     </div>
                 </c:if>
                 <field:input field="description" id="c_com_org_entity_ManagedDocument_description" required="true" z="user-managed"/>
@@ -229,11 +270,11 @@ $(document).ready(function () {
             </formd:multi>
         </div>
     </div>
-    <page:list id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" render="false" z="user-managed">
+    <page:list render="false" id="pl_com_org_entity_ManagedDocument" items="${manageddocuments}" z="hdxRDLyW4GInodA0yL3VKmbi2oY=">
         <table:table data="${manageddocuments}" id="l_com_org_entity_ManagedDocument" path="/manageddocuments" z="Y5nW+MrFFY7uwJreCxNVlgvUomk=">
             <table:column id="c_com_org_entity_ManagedDocument_fileSize" property="fileSize" z="oKFV3rMctDaoEvhgJEszB+dN6+o="/>
             <table:column id="c_com_org_entity_ManagedDocument_url" property="url" z="xWU7O99EP/kqlHk53tTbWWJNKFQ="/>
-            <table:column id="c_com_org_entity_ManagedDocument_logUser" property="logUser" z="BEur1r/VI7FdVrh0nc9kkw+m0+k="/>
+            <table:column id="c_com_org_entity_ManagedDocument_parent" property="parent" z="5KG7FSsMG7pz8D2TbtEFoJuCPxY="/>
         </table:table>
     </page:list>
 </div>

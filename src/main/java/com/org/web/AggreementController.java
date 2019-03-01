@@ -6,6 +6,8 @@ import javax.naming.Context;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Item;
@@ -88,6 +90,7 @@ public class AggreementController {
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@RequestParam(value = "redirect", required = false) String redirect, @Valid Aggreement aggreement, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         System.out.println("post called billformn"+redirect);
+        LogUser user = LogUser.getCurrentUser();
     	if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, aggreement);
             return "aggreements/create";
@@ -97,6 +100,19 @@ public class AggreementController {
         if(redirect!=null) {
         	return "redirect:"+redirect;
         }
+        
+        //Craete folder for aggreement
+        try {
+        	ManagedDocument myDoc = new ManagedDocument();
+            myDoc.setType(ManagedDocumentType.FOLDER);
+            myDoc.setDescription(aggreement.getAggreementNum());
+            ManagedDocument root = ManagedDocument.findManagedDocumentsByLogUserAndType(user, ManagedDocumentType.AGG_FOLDER).getSingleResult();
+            myDoc.setParent(root);
+            myDoc.merge();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
         return "redirect:/items/aggreement/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest);
     }
 

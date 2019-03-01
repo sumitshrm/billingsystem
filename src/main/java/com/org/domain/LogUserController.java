@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.org.constants.ManagedDocumentType;
+import com.org.entity.ManagedDocument;
 import com.org.entity.UserStorage;
 import com.org.report.service.AbstractGeneratorServiceV2;
 import com.org.view.MessageType;
@@ -74,6 +76,21 @@ public class LogUserController {
             uiModel.addAttribute("message", new MessageVo("log_user_duplicate_username", MessageType.ERROR));
             return "logusers/create";
         }
+        
+        //Create folders for user
+        ManagedDocument aggreement = new ManagedDocument();
+        aggreement.setDescription("my aggreements");
+        aggreement.setType(ManagedDocumentType.AGG_FOLDER);
+        aggreement.persist();
+        aggreement.setLogUser(logUser);
+        aggreement.merge();
+        ManagedDocument myDocument = new ManagedDocument();
+        myDocument.setDescription("my documents");
+        myDocument.setType(ManagedDocumentType.MY_DOC_FOLDER);
+        myDocument.persist();
+        myDocument.setLogUser(logUser);
+        myDocument.merge();
+        
         return "redirect:/logusers/" + encodeUrlPathSegment(logUser.getId().toString(), httpServletRequest);
     }
 
@@ -160,7 +177,18 @@ public class LogUserController {
         }
         uiModel.asMap().clear();
         try {
-            logUser.persist();
+        	logUser.persist();
+          //Create folders for user
+            ManagedDocument aggreement = new ManagedDocument();
+            aggreement.setDescription("my aggreements");
+            aggreement.setType(ManagedDocumentType.AGG_FOLDER);
+            aggreement.setLogUser(logUser);
+            aggreement.merge();
+            ManagedDocument myDocument = new ManagedDocument();
+            myDocument.setDescription("my documents");
+            myDocument.setType(ManagedDocumentType.MY_DOC_FOLDER);
+            myDocument.setLogUser(logUser);
+            myDocument.merge();
         } catch (ConstraintViolationException e) {
             e.printStackTrace();
             populateEditForm(uiModel, logUser);

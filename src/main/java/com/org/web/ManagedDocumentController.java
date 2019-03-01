@@ -1,4 +1,5 @@
 package com.org.web;
+import com.org.constants.ManagedDocumentType;
 import com.org.constants.MeasurementSheetConstants;
 import com.org.domain.Config;
 import com.org.domain.LogUser;
@@ -72,8 +73,38 @@ public class ManagedDocumentController {
         populateEditForm(uiModel, managedDocument);
         return "manageddocuments/create";
     }
+
     
+    @RequestMapping(value="/folder", method = RequestMethod.POST)
+    public String createFolder( ManagedDocument managedDocument, Model uiModel) {
+    	LogUser user = LogUser.getCurrentUser();
+    	managedDocument.setType(ManagedDocumentType.FOLDER);
+    	if(managedDocument.getParent()!=null) {
+    		ManagedDocument current = ManagedDocument.findManagedDocumentsByIdAndLogUser(managedDocument.getParent().getId(), user).getSingleResult();
+    		managedDocument.setParent(current);
+    	}
+    	managedDocument.persist();
+    	String param = managedDocument.getParent()==null?"":"?currentFolder="+managedDocument.getParent().getId();
+        return "redirect:/manageddocuments"+param;
+    }
     
+    @RequestMapping(produces = "text/html")
+    public String list(@RequestParam(value="currentFolder", required=false) Long currentFolder, Model uiModel) {
+    	LogUser user = LogUser.getCurrentUser();
+    	ManagedDocument managedDocument = new ManagedDocument();
+    	if(currentFolder==null) {
+    		uiModel.addAttribute("fileFolders", ManagedDocument.findManagedDocumentsByLogUserAndParentIsNull(user).getResultList());
+    	}else {
+    		ManagedDocument current = ManagedDocument.findManagedDocumentsByIdAndLogUser(currentFolder, user).getSingleResult();
+    		uiModel.addAttribute("currentFolder", current);
+    		uiModel.addAttribute("fileFolders", ManagedDocument.findManagedDocumentsByLogUserAndParent(user, current).getResultList());
+    		managedDocument.setParent(current);
+    	}
+    	uiModel.addAttribute("managedDocument", managedDocument);
+    	uiModel.addAttribute("storageLimit", UserStorage.getStorageLimitByUser(user));
+    	
+    	return "manageddocuments/list";
+    }
 
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -88,8 +119,7 @@ public class ManagedDocumentController {
         managedDocument.setAggreement(aggreement);
         managedDocument.persist();
         managedDocument.setUrl(managedDocument.getStorageUrl());
-        managedDocument.merge();
-        System.out.println(managedDocument.getUrl() + "=========");
+        managedDocument.persist();
         try {
             fileStorageService.doPost(managedDocument.getContent().getInputStream(), managedDocument.getStorageUrl());
         } catch (IOException e) {
@@ -102,12 +132,12 @@ public class ManagedDocumentController {
     
     @RequestMapping(value="/template/{type}",method = RequestMethod.POST, produces = "text/html")
     public String createFromTemplate(@PathVariable("type") String type, @Valid ManagedDocument managedDocument, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) throws Exception {
-        managedDocument.setFileSize(managedDocument.getContent().getSize());
-        String queryParam= "";
-        if(managedDocument.getAggreement()!=null) {
-        	queryParam="?agg="+managedDocument.getAggreement().getId();
-        	Aggreement aggreement = Aggreement.findAggreement(managedDocument.getAggreement().getId());
-            managedDocument.setAggreement(aggreement);
+        LogUser user = LogUser.getCurrentUser();
+    	managedDocument.setFileSize(managedDocument.getContent().getSize());
+    	managedDocument.setType(ManagedDocumentType.FILE);
+        if(managedDocument.getParent()!=null) {
+        	ManagedDocument current = ManagedDocument.findManagedDocumentsByIdAndLogUser(managedDocument.getParent().getId(), user).getSingleResult();
+    		managedDocument.setParent(current);
         }
         managedDocument.setUrl("default_file_name");
         managedDocument.persist();
@@ -124,8 +154,9 @@ public class ManagedDocumentController {
         	fileStorageService.doPost(iostream, fileName);
         }
         managedDocument.setUrl(fileName);
-        managedDocument.merge();
-        return "redirect:/manageddocuments" +queryParam ;
+        managedDocument.persist();
+        String param = managedDocument.getParent()==null?"":"?currentFolder="+managedDocument.getParent().getId();
+        return "redirect:/manageddocuments"+param;
     }
 
 
@@ -219,10 +250,8 @@ public class ManagedDocumentController {
         ManagedDocument document = ManagedDocument.findManagedDocument(Long.parseLong(id));
         document.setDescription(description);
         document.merge();
-        if(agg!=null) {
-        	return "redirect:/manageddocuments?agg="+agg;
-        }
-        return "redirect:/manageddocuments";
+        String param = document.getParent()==null?"":"?currentFolder="+document.getParent().getId();
+        return "redirect:/manageddocuments"+param;
 
     }
 
@@ -242,29 +271,28 @@ public class ManagedDocumentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "agg", required = false) Integer agg, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         ManagedDocument managedDocument = ManagedDocument.findManagedDocument(id);
+        String param =managedDocument.getParent()==null?"":"?currentFolder="+managedDocument.getParent().getId();
+        this.deleteFile(managedDocument);
         managedDocument.remove();
-        fileStorageService.delete(managedDocument.getUrl());
         uiModel.asMap().clear();
         //uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         //uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        if(agg!=null) {
-        	return "redirect:/manageddocuments?agg="+agg;
-        }
-        return "redirect:/manageddocuments";
+        return "redirect:/manageddocuments"+param;
     }
+    
+    private void deleteFile(ManagedDocument doc) {
+    	for(ManagedDocument child : doc.getChildren()) {
+        	deleteFile(child);
+        }
+    	if(doc.getType()==ManagedDocumentType.FILE) {
+    		fileStorageService.delete(doc.getUrl());
+    	}
+    }
+    
 
-    @RequestMapping(produces = "text/html")
+    /*@RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "agg", required = false) Long aggId,@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
-        /*if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            
-            uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
-            float nrOfPages = (float) ManagedDocument.countManagedDocuments() / sizeNo;
-            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            uiModel.addAttribute("manageddocuments", ManagedDocument.findManagedDocumentsByLogUser(LogUser.getCurrentUser(), sortFieldName, sortOrder).getResultList());
-        }*/
+       
     	LogUser user = LogUser.getCurrentUser();
     	
     	if(aggId!=null) {
@@ -281,7 +309,7 @@ public class ManagedDocumentController {
     	
         uiModel.addAttribute("managedDocument", new ManagedDocument());
        return "manageddocuments/list";
-    }
+    }*/
 
     void populateEditForm(Model uiModel, ManagedDocument managedDocument) {
         uiModel.addAttribute("managedDocument", managedDocument);

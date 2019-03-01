@@ -1,9 +1,13 @@
 package com.org.entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
@@ -20,12 +24,13 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.web.multipart.MultipartFile;
+import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.util.FileStorageProperties;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser", "findManagedDocumentsByIdAndLogUser" })
+@RooJpaActiveRecord(finders = { "findManagedDocumentsByLogUser", "findManagedDocumentsByAggreement", "findManagedDocumentsByAggreementAndLogUser", "findManagedDocumentsByIdAndLogUser", "findManagedDocumentsByLogUserAndParent", "findManagedDocumentsByLogUserAndParentIsNull", "findManagedDocumentsByLogUserAndType" })
 public class ManagedDocument {
 
     @Size(max = 500)
@@ -44,6 +49,14 @@ public class ManagedDocument {
     @ManyToOne(optional = true)
     private Aggreement aggreement;
 
+    @ManyToOne(optional = true)
+    private ManagedDocument parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ManagedDocument> children = new ArrayList<ManagedDocument>();
+
+    private ManagedDocumentType type;
+
     @ManyToOne
     private LogUser logUser;
 
@@ -59,14 +72,17 @@ public class ManagedDocument {
 
     @PrePersist
     public void prePersist() {
-        setLogUser(LogUser.getCurrentUser());
+    	if(this.getLogUser()==null) {
+    		setLogUser(LogUser.getCurrentUser());
+    	}
+        
     }
-    
+
     public static Long getStorageByUser(long id) {
         TypedQuery q = ManagedDocument.entityManager().createQuery("SELECT SUM(o.fileSize) FROM ManagedDocument AS o WHERE o.logUser.id = :id", Long.class);
         q.setParameter("id", id);
         System.out.println("getting storage DAO");
         Long result = (Long) q.getSingleResult();
-        return result==null?0:((Long) q.getSingleResult());
+        return result == null ? 0 : ((Long) q.getSingleResult());
     }
 }
