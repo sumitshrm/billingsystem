@@ -10,7 +10,16 @@
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)"/>
-	
+<script>
+   	Object.keys(Spring.decorations).forEach(function(key) {
+	   console.log('Key : ' + key + ', Value : ' + Spring.decorations[key])
+	   if(key.startsWith("_") &amp;&amp; key.endsWith("id")){
+		   delete Spring.decorations[key];
+	   }
+	 })
+	//delete Spring.decorations["_aggreementNum_id"];
+	console.log("Spring1",Spring.decorations);
+	</script>
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
@@ -31,7 +40,12 @@
         <c:if test="${not empty compositePkField}">
           <form:hidden id="_${fn:escapeXml(compositePkField)}_id" path="${fn:escapeXml(compositePkField)}" />
           <script type="text/javascript">
+          
+  		
+
+          
           <![CDATA[
+        	  
             dojo.require("dojox.encoding.base64");
             function encodePk() {
               var obj = new Object();
@@ -59,4 +73,7 @@
       </form:form>
     </util:panel>
   </c:if>
+   <script>
+	console.log("Spring4",Spring.decorations);
+	</script>
 </jsp:root>

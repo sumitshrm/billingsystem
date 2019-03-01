@@ -5,7 +5,7 @@
     <form:create id="fc_com_org_entity_Company" modelAttribute="company" path="/companys" render="${empty dependencies}" z="ZsE+oggAvd3BUzB4MJXDw4eVShM=">
         <field:select field="createdBy" id="c_com_org_entity_Company_createdBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
         <field:select field="lastUpdatedBy" id="c_com_org_entity_Company_lastUpdatedBy" itemValue="id" items="${logusers}" path="/logusers" render="false" z="user-managed"/>
-        <field:input field="name" id="c_com_org_entity_Company_name" z="tbsu0K643lSdccktoN4450Yai6U="/>
+        <field:input required="true" field="name" id="c_com_org_entity_Company_name" z="tbsu0K643lSdccktoN4450Yai6U="/>
         <field:datetime dateTimePattern="${company_createdon_date_format}" field="createdOn" id="c_com_org_entity_Company_createdOn" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${company_lastupdatedon_date_format}" field="lastUpdatedOn" id="c_com_org_entity_Company_lastUpdatedOn" render="false" z="user-managed"/>
     </form:create>
