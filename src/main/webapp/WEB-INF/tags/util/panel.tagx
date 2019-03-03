@@ -56,4 +56,11 @@
             <!-- /.row -->
     
   </c:if>
+  <script>
+ // $(window).load(function() {
+		// Animate loader off screen
+		$(".loading").hide();
+		$("#loader").hide();
+//		});
+  </script>
 </jsp:root>

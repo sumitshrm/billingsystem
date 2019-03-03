@@ -26,11 +26,19 @@
 			$("#loader").hide();
 			});
 			
-			$(document).ready(function(){
-			    $(".showloading").click(function(){
-			    	showloading();
-			    });
-			});
+			/* to handle back button */
+			window.onpopstate = function (event) {  
+				  window.location=window.location;
+				}
+			
+			/* this function handles single page applicatin feature */
+			function handle(elem){
+				$(".loading").show();
+				$("#loader").show();
+				$( '#body' ).trigger( 'click' );
+				history.pushState(null, null, elem.href);
+			}
+			
 			
 			$(document).ready(function(){
 			    $(".showloading-form").submit(function(){
@@ -69,8 +77,9 @@
 		<script src="https://apis.google.com/js/platform.js?onload=onLoad"><!-- required for FF3 and Opera --></script>
 	</head>
 	
-  	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui" id="body">
+  	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui">
   	<div class="loading"><div id="loader"><!-- loader --></div></div>
+  	
   	<input type="hidden" name="urlcheck" id="urlcheck"></input>
    		
    		  		
