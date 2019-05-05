@@ -56,7 +56,7 @@
         	
             var getAdapter = function () {
                 // prepare the data
-            var url_data = '${csv_url}${dsr_file}';
+            var url_data = '${csv_url}ManagedDocuments/MANAGED_DOCUMENTS_NA_109_DSR_2016.xml';
             var source =
             {
                 dataType: "xml",

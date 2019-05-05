@@ -631,3 +631,17 @@ finder list
 finder add --finderName findManagedDocumentsByLogUserAndType
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2019-02-17 04:02:57
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-05-01 13:09:17
+hint
+entity jpa --class ~.entity.ItemsXMLData
+entity jpa --class ~.entity.ItemsXml
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2019-05-01 13:20:07
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-05-01 13:20:15
+hint
+// [failed] entity jpa --class ~.entity.ItemsXMLData
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2019-05-01 13:27:48
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-05-01 13:28:35
+hint
+entity jpa --class ~.entity.ItemsXMLData
