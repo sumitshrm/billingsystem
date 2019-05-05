@@ -26,6 +26,7 @@ import com.org.entity.ItemsXml;
 import com.org.entity.ManagedDocument;
 import com.org.entity.MeasurementSheet;
 import com.org.service.blobstore.FileStorageService;
+import com.org.util.FileStorageProperties;
 import com.org.util.QueryUtil;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -148,7 +149,7 @@ public class AggreementController {
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
         
         try {
-        	InputStream inputStream = fileStorageService.doGet("ManagedDocuments/MANAGED_DOCUMENTS_NA_110_DSR_2016.xml");
+        	InputStream inputStream = fileStorageService.doGet(FileStorageProperties.DSR_FILE);
         	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         	ObjectMapper mapper = new ObjectMapper();
         	String dsrItemsJson = mapper.writeValueAsString(entries);
