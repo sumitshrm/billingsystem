@@ -75,7 +75,7 @@
     <page:list labelPlural="DSR Items" id="pl_com_org_entity_Item" items="${dsrItems}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
          <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
             <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-            <table:column id="c_com_org_entity_Item_description" maxLength="2000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+            <table:column id="c_com_org_entity_Item_description" maxLength="6000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
             <table:column id="c_com_org_entity_Item_unit" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
             <table:column id="c_com_org_entity_Item_fullRate" render="true" property="fullRate" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
         </table:schedule-table> 
