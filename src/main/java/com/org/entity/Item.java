@@ -54,7 +54,7 @@ public class Item {
     private Long sortOrder;
 
     @NotNull
-    @Size(max = 2000)
+    @Size(max = 6000)
     private String description;
 
     private String unit;

@@ -10,7 +10,6 @@ import com.org.entity.Aggreement;
 import com.org.entity.Company;
 import com.org.entity.Document;
 import com.org.entity.Estimate;
-import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
 import com.org.entity.ItemName;
 import com.org.entity.Labour;
@@ -178,30 +177,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Estimate>() {
             public com.org.entity.Estimate convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), Estimate.class);
-            }
-        };
-    }
-    
-    public Converter<Item, String> ApplicationConversionServiceFactoryBean.getItemToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<com.org.entity.Item, java.lang.String>() {
-            public String convert(Item item) {
-                return new StringBuilder().append(item.getFullDescription()).append(' ').append(item.getSubItemNumber()).append(' ').append(item.getItemNumber()).append(' ').append(item.getSortOrder()).toString();
-            }
-        };
-    }
-    
-    public Converter<Long, Item> ApplicationConversionServiceFactoryBean.getIdToItemConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Item>() {
-            public com.org.entity.Item convert(java.lang.Long id) {
-                return Item.findItem(id);
-            }
-        };
-    }
-    
-    public Converter<String, Item> ApplicationConversionServiceFactoryBean.getStringToItemConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.Item>() {
-            public com.org.entity.Item convert(String id) {
-                return getObject().convert(getObject().convert(id, Long.class), Item.class);
             }
         };
     }
@@ -436,9 +411,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getEstimateToStringConverter());
         registry.addConverter(getIdToEstimateConverter());
         registry.addConverter(getStringToEstimateConverter());
-        registry.addConverter(getItemToStringConverter());
-        registry.addConverter(getIdToItemConverter());
-        registry.addConverter(getStringToItemConverter());
         registry.addConverter(getItemAbstractToStringConverter());
         registry.addConverter(getIdToItemAbstractConverter());
         registry.addConverter(getStringToItemAbstractConverter());
