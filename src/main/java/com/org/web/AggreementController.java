@@ -167,7 +167,7 @@ public class AggreementController {
 		}
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
-        uiModel.addAttribute("items", Item.findItemsByAggreementAndLogUser(aggreement, user, "id", "ASC").getResultList());
+        uiModel.addAttribute("items", Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user, "id", "ASC").getResultList());
         return "aggreements/schedule";
     }
     
@@ -227,5 +227,29 @@ public class AggreementController {
  			
  		}
     	return new ResponseEntity<String>("item added successfully",HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/{agg}/schedule/deleteitem", method = RequestMethod.DELETE)
+    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestParam(value = "itemNumber", required = false) String itemNumber, HttpServletResponse httpServletResponse) throws Exception {
+    	Aggreement aggreement = Aggreement.findAggreement(agg);
+    	try {
+    		Item item = Item.findItemsByItemNumberAndAggreement(itemNumber, aggreement).getSingleResult();
+    		do {
+    			try {
+    				item.remove();
+    				item=item.getParentItem();
+				} catch (Exception e) {
+					break;
+				}
+				
+			} while (item!=null && item.getSubItems().size()==0);
+    		
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("item not found",HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+    	
+    	
+    	return new ResponseEntity<String>("item deleted successfully",HttpStatus.OK);
     }
 }

@@ -27,6 +27,7 @@
             <table:column id="c_com_org_entity_Item_subItemNumber" property="subItemNumber" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_Item_aggreement" property="aggreement" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_Item_parentItem" property="parentItem" render="false" z="user-managed"/>
+            <table:column id="c_com_org_entity_Item_sortOrder" property="sortOrder" z="OdDzElYvPInY6dLcQwHqSDRy/L4="/>
         </table:table>
     </page:list>
 </div>

@@ -31,14 +31,6 @@ privileged aspect Item_Roo_JavaBean {
         this.aggreement = aggreement;
     }
     
-    public Item Item.getParentItem() {
-        return this.parentItem;
-    }
-    
-    public void Item.setParentItem(Item parentItem) {
-        this.parentItem = parentItem;
-    }
-    
     public List<Item> Item.getSubItems() {
         return this.subItems;
     }
@@ -149,6 +141,14 @@ privileged aspect Item_Roo_JavaBean {
     
     public void Item.setLogUser(LogUser logUser) {
         this.logUser = logUser;
+    }
+    
+    public Item Item.getParentItem() {
+        return this.parentItem;
+    }
+    
+    public void Item.setParentItem(Item parentItem) {
+        this.parentItem = parentItem;
     }
     
 }

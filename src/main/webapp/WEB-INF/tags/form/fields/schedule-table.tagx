@@ -167,9 +167,19 @@
         $('#table_${id} tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
         //remove selected
         $('#table_${id} tbody').on( 'click', 'button', function () {
-            
+        	var tr = table.row( $(this).parents('tr') );
             //alert( data[1] +"'s salary is minus: "+ data[ 1 ] );
-            table.row($(this).parents('tr')).remove().draw( false );
+            $.ajax({
+        		url : "/aggreements/"+aggreementNum+"/schedule/deleteitem?itemNumber="+tr.data()[1],
+        		type: "delete",
+        		success :function(result) {
+        	    	 console.log(result);
+                    show_notification(result, 'success');
+                    tr.remove().draw( false );
+        	     },error: function(e){
+        	    	 show_notification(e.responseText, 'error');
+        	    }
+        	});
         } );
         
         //add selected

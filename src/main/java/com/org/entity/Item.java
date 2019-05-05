@@ -1,7 +1,6 @@
 package com.org.entity;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -18,7 +17,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.apache.poi.util.StringUtil;
 import org.hibernate.annotations.Cascade;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -26,16 +24,14 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.org.domain.LogUser;
 import com.org.util.StrUtil;
 import com.org.util.Unit;
-
 import org.springframework.beans.factory.annotation.Value;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser" })
+@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull" })
 public class Item {
 
     @NotNull
@@ -50,10 +46,6 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Aggreement aggreement;
-
-    @ManyToOne()
-    @JoinColumn(name = "parent_id")
-    private Item parentItem;
 
     @OneToMany(mappedBy = "parentItem", cascade = CascadeType.REMOVE)
     @OrderBy("sortOrder DESC")
@@ -82,7 +74,7 @@ public class Item {
     private Double quantity;
 
     private String drsCode;
-    
+
     private Double dsrRate;
 
     /**
@@ -95,7 +87,6 @@ public class Item {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private LogUser logUser;
-
 
     @Transient
     private transient String fullDescription;
@@ -128,10 +119,10 @@ public class Item {
     }
 
     public String getItemNumDisplayFormat() {
-    	int pos = itemNumber.lastIndexOf(".");
-    	if(pos > 0){ 
-    		return itemNumber.substring(pos+1);
-    	}
+        int pos = itemNumber.lastIndexOf(".");
+        if (pos > 0) {
+            return itemNumber.substring(pos + 1);
+        }
         return itemNumber;
     }
 
@@ -140,32 +131,32 @@ public class Item {
     }
 
     public boolean isValidItem() {
-        return this.getSubItems()==null ? true : this.getSubItems().size() == 0;
+        return this.getSubItems() == null ? true : this.getSubItems().size() == 0;
     }
 
     public String getFullDescription() {
         return getDescription(this);
     }
-    
+
     public String getFullDescriptionHTML() {
         return getDescription(this, 140, true);
     }
 
     private String getDescription(Item item) {
-    	return getDescription(item, -1, false);
+        return getDescription(item, -1, false);
     }
-    
-	private String getDescription(Item item, int maxLength, boolean isHTML) { 
+
+    private String getDescription(Item item, int maxLength, boolean isHTML) {
         String description = item.getDescription();
-        int ml = (description.length() < maxLength)?description.length():maxLength;
-        if(maxLength>0 && description.length() > maxLength){
-	        description=description.substring(0, ml)+"...";
+        int ml = (description.length() < maxLength) ? description.length() : maxLength;
+        if (maxLength > 0 && description.length() > maxLength) {
+            description = description.substring(0, ml) + "...";
         }
         if (item.getParentItem() != null) {
             description = getDescription(item.getParentItem(), maxLength, isHTML) + "\n" + item.getItemNumDisplayFormat() + ") " + description;
         }
-        if(isHTML){
-        	return StrUtil.toHTMLUtill(description);
+        if (isHTML) {
+            return StrUtil.toHTMLUtill(description);
         }
         return description;
     }
@@ -217,48 +208,36 @@ public class Item {
         } else if (!itemNumber.equals(other.itemNumber)) return false;
         return true;
     }
-    
-    public String getDescriptionHTML(){
-		return description != null ? description.replaceAll("(\r\n|\n)",
-				"<br />") : "";
+
+    public String getDescriptionHTML() {
+        return description != null ? description.replaceAll("(\r\n|\n)", "<br />") : "";
     }
-    
-    public void addParentItem(Item parentItem){ 
-    	this.setParentItem(parentItem);
-    	List<Item> subItems = parentItem.getSubItems();
-    	if(subItems==null){
-    		subItems = new ArrayList<Item>();
-    		parentItem.setSubItems(subItems);
-    	}
-    	subItems.add(this);
-    }
-    
-    public boolean validate(){
-    	if(isValidItem() && (getFullRate()==null)){
-    		return false;
-    	}
-    	return true;
-    }
-    
-    public String getValidationMessage(){
-    	if(getFullRate()==null){
-    		return "Full rate cannot be blank for item number : "+ getItemNumber();
-    	}
-    	return "Validation failed for item number : " + getItemNumber();
-    }
-    
-    /*@Transactional
-    public void remove() {
-    	EntityManager entityManager = entityManager();
-        if (entityManager == null) this.entityManager = entityManager();
-        if (this.parentItem!=null){
-        	//this.parentItem.getSubItems().remove(this);
+
+    public void addParentItem(Item parentItem) {
+        this.setParentItem(parentItem);
+        List<Item> subItems = parentItem.getSubItems();
+        if (subItems == null) {
+            subItems = new ArrayList<Item>();
+            parentItem.setSubItems(subItems);
         }
-        if (this.entityManager.contains(this)) {
-            this.entityManager.remove(this);
-        } else {
-            Item attached = Item.findItem(this.getId());
-            this.entityManager.remove(attached);
+        subItems.add(this);
+    }
+
+    public boolean validate() {
+        if (isValidItem() && (getFullRate() == null)) {
+            return false;
         }
-    }*/
+        return true;
+    }
+
+    public String getValidationMessage() {
+        if (getFullRate() == null) {
+            return "Full rate cannot be blank for item number : " + getItemNumber();
+        }
+        return "Validation failed for item number : " + getItemNumber();
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Item parentItem;
 }

@@ -47,6 +47,16 @@ privileged aspect Item_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
+    public static Long Item.countFindItemsByAggreementAndLogUserAndFullRateIsNotNull(Aggreement aggreement, LogUser logUser) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser AND o.fullRate IS NOT NULL", Long.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static Long Item.countFindItemsByAggreementAndMeasurementSheetId(Aggreement aggreement, Long measurementSheetId) {
         if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
         if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
@@ -191,6 +201,33 @@ privileged aspect Item_Roo_Finder {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Item.entityManager();
         StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<Item> Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(Aggreement aggreement, LogUser logUser) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery<Item> q = em.createQuery("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser AND o.fullRate IS NOT NULL", Item.class);
+        q.setParameter("aggreement", aggreement);
+        q.setParameter("logUser", logUser);
+        return q;
+    }
+    
+    public static TypedQuery<Item> Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(Aggreement aggreement, LogUser logUser, String sortFieldName, String sortOrder) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
+        EntityManager em = Item.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.aggreement = :aggreement AND o.logUser = :logUser AND o.fullRate IS NOT NULL");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
             queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {

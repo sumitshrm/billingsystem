@@ -645,3 +645,8 @@ exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-05-01 13:28:35
 hint
 entity jpa --class ~.entity.ItemsXMLData
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2019-05-05 19:53:21
+hint
+focus --class ~.entity.Item
+finder list 
+finder add --finderName findItemsByAggreementAndLogUserAndFullRateIsNotNull
