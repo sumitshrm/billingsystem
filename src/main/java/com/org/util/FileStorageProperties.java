@@ -18,7 +18,7 @@ public class FileStorageProperties {
 	  
 	  public static final String BILLFORMS_TEMPLATE = "Documents/BILLFORMS_TEMPLATE.xlsx";
 	  
-	  public static final String DSR_FILE = "Documents/DSR_2016.xml";
+	  public static final String DSR_FILE_2016 = "Documents/DSR_2016.xml";
 
 	  
 }
