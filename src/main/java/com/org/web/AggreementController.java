@@ -149,7 +149,7 @@ public class AggreementController {
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
         
         try {
-        	InputStream inputStream = fileStorageService.doGet(FileStorageProperties.DSR_FILE);
+        	InputStream inputStream = fileStorageService.doGet(FileStorageProperties.DSR_FILE_2016);
         	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         	ObjectMapper mapper = new ObjectMapper();
         	String dsrItemsJson = mapper.writeValueAsString(entries);
@@ -168,7 +168,13 @@ public class AggreementController {
 		}
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
-        uiModel.addAttribute("items", Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user, "id", "ASC").getResultList());
+        List<Item> items = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user, "id", "ASC").getResultList();
+        for(Item item : items) {
+        	if(item.isIsExtraItem()) {
+        		item.setDrsCode(item.getItemNumber());
+        	}
+        }
+        uiModel.addAttribute("items", items);
         return "aggreements/schedule";
     }
     
@@ -193,6 +199,9 @@ public class AggreementController {
 		 		itemObject.setDescription(item.getDescription());
 		 		itemObject.setUnit(item.getUnit());
 		 		itemObject.setFullRate(item.getFullRate());
+		 		itemObject.setDrsCode(item.getItemNumber());
+		 		itemObject.setPartRate(item.getFullRate());
+		 		itemObject.setQuantity(1d);
 		 		try {
 		 			itemObject.persist();
 				} catch (Exception ex) {
@@ -219,6 +228,7 @@ public class AggreementController {
  			return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
  		}catch(EmptyResultDataAccessException e) {
  			item.setAggreement(aggreement);
+ 			item.setDrsCode(item.getItemNumber());
  			item.setIsExtraItem(true);
  			try {
  				item.persist();
@@ -231,10 +241,10 @@ public class AggreementController {
     }
     
     @RequestMapping(value="/{agg}/schedule/deleteitem", method = RequestMethod.DELETE)
-    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestParam(value = "itemNumber", required = false) String itemNumber, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestParam(value = "itemNumber", required = false) String dsrcode, HttpServletResponse httpServletResponse) throws Exception {
     	Aggreement aggreement = Aggreement.findAggreement(agg);
     	try {
-    		Item item = Item.findItemsByItemNumberAndAggreement(itemNumber, aggreement).getSingleResult();
+    		Item item = Item.findItemsByDrsCodeAndAggreement(dsrcode, aggreement).getSingleResult();
     		do {
     			try {
     				item.remove();
@@ -252,5 +262,37 @@ public class AggreementController {
     	
     	
     	return new ResponseEntity<String>("item deleted successfully",HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/{agg}/schedule/review")
+    public String reviewAndUpdateSchedule(@PathVariable("agg")Long agg, Model uiModel) {
+    	LogUser user = LogUser.getCurrentUser();
+    	Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
+    	List<Item> parentItems = Item.findItemsByAggreementAndLogUserAndParentItemIsNull(aggreement, user, "id", "ASC").getResultList();
+    	Integer serialnum=1;
+    	for(Item item : parentItems) {
+    		if(!item.isIsExtraItem() && !item.getItemNumber().equals(serialnum.toString())) {
+    			item.setItemNumber(serialnum.toString());
+        		updateItemNumber(item.getSubItems(), 1);
+        		item.persist();
+    		}
+    		serialnum++;
+    	}
+    	List<Item> updatedItems = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user	, "id", "ASC").getResultList();
+    	uiModel.addAttribute("items", updatedItems);
+    	uiModel.addAttribute("aggreement", aggreement);
+    	return "aggreements/reviewschedule";
+    }
+    
+    private void updateItemNumber(List<Item> items, Integer serialnum) {
+    	for(Item item : items) {
+    		item.setItemNumber(item.getParentItem().getItemNumber()+"."+serialnum);
+    		if(item.getSubItems().size()>0) { 
+    			updateItemNumber(item.getSubItems(), serialnum);
+    		}
+    		serialnum++;
+    		item.persist();
+    		
+    	}
     }
 }

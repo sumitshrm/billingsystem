@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:nav="urn:jsptagdir:/WEB-INF/tags/matcons/navigation" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/items?form&amp;aggreement=${aggreement.id}" var="import_url"/>
+    <nav:nav>
+        <nav:item label="home" url="/"/>
+        <nav:item label="list aggreements" url="/aggreements?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
+        <nav:item label="aggreement" url="/aggreements/${aggreement.id}"/>
+        <nav:item active="true" label="list items" url="#"/>
+    </nav:nav>
+    <page:list id="pl_com_org_entity_Item" items="${items}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
+        <table:table data="${items}" id="l_com_org_entity_Item" paging="false" path="/items" responsive="true" z="user-managed" create="false" delete="false" show="false" update="false"> 
+            <table:column id="c_com_org_entity_Item_itemNumber" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+            <table:column id="c_com_org_entity_Item_description" maxLength="6000" property="fullDescription" render="true" z="user-managed"/>
+            <table:column id="c_com_org_entity_Item_quantity" property="quantity" z="mBJTfey4FYYzS282Pq0f0zt4k+Y="/>
+            <table:column id="c_com_org_entity_Item_unit" property="unit" z="mRKmq+QFLgWcquqynuiRkwkhw4M="/>
+            <table:column id="c_com_org_entity_Item_quantityPerUnit" property="quantityPerUnit" z="mRKmq+QFLgWcquqynuiRkwkhw4M="/>
+            <table:column id="c_com_org_entity_Item_fullRate" property="fullRate" z="mRKmq+QFLgWcquqynuiRkwkhw4M="/>
+            <table:column id="c_com_org_entity_Item_partRate" property="partRate" z="mRKmq+QFLgWcquqynuiRkwkhw4M="/>
+            <table:column id="c_com_org_entity_Item_drsCode" property="drsCode" z="mRKmq+QFLgWcquqynuiRkwkhw4M="/>
+        </table:table>
+    </page:list>
+</div>

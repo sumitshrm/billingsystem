@@ -16,4 +16,7 @@
     <definition extends="default" name="aggreements/schedule">
         <put-attribute name="body" value="/WEB-INF/views/aggreements/schedule.jspx"/>
     </definition>
+    <definition extends="default" name="aggreements/reviewschedule">
+        <put-attribute name="body" value="/WEB-INF/views/aggreements/reviewschedule.jspx"/>
+    </definition>
 </tiles-definitions>

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull" })
+@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndParentItemIsNull", "findItemsByDrsCodeAndAggreement" })
 public class Item {
 
     @NotNull
