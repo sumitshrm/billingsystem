@@ -11,8 +11,6 @@
     
     $(document).ready(function() {
     	
-    	
-    	
     	$("#messageNotification").jqxNotification({
             width: 250,  opacity: 0.9, 
             autoOpen: false, animationOpenDelay: 300, autoClose: true, autoCloseDelay: 1000, template: "info" ,appendContainer: "#container"
@@ -47,8 +45,12 @@
 			        	$("#unit").val("");
 			        	$("#quantity").val("");
 			        	$("#fullRate").val("");
-        			$('#table_l_com_org_entity_Aggreement').DataTable().row.add( ["", form_data.itemNumber,form_data.description,form_data.unit,form_data.fullRate]).draw();
-                    $('#table_l_com_org_entity_Aggreement tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
+                    if(form_data.quantity==0){
+                    	$("#itemNumber").val(form_data.itemNumber+".");
+                    }else{
+            			$('#table_l_com_org_entity_Aggreement').DataTable().row.add( ["", form_data.itemNumber,form_data.description,form_data.unit,form_data.fullRate]).draw();
+                        $('#table_l_com_org_entity_Aggreement tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
+                    }
                     show_notification(result, 'success');
         	     },error: function(e){
         	    	 show_notification(e.responseText, 'error');

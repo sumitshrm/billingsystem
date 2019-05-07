@@ -230,13 +230,33 @@ public class AggreementController {
  			item.setAggreement(aggreement);
  			item.setDrsCode(item.getItemNumber());
  			item.setIsExtraItem(true);
+ 			if(item.getQuantity()==0) {
+ 				item.setQuantity(null);
+ 				item.setFullRate(null);
+ 			}
  			try {
+ 				//find parent item
+ 				int pos = item.getItemNumber().lastIndexOf(".");
+ 				if(pos>=0) {
+ 					String parentItemNum = item.getItemNumber().substring(0, pos);
+ 					try {
+ 	 					Item parentItem = Item.findItemsByItemNumberAndAggreement(parentItemNum, aggreement).getSingleResult();
+ 	 					item.setParentItem(parentItem);
+ 					}catch (EmptyResultDataAccessException ex) {
+ 						return new ResponseEntity<String>("Invalid item number. parent item '"+parentItemNum+"' missing",HttpStatus.INTERNAL_SERVER_ERROR);
+					}catch (Exception ey) {
+						return new ResponseEntity<String>("Some error occurred.",HttpStatus.INTERNAL_SERVER_ERROR);
+					}
+ 				}
  				item.persist();
  			}catch (Exception ex) {
 				ex.printStackTrace();
 			}
  			
  		}
+	 	if(item.getQuantity()==null) {
+	 		return new ResponseEntity<String>("main item added successfully. please add subitems now",HttpStatus.OK);
+	 	}
     	return new ResponseEntity<String>("item added successfully",HttpStatus.OK);
     }
     
@@ -271,8 +291,9 @@ public class AggreementController {
     	List<Item> parentItems = Item.findItemsByAggreementAndLogUserAndParentItemIsNull(aggreement, user, "id", "ASC").getResultList();
     	Integer serialnum=1;
     	for(Item item : parentItems) {
-    		if(!item.isIsExtraItem() && !item.getItemNumber().equals(serialnum.toString())) {
+    		if(!item.getItemNumber().equals(serialnum.toString())) {
     			item.setItemNumber(serialnum.toString());
+    			if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
         		updateItemNumber(item.getSubItems(), 1);
         		item.persist();
     		}
@@ -287,6 +308,7 @@ public class AggreementController {
     private void updateItemNumber(List<Item> items, Integer serialnum) {
     	for(Item item : items) {
     		item.setItemNumber(item.getParentItem().getItemNumber()+"."+serialnum);
+    		if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
     		if(item.getSubItems().size()>0) { 
     			updateItemNumber(item.getSubItems(), serialnum);
     		}
