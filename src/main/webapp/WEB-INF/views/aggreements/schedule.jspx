@@ -11,6 +11,15 @@
     
     $(document).ready(function() {
     	
+    	//Prefix item number textbox
+    	$("#itemNumber").keyup(function(e) {
+		  var oldvalue = $(this).val();
+		  var field = this;
+		  if (field.value.indexOf('EI') === -1){
+		    $(field).val('EI');
+		  }
+		});
+    	
     	$("#messageNotification").jqxNotification({
             width: 250,  opacity: 0.9, 
             autoOpen: false, animationOpenDelay: 300, autoClose: true, autoCloseDelay: 1000, template: "info" ,appendContainer: "#container"
@@ -98,7 +107,7 @@
             <div class="box-body">
               <div class="row">
                <div class="col-xs-2" style="padding : 2px">
-                  <input type="text" name="itemNumber" id="itemNumber" class="form-control" required="true" placeholder="Item Number"/>
+                  <input type="text" name="itemNumber" id="itemNumber" value='EI' class="form-control" required="true" placeholder="Item Number"/>
                 </div>
                 <div class="col-xs-4" style="padding : 2px"><textarea name="description" id="description" required="true" class="form-control" rows="1" placeholder="Description"><!-- empty --></textarea>
                 </div>

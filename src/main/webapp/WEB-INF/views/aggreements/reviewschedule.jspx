@@ -7,6 +7,7 @@
         <nav:item label="home" url="/"/>
         <nav:item label="list aggreements" url="/aggreements?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
         <nav:item label="aggreement" url="/aggreements/${aggreement.id}"/>
+        <nav:item label="schedule" url="/aggreements/${aggreement.id}/schedule"/>
         <nav:item active="true" label="list items" url="#"/>
     </nav:nav>
     <page:list id="pl_com_org_entity_Item" items="${items}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">

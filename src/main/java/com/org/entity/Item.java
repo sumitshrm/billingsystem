@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.apache.poi.util.StringUtil;
@@ -235,6 +236,14 @@ public class Item {
             return "Full rate cannot be blank for item number : " + getItemNumber();
         }
         return "Validation failed for item number : " + getItemNumber();
+    }
+
+    public static TypedQuery<Item> findLatestItemByAggreementAndParentItemIsNull(Aggreement aggreement) {
+        if (aggreement == null) throw new IllegalArgumentException("The aggreement argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery<Item> q = em.createQuery("SELECT o FROM Item AS o WHERE o.id = (select max(rec.id) from Item rec where rec.aggreement = :aggreement AND rec.parentItem IS NULL)", Item.class);
+        q.setParameter("aggreement", aggreement);
+        return q;
     }
 
     @ManyToOne

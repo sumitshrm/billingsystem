@@ -169,11 +169,11 @@ public class AggreementController {
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
         List<Item> items = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user, "id", "ASC").getResultList();
-        for(Item item : items) {
+        /*for(Item item : items) {
         	if(item.isIsExtraItem()) {
         		item.setDrsCode(item.getItemNumber());
         	}
-        }
+        }*/
         uiModel.addAttribute("items", items);
         return "aggreements/schedule";
     }
@@ -183,13 +183,30 @@ public class AggreementController {
 	 	System.out.println(itemsXml);
 	 	Aggreement aggreement = Aggreement.findAggreement(agg);
 	 	Item parentItem = null;
+	 	boolean addParentItem = false;
+	 	int x = 0;
 	 	for(ItemsXMLData item : itemsXml.getEntries()) {
+	 		x++;
 	 		Item itemObject = new Item();
 	 		try {
 	 			//if item already exist then do not add simply make it parent of next item
-	 			parentItem = Item.findItemsByItemNumberAndAggreement(item.getItemNumber(), aggreement).getSingleResult();
-	 			if(parentItem.getFullRate()!=null) {
-	 				return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
+	 			if(x<=1) { //for the first item. check if this is the latest item added.
+	 				parentItem=Item.findLatestItemByAggreementAndParentItemIsNull(aggreement).getSingleResult();
+	 				if(!parentItem.getItemNumber().equals(item.getItemNumber())) {
+	 					parentItem=null;
+	 					addParentItem=true;
+	 					throw new EmptyResultDataAccessException(1);
+	 				}
+	 					
+	 			}
+	 			else {
+	 				if(addParentItem) { //If parent item needs to be added in any case.
+	 					throw new EmptyResultDataAccessException(1);
+	 				}
+	 				parentItem = Item.findItemsByDrsCodeAndAggreement(item.getItemNumber(), aggreement).getSingleResult();
+		 			if(parentItem.getFullRate()!=null) {
+		 				return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
+		 			}
 	 			}
 	 			
 	 		}catch (EmptyResultDataAccessException e) {
@@ -224,7 +241,7 @@ public class AggreementController {
 	 	Aggreement aggreement = Aggreement.findAggreement(agg);
 	 	try {
  			//if item already exist then do not add simply make it parent of next item
- 			Item.findItemsByItemNumberAndAggreement(item.getItemNumber(), aggreement).getSingleResult();
+ 			Item.findItemsByDrsCodeAndAggreement(item.getItemNumber(), aggreement).getSingleResult();
  			return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
  		}catch(EmptyResultDataAccessException e) {
  			item.setAggreement(aggreement);
@@ -293,7 +310,7 @@ public class AggreementController {
     	for(Item item : parentItems) {
     		if(!item.getItemNumber().equals(serialnum.toString())) {
     			item.setItemNumber(serialnum.toString());
-    			if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
+    			//if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
         		updateItemNumber(item.getSubItems(), 1);
         		item.persist();
     		}
@@ -308,7 +325,7 @@ public class AggreementController {
     private void updateItemNumber(List<Item> items, Integer serialnum) {
     	for(Item item : items) {
     		item.setItemNumber(item.getParentItem().getItemNumber()+"."+serialnum);
-    		if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
+    		//if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
     		if(item.getSubItems().size()>0) { 
     			updateItemNumber(item.getSubItems(), serialnum);
     		}
