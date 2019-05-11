@@ -322,6 +322,22 @@ public class AggreementController {
     	return "aggreements/reviewschedule";
     }
     
+    @RequestMapping(value="/{agg}/schedule/updatequantity")
+    public ResponseEntity saveItemQuantity(@PathVariable("agg") Long agg,@RequestParam(value = "id", required = true) long id,@RequestParam(value = "value", required = false) Double quantity) {
+    	LogUser user = LogUser.getCurrentUser();
+    	try {
+        	Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
+        	Item item = Item.findItem(id);
+        	item.setQuantity(quantity);
+        	item.persist();
+        	return new ResponseEntity<String>("quantity updated successfully",HttpStatus.OK);
+    	}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(quantity.toString(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    	
+    }
+    
     private void updateItemNumber(List<Item> items, Integer serialnum) {
     	for(Item item : items) {
     		item.setItemNumber(item.getParentItem().getItemNumber()+"."+serialnum);
