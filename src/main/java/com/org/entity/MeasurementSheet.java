@@ -202,10 +202,10 @@ public class MeasurementSheet {
 
 	public List<ItemAbstract> getItemAbstractsSorted(){
 		List<ItemAbstract> itemAbstracts = getItemAbstracts();
-		if(!isItemAbstractSorted()){
+		/*if(!isItemAbstractSorted()){
 			Collections.sort(itemAbstracts, new ItemAbstractComparator());
 			setItemAbstractSorted(true);
-		}
+		}*/
 		return itemAbstracts;
 	}
 	

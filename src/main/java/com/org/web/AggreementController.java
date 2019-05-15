@@ -21,6 +21,7 @@ import com.org.entity.Aggreement;
 import com.org.entity.Estimate;
 import com.org.entity.EstimateShared;
 import com.org.entity.Item;
+import com.org.entity.ItemAbstract;
 import com.org.entity.ItemsXMLData;
 import com.org.entity.ItemsXml;
 import com.org.entity.ManagedDocument;
@@ -144,7 +145,7 @@ public class AggreementController {
     }
     
     @RequestMapping(value = "/{agg}/schedule", method = RequestMethod.GET, produces = "text/html")
-    public String createSchedule(@PathVariable("agg") Long agg, Model uiModel) {
+    public String createSchedule(@PathVariable("agg") Long agg, @RequestParam(value = "msheetid", required = false) Long msheetid, Model uiModel) {
     	LogUser user = LogUser.getCurrentUser();
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
         
@@ -168,23 +169,33 @@ public class AggreementController {
 		}
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
-        List<Item> items = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user, "id", "ASC").getResultList();
-        /*for(Item item : items) {
-        	if(item.isIsExtraItem()) {
-        		item.setDrsCode(item.getItemNumber());
-        	}
-        }*/
-        uiModel.addAttribute("items", items);
+        if(msheetid!=null) {
+        	List<Item> items = Item.findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull(aggreement, msheetid, "id", "ASC").getResultList();
+        	uiModel.addAttribute("items", items);
+        	uiModel.addAttribute("msheetid", msheetid);
+        }else {
+            List<Item> items = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItem(aggreement, user,false, "id", "ASC").getResultList();
+            uiModel.addAttribute("items", items);
+        	
+        }
         return "aggreements/schedule";
     }
     
     @RequestMapping(value="/{agg}/schedule/saveitem", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createStatement(@PathVariable("agg") Long agg, @RequestBody ItemsXml itemsXml, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity saveItem(@PathVariable("agg") Long agg, @RequestBody ItemsXml itemsXml,@RequestParam(value = "msheetid", required = false) Long msheetid, HttpServletResponse httpServletResponse) throws Exception {
 	 	System.out.println(itemsXml);
 	 	Aggreement aggreement = Aggreement.findAggreement(agg);
+	 	LogUser user = LogUser.getCurrentUser();
 	 	Item parentItem = null;
 	 	boolean addParentItem = false;
 	 	int x = 0;
+	 	//validate if item already exist
+	 	String finalitemnumber = itemsXml.getEntries().get(itemsXml.getEntries().size()-1).getItemNumber();
+	 	if(Item.countFindItemsByDrsCodeAndAggreement(finalitemnumber, aggreement)>0) {
+			return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
+	 	}
+	 	Item itemForAbstract = null;
+	 	
 	 	for(ItemsXMLData item : itemsXml.getEntries()) {
 	 		x++;
 	 		Item itemObject = new Item();
@@ -192,7 +203,7 @@ public class AggreementController {
 	 			//if item already exist then do not add simply make it parent of next item
 	 			if(x<=1) { //for the first item. check if this is the latest item added.
 	 				parentItem=Item.findLatestItemByAggreementAndParentItemIsNull(aggreement).getSingleResult();
-	 				if(!parentItem.getItemNumber().equals(item.getItemNumber())) {
+	 				if(!parentItem.getDrsCode().equals(item.getItemNumber())) {
 	 					parentItem=null;
 	 					addParentItem=true;
 	 					throw new EmptyResultDataAccessException(1);
@@ -200,9 +211,6 @@ public class AggreementController {
 	 					
 	 			}
 	 			else {
-	 				if(addParentItem) { //If parent item needs to be added in any case.
-	 					throw new EmptyResultDataAccessException(1);
-	 				}
 	 				parentItem = Item.findItemsByDrsCodeAndAggreement(item.getItemNumber(), aggreement).getSingleResult();
 		 			if(parentItem.getFullRate()!=null) {
 		 				return new ResponseEntity<String>("Item already exist",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -219,10 +227,17 @@ public class AggreementController {
 		 		itemObject.setDrsCode(item.getItemNumber());
 		 		itemObject.setPartRate(item.getFullRate());
 		 		itemObject.setQuantity(1d);
+		 		
 		 		try {
+		 			if(msheetid!=null) {
+			 			itemObject.setIsExtraItem(true);
+			 			itemObject.setMeasurementSheetId(msheetid);
+			 			itemForAbstract = itemObject; // abstract will be created for the last occurence of extra item
+			 		}
 		 			itemObject.persist();
+		 			finalitemnumber = itemObject.getDrsCode();
 				} catch (Exception ex) {
-					e.printStackTrace();
+					ex.printStackTrace();
 					return new ResponseEntity<String>("Some error occured",HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 		 		
@@ -230,13 +245,22 @@ public class AggreementController {
 		 		System.out.println("saved item " + item);
 			}catch (Exception e) {
 				e.printStackTrace();
+				return new ResponseEntity<String>("Some error occured",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 	 	}
-    	return new ResponseEntity<String>("item saved successfully",HttpStatus.OK);
+	 	
+	 	if(itemForAbstract!=null) {
+	 		try {
+				createItemAbstract(msheetid, itemForAbstract);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	 	}
+    	return new ResponseEntity<String>(finalitemnumber,HttpStatus.OK);
     }
     
     @RequestMapping(value="/{agg}/schedule/saveextraitem", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestBody Item item, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestBody Item item,@RequestParam(value = "msheetid", required = false) Long msheetid, HttpServletResponse httpServletResponse) throws Exception {
 	 	System.out.println(item);
 	 	Aggreement aggreement = Aggreement.findAggreement(agg);
 	 	try {
@@ -246,7 +270,6 @@ public class AggreementController {
  		}catch(EmptyResultDataAccessException e) {
  			item.setAggreement(aggreement);
  			item.setDrsCode(item.getItemNumber());
- 			item.setIsExtraItem(true);
  			if(item.getQuantity()==0) {
  				item.setQuantity(null);
  				item.setFullRate(null);
@@ -265,6 +288,10 @@ public class AggreementController {
 						return new ResponseEntity<String>("Some error occurred.",HttpStatus.INTERNAL_SERVER_ERROR);
 					}
  				}
+ 				if(msheetid!=null) {
+ 					item.setIsExtraItem(true);
+ 					item.setMeasurementSheetId(msheetid);
+ 				}
  				item.persist();
  			}catch (Exception ex) {
 				ex.printStackTrace();
@@ -274,11 +301,14 @@ public class AggreementController {
 	 	if(item.getQuantity()==null) {
 	 		return new ResponseEntity<String>("main item added successfully. please add subitems now",HttpStatus.OK);
 	 	}
+	 	if(msheetid!=null) {
+	 		createItemAbstract( msheetid, item);
+	 	}
     	return new ResponseEntity<String>("item added successfully",HttpStatus.OK);
     }
     
     @RequestMapping(value="/{agg}/schedule/deleteitem", method = RequestMethod.DELETE)
-    public ResponseEntity createExtraItem(@PathVariable("agg") Long agg,@RequestParam(value = "itemNumber", required = false) String dsrcode, HttpServletResponse httpServletResponse) throws Exception {
+    public ResponseEntity deleteExtraItem(@PathVariable("agg") Long agg,@RequestParam(value = "itemNumber", required = false) String dsrcode, HttpServletResponse httpServletResponse) throws Exception {
     	Aggreement aggreement = Aggreement.findAggreement(agg);
     	try {
     		Item item = Item.findItemsByDrsCodeAndAggreement(dsrcode, aggreement).getSingleResult();
@@ -295,7 +325,10 @@ public class AggreementController {
 		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>("item not found",HttpStatus.INTERNAL_SERVER_ERROR);
-		}	
+		}	catch(Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<String>("item not found",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     	
     	
     	return new ResponseEntity<String>("item deleted successfully",HttpStatus.OK);
@@ -305,7 +338,7 @@ public class AggreementController {
     public String reviewAndUpdateSchedule(@PathVariable("agg")Long agg, Model uiModel) {
     	LogUser user = LogUser.getCurrentUser();
     	Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
-    	List<Item> parentItems = Item.findItemsByAggreementAndLogUserAndParentItemIsNull(aggreement, user, "id", "ASC").getResultList();
+    	List<Item> parentItems = Item.findItemsByAggreementAndLogUserAndParentItemIsNullAndIsExtraItem(aggreement, user,false, "id", "ASC").getResultList();
     	Integer serialnum=1;
     	for(Item item : parentItems) {
     		if(!item.getItemNumber().equals(serialnum.toString())) {
@@ -316,10 +349,31 @@ public class AggreementController {
     		}
     		serialnum++;
     	}
-    	List<Item> updatedItems = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user	, "id", "ASC").getResultList();
+    	List<Item> updatedItems = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItem(aggreement, user, false, "id", "ASC").getResultList();
     	uiModel.addAttribute("items", updatedItems);
     	uiModel.addAttribute("aggreement", aggreement);
     	return "aggreements/reviewschedule";
+    }
+    
+    @RequestMapping(value="/{agg}/schedule/reviewextraitem/{msheetid}")
+    public String reviewAndUpdateExtraItem(@PathVariable("agg")Long agg,@PathVariable("msheetid")Long msheetid, Model uiModel) {
+    	LogUser user = LogUser.getCurrentUser();
+    	Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
+    	List<Item> parentItems = Item.findItemsByAggreementAndLogUserAndParentItemIsNullAndIsExtraItem(aggreement, user,true, "id", "ASC").getResultList();
+    	Integer serialnum=1;
+    	for(Item item : parentItems) {
+    		if(!item.getItemNumber().equals("EI"+serialnum.toString())) {
+    			item.setItemNumber("EI"+serialnum.toString());
+    			//if(item.isIsExtraItem()) {item.setDrsCode(item.getItemNumber());}
+        		updateItemNumber(item.getSubItems(), 1);
+        		item.persist();
+    		}
+    		serialnum++;
+    	}
+    	List<Item> updatedItems = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user	, "id", "ASC").getResultList();
+    	uiModel.addAttribute("items", updatedItems);
+    	uiModel.addAttribute("aggreement", aggreement);
+    	return "redirect:/measurementsheets/" + msheetid;
     }
     
     @RequestMapping(value="/{agg}/schedule/updatequantity")
@@ -349,5 +403,13 @@ public class AggreementController {
     		item.persist();
     		
     	}
+    }
+    
+    private void createItemAbstract(Long msheetid, Item item) {
+    	MeasurementSheet msheet = MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetid, LogUser.getCurrentUser()).getSingleResult();
+    	ItemAbstract itemAbstract = new ItemAbstract();
+		itemAbstract.setMeasurementSheet(msheet);
+		itemAbstract.setItem(item);
+		itemAbstract.persist();
     }
 }

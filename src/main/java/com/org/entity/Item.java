@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndParentItemIsNull", "findItemsByDrsCodeAndAggreement" })
+@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndParentItemIsNull", "findItemsByDrsCodeAndAggreement", "findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItemNot", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItem", "findItemsByAggreementAndLogUserAndParentItemIsNullAndIsExtraItem" })
 public class Item {
 
     @NotNull
