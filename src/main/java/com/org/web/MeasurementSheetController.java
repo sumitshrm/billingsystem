@@ -94,6 +94,7 @@ public class MeasurementSheetController {
             defaultDoc.persist();
             measurementSheet.setDocument(defaultDoc);
             documentService.generateReportManualy(measurementSheet);
+            documentService.generateReport(measurementSheet);
             measurementSheet.persist();
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -17,6 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +42,14 @@ import com.org.constants.Worksheets;
 import com.org.domain.Config;
 import com.org.entity.Aggreement;
 import com.org.entity.Document;
+import com.org.entity.EstimateItem;
 import com.org.entity.IDocument;
 import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.Template;
 import com.org.excel.service.ExcelUtill;
+import com.org.excel.util.AbstractRanges;
 import com.org.excel.util.ItemRanges;
 import com.org.excel.util.TemplateType;
 import com.org.excel.util.XLColumnRange;
@@ -53,6 +62,8 @@ import com.org.report.service.MeasurementGeneratorService;
 import com.org.report.service.PartRateStatementGeneratorService;
 import com.org.report.service.ScheduleGeneratorService;
 import com.org.service.blobstore.FileStorageService;
+import com.org.util.EstimateCounter;
+import com.org.util.FileStorageProperties;
 
 @Service
 public class DocumentService {
@@ -175,6 +186,8 @@ public class DocumentService {
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.TEMPSHEET), true);
 		}
 		
+		writeMeasurementSheetdata(workbook, msheet);
+		
 		workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
 		workbook.close();
 		return newDoc;
@@ -282,6 +295,107 @@ public class DocumentService {
 		return null;
 	}
 	
-	  
-
+	private void writeMeasurementSheetdata(XSSFWorkbook workbook, MeasurementSheet msheet2) {
+		
+		XSSFSheet msheet = workbook.getSheet(Worksheets.MEASUREMENTSHEET);
+		XSSFSheet csheet = msheet.getWorkbook().getSheet(Worksheets.CONFIG_DATA_SHEET);
+		
+		Integer a_currentrow = csheet.getLastRowNum();
+		Integer m_currentrow = msheet.getLastRowNum();
+		EstimateCounter counter = new EstimateCounter(m_currentrow, a_currentrow);
+		int msheetDescColNum = new XLColumnRange(workbook, "M_ITEM_DESC").getFirstColNum();
+		int msheetTotalColNum = new XLColumnRange(workbook, "M_TOTAL_QTY").getFirstColNum();
+		int csheetItemNumColNum = new XLColumnRange(workbook, "CD_ITEM_NUM").getFirstColNum();
+		int csheetItemTotalColNum = new XLColumnRange(workbook, "CD_TOTAL").getFirstColNum();
+		
+		
+		for(Item item : msheet2.getAggreement().getItems()) {
+			if(item.getParentItem()==null) {
+				XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
+				XSSFCell cell = row.createCell(msheetDescColNum);
+				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+				cell.setCellValue("Date of Measurement");
+				
+				row = msheet.createRow(counter.nextMsheetCounter());
+				cell = row.createCell(msheetDescColNum);
+				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+				cell.setCellFormula("\"Aggreement Item Number : \" &  M_TOTAL_QTY");
+			}
+			writeItemData(msheet, csheet ,item, msheetDescColNum, msheetTotalColNum, counter, csheetItemNumColNum, csheetItemTotalColNum);
+		}
+		
+		
+	}
+	private void writeItemData(XSSFSheet msheet, XSSFSheet csheet, Item item, int msheetDescColNum,
+			int msheetTotalColNum, EstimateCounter counter, int csheetItemNumColNum, int csheetItemTotalColNum) {
+		XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
+		
+		XSSFCell cell = row.createCell(msheetDescColNum);
+		//cell.setCellStyle(abstractRanges.getDescriptionCellStyle());
+		msheet.addMergedRegion(new CellRangeAddress(counter.getMsheetCounter(),counter.getMsheetCounter(),msheetDescColNum,msheetTotalColNum));
+		cell.setCellValue(item.getDescription());
+		
+		XSSFCell itemNumRefCell =null;
+		XSSFCell itemTotalRefCell = null;
+		
+		if(item.getFullRate()!=null) {
+			
+			
+			counter.nextMsheetCounter();
+			
+			row = msheet.createRow(counter.nextMsheetCounter());
+			
+			cell = row.createCell(msheetDescColNum);
+			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+			cell.setCellValue("Qty C/O TCMB       P/");
+			
+			cell = row.createCell(msheetTotalColNum-1);
+			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+			cell.setCellValue("Total");
+			
+			cell = row.createCell(msheetTotalColNum);
+			cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+			cell.setCellFormula(getTotalQuantityFormula(msheet, counter.getMsheetCounter(), msheetTotalColNum));
+			itemTotalRefCell=row.getCell(msheetTotalColNum);
+			
+			//write item number for leaf element
+			DataFormat format = msheet.getWorkbook().createDataFormat();
+			CellStyle style = msheet.getWorkbook().createCellStyle();
+			style.setDataFormat(format.getFormat(";;;")); // custom number format
+			row = msheet.getRow(counter.nextMsheetCounter()-5);
+			cell = row.createCell(msheetTotalColNum);
+			cell.setCellStyle(style);
+			cell.setCellValue(item.getItemNumber());
+			itemNumRefCell = row.getCell(msheetTotalColNum);
+			
+			writeConfigData(counter, csheet,itemNumRefCell, itemTotalRefCell, csheetItemNumColNum, csheetItemTotalColNum);
+			
+		}else {
+			//msheet.addMergedRegion(new CellRangeAddress(counter.getMsheetCounter(),counter.getMsheetCounter(),msheetDescColNum,msheetTotalColNum+1));
+		}
+		
+	}
+	
+	private void writeConfigData(EstimateCounter counter, XSSFSheet csheet, XSSFCell itemNumRefCell, XSSFCell itemTotalRefCell, int csheetItemNumColNum, int csheetItemTotalColNum) {
+		XSSFRow row = csheet.createRow(counter.nextAbstractCounter());
+		XSSFCell cell = row.createCell(csheetItemNumColNum);
+		cell.setCellFormula(Worksheets.MEASUREMENTSHEET+"!"+ExcelUtill.getCellReference(itemNumRefCell));
+		
+		cell = row.createCell(csheetItemTotalColNum);
+		cell.setCellFormula(Worksheets.MEASUREMENTSHEET+"!"+ExcelUtill.getCellReference(itemTotalRefCell));
+		
+	}
+	
+	
+	private String getTotalQuantityFormula(XSSFSheet msheet, int rownum, int colnum){
+		String firstCol = CellReference.convertNumToColString(colnum) + (rownum-1);
+		String secondCol = CellReference.convertNumToColString(colnum) + (rownum+1);
+		//=SUM(G92:OFFSET(G95,-1,0))
+		String formula = "SUM("+firstCol+":OFFSET("+secondCol+",-1,0))";
+		System.out.println(formula);
+		return formula;
+	}
+	
+	
 }
+

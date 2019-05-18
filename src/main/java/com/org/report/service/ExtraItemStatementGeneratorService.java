@@ -102,6 +102,7 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(wb);
 			int slno = 1;
 			Map<String, ItemAbstract> itemAbstractMap = msheet.getItemAbstractsMap();
+			boolean hasExtraItem = false;
 			for (Item item : msheet.getAggreement().getItems()) {
 				try {
 
@@ -114,6 +115,7 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 						// write statement for extra items only
 						continue;
 					}
+					hasExtraItem=true;
 					row = xsheet.createRow(currRow++);
 					if (item.isValidItem()) {
 						ExcelUtill.writeCellValue(slno++, row.createCell(slNoCol), alignTopStyle);
@@ -155,54 +157,56 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 
 			}
 			
-			row = xsheet.createRow(currRow++);
-			// write the last row Total.
-			boxStyle = ExcelUtill.getBoldBoxStyle(wb);
-			ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(dsrRateCol), boxStyle);
-			ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(lessCaCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
-			ExcelUtill.writeCellValue(getFinalTotalAmountFormula(startRow, currRow - 1, totalAmountCol),
-					row.createCell(totalAmountCol), boxStyle);
-			ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
+			if(hasExtraItem) {
+				row = xsheet.createRow(currRow++);
+				// write the last row Total.
+				boxStyle = ExcelUtill.getBoldBoxStyle(wb);
+				ExcelUtill.writeCellValue(null, row.createCell(slNoCol), alignTopStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(itemNumCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(dsrRateCol), boxStyle);
+				ExcelUtill.writeCellValue("Total", row.createCell(descCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(qtyExecUptoDateCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(rateCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(lessCaCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(rateProposedCol), boxStyle);
+				ExcelUtill.writeCellValue(getFinalTotalAmountFormula(startRow, currRow - 1, totalAmountCol),
+						row.createCell(totalAmountCol), boxStyle);
+				ExcelUtill.writeCellValue(null, row.createCell(remarksCol), boxStyle);
 
-			// write percentage data.
-			int endRow = currRow;
-			int devPercentRow1 = endRow;
-			int devPercentRow2 = devPercentRow1 + 1;
-			XSSFCellStyle leftAligned = wb.createCellStyle();
-			leftAligned.setAlignment(HorizontalAlignment.LEFT);
-			XSSFCellStyle centerAligned = wb.createCellStyle();
-			centerAligned.setAlignment(HorizontalAlignment.CENTER);
-			XSSFCellStyle rightAligned = wb.createCellStyle();
-			rightAligned.setAlignment(HorizontalAlignment.RIGHT);
-			XSSFCellStyle leftAlignedBold = wb.createCellStyle();
-			leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
-			ExcelUtill.setBoldFont(wb, leftAlignedBold);
-			ExcelUtill.setPercentFormat(wb, leftAlignedBold);
-			XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
-			centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
-			centerAlignedBottomLine.setBorderBottom(BorderStyle.THIN);
+				// write percentage data.
+				int endRow = currRow;
+				int devPercentRow1 = endRow;
+				int devPercentRow2 = devPercentRow1 + 1;
+				XSSFCellStyle leftAligned = wb.createCellStyle();
+				leftAligned.setAlignment(HorizontalAlignment.LEFT);
+				XSSFCellStyle centerAligned = wb.createCellStyle();
+				centerAligned.setAlignment(HorizontalAlignment.CENTER);
+				XSSFCellStyle rightAligned = wb.createCellStyle();
+				rightAligned.setAlignment(HorizontalAlignment.RIGHT);
+				XSSFCellStyle leftAlignedBold = wb.createCellStyle();
+				leftAlignedBold.setAlignment(HorizontalAlignment.LEFT);
+				ExcelUtill.setBoldFont(wb, leftAlignedBold);
+				ExcelUtill.setPercentFormat(wb, leftAlignedBold);
+				XSSFCellStyle centerAlignedBottomLine = wb.createCellStyle();
+				centerAlignedBottomLine.setAlignment(HorizontalAlignment.CENTER);
+				centerAlignedBottomLine.setBorderBottom(BorderStyle.THIN);
 
-			row = xsheet.createRow(devPercentRow1);
-			ExcelUtill.writeCellValue("Percentage of EIS = ", row.createCell(descCol), rightAligned);
-			ExcelUtill.writeCellValue(getCellRefferenceFormula(totalAmountCol, endRow), row.createCell(unitCol),
-					centerAlignedBottomLine);
-			ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyExecUptoDateCol), centerAligned);
+				row = xsheet.createRow(devPercentRow1);
+				ExcelUtill.writeCellValue("Percentage of EIS = ", row.createCell(descCol), rightAligned);
+				ExcelUtill.writeCellValue(getCellRefferenceFormula(totalAmountCol, endRow), row.createCell(unitCol),
+						centerAlignedBottomLine);
+				ExcelUtill.writeCellValue("x 100  =", row.createCell(qtyExecUptoDateCol), centerAligned);
 
-			row = xsheet.createRow(devPercentRow2);
-			ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(), row.createCell(unitCol),
-					centerAligned);
+				row = xsheet.createRow(devPercentRow2);
+				ExcelUtill.writeCellValue(msheet.getAggreement().getTenderCost(), row.createCell(unitCol),
+						centerAligned);
 
-			row = xsheet.getRow(devPercentRow1);
-			// add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
-			ExcelUtill.writeCellValue(getTotalPercentageFormula(unitCol, devPercentRow1 + 1, devPercentRow2 + 1),
-					row.createCell(qtyExecUptoDateCol), leftAlignedBold);
+				row = xsheet.getRow(devPercentRow1);
+				// add 1 to devPercentRow1 & devPercentRow2 since rows are 0 indexed.
+				ExcelUtill.writeCellValue(getTotalPercentageFormula(unitCol, devPercentRow1 + 1, devPercentRow2 + 1),
+						row.createCell(qtyExecUptoDateCol), leftAlignedBold);
+			}
 		} catch (Exception e) {
 			logger.error("Error writing extraitemstatement \r\n"+e.getMessage(), e);
 			throw new Exception("Error writing extraitemstatement \r\n"+e.getMessage(), e);
