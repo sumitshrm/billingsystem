@@ -9,10 +9,12 @@
     var aggreementNum = ${aggreement.id};
     var msheetquery = "";
     <c:set var="prefix" value="EX" />
+    <c:set var="eilabel" value="Non DSR Item" />
     <c:if test="${not empty msheetid}">
-    <c:set var="prefix" value="EI" />
-    msheetquery = 'msheetid=${msheetid}';
-	    </c:if>
+	    <c:set var="prefix" value="EI" />
+	    <c:set var="eilabel" value="Extra Item" />
+	    msheetquery = 'msheetid=${msheetid}';
+	</c:if>
     
     var editor; // use a global for the submit and return data rendering in the examples
     
@@ -118,7 +120,7 @@
     <form role="form" id="addForm" action="/aggreements/${aggreement.id}/schedule/saveextraitem" method="post">
     <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Extra Item</h3>
+              <h3 class="box-title">${eilabel}</h3>
             </div>
             <div class="box-body">
               <div class="row">
