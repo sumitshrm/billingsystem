@@ -4,13 +4,13 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_com_org_entity_MeasurementSheet" items="${measurementsheets}" z="rYCjwff4DIZTciBYXa6LNH0v8ds=">
         <table:table data="${measurementsheets}" id="l_com_org_entity_MeasurementSheet" path="/measurementsheets" z="WHMbgo2Qp2ikP+kVsit83kOiSy0=">
-            <table:column id="c_com_org_entity_MeasurementSheet_aggreement" property="aggreement" z="4PaPjzBp4KYEerBIo26k9GmvyhY="/>
-            <table:column id="c_com_org_entity_MeasurementSheet_title" property="title" z="4CwmwkRZP+/VsuWLa11S1YD7wxg="/>
             <table:column id="c_com_org_entity_MeasurementSheet_serialNumberDisplayFormat" property="serialNumberDisplayFormat" z="lfBFV6efjfNRmUcUWQtZl2eviS0="/>
             <table:column id="c_com_org_entity_MeasurementSheet_excelFile" property="excelFile" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_MeasurementSheet_itemAbstractSorted" property="itemAbstractSorted" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_MeasurementSheet_copyPreviousMeasurement" property="copyPreviousMeasurement" render="false" z="user-managed"/>
             <table:column id="c_com_org_entity_MeasurementSheet_templateVersion" property="templateVersion" z="BqfKHOU1hHb9LEwTskGfKmmEeKE="/>
+            <table:column id="c_com_org_entity_MeasurementSheet_writeMeasurementSheetData" property="writeMeasurementSheetData" z="aQGjmsCBZDLevW/TNBqmL/obCgA="/>
+            <table:column id="c_com_org_entity_MeasurementSheet_macroEnabled" property="macroEnabled" z="C+USS9yLQeGgYS5joH97wdG78Eo="/>
         </table:table>
     </page:list>
 </div>

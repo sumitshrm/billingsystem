@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -40,6 +41,7 @@ import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.org.constants.Worksheets;
 import com.org.domain.Config;
+import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Document;
 import com.org.entity.EstimateItem;
@@ -146,6 +148,10 @@ public class DocumentService {
 	
 	
 	public Document createDefaultDocument(MeasurementSheet msheet) throws Exception {
+		
+		if(!msheet.isMacroEnabled()) {
+			msheet.setTemplateVersion(2);
+		}
 		String tempUrl = this.getTemplateUrl(msheet.getTemplateVersion());
 		Document newDoc = new Document();
 		newDoc.setFilename(msheet.getDocumentFileName()+".xlsm");
@@ -176,6 +182,9 @@ public class DocumentService {
 			scheduleService.generateMasterData(msheet, workbook);
 			deviationService.generateMasterData(msheet, workbook);
 			itemsGeneratorService.writeItems(msheet.getAggreement().getItems(), workbook, msheet, true);
+			if(msheet.isWriteMeasurementSheetData()) {
+				writeMeasurementSheetdata(workbook, msheet);
+			}
 		}else{
 			workbook.setActiveSheet(workbook.getSheetIndex(Worksheets.EXTRA_ITEMS_SHEET));
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.MEASUREMENTSHEET), true);
@@ -185,8 +194,6 @@ public class DocumentService {
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.FNFB_SCHEDULE), true);
 			workbook.setSheetHidden(workbook.getSheetIndex(Worksheets.TEMPSHEET), true);
 		}
-		
-		writeMeasurementSheetdata(workbook, msheet);
 		
 		workbook.write(fileStorageService.getOutputStream(msheet.getStorageFileName()));
 		workbook.close();
@@ -291,6 +298,8 @@ public class DocumentService {
 			return getClass().getClassLoader().getResource("TEMPLATE.xlsm").getPath();
 		}else if(version==1){
 			return getClass().getClassLoader().getResource("TEMPLATE_V1.xlsm").getPath();
+		}else if(version==2){
+			return getClass().getClassLoader().getResource("TEMPLATE_V2.xlsm").getPath();
 		}
 		return null;
 	}

@@ -4,5 +4,6 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_com_org_domain_LogUserRole" modelAttribute="logUserRole" path="/loguserroles" versionField="Version" z="QzuSCs/QO7pWi8D13h2pO7O+mkk=">
         <field:input field="roleName" id="c_com_org_domain_LogUserRole_roleName" max="20" required="true" z="8YLrR5axgYeLbNAtah5WqPsowKc="/>
+        <field:textarea field="description" id="c_com_org_domain_LogUserRole_description" z="hWRipHb6VJaeA6MYWef5sughk9o="/>
     </form:update>
 </div>

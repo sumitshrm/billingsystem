@@ -15,7 +15,7 @@ privileged aspect MeasurementSheet_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager MeasurementSheet.entityManager;
     
-    public static final List<String> MeasurementSheet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "title", "serialNumber", "isFinalBill", "document", "userManaged", "templateVersion", "serialNumberDisplayFormat", "workbook", "itemAbstractSorted", "excelFile", "copyPreviousMeasurement", "createDate", "lastUpdatedDate", "lastReportDate", "logUser", "itemAbstracts");
+    public static final List<String> MeasurementSheet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("aggreement", "title", "serialNumber", "isFinalBill", "writeMeasurementSheetData", "macroEnabled", "document", "userManaged", "templateVersion", "serialNumberDisplayFormat", "workbook", "itemAbstractSorted", "excelFile", "copyPreviousMeasurement", "createDate", "lastUpdatedDate", "lastReportDate", "logUser", "itemAbstracts");
     
     public static final EntityManager MeasurementSheet.entityManager() {
         EntityManager em = new MeasurementSheet().entityManager;

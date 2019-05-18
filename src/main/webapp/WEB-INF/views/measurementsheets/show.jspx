@@ -5,7 +5,6 @@
     <spring:url value="/measurementsheets/reloadabstract/${measurementsheet.id}" var="reload_url"/>
     <spring:url value="/measurementsheets/updateabstract/${measurementsheet.id}" var="update_abstract_url"/>
     <spring:url value="/documents/showdoc/${measurementsheet.id}" var="download_url"/>
-    
     <script src="${jqwidgets_url}/jqxtabs.js" type="text/javascript">
         <!-- required for FF3 and Opera -->
     </script>
@@ -111,43 +110,38 @@ function shortDescription(d_item, d_subitem){
     <page:show create="false" delete="true" id="ps_com_org_entity_MeasurementSheet" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
         <field:display field="title" id="s_com_org_entity_MeasurementSheet_title" object="${measurementsheet}" z="J7JMK2STvGP/E15VHkXhTgxQZMs="/>
         <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
-		<field:share id="msheetShared" url="/measurementsheets/share?msheetid=${measurementsheet.id}" data="${msheetShared}"></field:share>
-    <page:show openPane="false" create="false" label="Detail" delete="true" id="ps_com_org_entity_Item" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
-        <field:display date="true" dateTimePattern="${measurementSheet_createdate_date_format}" field="createDate" id="s_com_org_entity_MeasurementSheet_createDate" object="${measurementsheet}" z="D5WW8sAGU9BC2TTk1bKQGZJke9w="/>
-        <field:display date="true" dateTimePattern="${measurementSheet_lastupdateddate_date_format}" field="lastUpdatedDate" id="s_com_org_entity_MeasurementSheet_lastUpdatedDate" object="${measurementsheet}" z="mDBgJkyfxq98nd8XSj8JCBE46NM="/>
-        <field:display field="aggreementNum" id="s_com_org_entity_MeasurementSheet_aggreement" object="${measurementsheet.aggreement}" z="user-managed"/>
-        <field:display date="true" dateTimePattern="${measurementSheet_lastreportdate_date_format}" field="lastReportDate" id="s_com_org_entity_MeasurementSheet_lastReportDate" object="${measurementsheet}" z="v3NUi4Ba8MjohcHS6C0EAVCzBus="/>
-        <field:display field="document" id="s_com_org_entity_MeasurementSheet_document" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="logUser" id="s_com_org_entity_MeasurementSheet_logUser" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumber" object="${measurementsheet}" z="user-managed"/>
-        <field:display field="isFinalBill" id="s_com_org_entity_MeasurementSheet_isFinalBill" object="${measurementsheet}" z="CoTPzfDub5N6TIecOHgbhtSM6/o="/>
-        <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumberDisplayFormat" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="excelFile" id="s_com_org_entity_MeasurementSheet_excelFile" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="userManaged" id="s_com_org_entity_MeasurementSheet_userManaged" object="${measurementsheet}" z="iZRD+47YXMsW3h2mKpCLjnLKYNs="/>
-        <field:display field="itemAbstractSorted" id="s_com_org_entity_MeasurementSheet_itemAbstractSorted" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="copyPreviousMeasurement" id="s_com_org_entity_MeasurementSheet_copyPreviousMeasurement" object="${measurementsheet}" render="false" z="user-managed"/>
-        <field:display field="templateVersion" id="s_com_org_entity_MeasurementSheet_templateVersion" object="${measurementsheet}" z="user-managed"/>
+        <field:share data="${msheetShared}" id="msheetShared" url="/measurementsheets/share?msheetid=${measurementsheet.id}"/>
+        <page:show create="false" delete="true" id="ps_com_org_entity_Item" label="Detail" list="false" object="${measurementsheet}" openPane="false" path="/measurementsheets" update="true" z="user-managed">
+            <field:display date="true" dateTimePattern="${measurementSheet_createdate_date_format}" field="createDate" id="s_com_org_entity_MeasurementSheet_createDate" object="${measurementsheet}" z="D5WW8sAGU9BC2TTk1bKQGZJke9w="/>
+            <field:display date="true" dateTimePattern="${measurementSheet_lastupdateddate_date_format}" field="lastUpdatedDate" id="s_com_org_entity_MeasurementSheet_lastUpdatedDate" object="${measurementsheet}" z="mDBgJkyfxq98nd8XSj8JCBE46NM="/>
+            <field:display field="aggreementNum" id="s_com_org_entity_MeasurementSheet_aggreement" object="${measurementsheet.aggreement}" z="user-managed"/>
+            <field:display date="true" dateTimePattern="${measurementSheet_lastreportdate_date_format}" field="lastReportDate" id="s_com_org_entity_MeasurementSheet_lastReportDate" object="${measurementsheet}" z="v3NUi4Ba8MjohcHS6C0EAVCzBus="/>
+            <field:display field="document" id="s_com_org_entity_MeasurementSheet_document" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="logUser" id="s_com_org_entity_MeasurementSheet_logUser" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumber" object="${measurementsheet}" z="user-managed"/>
+            <field:display field="isFinalBill" id="s_com_org_entity_MeasurementSheet_isFinalBill" object="${measurementsheet}" z="CoTPzfDub5N6TIecOHgbhtSM6/o="/>
+            <field:display field="serialNumberDisplayFormat" id="s_com_org_entity_MeasurementSheet_serialNumberDisplayFormat" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="excelFile" id="s_com_org_entity_MeasurementSheet_excelFile" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="userManaged" id="s_com_org_entity_MeasurementSheet_userManaged" object="${measurementsheet}" z="iZRD+47YXMsW3h2mKpCLjnLKYNs="/>
+            <field:display field="itemAbstractSorted" id="s_com_org_entity_MeasurementSheet_itemAbstractSorted" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="copyPreviousMeasurement" id="s_com_org_entity_MeasurementSheet_copyPreviousMeasurement" object="${measurementsheet}" render="false" z="user-managed"/>
+            <field:display field="templateVersion" id="s_com_org_entity_MeasurementSheet_templateVersion" object="${measurementsheet}" z="user-managed"/>
+        </page:show>
+        <field:display field="writeMeasurementSheetData" id="s_com_org_entity_MeasurementSheet_writeMeasurementSheetData" object="${measurementsheet}" render="false" z="ao0ZlIIJvtFpCbY9JEovQgsl2DU="/>
+        <field:display field="macroEnabled" id="s_com_org_entity_MeasurementSheet_macroEnabled" object="${measurementsheet}" render="false" z="OA4QSLey4wm0BGDmLG95EyMUzKk="/>
     </page:show>
-    
-    </page:show>
-    
     <div class="row">
-		<form:form action="${report_url}" modelAttribute="measurementsheet"
-			style="display: inline;">
-			<div class="btn-group" style="margin-bottom: 15px">
-				<a class="btn btn-primary showloading"
-					href="/aggreements/${measurementsheet.aggreement.id}/schedule?msheetid=${measurementsheet.id}">Add
+        <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
+            <div class="btn-group" style="margin-bottom: 15px">
+                <a class="btn btn-primary showloading" href="/aggreements/${measurementsheet.aggreement.id}/schedule?msheetid=${measurementsheet.id}">Add
 					extra items</a>
-				<c:if test="${not measurementsheet.userManaged}">
-					<input class="btn btn-primary showloading"
-						onclick="location.href='${reload_url}';" type="button"
-						value="reload data from excel" />
-					<input class="btn btn-primary showloading" type="submit"
-						value="generate reports" />
-				</c:if>
-			</div>
-		</form:form>
-	</div>
+                <c:if test="${not measurementsheet.userManaged}">
+                    <input class="btn btn-primary showloading" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
+                    <input class="btn btn-primary showloading" type="submit" value="generate reports"/>
+                </c:if>
+            </div>
+        </form:form>
+    </div>
     <div class="row" id="jqxTabs">
         <ul>
             <li style="margin-left: 30px;">Abstract</li>

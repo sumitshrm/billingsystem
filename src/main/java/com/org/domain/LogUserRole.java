@@ -16,4 +16,7 @@ public class LogUserRole {
     @NotNull
     @Size(max = 20)
     private String roleName;
+    
+    @Size(max = 200)
+    private String description;
 }

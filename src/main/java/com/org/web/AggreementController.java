@@ -135,7 +135,7 @@ public class AggreementController {
 			e.printStackTrace();
 		}
         
-        return "redirect:/items/aggreement/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest);
+        return "redirect:/aggreements/" + encodeUrlPathSegment(aggreement.getId().toString(), httpServletRequest)+"/schedule";
     }
 
     private LogUser getCurrentUser() {

@@ -15,4 +15,12 @@ privileged aspect LogUserRole_Roo_JavaBean {
         this.roleName = roleName;
     }
     
+    public String LogUserRole.getDescription() {
+        return this.description;
+    }
+    
+    public void LogUserRole.setDescription(String description) {
+        this.description = description;
+    }
+    
 }

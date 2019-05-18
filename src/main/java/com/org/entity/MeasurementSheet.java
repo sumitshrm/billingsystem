@@ -59,8 +59,15 @@ public class MeasurementSheet {
     private Integer serialNumber;
     
     private boolean isFinalBill;
+    
+    @Transient
+    private transient boolean writeMeasurementSheetData = true;
+    
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Transient
+    private transient boolean macroEnabled;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Document document;
     
     private boolean userManaged;
@@ -239,4 +246,19 @@ public class MeasurementSheet {
 		return "/documents/showdoc/"+getId();
 	}
 
+	public boolean isWriteMeasurementSheetData() {
+		return writeMeasurementSheetData;
+	}
+
+	public void setWriteMeasurementSheetData(boolean writeMeasurementSheetData) {
+		this.writeMeasurementSheetData = writeMeasurementSheetData;
+	}
+	
+		public boolean isMacroEnabled() {
+			return macroEnabled;
+		}
+
+		public void setMacroEnabled(boolean macroEnabled) {
+			this.macroEnabled = macroEnabled;
+		}
 }

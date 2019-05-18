@@ -4,6 +4,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_com_org_domain_LogUserRole" modelAttribute="logUserRole" path="/loguserroles" render="${empty dependencies}" z="j48mif7uyIThBYlZDETtAH9r904=">
         <field:input field="roleName" id="c_com_org_domain_LogUserRole_roleName" max="20" required="true" z="8YLrR5axgYeLbNAtah5WqPsowKc="/>
+        <field:textarea field="description" id="c_com_org_domain_LogUserRole_description" z="hWRipHb6VJaeA6MYWef5sughk9o="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_org_domain_LogUserRole" render="${not empty dependencies}" z="m3zQ+3+RF+OfRvpKMC2CPWsFDik="/>
 </div>

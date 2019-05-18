@@ -100,7 +100,8 @@ public class MeasurementSheetController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return "redirect:/measurementsheets/" + encodeUrlPathSegment(measurementSheet.getId().toString(), httpServletRequest);
+        return "redirect: /aggreements/"+aggreement.getId()+"/schedule?msheetid="+measurementSheet.getId();
+        //return "redirect:/measurementsheets/" + encodeUrlPathSegment(measurementSheet.getId().toString(), httpServletRequest);
     }
 
     @RequestMapping(value = "/{id}", params = "form", produces = "text/html")

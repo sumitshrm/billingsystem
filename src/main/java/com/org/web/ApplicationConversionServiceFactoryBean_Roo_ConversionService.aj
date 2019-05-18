@@ -18,7 +18,6 @@ import com.org.entity.LabourEntry;
 import com.org.entity.LabourSupplier;
 import com.org.entity.ManagedDocument;
 import com.org.entity.MaterialEntry;
-import com.org.entity.MeasurementSheet;
 import com.org.entity.Supplier;
 import com.org.entity.Template;
 import com.org.web.ApplicationConversionServiceFactoryBean;
@@ -81,7 +80,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<LogUserRole, String> ApplicationConversionServiceFactoryBean.getLogUserRoleToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.org.domain.LogUserRole, java.lang.String>() {
             public String convert(LogUserRole logUserRole) {
-                return new StringBuilder().append(logUserRole.getRoleName()).toString();
+                return new StringBuilder().append(logUserRole.getRoleName()).append(' ').append(logUserRole.getDescription()).toString();
             }
         };
     }
@@ -350,30 +349,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
-    public Converter<MeasurementSheet, String> ApplicationConversionServiceFactoryBean.getMeasurementSheetToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<com.org.entity.MeasurementSheet, java.lang.String>() {
-            public String convert(MeasurementSheet measurementSheet) {
-                return new StringBuilder().append(measurementSheet.getSerialNumberDisplayFormat()).append(' ').append(measurementSheet.getTemplateVersion()).append(' ').append(measurementSheet.getTitle()).append(' ').append(measurementSheet.getSerialNumber()).toString();
-            }
-        };
-    }
-    
-    public Converter<Long, MeasurementSheet> ApplicationConversionServiceFactoryBean.getIdToMeasurementSheetConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.MeasurementSheet>() {
-            public com.org.entity.MeasurementSheet convert(java.lang.Long id) {
-                return MeasurementSheet.findMeasurementSheet(id);
-            }
-        };
-    }
-    
-    public Converter<String, MeasurementSheet> ApplicationConversionServiceFactoryBean.getStringToMeasurementSheetConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.org.entity.MeasurementSheet>() {
-            public com.org.entity.MeasurementSheet convert(String id) {
-                return getObject().convert(getObject().convert(id, Long.class), MeasurementSheet.class);
-            }
-        };
-    }
-    
     public Converter<Long, Supplier> ApplicationConversionServiceFactoryBean.getIdToSupplierConverter() {
         return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.org.entity.Supplier>() {
             public com.org.entity.Supplier convert(java.lang.Long id) {
@@ -460,9 +435,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getMaterialEntryToStringConverter());
         registry.addConverter(getIdToMaterialEntryConverter());
         registry.addConverter(getStringToMaterialEntryConverter());
-        registry.addConverter(getMeasurementSheetToStringConverter());
-        registry.addConverter(getIdToMeasurementSheetConverter());
-        registry.addConverter(getStringToMeasurementSheetConverter());
         registry.addConverter(getSupplierToStringConverter());
         registry.addConverter(getIdToSupplierConverter());
         registry.addConverter(getStringToSupplierConverter());

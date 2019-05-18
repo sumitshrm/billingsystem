@@ -94,6 +94,11 @@
     
     </script>
      <div class="row" >
+     <div class="col-lg-12 breadcrumb" style="margin-bottom:0px">
+     <button name="submit" id="review_btn" value="" type="button" class="btn btn-info pull-right showloading">Review and save</button>
+	  </div>
+
+    
     <div class="col-lg-6">
     <page:list labelPlural="DSR Items" id="pl_com_org_entity_Item" items="${dsrItems}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
          <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
@@ -141,7 +146,6 @@
               </div>
             </div>
             <div class="box-footer">
-                <button name="submit" id="review_btn" value="" type="button" class="btn btn-info">Review and save</button>
                 <button name="submit" id="submit" value="" type="submit" class="btn btn-info pull-right">Add</button>
               </div>
             <!-- /.box-body -->

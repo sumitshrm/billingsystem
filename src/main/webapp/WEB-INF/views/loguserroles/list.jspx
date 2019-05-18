@@ -5,6 +5,7 @@
     <page:list id="pl_com_org_domain_LogUserRole" items="${loguserroles}" z="ue0IRfl2sJZGqEFbdSbTcRJgvGs=">
         <table:table data="${loguserroles}" id="l_com_org_domain_LogUserRole" path="/loguserroles" z="xW+qyHz/uEfmtvlI5odTVtPj7oU=">
             <table:column id="c_com_org_domain_LogUserRole_roleName" property="roleName" z="wzfu3koR9jqUqwMU/Bb4V8XDEyg="/>
+            <table:column id="c_com_org_domain_LogUserRole_description" property="description" z="xkogf/A/HsCGAX7qe9AZcNujJvg="/>
         </table:table>
     </page:list>
 </div>

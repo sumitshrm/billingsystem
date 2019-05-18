@@ -59,6 +59,10 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 			url="/aggreements/${aggreement.id}/schedule" />
 		<nav:item active="true" label="list items" url="#" />
 	</nav:nav>
+	<div style="padding-top: 5px">
+	<a class="btn btn-primary showloading" href='/aggreements/${aggreement.id}' >Save</a>
+	</div>
+	
 	<page:list id="pl_com_org_entity_Item" items="${items}"
 		z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
 		
