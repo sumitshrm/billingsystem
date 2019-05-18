@@ -270,6 +270,7 @@ public class AggreementController {
  		}catch(EmptyResultDataAccessException e) {
  			item.setAggreement(aggreement);
  			item.setDrsCode(item.getItemNumber());
+ 			item.setPartRate(item.getFullRate());
  			if(item.getQuantity()==0) {
  				item.setQuantity(null);
  				item.setFullRate(null);
@@ -292,6 +293,7 @@ public class AggreementController {
  					item.setIsExtraItem(true);
  					item.setMeasurementSheetId(msheetid);
  				}
+ 				
  				item.persist();
  			}catch (Exception ex) {
 				ex.printStackTrace();
