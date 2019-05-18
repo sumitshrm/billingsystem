@@ -152,7 +152,7 @@ public class MeasurementSheetController {
             System.out.println("FILE CAN NOT BE DELETED : " + measurementSheet.getStorageFileName());
             e.printStackTrace();
         }
-        List<Item> items = Item.findItemsByAggreementAndMeasurementSheetId(measurementSheet.getAggreement(), measurementSheet.getId()).getResultList();
+        List<Item> items = Item.findItemsByMeasurementSheetIdAndParentItemIsNull(measurementSheet.getId()).getResultList();
         for(Item item:items) {
         	item.remove();
         }
