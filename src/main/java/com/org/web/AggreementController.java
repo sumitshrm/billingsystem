@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBException;
 import com.org.constants.ManagedDocumentType;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
+import com.org.entity.Document;
 import com.org.entity.Estimate;
 import com.org.entity.EstimateShared;
 import com.org.entity.Item;
@@ -26,6 +27,7 @@ import com.org.entity.ItemsXMLData;
 import com.org.entity.ItemsXml;
 import com.org.entity.ManagedDocument;
 import com.org.entity.MeasurementSheet;
+import com.org.service.DocumentService;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
 import com.org.util.QueryUtil;
@@ -55,6 +57,9 @@ public class AggreementController {
 
     @Autowired
     private FileStorageService fileStorageService;
+    
+    @Autowired
+    private DocumentService documentService;
     
     @RequestMapping(params = "redirect", produces = "text/html", method=RequestMethod.GET)
     public String createFromBillform(@RequestParam(value = "redirect", required = true)String redirect,Model uiModel) {
@@ -249,13 +254,6 @@ public class AggreementController {
 			}
 	 	}
 	 	
-	 	if(itemForAbstract!=null) {
-	 		try {
-				createItemAbstract(msheetid, itemForAbstract);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-	 	}
     	return new ResponseEntity<String>(finalitemnumber,HttpStatus.OK);
     }
     
@@ -303,9 +301,7 @@ public class AggreementController {
 	 	if(item.getQuantity()==null) {
 	 		return new ResponseEntity<String>("main item added successfully. please add subitems now",HttpStatus.OK);
 	 	}
-	 	if(msheetid!=null) {
-	 		createItemAbstract( msheetid, item);
-	 	}
+	 	
     	return new ResponseEntity<String>("item added successfully",HttpStatus.OK);
     }
     
@@ -372,6 +368,19 @@ public class AggreementController {
     		}
     		serialnum++;
     	}
+    	MeasurementSheet measurementSheet = MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetid, user).getSingleResult();
+    	Document defaultDoc;
+        try {
+            defaultDoc = documentService.createDefaultDocument(measurementSheet);
+            defaultDoc.persist();
+            measurementSheet.setDocument(defaultDoc);
+            documentService.generateReportManualy(measurementSheet);
+            documentService.generateReport(measurementSheet);
+            measurementSheet.persist();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace(); 
+        }
     	List<Item> updatedItems = Item.findItemsByAggreementAndLogUserAndFullRateIsNotNull(aggreement, user	, "id", "ASC").getResultList();
     	uiModel.addAttribute("items", updatedItems);
     	uiModel.addAttribute("aggreement", aggreement);
@@ -407,11 +416,4 @@ public class AggreementController {
     	}
     }
     
-    private void createItemAbstract(Long msheetid, Item item) {
-    	MeasurementSheet msheet = MeasurementSheet.findMeasurementSheetsByIdAndLogUser(msheetid, LogUser.getCurrentUser()).getSingleResult();
-    	ItemAbstract itemAbstract = new ItemAbstract();
-		itemAbstract.setMeasurementSheet(msheet);
-		itemAbstract.setItem(item);
-		itemAbstract.persist();
-    }
 }

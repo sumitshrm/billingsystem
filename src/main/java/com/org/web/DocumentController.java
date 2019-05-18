@@ -69,7 +69,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/showdoc/{id}", method = RequestMethod.GET)
-    public String showdoc(@PathVariable("id") Long id, HttpServletResponse response, Model model) {
+    public String showdoc(@PathVariable("id") Long id, HttpServletResponse response, Model model) throws Exception {
         MeasurementSheet msheet = MeasurementSheet.findMeasurementSheet(id);
         System.out.println("downloading....");
         try {
@@ -82,8 +82,10 @@ public class DocumentController {
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IOException("Measurement sheet document is not available",e);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception("Measurement sheet document is not available",e);
         } finally {
             //msheet.getDocument().close();
         }

@@ -316,10 +316,10 @@ public class DocumentService {
 		int msheetTotalColNum = new XLColumnRange(workbook, "M_TOTAL_QTY").getFirstColNum();
 		int csheetItemNumColNum = new XLColumnRange(workbook, "CD_ITEM_NUM").getFirstColNum();
 		int csheetItemTotalColNum = new XLColumnRange(workbook, "CD_TOTAL").getFirstColNum();
-		
+		int itemNumRowNum =0;
 		
 		for(Item item : msheet2.getAggreement().getItems()) {
-			if(item.getParentItem()==null) {
+			/**if(item.getParentItem()==null) {
 				XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
 				XSSFCell cell = row.createCell(msheetDescColNum);
 				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
@@ -329,25 +329,34 @@ public class DocumentService {
 				cell = row.createCell(msheetDescColNum);
 				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
 				cell.setCellFormula("\"Aggreement Item Number : \" &  M_TOTAL_QTY");
+				itemNumRowNum = counter.getMsheetCounter();
 			}
-			writeItemData(msheet, csheet ,item, msheetDescColNum, msheetTotalColNum, counter, csheetItemNumColNum, csheetItemTotalColNum);
+			writeItemData(msheet, csheet ,item, msheetDescColNum, msheetTotalColNum, counter, csheetItemNumColNum, csheetItemTotalColNum, itemNumRowNum);**/
+			if(item.getFullRate()!=null) {
+				XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
+				XSSFCell cell = row.createCell(msheetDescColNum);
+				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+				cell.setCellValue("Date of Measurement");
+				
+				row = msheet.createRow(counter.nextMsheetCounter());
+				cell = row.createCell(msheetDescColNum);
+				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
+				cell.setCellFormula("\"Aggreement Item Number : \" &  M_TOTAL_QTY");
+				itemNumRowNum = counter.getMsheetCounter();
+				writeItemDescription(msheet, item, msheetDescColNum, msheetTotalColNum, counter);
+				writeItemData(msheet, csheet, item, msheetDescColNum, msheetTotalColNum, counter, csheetItemNumColNum, csheetItemTotalColNum, itemNumRowNum);
+			}
 		}
 		
 		
 	}
 	private void writeItemData(XSSFSheet msheet, XSSFSheet csheet, Item item, int msheetDescColNum,
-			int msheetTotalColNum, EstimateCounter counter, int csheetItemNumColNum, int csheetItemTotalColNum) {
-		XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
-		
-		XSSFCell cell = row.createCell(msheetDescColNum);
-		//cell.setCellStyle(abstractRanges.getDescriptionCellStyle());
-		msheet.addMergedRegion(new CellRangeAddress(counter.getMsheetCounter(),counter.getMsheetCounter(),msheetDescColNum,msheetTotalColNum));
-		cell.setCellValue(item.getDescription());
-		
+			int msheetTotalColNum, EstimateCounter counter, int csheetItemNumColNum, int csheetItemTotalColNum, int itemNumberRowNum) {
+		XSSFRow row;
+		XSSFCell cell;
 		XSSFCell itemNumRefCell =null;
 		XSSFCell itemTotalRefCell = null;
 		
-		if(item.getFullRate()!=null) {
 			
 			
 			counter.nextMsheetCounter();
@@ -371,18 +380,27 @@ public class DocumentService {
 			DataFormat format = msheet.getWorkbook().createDataFormat();
 			CellStyle style = msheet.getWorkbook().createCellStyle();
 			style.setDataFormat(format.getFormat(";;;")); // custom number format
-			row = msheet.getRow(counter.nextMsheetCounter()-5);
+			row = msheet.getRow(itemNumberRowNum);
 			cell = row.createCell(msheetTotalColNum);
 			cell.setCellStyle(style);
 			cell.setCellValue(item.getItemNumber());
 			itemNumRefCell = row.getCell(msheetTotalColNum);
 			
 			writeConfigData(counter, csheet,itemNumRefCell, itemTotalRefCell, csheetItemNumColNum, csheetItemTotalColNum);
-			
-		}else {
-			//msheet.addMergedRegion(new CellRangeAddress(counter.getMsheetCounter(),counter.getMsheetCounter(),msheetDescColNum,msheetTotalColNum+1));
-		}
 		
+	}
+
+
+	private void writeItemDescription(XSSFSheet msheet, Item item, int msheetDescColNum, int msheetTotalColNum,
+			EstimateCounter counter) {
+		if(item.getParentItem()!=null) {
+			writeItemDescription(msheet, item.getParentItem(), msheetDescColNum, msheetTotalColNum, counter);
+		}
+		XSSFRow row = msheet.createRow(counter.nextMsheetCounter());
+		XSSFCell cell = row.createCell(msheetDescColNum);
+		//cell.setCellStyle(abstractRanges.getDescriptionCellStyle());
+		msheet.addMergedRegion(new CellRangeAddress(counter.getMsheetCounter(),counter.getMsheetCounter(),msheetDescColNum,msheetTotalColNum));
+		cell.setCellValue(item.getDescription());
 	}
 	
 	private void writeConfigData(EstimateCounter counter, XSSFSheet csheet, XSSFCell itemNumRefCell, XSSFCell itemTotalRefCell, int csheetItemNumColNum, int csheetItemTotalColNum) {

@@ -29,6 +29,7 @@ import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.org.domain.LogUser;
 import com.org.entity.Aggreement;
 import com.org.entity.Document;
+import com.org.entity.Item;
 import com.org.entity.ItemAbstract;
 import com.org.entity.MeasurementSheet;
 import com.org.entity.MeasurementSheetShared;
@@ -88,18 +89,6 @@ public class MeasurementSheetController {
         measurementSheet.setAggreement(aggreement);
         String filename = measurementSheet.getDocumentFileName();
         measurementSheet.persist();
-        Document defaultDoc;
-        try {
-            defaultDoc = documentService.createDefaultDocument(measurementSheet);
-            defaultDoc.persist();
-            measurementSheet.setDocument(defaultDoc);
-            documentService.generateReportManualy(measurementSheet);
-            documentService.generateReport(measurementSheet);
-            measurementSheet.persist();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         return "redirect: /aggreements/"+aggreement.getId()+"/schedule?msheetid="+measurementSheet.getId();
         //return "redirect:/measurementsheets/" + encodeUrlPathSegment(measurementSheet.getId().toString(), httpServletRequest);
     }
@@ -157,19 +146,15 @@ public class MeasurementSheetController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         MeasurementSheet measurementSheet = MeasurementSheet.findMeasurementSheet(id);
-        /* File excelFile = measurementSheet.getDocument() == null ? null : measurementSheet.getDocument().getExcelFile();
-         if (excelFile == null) {
-         System.out.println("WARNING:File not found for measuremnt sheet id : " + measurementSheet.getId());
-         }
-         boolean fileDeleted = excelFile == null ? false : excelFile.delete();
-         if (!fileDeleted) {
-         System.out.println("WARNING:File can not be deleted for measurement sheet id : " + measurementSheet.getId());
-         }*/
         try {
             fileStorageService.delete(measurementSheet.getStorageFileName());
         } catch (Exception e) {
             System.out.println("FILE CAN NOT BE DELETED : " + measurementSheet.getStorageFileName());
             e.printStackTrace();
+        }
+        List<Item> items = Item.findItemsByAggreementAndMeasurementSheetId(measurementSheet.getAggreement(), measurementSheet.getId()).getResultList();
+        for(Item item:items) {
+        	item.remove();
         }
         measurementSheet.remove();
         uiModel.asMap().clear();

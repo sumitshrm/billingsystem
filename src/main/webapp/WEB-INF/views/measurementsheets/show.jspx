@@ -132,11 +132,13 @@ function shortDescription(d_item, d_subitem){
     </page:show>
     <div class="row">
         <form:form action="${report_url}" modelAttribute="measurementsheet" style="display: inline;">
-            <div class="btn-group" style="margin-bottom: 15px">
-                <a class="btn btn-primary showloading" href="/aggreements/${measurementsheet.aggreement.id}/schedule?msheetid=${measurementsheet.id}">Add
+            <div class="" style="margin-bottom: 15px">
+                <!-- <a class="btn btn-primary showloading" href="/aggreements/${measurementsheet.aggreement.id}/schedule?msheetid=${measurementsheet.id}">Add
 					extra items</a>
+				&amp;nbsp -->
                 <c:if test="${not measurementsheet.userManaged}">
                     <input class="btn btn-primary showloading" onclick="location.href='${reload_url}';" type="button" value="reload data from excel"/>
+                    &amp;nbsp
                     <input class="btn btn-primary showloading" type="submit" value="generate reports"/>
                 </c:if>
             </div>
