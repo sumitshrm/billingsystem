@@ -47,7 +47,7 @@
               <c:if test="${delete}">
                 <spring:url value="${path}/${itemId}" var="delete_form_url" />
                 <spring:url value="/resources/images/delete.png" var="delete_image_url" />
-                <form:form action="${delete_form_url}" method="DELETE" name="delete_${itemId}">
+                <form:form action="${delete_form_url}" method="DELETE" name="delete_${itemId}" id="delete_${itemId}">
                   <spring:message arguments="${typeName}" code="entity_delete" var="delete_label" htmlEscape="false" />
                   <c:set var="delete_confirm_msg">
                     <spring:escapeBody javaScriptEscape="true">
@@ -56,7 +56,7 @@
                   </c:set>
                   <!--<input alt="${fn:escapeXml(delete_label)}" class="btn btn-default btn-sm"  title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${fn:escapeXml(delete_confirm_msg)}');">
                   </input>-->
-                  <button type="button" class="btn btn-primary" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){showloading();document.delete_${itemId}.submit()}});">
+                  <button type="button" class="btn btn-primary" title="${fn:escapeXml(delete_label)}"  value="${fn:escapeXml(delete_label)}"  onclick="bootbox.confirm('${fn:escapeXml(delete_confirm_msg)}', function(result) {if(result){showloading();$( '#delete_${itemId}' ).submit()}});">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
                 </form:form>
