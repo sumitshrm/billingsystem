@@ -58,7 +58,7 @@
         		success :function(result) {
         	    	  console.log(result);
         	    	  form_data.description = $.trim($("#description").val());
-			        	$("#itemNumber").val("");
+			        	$("#itemNumber").val("${prefix}");
 			        	$("#description").val("");
 			        	$("#unit").val("");
 			        	$("#quantity").val("");
@@ -99,18 +99,26 @@
 	  </div>
 
     
-    <div class="col-lg-6">
-    <page:list labelPlural="DSR Items" id="pl_com_org_entity_Item" items="${dsrItems}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
-         <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
-            <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-            <table:column id="c_com_org_entity_Item_description" maxLength="6000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-            <table:column id="c_com_org_entity_Item_unit" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-            <table:column id="c_com_org_entity_Item_fullRate" render="true" property="fullRate" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-        </table:schedule-table> 
-    </page:list>
-    </div>
-    <div class="col-lg-6" style="margin-top: 10px">
-    <c:if test="${not empty msheetid}">
+    <div class="col-lg-6" style="padding-left: 0; padding-right: 5px">
+    <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><b>DSR Items</b></a></li>
+              <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false"><b>Non DSR Items</b></a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
+		            <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+		            <table:column id="c_com_org_entity_Item_description" maxLength="6000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+		            <table:column id="c_com_org_entity_Item_unit" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+		            <table:column id="c_com_org_entity_Item_fullRate" render="true" property="fullRate" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
+		        </table:schedule-table> 
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                
+                
+                <c:if test="${not empty msheetid}">
     <form id="review_frm" action="/aggreements/${aggreement.id}/schedule/reviewextraitem/${msheetid}" method="post">
 	<!-- empty form -->
 	</form>
@@ -122,44 +130,67 @@
 	</c:if>
     
     
-    <form role="form" id="addForm" action="/aggreements/${aggreement.id}/schedule/saveextraitem" method="post">
-    <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">${eilabel}</h3>
-            </div>
-            <div class="box-body">
-              <div class="row">
-               <div class="col-xs-2" style="padding : 2px">
-                  <input type="text" name="itemNumber" id="itemNumber" value='${prefix}' class="form-control" required="true" placeholder="Item Number"/>
-                </div>
-                <div class="col-xs-4" style="padding : 2px"><textarea name="description" id="description" required="true" class="form-control" rows="1" placeholder="Description"><!-- empty --></textarea>
-                </div>
-                <div class="col-xs-2" style="padding : 2px">
-                  <input type="text" class="form-control" required="true" name="unit" id="unit" placeholder="Unit"/>
-                </div>
-                <div class="col-xs-2" style="padding : 2px">
-                  <input type="number" class="form-control" required="true" name="fullRate" id="fullRate" placeholder="Rate"/>
-                </div>
-                 <div class="col-xs-2" style="padding : 2px">
-                  <input type="number" class="form-control" required="true" name="quantity" id="quantity" placeholder="Quantity"/>
-                </div>
+	    <form role="form" id="addForm" action="/aggreements/${aggreement.id}/schedule/saveextraitem" method="post">
+	            
+	            <div class="box-body">
+	              <div class="row">
+	               <div class="col-xs-2" style="padding : 2px">
+	                  <input type="text" name="itemNumber" id="itemNumber" value='${prefix}' class="form-control" required="true" placeholder="Item Number"/>
+	                </div>
+	                <div class="col-xs-4" style="padding : 2px"><textarea name="description" id="description" required="true" class="form-control" rows="1" placeholder="Description"><!-- empty --></textarea>
+	                </div>
+	                <div class="col-xs-2" style="padding : 2px">
+	                  <input type="text" class="form-control" required="true" name="unit" id="unit" placeholder="Unit"/>
+	                </div>
+	                <div class="col-xs-2" style="padding : 2px">
+	                  <input type="number" class="form-control" required="true" name="fullRate" id="fullRate" placeholder="Rate"/>
+	                </div>
+	                 <div class="col-xs-2" style="padding : 2px">
+	                  <input type="number" class="form-control" required="true" name="quantity" id="quantity" placeholder="Quantity"/>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="box-footer">
+	                <button name="submit" id="submit" value="" type="submit" class="btn btn-primary pull-right">Add</button>
+	              </div>
+	            <!-- /.box-body -->
+	          </form>
+                
+                
+                
               </div>
             </div>
-            <div class="box-footer">
-                <button name="submit" id="submit" value="" type="submit" class="btn btn-primary pull-right">Add</button>
-              </div>
-            <!-- /.box-body -->
+            <!-- /.tab-content -->
           </div>
-          </form>
-    <page:list labelPlural="Scheduled Items" id="pl_com_org_entity_Aggreement" items="${dsrItems}" z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
-         <table:schedule-table typeIdFieldName="fullRate" delete="true" data="${items}" id="l_com_org_entity_Aggreement" paging="false" path="/items" responsive="true" z="user-managed">
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    <div class="col-lg-6" style="padding-left:5px; padding-right: 0">
+    
+    <div class="box box-primary">
+            <div class="box-header with-border">
+
+              <h3 class="box-title">Selected Items</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+               <table:schedule-table typeIdFieldName="fullRate" delete="true" data="${items}" id="l_com_org_entity_Aggreement" paging="false" path="/items" responsive="true" z="user-managed">
             <table:column label="Item Number" id="s_com_org_entity_Aggreement_aggreementNum" render="true" property="drsCode" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
              <table:column label="Description" id="s_com_org_entity_Aggreement_description" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
             <table:column label="Unit" id="s_com_org_entity_Aggreement_nameOfWork" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
             <table:column label="Full Rate" id="s_com_org_entity_Aggreement_logUser" render="true" property="fullRate" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
 
         </table:schedule-table> 
-    </page:list>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    
+   
     </div>
     </div>  
     
