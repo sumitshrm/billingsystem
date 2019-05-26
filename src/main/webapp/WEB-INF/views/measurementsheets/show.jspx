@@ -5,9 +5,7 @@
     <spring:url value="/measurementsheets/reloadabstract/${measurementsheet.id}" var="reload_url"/>
     <spring:url value="/measurementsheets/updateabstract/${measurementsheet.id}" var="update_abstract_url"/>
     <spring:url value="/documents/showdoc/${measurementsheet.id}" var="download_url"/>
-    <script src="${jqwidgets_url}/jqxtabs.js" type="text/javascript">
-        <!-- required for FF3 and Opera -->
-    </script>
+    
     <script src="${jqwidgets_url}/jqxdatatable.js" type="text/javascript">
         <!-- required for FF3 and Opera -->
     </script>
@@ -24,7 +22,7 @@
     
     //add style to data table
     
-    $('#jqxTabs').jqxTabs({ width: '100%',  position: 'top'});
+    //$('#jqxTabs').jqxTabs({ width: '100%',  position: 'top'});
     
     
     
@@ -144,13 +142,19 @@ function shortDescription(d_item, d_subitem){
             </div>
         </form:form>
     </div>
-    <div class="row" id="jqxTabs">
-        <ul>
-            <li style="margin-left: 30px;">Abstract</li>
-            <li>Bill Schedule</li>
-            <li>Deviation</li>
-        </ul>
-        <div>
+    
+    
+    
+    
+    <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab"><b>Abstract</b></a></li>
+              <li><a href="#tab_2" data-toggle="tab"><b>Bill Schedule</b></a></li>
+              <li><a href="#tab_3" data-toggle="tab"><b>Deviation</b></a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                
             <div style="display:${not empty measurementsheet.itemAbstracts?'block':'none'}">
                 <form:form action="${update_abstract_url}" modelAttribute="measurementsheet">
                     <div class="btn-group" style="margin-bottom:15px; margin-top:15px; margin-left:5px">
@@ -218,8 +222,12 @@ function shortDescription(d_item, d_subitem){
                     </div>
                 </form:form>
             </div>
-        </div>
-        <div>
+        
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+               
+               
             <div style="display:${not empty measurementsheet.itemAbstractsSorted?'block':'none'}">
                 <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
                     <thead>
@@ -272,8 +280,12 @@ function shortDescription(d_item, d_subitem){
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div>
+       
+               
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_3">
+                
             <div style="display:${not empty measurementsheet.itemAbstractsSorted?'block':'none'}">
                 <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
                     <thead>
@@ -324,7 +336,16 @@ function shortDescription(d_item, d_subitem){
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
+        
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+    
+    
+    
+    
+    
     <div id="report_options"/>
 </div>
