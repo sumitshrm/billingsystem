@@ -422,7 +422,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 				row.createCell(abstractRange.getFullRateCol()).setCellStyle(boxStyle);
 				row.createCell(abstractRange.getPartRateCol()).setCellStyle(boxStyle);
 				row.createCell(abstractRange.getAmountCol()).setCellStyle(boxStyle);
-				setHyperlinkInMeasurementSheet(abstractSheet.getWorkbook(),Worksheets.MEASUREMENTSHEET+"!"+itemAbsData.getMeasCellRef() , hyperlinkCell, itemAbsData);
+				//setHyperlinkInMeasurementSheet(abstractSheet.getWorkbook(),Worksheets.MEASUREMENTSHEET+"!"+itemAbsData.getMeasCellRef() , hyperlinkCell, itemAbsData);
 				setRefValueInMeasurementSheet(abstractSheet.getWorkbook(),Worksheets.MEASUREMENTSHEET+"!"+itemAbsData.getMeasCellRef() , hyperlinkCell);
 				abstractTotal +=itemAbsData.getTotal();
 				//Write reference of this item in measurement sheet.

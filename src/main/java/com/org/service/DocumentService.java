@@ -376,6 +376,9 @@ public class DocumentService {
 			cell.setCellFormula(getTotalQuantityFormula(msheet, counter.getMsheetCounter(), msheetTotalColNum));
 			itemTotalRefCell=row.getCell(msheetTotalColNum);
 			
+			cell = row.createCell(msheetTotalColNum+1);
+			cell.setCellValue(item.getUnit());
+			
 			//write item number for leaf element
 			DataFormat format = msheet.getWorkbook().createDataFormat();
 			CellStyle style = msheet.getWorkbook().createCellStyle();
