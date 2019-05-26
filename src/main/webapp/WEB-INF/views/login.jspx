@@ -4,14 +4,14 @@
   <jsp:output omit-xml-declaration="yes" />
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
 
+
 <div class="login-box">
+
   <div class="login-logo">
     <a href="../../index2.html"><b>SUMI</b>nfo<b>T</b>ech</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-     
-    
     	<c:if test="${not empty param.login_error}">
       <div class="errors">
         <p  class="login-box-msg">
@@ -38,7 +38,7 @@
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-6">
           <div class="checkbox icheck">
             <label>
               <input type="checkbox" /> Remember Me
@@ -46,8 +46,11 @@
           </div>
         </div>
         <!-- /.col -->
+        <div class="col-xs-2">
+        <div id="loader"><!-- loader --></div>
+        </div>
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button id="login_btn" type="submit" class="btn btn-primary btn-block btn-flat showloading">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
@@ -78,13 +81,34 @@
         </div>
 </div>
 <script>
-  $(function () {
-    $('input').iCheck({
+
+$(document).ready(function(){
+	$(window).load(function() {
+		// Animate loader off screen
+		$(".loading").hide();
+		$("#loader").hide();
+		});
+	
+	$(".showloading").click(function(){
+    	showloading();
+    });
+	
+	/* this function handles single page applicatin feature */
+	function showloading(){
+		$(".loading").show();
+		$("#loader").show();
+		//history.pushState(null, null, elem.href);
+	}
+});
+   
+  
+	   
+	   
+    /* $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',
-      increaseArea: '20%' /* optional */
-    });
-  });
+      increaseArea: '20%' 
+    });*/ 
 </script>
 
 <!-- /.content-wrapper -->
