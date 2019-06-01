@@ -19,7 +19,9 @@
     var editor; // use a global for the submit and return data rendering in the examples
     
     $(document).ready(function() {
-    	
+    	<c:if test="${not empty dsr}">
+    	$("#select_dsr").val("${dsr}");
+    	</c:if>
     	//Prefix item number textbox
     	$("#itemNumber").keyup(function(e) {
 		  var oldvalue = $(this).val();
@@ -92,22 +94,87 @@
    	 	$("#messageNotification").jqxNotification("open");
     }
     
-    </script>
-     <div class="row" >
-     <div class="col-sm-12 color-pallet"  style="margin-bottom:5px; margin-top:5px; background-color: #f5f5f5; padding:5px">
-     <span style="padding-top: 5px"><b>Select DSR and Non DSR items</b></span>
-     <button name="submit" id="review_btn" value="" type="button" class="btn btn-primary showloading pull-right">Review and save</button>
-	  </div>
-
-
+    function toggle(item){
+    	if(item=="dsr"){
+    		$("#tab_2").removeClass("active");
+    		$("#tab_1").addClass("active");
+    		$("#dsr_btn").addClass("disabled");
+    		$("#non_dsr_btn").removeClass("disabled");
+    	}else{
+    		$("#tab_1").removeClass("active");
+    		$("#tab_2").addClass("active");
+    		$("#non_dsr_btn").addClass("disabled");
+    		$("#dsr_btn").removeClass("disabled");
+    	}
+    }
     
-    <div class="col-lg-6" style="padding-left: 0; padding-right: 10px">
-    <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true"><b>DSR Items</b></a></li>
-              <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false"><b>Non DSR Items</b></a></li>
-            </ul>
-            <div class="tab-content">
+    function selectDsr(dsr){
+    	showloading();
+    	//window.location.href = "/aggreements/${aggreement.id}/schedule?dsr="+dsr.value;
+    	insertParam("dsr", dsr.value);
+    }
+    
+    function insertParam(key, value)
+    {
+        key = encodeURI(key); value = encodeURI(value);
+
+        var kvp = document.location.search.substr(1).split('&amp;');
+
+        var i=kvp.length; var x; while(i--) 
+        {
+            x = kvp[i].split('=');
+
+            if (x[0]==key)
+            {
+                x[1] = value;
+                kvp[i] = x.join('=');
+                break;
+            }
+        }
+
+        if(i&lt;0) {kvp[kvp.length] = [key,value].join('=');}
+
+        //this will reload the page, it's likely better to store this until finished
+        document.location.search = kvp.join('&amp;'); 
+    }
+    </script>
+    <div class="row" style="background-color: #f5f5f5; padding-top: 8px;">
+    <div class="col-sm-6">
+    <form class="form-horizontal">
+     <div class="form-group">
+                  <label class="col-sm-3 control-label" style="text-align: left;">Select DSR</label>
+                  <div class="col-sm-9">
+                  <select id="select_dsr" class="form-control pull-left" onchange="selectDsr(this)">
+                    <option value="2018">2018</option>
+                    <option value="2016">2016</option>
+                  </select>
+                  </div>
+                </div>
+                </form>
+     </div>
+     <div class="col-sm-6">
+     <div class="btn-group pull-right">
+          <button  id="dsr_btn" value="" type="button" class="btn btn-primary disabled" onclick='toggle("dsr")'>Add DSR Item</button>
+          <button id="non_dsr_btn" value="" type="button" class="btn btn-primary" onclick='toggle("nondsr")'>Add Non DSR Item</button>
+     	  <button name="submit" id="review_btn" value="" type="button" class="btn btn-primary showloading">Review and save</button>
+	  </div>
+	  </div>
+    </div>
+    
+    
+     <div class="row" style="margin-top:5px">
+     	
+     <div class="col-lg-6" style="padding-left:5px; padding-right: 5px">
+     <div class="box box-primary">
+            <div class="box-header with-border">
+
+              <h3 class="box-title">Select Items</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="padding:0 padding-top:5">
+    <div class="nav-tabs-custom" style="padding:0">
+           
+            <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
                 <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
 		            <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
@@ -134,7 +201,7 @@
     
 	    <form role="form" id="addForm" action="/aggreements/${aggreement.id}/schedule/saveextraitem" method="post">
 	            
-	            <div class="box-body">
+	            <div class="box-body" style="padding:0">
 	              <div class="row">
 	               <div class="col-xs-2" style="padding : 2px">
 	                  <input type="text" name="itemNumber" id="itemNumber" value='${prefix}' class="form-control" required="true" placeholder="Item Number"/>
@@ -164,13 +231,11 @@
             </div>
             <!-- /.tab-content -->
           </div>
-    </div>
-    
-    
-    
-    
-    
-    
+            </div>
+            <!-- /.box-body -->
+          </div>
+     </div>
+
     
     <div class="col-lg-6" style="padding-left:5px; padding-right: 0">
     

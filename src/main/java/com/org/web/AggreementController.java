@@ -150,12 +150,13 @@ public class AggreementController {
     }
     
     @RequestMapping(value = "/{agg}/schedule", method = RequestMethod.GET, produces = "text/html")
-    public String createSchedule(@PathVariable("agg") Long agg, @RequestParam(value = "msheetid", required = false) Long msheetid, Model uiModel) {
+    public String createSchedule(@PathVariable("agg") Long agg, @RequestParam(value = "msheetid", required = false) Long msheetid,@RequestParam(value = "dsr", required = false) Integer dsr, Model uiModel) {
     	LogUser user = LogUser.getCurrentUser();
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
         
         try {
-        	InputStream inputStream = fileStorageService.doGet(FileStorageProperties.DSR_FILE_2016);
+        	String filename=dsr==null||dsr==2018?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
+        	InputStream inputStream = fileStorageService.doGet(filename);
         	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         	ObjectMapper mapper = new ObjectMapper();
         	String dsrItemsJson = mapper.writeValueAsString(entries);
@@ -174,6 +175,7 @@ public class AggreementController {
 		}
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
+        uiModel.addAttribute("dsr", dsr);
         if(msheetid!=null) {
         	List<Item> items = Item.findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull(aggreement, msheetid, "id", "ASC").getResultList();
         	uiModel.addAttribute("items", items);

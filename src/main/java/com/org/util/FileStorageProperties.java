@@ -21,4 +21,6 @@ public class FileStorageProperties {
 	  public static final String DSR_FILE_2016 = "Documents/DSR_2016.xml";
 
 	  
+	  public static final String DSR_FILE_2018 = "Documents/DSR_2016.xml";
+	  
 }
