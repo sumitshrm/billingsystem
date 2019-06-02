@@ -378,29 +378,74 @@
         	 $("#tab_1_li").addClass("active");$("#tab_0_li").removeClass("active");
          }
          
-        	   
-        
+        function toggletab(action){
+        	var currenttab = ($('#nav_tabs').find('.active')[0].id).charAt(4)*1;
+        	console.log(currenttab);
+        	if(action=="next" &amp;&amp; currenttab &lt; 3){
+            	$("#tab_"+currenttab+"_li").removeClass("active");
+            	currenttab++;
+            	$("#a_tab_"+currenttab+"_li").trigger( "click" );
+        		
+        	}
+        	if(action=="back" &amp;&amp; currenttab &gt; 0){
+            	$("#tab_"+currenttab+"_li").removeClass("active");
+            	currenttab--;
+            	$("#a_tab_"+currenttab+"_li").trigger( "click" );
+        		
+        	}
+        	
+        	
+        }
         
     
     </script>
         <div>
             <!-- Custom Tabs -->
+            <div class="row" style="background-color: #f5f5f5; padding: 5px; margin-bottom: 10px">
+            <div class="col-sm-6">
+           <form class="form-horizontal">
+     <div class="form-group">
+                  <label class="col-sm-4 control-label" style="text-align: left;">Select DSR</label>
+                  <div class="col-sm-8">
+                  <select id="select_dsr" class="form-control pull-left" onchange="selectDsr(this)">
+                    <option value="2018">2018</option>
+                    <option value="2016">2016</option>
+                  </select>
+                  </div>
+                </div>
+                </form>
+            </div>
+            <div class="col-sm-6"><button id="save_button" type="button" class="btn btn-primary pull-right">Save</button>
+            </div>
+            </div>
             <div class="row">
                 <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
+                    <ul id="nav_tabs" class="nav nav-tabs">
+                    
                         <li class="active" id="tab_0_li">
-                            <a aria-expanded="true" data-toggle="tab" href="#tab_0">Create Estimate</a>
+                            <a aria-expanded="true" data-toggle="tab" id="a_tab_0_li" href="#tab_0">Create Estimate</a>
                         </li>
                         <li class="" id="tab_1_li">
-                            <a aria-expanded="true" data-toggle="tab" href="#tab_1">Select Items</a>
+                            <a aria-expanded="true" data-toggle="tab" id="a_tab_1_li" href="#tab_1">Select Items</a>
                         </li>
                         <li class="" id="tab_2_li">
-                            <a aria-expanded="false" data-toggle="tab" href="#tab_2">Add Extra Items</a>
+                            <a aria-expanded="false" data-toggle="tab" id="a_tab_2_li" href="#tab_2">Add Extra Items</a>
                         </li>
                         <li class="" id="tab_3_li">
-                            <a aria-expanded="false" data-toggle="tab" href="#tab_3" onclick="saveExtraItems()">Review and
+                            <a aria-expanded="false" data-toggle="tab" id="a_tab_3_li" href="#tab_3" onclick="saveExtraItems()">Review and
 								Save</a>
                         </li>
+                        
+			              <li class="pull-right">
+			              
+			              <a href="#" class="text-muted">
+			              <div class="btn-group">
+                      <button type="button" class="btn btn-primary" onclick="toggletab('back')">Back</button>
+                      <button type="button" class="btn btn-primary" onclick="toggletab('next')">Next</button>
+                    </div>
+			              </a>
+			              </li>
+			              
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_0">
@@ -416,9 +461,7 @@
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
-                                <div class="box-footer">
-                                <a class="btn btn-primary" onclick='$("#tab_1_li").addClass("active");$("#tab_0_li").removeClass("active");' aria-expanded="true" data-toggle="tab" href="#tab_1">next</a>
-                                </div>
+                                
                             </form>
                         </div>
                         <div class="tab-pane" id="tab_1">
@@ -439,27 +482,20 @@
                   <input  type="text" class="form-control" id="rateField" placeholder="Enter Rate" />
                 </div>
         </div>
-                            <div class="col-lg-3 col-xs-6">
-                                <div class="form-group">
-                                <a class="btn btn-primary" onclick='$("#tab_2_li").addClass("active");$("#tab_1_li").removeClass("active");' aria-expanded="true" data-toggle="tab" href="#tab_2">next</a>
-                                </div>
-                            </div>
+                            
                             <div id="grid">
                                 <!-- div can not be empty -->
                             </div>
                             <!-- TABLE RENDER FINISH -->
                         </div>
                         <div class="tab-pane" id="tab_2">
-                            <div class="form-group">
-                                <a class="btn btn-primary" onclick='$("#tab_3_li").addClass("active");$("#tab_2_li").removeClass("active");saveExtraItems();' aria-expanded="true" data-toggle="tab" href="#tab_3">next</a>
-                            </div>
+                            
                             <div id="extraItemGrid">
                                 <!-- div can not be empty -->
                             </div>
                         </div>
                         <div class="tab-pane" id="tab_3">
                         <div class="">
-                            <button class="btn-primary pull-right" id="submit_btn" onclick="saveTransaction()" type="button">Save</button>
                             </div>
                             <div id="selectedGrid">
                                 <!-- div can not be empty -->
