@@ -415,24 +415,22 @@
                 </div>
                 </form>
             </div>
-            <div class="col-sm-6"><button id="save_button" type="button" class="btn btn-primary pull-right">Save</button>
-            </div>
             </div>
             <div class="row">
                 <div class="nav-tabs-custom">
                     <ul id="nav_tabs" class="nav nav-tabs">
                     
                         <li class="active" id="tab_0_li">
-                            <a aria-expanded="true" data-toggle="tab" id="a_tab_0_li" href="#tab_0">Create Estimate</a>
+                            <a aria-expanded="true" data-toggle="tab" id="a_tab_0_li" href="#tab_0" onclick='$("#save_button").css("display", "none");$("#next_button").css("display", "block");'>Create Estimate</a>
                         </li>
                         <li class="" id="tab_1_li">
-                            <a aria-expanded="true" data-toggle="tab" id="a_tab_1_li" href="#tab_1">Select Items</a>
+                            <a aria-expanded="true" data-toggle="tab" id="a_tab_1_li" href="#tab_1" onclick='$("#save_button").css("display", "none");$("#next_button").css("display", "block");'>Select Items</a>
                         </li>
                         <li class="" id="tab_2_li">
-                            <a aria-expanded="false" data-toggle="tab" id="a_tab_2_li" href="#tab_2">Add Extra Items</a>
+                            <a aria-expanded="false" data-toggle="tab" id="a_tab_2_li" href="#tab_2" onclick='$("#save_button").css("display", "none");$("#next_button").css("display", "block");'>Add Extra Items</a>
                         </li>
                         <li class="" id="tab_3_li">
-                            <a aria-expanded="false" data-toggle="tab" id="a_tab_3_li" href="#tab_3" onclick="saveExtraItems()">Review and
+                            <a aria-expanded="false" data-toggle="tab" id="a_tab_3_li" href="#tab_3" onclick='saveExtraItems();$("#save_button").css("display", "block");$("#next_button").css("display", "none");'>Review and
 								Save</a>
                         </li>
                         
@@ -441,7 +439,8 @@
 			              <a href="#" class="text-muted">
 			              <div class="btn-group">
                       <button type="button" class="btn btn-primary" onclick="toggletab('back')">Back</button>
-                      <button type="button" class="btn btn-primary" onclick="toggletab('next')">Next</button>
+                      <button type="button" id="next_button" class="btn btn-primary" onclick="toggletab('next')">Next</button>
+                      <button id="save_button" type="button" onclick="saveTransaction()" class="btn btn-primary" style="display:none">Save</button>
                     </div>
 			              </a>
 			              </li>
