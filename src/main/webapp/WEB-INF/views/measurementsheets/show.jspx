@@ -5,7 +5,13 @@
     <spring:url value="/measurementsheets/reloadabstract/${measurementsheet.id}" var="reload_url"/>
     <spring:url value="/measurementsheets/updateabstract/${measurementsheet.id}" var="update_abstract_url"/>
     <spring:url value="/documents/showdoc/${measurementsheet.id}" var="download_url"/>
-    
+    <style>
+    .pull-bottom {
+    display: inline-block;
+    vertical-align: bottom;
+    float: none;
+}
+    </style>
     <script src="${jqwidgets_url}/jqxdatatable.js" type="text/javascript">
         <!-- required for FF3 and Opera -->
     </script>
@@ -87,6 +93,7 @@ function calculateTotalAmount(){
 	percentage = ((total_amount_of_bill/tender_cost)*100).toFixed(2);
 	$("#total_amount_of_bill_span").html(total_amount_of_bill.toFixed(2));
 	$("#percent_of_work_span").html(percentage + "%");
+	 $("#progress_bar").css('width', percentage+'%');
 }
 
 function shortDescription(d_item, d_subitem){
@@ -105,6 +112,8 @@ function shortDescription(d_item, d_subitem){
         <nav:item active="true" label="measurement sheet" url="#"/>
     </nav:nav>
     <notification:popup object="${message}"/>
+    
+    
     <page:show create="false" delete="true" id="ps_com_org_entity_MeasurementSheet" list="false" object="${measurementsheet}" path="/measurementsheets" update="true" z="user-managed">
         <field:display field="title" id="s_com_org_entity_MeasurementSheet_title" object="${measurementsheet}" z="J7JMK2STvGP/E15VHkXhTgxQZMs="/>
         <field:link id="s_com_org_entity_Document_url" label="document" text="download" url="${download_url}" z="user-managed"/>
@@ -128,6 +137,30 @@ function shortDescription(d_item, d_subitem){
         <field:display field="writeMeasurementSheetData" id="s_com_org_entity_MeasurementSheet_writeMeasurementSheetData" object="${measurementsheet}" render="false" z="ao0ZlIIJvtFpCbY9JEovQgsl2DU="/>
         <field:display field="macroEnabled" id="s_com_org_entity_MeasurementSheet_macroEnabled" object="${measurementsheet}" render="false" z="OA4QSLey4wm0BGDmLG95EyMUzKk="/>
     </page:show>
+   
+    <div class="row">
+    <div class="col-sm-6" style="padding:0">
+    <div class="info-box bg-aqua" style="margin-bottom: 0px;">
+            <span class="info-box-icon"><i class="glyphicon glyphicon-shopping-cart"><!-- empty --></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">
+              <b>Tender cost: </b>
+              <i class="fa fa-inr" style="font-size:11px"><!-- empty --></i>&amp;nbsp<span id="tender_cost">a</span>
+              </span>
+               <span class="info-box-number fa fa-inr" style="font-size:18px" id="total_amount_of_bill_span">a</span>
+              <div class="progress">
+                <div class="progress-bar" id="progress_bar" style="width: 40%"><!-- empty --></div>
+              </div>
+              <span class="progress-description">
+                    <span id="percent_of_work_span">a</span> of work completed
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          </div>
+    </div>
+     
     <div class="row">
     
     <div class="col-sm-12 color-pallet"  style="margin-bottom:5px; margin-top:5px; background-color: #f5f5f5; padding:5px">
@@ -165,22 +198,9 @@ function shortDescription(d_item, d_subitem){
                     <div class="btn-group pull-right" style="margin-bottom:5px; margin-top:5px; margin-left:5px">
                         <input class="btn btn-primary showloading" type="submit" value="Update Abstract"/>
                         <input class="btn btn-primary" onclick="javascript:resetAbstractData()" type="button" value="Reset values"/>
+                    	<form:hidden align="right" id="tender_cost_hidden" path="aggreement.tenderCost" style=""/>
                     </div>
-                    <div style="clear:both;">
-                        <div style="float: left;">
-                            <b>Tender cost: </b>
-                            <span id="tender_cost">a</span>
-                            <form:hidden align="right" id="tender_cost_hidden" path="aggreement.tenderCost" style=""/>
-                        </div>
-                        <div style="float: right;">
-                            <b>Total amount of this bill: </b>
-                            <span id="total_amount_of_bill_span">a</span>
-                        </div>
-                        <div style="float: center;text-align:center">
-                            <b>Percentage of work completed: </b>
-                            <span id="percent_of_work_span">a</span>
-                        </div>
-                    </div>
+                   
                     <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="abstract_table">
                         <thead>
                             <tr>
