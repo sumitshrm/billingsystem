@@ -99,7 +99,7 @@
     	
     	$('#search_dsr_desc').on( 'keyup', function () {
     		var val = $('#search_dsr_desc').val();
-			$('#table_l_com_org_entity_Item').DataTable().search(val).draw();
+			$('#table_l_com_org_entity_Item').DataTable().search(val, false, false).draw();
 		  });
     	
     });
