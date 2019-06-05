@@ -202,20 +202,17 @@
             <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
 					<div class="row">
-						<div class="col-sm-6">
-						<div 
-								class="dataTables_filter">
-								<label>Item Number:<input id="search_dsr_item" type="search" style="width:80px"
-									class="form-control input-sm" placeholder=""
-									aria-controls="table_l_com_org_entity_Aggreement" /></label>
-							</div>
-						</div>
-						<div class="col-sm-6">
+						
+						<div class="col-sm-12">
+						
 							<div 
 								class="dataTables_filter">
-								<label>Search:<input id="search_dsr_desc" type="search" style="width:inherit"
-									class="form-control input-sm" placeholder=""
+								<label>Search:<input id="search_dsr_item" type="search" style="width:inherit"
+									class="form-control input-sm" placeholder="Item Number"
 									aria-controls="table_l_com_org_entity_Aggreement" /></label>
+								<input id="search_dsr_desc" type="search" style="width:inherit"
+									class="form-control input-sm" placeholder="description,rate,unit"
+									aria-controls="table_l_com_org_entity_Aggreement" />
 							</div>
 							
 						</div>
