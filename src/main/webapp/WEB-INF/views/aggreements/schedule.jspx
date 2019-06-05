@@ -169,10 +169,7 @@
      <div class="form-group">
                   <label class="col-sm-3 control-label" style="text-align: left;">Select DSR</label>
                   <div class="col-sm-9">
-                  <select id="select_dsr" class="form-control pull-left" onchange="selectDsr(this)">
-                    <option value="2018">2018</option>
-                    <option value="2016">2016</option>
-                  </select>
+                  <!-- emp -->
                   </div>
                 </div>
                 </form>
@@ -202,12 +199,17 @@
             <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
 					<div class="row">
-						
-						<div class="col-sm-12">
+						<div class="col-sm-3">
+						<select id="select_dsr" class="form-control input-sm" onchange="selectDsr(this)">
+                    <option value="2018">DSR 2018</option>
+                    <option value="2016">DSR 2016</option>
+                  </select>
+						</div>
+						<div class="col-sm-9">
 						
 							<div 
 								class="dataTables_filter">
-								<label>Search:<input id="search_dsr_item" type="search" style="width:inherit"
+								<label>Search:<input id="search_dsr_item" type="search" style="width:80px"
 									class="form-control input-sm" placeholder="Item Number"
 									aria-controls="table_l_com_org_entity_Aggreement" /></label>
 								<input id="search_dsr_desc" type="search" style="width:inherit"
