@@ -151,9 +151,11 @@
         	order: [],
         	<c:if test="${not empty paging and not paging}">
         	paging:   false,
+        	info: false,
         	</c:if>
+        	lengthChange: false,
             responsive: true,
-            
+            dom : '&lt;"H"ilr&gt;t&lt;"F"p&gt;',
             <c:if test="${delete}">
             "columnDefs": [ {
                 "targets": 0,

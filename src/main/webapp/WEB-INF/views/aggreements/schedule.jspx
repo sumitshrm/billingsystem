@@ -77,6 +77,31 @@
         	    }
         	})
         });
+    	
+    	$('#search_dsr_item').on( 'keyup', function () {
+			var val = $('#search_dsr_item').val();
+			var regex = '';
+			var temp=val;
+			var split = "";
+			var i = 0;
+			while(temp.indexOf('.')>=0){
+				if(i==0){
+					regex+='^'+temp;
+				}else{
+					regex+='|^'+temp+'$';
+				}
+				temp = temp.substr(0, temp.lastIndexOf('.'));
+				i++;
+			} 
+			console.log(regex);
+			$('#table_l_com_org_entity_Item').DataTable().column( 1 ).search(regex, true, false).draw();
+		  });
+    	
+    	$('#search_dsr_desc').on( 'keyup', function () {
+    		var val = $('#search_dsr_desc').val();
+			$('#table_l_com_org_entity_Item').DataTable().search(val).draw();
+		  });
+    	
     });
     
     function show_notification(message, type){
@@ -176,7 +201,27 @@
            
             <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
-                <table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
+					<div class="row">
+						<div class="col-sm-6">
+						<div 
+								class="dataTables_filter">
+								<label>Item Number:<input id="search_dsr_item" type="search" style="width:80px"
+									class="form-control input-sm" placeholder=""
+									aria-controls="table_l_com_org_entity_Aggreement" /></label>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div 
+								class="dataTables_filter">
+								<label>Search:<input id="search_dsr_desc" type="search" style="width:inherit"
+									class="form-control input-sm" placeholder=""
+									aria-controls="table_l_com_org_entity_Aggreement" /></label>
+							</div>
+							
+						</div>
+					</div>
+
+					<table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
 		            <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
 		            <table:column id="c_com_org_entity_Item_description" maxLength="6000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
 		            <table:column id="c_com_org_entity_Item_unit" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>

@@ -438,9 +438,9 @@
 			              
 			              <a href="#" class="text-muted">
 			              <div class="btn-group">
-                      <button type="button" class="btn btn-primary" onclick="toggletab('back')">Back</button>
+                      <button type="button" class="btn btn-primary" onclick="toggletab('back')">Previous</button>
                       <button type="button" id="next_button" class="btn btn-primary" onclick="toggletab('next')">Next</button>
-                      <button id="save_button" type="button" onclick="saveTransaction()" class="btn btn-primary" style="display:none">Save</button>
+                      <button id="save_button" type="button" onclick="saveTransaction()" class="btn btn-primary" style="display:none">Save Estimate</button>
                     </div>
 			              </a>
 			              </li>
