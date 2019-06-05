@@ -163,18 +163,9 @@
         document.location.search = kvp.join('&amp;'); 
     }
     </script>
-    <div class="row" style="background-color: #f5f5f5; padding-top: 8px;">
-    <div class="col-sm-6">
-    <form class="form-horizontal">
-     <div class="form-group">
-                  <label class="col-sm-3 control-label" style="text-align: left;">Select DSR</label>
-                  <div class="col-sm-9">
-                  <!-- emp -->
-                  </div>
-                </div>
-                </form>
-     </div>
-     <div class="col-sm-6">
+    <div class="row" style="background-color: #f5f5f5; padding: 8px; margin-top:10px">
+    
+     <div class="col-sm-12">
      <div class="btn-group pull-right">
           <button  id="dsr_btn" value="" type="button" class="btn btn-primary disabled" onclick='toggle("dsr")'>Add DSR Item</button>
           <button id="non_dsr_btn" value="" type="button" class="btn btn-primary" onclick='toggle("nondsr")'>Add Non DSR Item</button>
@@ -190,7 +181,7 @@
      <div class="box box-primary">
             <div class="box-header with-border">
 
-              <h3 class="box-title">Select Items</h3>
+              <h3 class="box-title">List of DSR Items</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="padding:0 padding-top:5">
@@ -199,13 +190,13 @@
             <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
 					<div class="row">
-						<div class="col-sm-3">
-						<select id="select_dsr" class="form-control input-sm" onchange="selectDsr(this)">
+						<div class="col-sm-4">
+						<select id="select_dsr" class="form-control input-sm" onchange="selectDsr(this)" style="font-weight: bold;">
                     <option value="2018">DSR 2018</option>
                     <option value="2016">DSR 2016</option>
                   </select>
 						</div>
-						<div class="col-sm-9">
+						<div class="col-sm-8">
 						
 							<div 
 								class="dataTables_filter">
