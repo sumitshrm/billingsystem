@@ -50,18 +50,19 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 	   	 	$("#messageNotification").jqxNotification("open");
 	    }
 		</script>
-	<nav:nav>
-		<nav:item label="home" url="/" />
-		<nav:item label="list aggreements"
-			url="/aggreements?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-		<nav:item label="aggreement" url="/aggreements/${aggreement.id}" />
-		<nav:item label="schedule"
-			url="/aggreements/${aggreement.id}/schedule" />
-		<nav:item active="true" label="list items" url="#" />
-	</nav:nav>
-	<div style="padding-top: 5px">
-	<a class="btn btn-primary showloading" href='/aggreements/${aggreement.id}' >Save</a>
-	</div>
+	<div class="row" style="background-color: #f5f5f5; padding: 8px; margin-top:10px">
+    
+     <div class="col-sm-12">
+     <div class="btn-group pull-right">
+          <a class="btn btn-primary showloading" href='/aggreements/${aggreement.id}' style="margin-left:5px">Finish</a>
+	  </div>
+     <div class="btn-group pull-right">
+          <a class="btn btn-primary showloading" href="/aggreements/${aggreement.id}/schedule">Previous</a>
+          <button id="non_dsr_btn" value="" type="button" class="btn btn-primary disabled">Next</button>
+	  </div>
+	  </div>
+    </div>
+
 	
 	<page:list id="pl_com_org_entity_Item" items="${items}"
 		z="B7GYkOZvI/19oHNsgyyGjiN0iSg=">
