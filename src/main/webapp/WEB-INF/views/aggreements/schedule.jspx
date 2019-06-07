@@ -5,7 +5,6 @@
     <spring:message code="app_dsr_file" htmlEscape="false" var="dsr_file"/>
     <spring:url value="/books/dsr/download?file=" var="csv_url"/>
     <script language="javascript">
-    var dsrItemsJson = ${dsrItemsJson};
     var aggreementNum = ${aggreement.id};
     var msheetquery = "";
     var msheetid="${msheetid}";
