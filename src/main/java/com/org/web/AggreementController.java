@@ -154,26 +154,6 @@ public class AggreementController {
     public String createSchedule(@PathVariable("agg") Long agg, @RequestParam(value = "msheetid", required = false) Long msheetid,@RequestParam(value = "dsr", required = false) Integer dsr, Model uiModel) {
     	LogUser user = LogUser.getCurrentUser();
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
-        
-        try {
-        	String filename=dsr==null||dsr==2018?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
-        	InputStream inputStream = fileStorageService.doGet(filename);
-        	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
-        	ObjectMapper mapper = new ObjectMapper();
-        	String dsrItemsJson = mapper.writeValueAsString(entries);
-        	uiModel.addAttribute("dsrItemsJson", dsrItemsJson);
-        	uiModel.addAttribute("dsrItems", entries);
-        	//System.out.println(entries);
-        } catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        finally {
-			//test
-		}
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
         uiModel.addAttribute("dsr", dsr);
