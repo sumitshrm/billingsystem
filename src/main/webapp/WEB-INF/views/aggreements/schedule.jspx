@@ -108,7 +108,7 @@
     	
     	$.ajax({
   	      type: "GET",
-  	      url: "/aggreements/schedule/rest?dsr=${dsr}",
+  	      url: "/aggreements/schedule/v1/${dsr}",
   	      success :function(result) {
   	    	  dsrItemsJson = result;
   	    	  console.log("resp", dsrItemsJson);
@@ -116,7 +116,7 @@
   	     },error: function(e){
   	    	alert("some error occured");
   	    }
-    	});
+    	}); 
       
       
       function loadDSRTable(){

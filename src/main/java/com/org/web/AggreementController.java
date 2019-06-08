@@ -156,7 +156,8 @@ public class AggreementController {
         Aggreement aggreement = Aggreement.findAggreementsByIdAndLogUser(agg, user).getSingleResult();
         //List<Entry> entries = (ItemsXml)(JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
         uiModel.addAttribute("aggreement", aggreement);
-        uiModel.addAttribute("dsr", dsr);
+    	Integer dsrfile=dsr==null?2018:dsr;
+        uiModel.addAttribute("dsr", dsrfile);
         if(msheetid!=null) {
         	List<Item> items = Item.findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull(aggreement, msheetid, "id", "ASC").getResultList();
         	uiModel.addAttribute("items", items);
@@ -169,8 +170,8 @@ public class AggreementController {
         return "aggreements/schedule";
     }
     
-    @RequestMapping(value="/schedule/rest")
-    ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@RequestParam(value = "dsr", required = false) Integer dsr) throws IOException, JAXBException {
+    @RequestMapping(value="/schedule/v1/{dsr}")
+    ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@PathVariable(value = "dsr") Integer dsr) throws IOException, JAXBException {
     	String filename=dsr==null||dsr==2018?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
     	InputStream inputStream = fileStorageService.doGet(filename);
     	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
