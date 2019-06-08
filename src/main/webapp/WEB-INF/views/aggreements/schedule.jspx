@@ -5,6 +5,8 @@
     <spring:message code="app_dsr_file" htmlEscape="false" var="dsr_file"/>
     <spring:url value="/books/dsr/download?file=" var="csv_url"/>
     <script language="javascript">
+    var dsrItemsJson = null;
+    console.log(dsrItemsJson);
     var aggreementNum = ${aggreement.id};
     var msheetquery = "";
     var msheetid="${msheetid}";
@@ -94,13 +96,112 @@
 				i++;
 			} 
 			console.log(regex);
-			$('#table_l_com_org_entity_Item').DataTable().column( 1 ).search(regex, true, false).draw();
+			$('#dsritems').DataTable().column( 1 ).search(regex, true, false).draw();
 		  });
     	
     	$('#search_dsr_desc').on( 'keyup', function () {
     		var val = $('#search_dsr_desc').val();
-			$('#table_l_com_org_entity_Item').DataTable().search(val, false, false).draw();
+			$('#dsritems').DataTable().search(val, false, false).draw();
 		  });
+    	
+    	
+    	
+    	$.ajax({
+  	      type: "GET",
+  	      url: "/aggreements/schedule/rest?dsr=${dsr}",
+  	      success :function(result) {
+  	    	  dsrItemsJson = result;
+  	    	  console.log("resp", dsrItemsJson);
+  	    	loadDSRTable();
+  	     },error: function(e){
+  	    	alert("some error occured");
+  	    }
+    	});
+      
+      
+      function loadDSRTable(){
+    	  var table=$('#dsritems').DataTable( {
+    	      	data: dsrItemsJson,
+    	          columns: [
+    	          	{ "data": "id" },
+    	              { "data": "itemNumber" },
+    	              { "data": "description" },
+    	              { "data": "unit" },
+    	              { "data": "fullRate" }
+    	          ],
+    	          dom : '&lt;"H"ilr&gt;t&lt;"F"p&gt;',
+    	          lengthChange: false,
+    	          ordering: false,
+    	          processing: true,
+    	          responsive: true,
+    	          columnDefs: [{
+    	              // puts a button in the last column
+    	              targets: [0], render: function (a, b, data, d) {
+    	              	//console.log(data[3]);
+    	                 if (!data.fullRate) {
+    	                      return "";
+    	                  } 
+    	                 //return "<button>OK</button>";
+    	                 return '<a class="btn btn-primary btn-xs"><span class="fa fa-plus"><!--empty--></span></a>';
+    	              }
+    	          }]
+    	      } );
+    	      
+    	      //add selected
+    	      $('#dsritems tbody').on( 'click', 'a', function () {
+    	      	var tr = table.row( $(this).parents('tr') );
+    	      	var data = tr.data();
+    	      	var resultArray = [];
+    	      	addRowWithParent(data.itemNumber,tr.index(), resultArray);
+    	      	var form_data = {};
+    	      	form_data.entries = resultArray;
+    	      	//console.log("data", form_data);
+    	      	//save items in database
+    	      	/* $.post("/aggreements/"+aggreementNum+"/schedule/saveitem", function(resultArray, status){
+    	  		    alert("Data: " + data + "\nStatus: " + status);
+    	  		  }); */
+    	      	$.ajax({
+    	    	      type: "POST",
+    	    	      contentType : 'application/json; charset=utf-8',
+
+    	    	      url: "/aggreements/"+aggreementNum+"/schedule/saveitem"+"?"+msheetquery,
+    	    	      data: JSON.stringify(form_data), // Note it is important
+    	    	      success :function(result) {
+    	    	    	//data[1] = result;
+    	    	    	console.log(data);
+    	    	    	$('#table_l_com_org_entity_Aggreement').DataTable().row.add( [data.id,data.itemNumber,data.description,data.unit,data.fullRate]).draw();
+    	              $('#table_l_com_org_entity_Aggreement tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
+    	              show_notification("item added successfully", 'success');
+    	    	     },error: function(e){
+    	    	    	show_notification(e.responseText, 'error');
+    	    	    }
+    	      	});
+    	      	
+    	      } );
+      }
+      
+      function addRowWithParent(itemNum, index, resultArray){
+      	//var data = table.row( thiz.parents('tr') ).data();
+      	console.log(itemNum, index);
+      	var rowNum = index-1;
+      	var code = itemNum.substr(0, itemNum.lastIndexOf('.'));
+      	var data
+      	if(code.split(".").length&gt;1){
+      		data = dsrItemsJson[rowNum];
+      		//Iterate backword in array until the correct item is found
+      		while(code!=data.itemNumber){
+      			data = dsrItemsJson[--rowNum];
+      		}
+      		addRowWithParent(code, rowNum, resultArray);
+      	}
+      	console.log("adding item : "+itemNum);
+      	var data = dsrItemsJson[index];
+      	resultArray.push(data);
+			//alert(JSON.stringify(data));        	
+          //$('#table_l_com_org_entity_Aggreement').DataTable().row.add( {"Item Number":"2.2.1","Unit":"Cum","Description":"All kinds of soil ","Full Rate":"427.9"} ).draw();
+          //$('#table_l_com_org_entity_Aggreement').DataTable().row.add( result ).draw();
+          //$('#table_l_com_org_entity_Aggreement tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
+      }	
     	
     });
     
@@ -223,7 +324,7 @@
            
             <div class="tab-content"  style="padding:0">
               <div class="tab-pane active" id="tab_1">
-					<div class="row">
+              <div class="row">
 						<div class="col-sm-4">
 						<select id="select_dsr" class="form-control input-sm" onchange="selectDsr(this)" style="font-weight: bold;">
                     <option value="2018">DSR 2018</option>
@@ -244,13 +345,21 @@
 							
 						</div>
 					</div>
+					<table id="dsritems"  width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" style="width:100%">
+        <thead>
+            <tr>
+            <th><!-- empty --></th>
+                <th>Item Number</th> 
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Full rate</th>
+                
+            </tr>
+        </thead>
+        <tbody><!-- empty --></tbody>
+    </table>
 
-					<table:schedule-table typeIdFieldName="fullRate" delete="false" data="${dsrItems}" id="l_com_org_entity_Item" paging="true" path="/items" responsive="true" z="user-managed">
-		            <table:column id="c_com_org_entity_Item_itemNumber" render="true" property="itemNumber" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-		            <table:column id="c_com_org_entity_Item_description" maxLength="6000" render="true" property="description" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-		            <table:column id="c_com_org_entity_Item_unit" render="true" property="unit" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-		            <table:column id="c_com_org_entity_Item_fullRate" render="true" property="fullRate" z="h4CQoloj5aA3fdm9psP6D9LT0tk="/>
-		        </table:schedule-table> 
+					
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">

@@ -217,28 +217,7 @@
         
         
         
-        function addRowWithParent(itemNum, index, resultArray){
-        	//var data = table.row( thiz.parents('tr') ).data();
-        	console.log(itemNum, index);
-        	var rowNum = index-1;
-        	var code = itemNum.substr(0, itemNum.lastIndexOf('.'));
-        	var data
-        	if(code.split(".").length&gt;1){
-        		data = dsrItemsJson[rowNum];
-        		//Iterate backword in array until the correct item is found
-        		while(code!=data.itemNumber){
-        			data = dsrItemsJson[--rowNum];
-        		}
-        		addRowWithParent(code, rowNum, resultArray);
-        	}
-        	console.log("adding item : "+itemNum);
-        	var data = dsrItemsJson[index];
-        	resultArray.push(data);
-			//alert(JSON.stringify(data));        	
-            //$('#table_l_com_org_entity_Aggreement').DataTable().row.add( {"Item Number":"2.2.1","Unit":"Cum","Description":"All kinds of soil ","Full Rate":"427.9"} ).draw();
-            //$('#table_l_com_org_entity_Aggreement').DataTable().row.add( result ).draw();
-            //$('#table_l_com_org_entity_Aggreement tbody button').addClass( "btn btn-primary btn-xs fa fa-minus" );
-        }
+        
         
     });
 

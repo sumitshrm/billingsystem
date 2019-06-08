@@ -1,9 +1,9 @@
 package com.org.util;
 
-import org.codehaus.jackson.map.MapperConfig;
-import org.codehaus.jackson.map.PropertyNamingStrategy;
-import org.codehaus.jackson.map.introspect.AnnotatedField;
-import org.codehaus.jackson.map.introspect.AnnotatedMethod;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
 
 public class NameStrategy extends PropertyNamingStrategy
  {

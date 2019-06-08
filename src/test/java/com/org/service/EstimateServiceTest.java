@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.util.SystemOutLogger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

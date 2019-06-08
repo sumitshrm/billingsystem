@@ -31,8 +31,8 @@ import com.org.service.DocumentService;
 import com.org.service.blobstore.FileStorageService;
 import com.org.util.FileStorageProperties;
 import com.org.util.QueryUtil;
-
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -60,6 +60,7 @@ public class AggreementController {
     
     @Autowired
     private DocumentService documentService;
+    
     
     @RequestMapping(params = "redirect", produces = "text/html", method=RequestMethod.GET)
     public String createFromBillform(@RequestParam(value = "redirect", required = true)String redirect,Model uiModel) {
@@ -186,6 +187,14 @@ public class AggreementController {
         	
         }
         return "aggreements/schedule";
+    }
+    
+    @RequestMapping(value="/schedule/rest")
+    ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@RequestParam(value = "dsr", required = false) Integer dsr) throws IOException, JAXBException {
+    	String filename=dsr==null||dsr==2018?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
+    	InputStream inputStream = fileStorageService.doGet(filename);
+    	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
+        return new ResponseEntity<>(entries, HttpStatus.OK);
     }
     
     @RequestMapping(value="/{agg}/schedule/saveitem", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)

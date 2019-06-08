@@ -1,15 +1,19 @@
 package com.org.entity;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"version"})
+@JsonPropertyOrder({"id", "itemNumber", "description", "unit", "fullRate" })
 public class ItemsXMLData {
 	private String itemNumber;
 	

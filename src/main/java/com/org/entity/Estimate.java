@@ -3,11 +3,12 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.org.domain.LogUser;
 
 @RooJavaBean
