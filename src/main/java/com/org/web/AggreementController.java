@@ -171,11 +171,12 @@ public class AggreementController {
     }
     
     @RequestMapping(value="/schedule/v1/{dsr}")
-    ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@PathVariable(value = "dsr") Integer dsr) throws IOException, JAXBException {
-    	String filename=dsr==null||dsr==2018?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
+    ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@PathVariable(value = "dsr") String dsr) throws IOException, JAXBException {
+    	String filename=dsr==null||dsr=="2018.dsr"?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
     	InputStream inputStream = fileStorageService.doGet(filename);
     	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
-        return new ResponseEntity<>(entries, HttpStatus.OK);
+        System.out.println("not cached" +dsr);
+    	return new ResponseEntity<>(entries, HttpStatus.OK);
     }
     
     @RequestMapping(value="/{agg}/schedule/saveitem", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
