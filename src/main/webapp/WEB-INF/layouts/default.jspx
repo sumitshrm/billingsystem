@@ -30,7 +30,7 @@
 		// Wait for window load
 			$(window).load(function() {
 			// Animate loader off screen
-			$(".loading").hide();
+			$("#loading").hide();
 			$("#loader").hide();
 			});
 			
@@ -48,14 +48,14 @@
 			
 			/* this function handles single page applicatin feature */
 			function showloading(){
-				$(".loading").show();
+				$("#loading").show();
 				$("#loader").show();
 				$( '.content' ).trigger( 'click' );
 				//history.pushState(null, null, elem.href);
 			}
 			
 			function submitForm(){
-				$(".loading").show();
+				$("#loading").show();
 				$("#loader").show();
 			}
 			
@@ -78,7 +78,7 @@
 	</head>
 	
   	<body class="sidebar-mini skin-blue-light tundra spring jquery-ui" id="body">
-  	<div class="loading"><div id="loader"><!-- loader --></div></div>
+  	<div class="loading" id="loading"><div class="loader" id="loader"><!-- loader --></div></div>
   	<input type="hidden" name="urlcheck" id="urlcheck"></input>
    		
    		  		
