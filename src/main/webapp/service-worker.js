@@ -86,9 +86,7 @@ var filesToCache = [
   '/resources/script/jquery/jquery-ui.min.js',
   '/resources/script/jquery.ui-contextmenu.min.js',
   '/resources/styles/jquery-ui.css',
-  '/resources/assets/vendor/bootbox/bootbox.min.js',
-  '/aggreements/schedule/v1/2018.dsr',
-  '/aggreements/schedule/v1/2016.dsr'
+  '/resources/assets/vendor/bootbox/bootbox.min.js'
 ];
 
 self.addEventListener('install', function(e) {
