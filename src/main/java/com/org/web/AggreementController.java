@@ -173,11 +173,24 @@ public class AggreementController {
     @RequestMapping(value="/schedule/v1/{dsr}")
     ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@PathVariable(value = "dsr") String dsr) throws IOException, JAXBException {
     	String filename=dsr==null||dsr=="2018.dsr"?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
+    	long start = (new Date()).getTime();
     	InputStream inputStream = fileStorageService.doGet(filename);
     	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();
-        System.out.println("not cached" +dsr);
+    	long stop = (new Date()).getTime();
+    	System.out.println("time taken to load json V1 ========="+ (stop-start));
     	return new ResponseEntity<>(entries, HttpStatus.OK);
     }
+    
+	@RequestMapping(value = "/schedule/v2/{dsr}")
+	public @ResponseBody Object export(HttpServletResponse response,
+			@PathVariable(value = "dsr") String dsr) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		long start = (new Date()).getTime();
+        Object json =  mapper.readValue(fileStorageService.doGet( "ManagedDocuments/" + dsr+".json"), Object.class);
+        long stop = (new Date()).getTime();
+        System.out.println("time taken to load json V2 ========="+ (stop-start));
+        return json;
+	}
     
     @RequestMapping(value="/{agg}/schedule/saveitem", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity saveItem(@PathVariable("agg") Long agg, @RequestBody ItemsXml itemsXml,@RequestParam(value = "msheetid", required = false) Long msheetid, HttpServletResponse httpServletResponse) throws Exception {
