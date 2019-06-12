@@ -107,7 +107,7 @@
     	
     	$.ajax({
   	      type: "GET",
-  	      url: "/aggreements/schedule/v1/${dsr}.dsr",
+  	      url: "/aggreements/schedule/v1/${dsr}",
   	      success :function(result) {
   	    	  dsrItemsJson = result;
   	    	  console.log("resp", dsrItemsJson);

@@ -20,7 +20,7 @@
 	$(document).ready(function() {
 		$.ajax({
 		      type: "GET",
-		      url: "/aggreements/schedule/v1/2018.dsr",
+		      url: "/aggreements/schedule/v1/2018",
 		      success :function(result) {
 		    	  dsrItemsJson = result;
 		    	  console.log("resp", dsrItemsJson);
@@ -81,7 +81,7 @@
 		$("#loader_dsr").show();
     	$.ajax({
 		      type: "GET",
-		      url: "/aggreements/schedule/v1/"+dsr.value+".dsr",
+		      url: "/aggreements/schedule/v1/"+dsr.value,
 		      success :function(result) {
 		    	  dsrItemsJson = result;
 		    	  console.log("resp", dsrItemsJson);
