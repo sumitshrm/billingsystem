@@ -1,72 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
-  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-  <jsp:output omit-xml-declaration="yes"/>
-  <spring:message code="app_dsr_file" htmlEscape="false" var="dsr_file"/>
-    <spring:url value="/books/dsr/download?file=" var="csv_url" />
-  <spring:message code="label_books_dsr_index" htmlEscape="false" var="title"/>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxscrollbar.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdatatable.js"><!-- required for FF3 and Opera --></script>
-    <script type="text/javascript" src="${jqwidgets_url}/jqxlistbox.js"><!-- required for FF3 and Opera --></script>
-    <script type="text/javascript" src="${jqwidgets_url}/jqxdropdownlist.js"><!-- required for FF3 and Opera --></script>
-	<script type="text/javascript" src="${jqwidgets_url}/jqxdata.export.js"><!-- required for FF3 and Opera --></script>  	
-	<script type="text/javascript">
-        $(document).ready(function () {
-            var url = '${csv_url}${dsr_file}';
-            console.log(url+'---------');
-            var source =
-            {
-                dataType: "xml",
-                dataFields: [
-                    { name: 'code', type: 'string' },
-                    { name: 'desc', type: 'string' },
-                    { name: 'unit', type: 'string' },
-                    { name: 'rate', type: 'string' }
-                ],
-                root: "dsr-data",
-                record: "record",
-                url: url
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#table").jqxDataTable(
-            {
-                filterable: true,
-            	width: "100%",	
-                pageable: true,
-                pagerMode: 'advanced',
-                pagerButtonsCount: 20,
-                source: dataAdapter,
-                columnsResize: true,
-                columns: [
-                  { text: 'Code', dataField: 'code'},
-                  { text: 'Description of Items', dataField: 'desc' },
-                  { text: 'Unit', dataField: 'unit'},
-                  { text: 'Rate (Rs)', dataField: 'rate'}
-                ]
-            });
-            
-            //$("#excelExport").jqxButton();
-            //$("#pdfExport").jqxButton();
-            $("#excelExport").click(function () {
-                $("#dataTable").jqxDataTable('exportData', 'xls');
-            });
-            $("#pdfExport").click(function () {
-                $("#table").jqxDataTable('exportData', 'pdf');
-            });
-        });
-    </script>
-  <util:panel id="title" title="${title}">
-    <div>
-        <div style='float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to Excel" id='excelExport' />
-        </div>
-        <div style='margin-left: 10px; float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to PDF" id='pdfExport' />
-        </div>
-    </div>
-    <br></br><br></br>
-    <div id="table"></div>
-    
-  </util:panel>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message code="app_dsr_file" htmlEscape="false" var="dsr_file" />
+	<spring:url value="/books/dsr/download?file=" var="csv_url" />
+	<spring:message code="label_books_dsr_index" htmlEscape="false"
+		var="title" />
+	<script src="${vendor_url}/datatables/js/jquery.dataTables.min.js"><!-- required for FF3 and Opera --></script>
+    <script src="${vendor_url}/datatables-plugins/dataTables.bootstrap.min.js"><!-- required for FF3 and Opera --></script>
+    <script src="${vendor_url}/datatables-responsive/dataTables.responsive.js"><!-- required for FF3 and Opera --></script>
+    <link href="${vendor_url}/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="${vendor_url}/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
+	
+	<script>
+	var dsrItemsJson = null;
+	var datatable=null;
+	$(document).ready(function() {
+		$.ajax({
+		      type: "GET",
+		      url: "/aggreements/schedule/v1/2018.dsr",
+		      success :function(result) {
+		    	  dsrItemsJson = result;
+		    	  console.log("resp", dsrItemsJson);
+		    	loadDSRTable();
+		    	$("#loading_dsr").hide();
+				$("#loader_dsr").hide();
+		     },error: function(e){
+		    	alert("some error occured");
+		    }
+	  	}); 
+		
+		$('#search_dsr_item').on( 'keyup', function () {
+			var val = $('#search_dsr_item').val();
+			var regex = '';
+			var temp=val;
+			var split = "";
+			var i = 0;
+			while(temp.indexOf('.')>=0){
+				if(i==0){
+					regex+='^'+temp;
+				}else{
+					regex+='|^'+temp+'$';
+				}
+				temp = temp.substr(0, temp.lastIndexOf('.'));
+				i++;
+			} 
+			console.log(regex);
+			$('#dsritems').DataTable().column( 0 ).search(regex, true, false).draw();
+		  });
+		
+		$('#search_dsr_desc').on( 'keyup', function () {
+			var val = $('#search_dsr_desc').val();
+			$('#dsritems').DataTable().search(val, false, false).draw();
+		  });
+		
+		
+	});
+	
+	function loadDSRTable(data){
+  	  datatable=$('#dsritems').DataTable( {
+  	      	data: dsrItemsJson,
+  	          columns: [
+  	              { "data": "itemNumber" },
+  	              { "data": "description" },
+  	              { "data": "unit" },
+  	              { "data": "fullRate" }
+  	          ],
+  	          dom : '&lt;"H"ilr&gt;t&lt;"F"p&gt;',
+  	          lengthChange: false,
+  	          ordering: false,
+  	          processing: true,
+  	          responsive: true
+  	      } );
+	}
+	
+	function selectDsr(dsr){
+		$("#loading_dsr").show();
+		$("#loader_dsr").show();
+    	$.ajax({
+		      type: "GET",
+		      url: "/aggreements/schedule/v1/"+dsr.value+".dsr",
+		      success :function(result) {
+		    	  dsrItemsJson = result;
+		    	  console.log("resp", dsrItemsJson);
+		    	  datatable.clear().draw();
+		    	   datatable.rows.add(dsrItemsJson); // Add new data
+		    	   datatable.columns.adjust().draw(); // Redraw the DataTable
+		    	$("#loading_dsr").hide();
+				$("#loader_dsr").hide();
+		     },error: function(e){
+		    	alert("some error occured");
+		    }
+	  	}); 
+    	
+    }
+	
+	</script>
+
+	<util:panel id="title" title="${title}">
+	
+	<div class="row">
+		<div class="col-12">
+		<div class="loading" id="loading_dsr"
+									style="position: absolute; z-index: 798; opacity: 0.8">
+									<div class="loader" id="loader_dsr"
+										style="position: absolute; z-index: 799; width: 45px; height: 45px">
+										<!-- loader -->
+									</div>
+								</div>
+		<form class="form-inline" action="/action_page.php">
+			<div class="form-group col-sm-6">
+				<label for="email">Select DSR:</label> <select id="select_dsr"
+					class="form-control input-sm" onchange="selectDsr(this)"
+					style="font-weight: bold;" >
+					<option value="2018">DSR 2018</option>
+					<option value="2016">DSR 2016</option>
+				</select>
+			</div>
+			<div class="form-group col-sm-6 text-right">
+			
+				<label >Search:</label> <input id="search_dsr_item" type="search"
+					class="form-control input-sm" placeholder="Item Number" /> <input 
+					id="search_dsr_desc" type="search" class="form-control input-sm"
+					placeholder="description,rate,unit"
+					/>
+			</div>
+			
+
+		</form>
+		</div></div>
+		
+		<div class="row" style="margin-top:10px">
+		<div class="col-12">
+		<table id="dsritems"  class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" style="width:100%">
+        <thead>
+            <tr>
+                <th>Item Number</th> 
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Full rate</th>
+                
+            </tr>
+        </thead>
+        <tbody><td valign="top" colspan="5" class="dataTables_empty">Loading data...</td></tbody>
+    </table>
+		</div>
+		
+		</div>
+
+	</util:panel>
 </div>

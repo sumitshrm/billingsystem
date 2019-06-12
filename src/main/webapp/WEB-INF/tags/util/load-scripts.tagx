@@ -16,7 +16,7 @@
   <spring:url value="/resources/styles" var="styles_url" scope="request"/>
   <spring:url value="/resources/assets/dist" var="dist_url" />
   <spring:url value="/resources/assets/adminlte" var="adminlte_url" scope="request"/>
-  <spring:url value="/resources/assets/vendor" var="vendor_url" />
+  <spring:url value="/resources/assets/vendor" var="vendor_url" scope="request"/>
   
   
   
