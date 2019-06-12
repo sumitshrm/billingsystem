@@ -172,7 +172,7 @@ public class AggreementController {
     
     @RequestMapping(value="/schedule/v1/{dsr}")
     ResponseEntity<List<ItemsXMLData>> hello(Long msheetid,@PathVariable(value = "dsr") String dsr) throws IOException, JAXBException {
-    	String filename=dsr==null||dsr=="2018.dsr"?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
+    	String filename=dsr==null||"2018.dsr".equals(dsr)?FileStorageProperties.DSR_FILE_2018:FileStorageProperties.DSR_FILE_2016;
     	long start = (new Date()).getTime();
     	InputStream inputStream = fileStorageService.doGet(filename);
     	List<ItemsXMLData> entries = ((ItemsXml)JAXBContext.newInstance(ItemsXml.class).createUnmarshaller().unmarshal(inputStream)).getEntries();

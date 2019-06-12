@@ -55,15 +55,6 @@
         });
     </script>
   <util:panel id="title" title="${title}">
-    <div>
-        <div style='float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to Excel" id='excelExport' />
-        </div>
-        <div style='margin-left: 10px; float: left;'>
-            <input type="button" class="btn btn-primary" value="Export to PDF" id='pdfExport' />
-        </div>
-    </div>
-    <br></br><br></br>
     <div id="table"></div>
     
   </util:panel>
