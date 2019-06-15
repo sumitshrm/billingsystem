@@ -20,7 +20,7 @@
 	$(document).ready(function() {
 		$.ajax({
 		      type: "GET",
-		      url: "/aggreements/schedule/v1/2018",
+		      url: "/resources/assets/dsr/DSR_2018.json",
 		      success :function(result) {
 		    	  dsrItemsJson = result;
 		    	  console.log("resp", dsrItemsJson);
@@ -63,10 +63,10 @@
   	  datatable=$('#dsritems').DataTable( {
   	      	data: dsrItemsJson,
   	          columns: [
-  	              { "data": "itemNumber" },
-  	              { "data": "description" },
-  	              { "data": "unit" },
-  	              { "data": "fullRate" }
+  	              { "data": "itemNumber","defaultContent": "" },
+  	              { "data": "description","defaultContent": "" },
+  	              { "data": "unit","defaultContent": "" },
+  	              { "data": "fullRate","defaultContent": "" }
   	          ],
   	          dom : '&lt;"H"ilr&gt;t&lt;"F"p&gt;',
   	          lengthChange: false,
@@ -77,15 +77,15 @@
 	}
 	
 	function selectDsr(dsr){
+		datatable.clear().draw();
 		$("#loading_dsr").show();
 		$("#loader_dsr").show();
     	$.ajax({
 		      type: "GET",
-		      url: "/aggreements/schedule/v1/"+dsr.value,
+		      url: "/resources/assets/dsr/DSR_"+dsr.value+".json",
 		      success :function(result) {
 		    	  dsrItemsJson = result;
 		    	  console.log("resp", dsrItemsJson);
-		    	  datatable.clear().draw();
 		    	   datatable.rows.add(dsrItemsJson); // Add new data
 		    	   datatable.columns.adjust().draw(); // Redraw the DataTable
 		    	$("#loading_dsr").hide();

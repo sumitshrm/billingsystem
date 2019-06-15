@@ -8,6 +8,7 @@
     var dsrItemsJson = null;
     console.log(dsrItemsJson);
     var aggreementNum = ${aggreement.id};
+    var datatable=null;
     var msheetquery = "";
     var msheetid="${msheetid}";
     <c:set var="prefix" value="EX" />
@@ -107,7 +108,7 @@
     	
     	$.ajax({
   	      type: "GET",
-  	      url: "/aggreements/schedule/v1/${dsr}",
+  	      url: "/resources/assets/dsr/DSR_${dsr}.json",
   	      success :function(result) {
   	    	  dsrItemsJson = result;
   	    	  console.log("resp", dsrItemsJson);
@@ -121,14 +122,14 @@
       
       
       function loadDSRTable(data){
-    	  var table=$('#dsritems').DataTable( {
+    	  datatable=$('#dsritems').DataTable( {
     	      	data: dsrItemsJson,
     	          columns: [
-    	          	{ "data": "id" },
-    	              { "data": "itemNumber" },
-    	              { "data": "description" },
-    	              { "data": "unit" },
-    	              { "data": "fullRate" }
+    	          	{ "data": "id","defaultContent": "" },
+    	              { "data": "itemNumber","defaultContent": "" },
+    	              { "data": "description","defaultContent": "" },
+    	              { "data": "unit","defaultContent": "" },
+    	              { "data": "fullRate","defaultContent": "" }
     	          ],
     	          dom : '&lt;"H"ilr&gt;t&lt;"F"p&gt;',
     	          lengthChange: false,
@@ -150,7 +151,7 @@
     	      
     	      //add selected
     	      $('#dsritems tbody').on( 'click', 'a', function () {
-    	      	var tr = table.row( $(this).parents('tr') );
+    	      	var tr = datatable.row( $(this).parents('tr') );
     	      	var data = tr.data();
     	      	var resultArray = [];
     	      	addRowWithParent(data.itemNumber,tr.index(), resultArray);
@@ -259,10 +260,30 @@
     }
     }
     
-    function selectDsr(dsr){
+    /* function selectDsr(dsr){
     	showloading();
     	//window.location.href = "/aggreements/${aggreement.id}/schedule?dsr="+dsr.value;
     	insertParam("dsr", dsr.value);
+    } */
+    
+    function selectDsr(dsr){
+    	datatable.clear().draw();
+		$("#loading_dsr").show();
+		$("#loader_dsr").show();
+    	$.ajax({
+		      type: "GET",
+		      url: "/resources/assets/dsr/DSR_"+dsr.value+".json",
+		      success :function(result) {
+		    	  dsrItemsJson = result;
+		    	  console.log("resp", dsrItemsJson);
+		    	   datatable.rows.add(dsrItemsJson); // Add new data
+		    	   datatable.columns.adjust().draw(); // Redraw the DataTable
+		    	$("#loading_dsr").hide();
+				$("#loader_dsr").hide();
+		     },error: function(e){
+		    	alert("some error occured");
+		    }
+	  	}); 
     }
     
     function insertParam(key, value)
