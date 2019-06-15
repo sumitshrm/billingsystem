@@ -168,6 +168,16 @@ privileged aspect Item_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
+    public static Long Item.countFindItemsByItemNumberAndMeasurementSheetId(String itemNumber, Long measurementSheetId) {
+        if (itemNumber == null || itemNumber.length() == 0) throw new IllegalArgumentException("The itemNumber argument is required");
+        if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Item AS o WHERE o.itemNumber = :itemNumber AND o.measurementSheetId = :measurementSheetId", Long.class);
+        q.setParameter("itemNumber", itemNumber);
+        q.setParameter("measurementSheetId", measurementSheetId);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static Long Item.countFindItemsByLogUser(LogUser logUser) {
         if (logUser == null) throw new IllegalArgumentException("The logUser argument is required");
         EntityManager em = Item.entityManager();
@@ -607,6 +617,33 @@ privileged aspect Item_Roo_Finder {
         TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
         q.setParameter("itemNumber", itemNumber);
         q.setParameter("aggreement", aggreement);
+        return q;
+    }
+    
+    public static TypedQuery<Item> Item.findItemsByItemNumberAndMeasurementSheetId(String itemNumber, Long measurementSheetId) {
+        if (itemNumber == null || itemNumber.length() == 0) throw new IllegalArgumentException("The itemNumber argument is required");
+        if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery<Item> q = em.createQuery("SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber AND o.measurementSheetId = :measurementSheetId", Item.class);
+        q.setParameter("itemNumber", itemNumber);
+        q.setParameter("measurementSheetId", measurementSheetId);
+        return q;
+    }
+    
+    public static TypedQuery<Item> Item.findItemsByItemNumberAndMeasurementSheetId(String itemNumber, Long measurementSheetId, String sortFieldName, String sortOrder) {
+        if (itemNumber == null || itemNumber.length() == 0) throw new IllegalArgumentException("The itemNumber argument is required");
+        if (measurementSheetId == null) throw new IllegalArgumentException("The measurementSheetId argument is required");
+        EntityManager em = Item.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Item AS o WHERE o.itemNumber = :itemNumber AND o.measurementSheetId = :measurementSheetId");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<Item> q = em.createQuery(queryBuilder.toString(), Item.class);
+        q.setParameter("itemNumber", itemNumber);
+        q.setParameter("measurementSheetId", measurementSheetId);
         return q;
     }
     

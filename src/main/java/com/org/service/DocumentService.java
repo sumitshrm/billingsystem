@@ -337,11 +337,12 @@ public class DocumentService {
 				XSSFCell cell = row.createCell(msheetDescColNum);
 				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
 				cell.setCellValue("Date of Measurement");
+				String text = item.isIsExtraItem()?"Extra item number":"Aggreement Item Number";
 				
 				row = msheet.createRow(counter.nextMsheetCounter());
 				cell = row.createCell(msheetDescColNum);
 				cell.setCellStyle(ExcelUtill.getBoldFont(msheet.getWorkbook()));
-				cell.setCellFormula("\"Aggreement Item Number : \" &  M_TOTAL_QTY");
+				cell.setCellFormula("\""+text+" : \" &  M_TOTAL_QTY");
 				itemNumRowNum = counter.getMsheetCounter();
 				writeItemDescription(msheet, item, msheetDescColNum, msheetTotalColNum, counter);
 				writeItemData(msheet, csheet, item, msheetDescColNum, msheetTotalColNum, counter, csheetItemNumColNum, csheetItemTotalColNum, itemNumRowNum);

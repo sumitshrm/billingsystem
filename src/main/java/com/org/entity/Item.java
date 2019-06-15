@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndParentItemIsNull", "findItemsByDrsCodeAndAggreement", "findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItemNot", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItem", "findItemsByAggreementAndLogUserAndParentItemIsNullAndIsExtraItem", "findItemsByMeasurementSheetIdAndParentItemIsNull" })
+@RooJpaActiveRecord(finders = { "findItemsByItemNumber", "findItemsByLogUser", "findItemsByIdAndLogUser", "findItemsByItemNumberAndAggreement", "findItemsByAggreementAndIsExtraItem", "findItemsByAggreementAndMeasurementSheetIdIsNullOrMeasurementSheetIdNotEquals", "findItemsByAggreementAndMeasurementSheetId", "findItemsByAggreement", "findItemsByAggreementAndIsExtraItemAndParentItemIsNull", "findItemsByAggreementAndLogUser", "findItemsByAggreementAndLogUserAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndParentItemIsNull", "findItemsByDrsCodeAndAggreement", "findItemsByAggreementAndMeasurementSheetIdAndFullRateIsNotNull", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItemNot", "findItemsByAggreementAndLogUserAndFullRateIsNotNullAndIsExtraItem", "findItemsByAggreementAndLogUserAndParentItemIsNullAndIsExtraItem", "findItemsByMeasurementSheetIdAndParentItemIsNull", "findItemsByItemNumberAndMeasurementSheetId" })
 public class Item {
 
     @NotNull
@@ -243,6 +243,14 @@ public class Item {
         EntityManager em = Item.entityManager();
         TypedQuery<Item> q = em.createQuery("SELECT o FROM Item AS o WHERE o.id = (select max(rec.id) from Item rec where rec.aggreement = :aggreement AND rec.parentItem IS NULL)", Item.class);
         q.setParameter("aggreement", aggreement);
+        return q;
+    }
+    
+    public static TypedQuery<Item> findLatestItemByMeasurementSheetIdAndParentItemIsNull(Long msheetid) {
+        if (msheetid == null) throw new IllegalArgumentException("The msheetid argument is required");
+        EntityManager em = Item.entityManager();
+        TypedQuery<Item> q = em.createQuery("SELECT o FROM Item AS o WHERE o.id = (select max(rec.id) from Item rec where rec.measurementSheetId = :msheetid AND rec.parentItem IS NULL)", Item.class);
+        q.setParameter("msheetid", msheetid);
         return q;
     }
 

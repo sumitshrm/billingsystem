@@ -214,7 +214,11 @@ public class AggreementController {
 	 		try {
 	 			//if item already exist then do not add simply make it parent of next item
 	 			if(x<=1) { //for the first item. check if this is the latest item added.
-	 				parentItem=Item.findLatestItemByAggreementAndParentItemIsNull(aggreement).getSingleResult();
+	 				if(msheetid==null) {
+	 					parentItem=Item.findLatestItemByAggreementAndParentItemIsNull(aggreement).getSingleResult();
+	 				}else {
+	 					parentItem=Item.findLatestItemByMeasurementSheetIdAndParentItemIsNull(msheetid).getSingleResult();
+	 				}
 	 				if(!parentItem.getDrsCode().equals(item.getItemNumber())) {
 	 					parentItem=null;
 	 					addParentItem=true;
