@@ -62,8 +62,8 @@ public class PartRateStatementGeneratorService implements IExcelReportService{
 			XSSFCellStyle boxStyle = ExcelUtill.getBoxStyle(workbook);
 			for(Item item : msheet.getAggreement().getItems()){
 				try {
-
-					if(!isItemWritable(item)){continue;}
+					//commented below line as discussed. write part rate report for all items irrespective of fullrate!=partrate
+					//if(!isItemWritable(item)){continue;}
 					if(item.isValidItem()){
 						row = xsheet.createRow(currRow++);
 						writeEntryForItem(slno, descriptionOfItem, fullRate, partRate,
@@ -109,9 +109,9 @@ public class PartRateStatementGeneratorService implements IExcelReportService{
 			int fullRate, int partRate, int remarksCol, XSSFRow row,
 			XSSFCellStyle descriptionStyle, XSSFCellStyle boxStyle, Item item)
 			throws Exception {
-		if(item.getPartRate()==item.getFullRate()){
+		/*if(item.getPartRate()==item.getFullRate()){
 			return;
-		}
+		}*/
 		ExcelUtill.writeCellValue(item.getItemNumExcelFormat(), row.createCell(slno), boxStyle);
 		ExcelUtill.writeCellValue(item.getDescription(), row.createCell(descriptionOfItem), descriptionStyle);
 		ExcelUtill.writeCellValue(item.getFullRate(), row.createCell(fullRate), boxStyle);

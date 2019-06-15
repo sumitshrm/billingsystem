@@ -217,11 +217,12 @@ public class ExtraItemStatementGeneratorService implements IExcelReportService {
 		// =ROUND(G17*45.95%,2)
 		String formula = "";
 		String f1 = ExcelUtill.intToChar(rateCol) + "" + (row);
-		if (clausePercent > 0) {
+		/*if (clausePercent  0) {
 			formula = "=ROUND(" + f1 + "*" + clausePercent + "%,2)";
 		}else{
 			formula = null;
-		}
+		}*/
+		formula = "=ROUND(" + f1 + "*" + clausePercent + "%,2)";
 		return formula;
 	}
 

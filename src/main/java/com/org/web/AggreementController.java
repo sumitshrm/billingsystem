@@ -248,6 +248,7 @@ public class AggreementController {
 		 			if(msheetid!=null) {
 			 			itemObject.setIsExtraItem(true);
 			 			itemObject.setMeasurementSheetId(msheetid);
+			 			itemObject.setDsrRate(item.getFullRate());
 			 			itemForAbstract = itemObject; // abstract will be created for the last occurence of extra item
 			 		}
 		 			itemObject.persist();
@@ -300,6 +301,7 @@ public class AggreementController {
  				}
  				if(msheetid!=null) {
  					item.setIsExtraItem(true);
+ 					item.setDsrRate(item.getFullRate());
  					item.setMeasurementSheetId(msheetid);
  				}
  				

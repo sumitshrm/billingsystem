@@ -137,7 +137,7 @@ public class ScheduleGeneratorService implements IExcelReportService{
 						ExcelUtill.writeCellValue(item.getItemNumber(),
 								row.createCell(scheduleRange.getrItemNum().getFirstColNum()),alignTopStyle);
 						ExcelUtill.writeCellValue(item.getDescription(),
-								row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),boxStyle);
+								row.createCell(scheduleRange.getrDescriptionOfItem().getFirstColNum()),descriptionStyle);
 						ExcelUtill.writeCellValue(null, row.createCell(quantityCol), boxStyle);
 						ExcelUtill.writeCellValue(null, row.createCell(unitCol), boxStyle);
 						if(!msheet.isFirstAndFinalBill()){

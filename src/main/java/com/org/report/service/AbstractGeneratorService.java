@@ -390,7 +390,7 @@ public class AbstractGeneratorService implements IExcelReportService{
 		MeasurementSheet prevMsheet = itemAbs.getMeasurementSheet().getPreviousMeasurementSheet() ;
 		if (prevMsheet != null) {
 			ItemAbstract prevAbstract = prevMsheet.getItemAbstractByItemNum(item.getItemNumber());
-			if (prevAbstract != null && prevAbstract.getTotal() > 0) {
+			if (prevAbstract != null) {
 				row = abstractSheet.createRow(rowNum++);
 				ExcelUtill.writeCellValue(getPreviousItemAbstractDescription(prevMsheet.getSerialNumberDisplayFormat()),
 								row.createCell(abstractRange.getDescCol()) , boxStyle);
