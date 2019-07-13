@@ -100,7 +100,12 @@
         <c:set var="sec_validation_regex" value="regExp : '${validationRegex}', " />
       </c:if>
       <script type="text/javascript">
-        Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id',  widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {class:'form-control input-sm',/* promptMessage: '${sec_field_validation}', */ invalidMessage: '${sec_field_invalid}', required : ${required}, ${sec_validation_regex} missingMessage : '${sec_field_required}' }})); 
+        Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id',  widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {class:'form-control input-sm',/* promptMessage: '${sec_field_validation}', */ invalidMessage: '${sec_field_invalid}', required : ${required}, ${sec_validation_regex} missingMessage : '${sec_field_required}' }}));
+        <c:if test="${type eq 'number'}">
+        $(document).ready(function(){
+        	$("#_${sec_field}_id").attr("step","any");
+		});
+        </c:if>
       </script>
       </div>
     </div>

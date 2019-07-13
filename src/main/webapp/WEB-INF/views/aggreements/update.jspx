@@ -20,14 +20,14 @@
         <field:datetime dateTimePattern="${aggreement_dateofcompletions_date_format}" field="dateOfCompletionS" id="c_com_org_entity_Aggreement_dateOfCompletionS" z="+ZMESlG7CQRR75klyHYC+wdv7QI="/>
         <field:datetime dateTimePattern="${aggreement_dateofabstract_date_format}" field="dateOfAbstract" id="c_com_org_entity_Aggreement_dateOfAbstract" z="S5R1zQhr8fKaQ2EHTTvYnchSUwE="/>
         <field:input field="dateOfCompletionA" id="c_com_org_entity_Aggreement_dateOfCompletionA" z="gCvH5GUqgxh7T99+6IrJNuv4V+4="/>
-        <field:input field="clausePercentage" required="true" id="c_com_org_entity_Aggreement_clausePercentage" z="LC7RwudoPhCN+G/mn92CB1t9OJ8="/>
+        <field:input field="clausePercentage" type="number" required="true" id="c_com_org_entity_Aggreement_clausePercentage" z="LC7RwudoPhCN+G/mn92CB1t9OJ8="/>
         <field:select field="clause" id="c_com_org_entity_Aggreement_clause" items="${clauses}" path="clauses" z="2YT5WQNnZEF0o6COJKpPS0x/9eU="/>
         <field:simple field="measurementSheets" id="c_com_org_entity_Aggreement_measurementSheets" messageCode="entity_reference_not_managed" messageCodeAttribute="Measurement Sheet" render="false" z="user-managed"/>
         <div style="display:none">
             <field:select field="logUser" id="c_com_org_entity_Aggreement_logUser" itemValue="id" items="${logusers}" path="/logusers" z="user-managed"/>
         </div>
-        <field:input field="estimatedCost" required="true" id="c_com_org_entity_Aggreement_estimatedCost" validationMessageCode="field_invalid_number" z="mDkCLHqcsQzdAttk//mrPJWBigY="/>
-        <field:input field="tenderCost" required="true" id="c_com_org_entity_Aggreement_tenderCost" validationMessageCode="field_invalid_number" z="SzhL6LVcfht2MJEdv4/N61sEt4E="/>
-        <field:input field="costIndex" required="true" id="c_com_org_entity_Aggreement_costIndex" z="EVal4QVjE5LZxMnPojcI3rh/lZs="/>
+        <field:input field="estimatedCost" type="number" required="true" id="c_com_org_entity_Aggreement_estimatedCost" validationMessageCode="field_invalid_number" z="mDkCLHqcsQzdAttk//mrPJWBigY="/>
+        <field:input field="tenderCost" type="number" required="true" id="c_com_org_entity_Aggreement_tenderCost" validationMessageCode="field_invalid_number" z="SzhL6LVcfht2MJEdv4/N61sEt4E="/>
+        <field:input field="costIndex" type="number"  required="true" id="c_com_org_entity_Aggreement_costIndex" z="EVal4QVjE5LZxMnPojcI3rh/lZs="/>
     </form:update>
 </div>
